@@ -54,7 +54,6 @@ body {
     color: var(--text);
 }
 
-/* Notebook ruled background */
 .notebook {
     min-height: 100vh;
     background-image:
@@ -268,7 +267,6 @@ header.site-header {
     width: 0%
 }
 
-/* Callout boxes */
 .callout {
     border: 1px solid var(--border);
     border-radius: 14px;
@@ -312,7 +310,6 @@ header.site-header {
     background: rgba(255, 92, 138, .10)
 }
 
-/* Tables */
 .table {
     width: 100%;
     border-collapse: collapse;
@@ -331,7 +328,6 @@ header.site-header {
     background: rgba(47, 111, 237, .08)
 }
 
-/* Code */
 .code-card {
     border: 1px solid var(--border);
     border-radius: 16px;
@@ -369,7 +365,6 @@ pre {
     line-height: 1.5
 }
 
-/* Buttons area */
 .nav-buttons {
     display: flex;
     justify-content: space-between;
@@ -384,16 +379,13 @@ pre {
     flex-wrap: wrap
 }
 
-/* TOC */
 .sticky-toc {
-    position: sticky;
-    top: 110px;
-    z-index: 5;
+    position: relative;
     border: 1px dashed var(--border);
     border-radius: 14px;
     padding: 10px 12px;
     margin-bottom: 20px;
-    background: rgba(255, 250, 241, .6);
+    background: var(--panel);
 }
 
 
@@ -416,7 +408,6 @@ pre {
     color: var(--brand)
 }
 
-/* Ensure chapter sections never overlap due to margins/z-index */
 .main section {
     position: relative;
     z-index: 1;
@@ -428,7 +419,6 @@ pre {
 }
 
 
-/* Print */
 @media print {
 
     header.site-header,
@@ -456,7 +446,6 @@ pre {
     }
 }
 
-/* Search highlight */
 mark.hl {
     background: rgba(255, 204, 0, .35);
     color: inherit;
@@ -464,7 +453,6 @@ mark.hl {
     border-radius: 8px
 }
 
-/* Layout helper classes (safe non-overlapping stacking) */
 .chapter-section {
     height: auto;
     min-height: fit-content;
@@ -477,8 +465,11 @@ mark.hl {
     gap: 20px;
 }
 
-
-
+.card {
+    position: relative;
+    height: auto;
+    overflow: visible;
+}
 
 .chapter-grid {
     display: grid;
