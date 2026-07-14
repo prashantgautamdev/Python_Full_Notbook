@@ -73,7 +73,7 @@ After a few minutes, your site will be available at:
 
 - `https://github.com/prashantgautamdev/Python_Full_Notbook`
 -                         or
-- [Click here](https://github.com/prashantgautamdev/Python_Full_Notbook)
+- [Click here](https://prashantgautamdev.github.io/Python_Full_Notbook/)
 
 ## Netlify Deployment (Optional)
 
