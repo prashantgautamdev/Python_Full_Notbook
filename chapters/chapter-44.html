@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 44 — Performance Optimization</title>
+    <meta name="description"
+        content="Chapter 44: Performance Optimization. Learn profiling, time/space trade-offs, algorithm choices, caching, and micro-optimizations with practice." />
+    <link rel="canonical" href="./chapters/chapter-44.html" />
+
+    <meta property="og:title" content="Chapter 44 — Performance Optimization" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="Performance optimization concepts with explained practice and answers." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 44 — Performance Optimization" />
+    <meta name="twitter:description" content="Optimization fundamentals with practice." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 44 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout remember" style="margin-top:12px;">
+                        <h3>⭐ Remember</h3>
+                        <p>
+                            Optimization must be guided by measurement.
+                            Improve the biggest bottleneck first.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 44</div>
+                        <h1 class="chapter-title">Chapter 44 — Performance Optimization</h1>
+                        <p class="subtle">Learn profiling, choosing efficient algorithms, reducing unnecessary work,
+                            caching, and safe micro-optimizations with practice.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-43.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <ul>
+                                    <li>Understand why optimization needs profiling.</li>
+                                    <li>Learn how to pick better algorithms and data structures.</li>
+                                    <li>Use caching and avoid repeated work.</li>
+                                    <li>Apply micro-optimizations safely (concept + examples).</li>
+                                    <li>Reason about time/space trade-offs with Big-O.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                Slow code feels like a mystery.
+                                In reality, it’s usually one part of the code doing too much work.
+                            </p>
+                            <p>
+                                Performance optimization is the skill of finding bottlenecks and fixing them carefully.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 Bottlenecks and profiling</h3>
+                            <p>
+                                Profiling means measuring where time is spent.
+                                Without measurement, you may optimize the wrong thing.
+                            </p>
+
+                            <h3>2.2 Algorithm first</h3>
+                            <p>
+                                Changing an algorithm can give huge speedups.
+                                Example: linear search (O(n)) vs binary search (O(log n)).
+                            </p>
+
+                            <h3>2.3 Reduce work</h3>
+                            <ul>
+                                <li>Avoid repeated calculations.</li>
+                                <li>Move invariant computations outside loops.</li>
+                                <li>Use faster data structures for membership checks.</li>
+                            </ul>
+
+                            <h3>2.4 Cache and memoization</h3>
+                            <p>
+                                Caching stores results so future calls reuse them.
+                                Memoization is caching inside functions.
+                            </p>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    Caching can increase memory usage.
+                                    Always consider the time/space trade-off.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">time measurement + caching concept</div>
+                                </div>
+                                <pre><code>import time
+from functools import lru_cache
+
+@lru_cache(maxsize=None)
+def fib(n):
+    # Time complexity improves with memoization (concept)
+    if n <= 1:
+        return n
+    return fib(n-1) + fib(n-2)
+
+start = time.perf_counter()
+print(fib(35))
+end = time.perf_counter()
+
+print("Seconds:", end - start)
+</code></pre>
+                            </div>
+
+                            <p><strong>Output:</strong> Fibonacci number plus elapsed seconds.</p>
+                            <p><strong>Time:</strong> reduced drastically with memoization • <strong>Space:</strong>
+                                cache uses memory.</p>
+                            <p><strong>Alternative:</strong> dynamic programming table (iterative) can also work
+                                efficiently.</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — membership: list vs set</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">choose the right data structure</div>
+                                </div>
+                                <pre><code>items_list = [1,2,3,4,5,6,7,8,9]
+items_set = set(items_list)
+
+# Concept: list membership is O(n), set membership is ~O(1) average.
+
+target = 7
+print(target in items_list)  # True
+print(target in items_set)   # True
+</code></pre>
+                            </div>
+
+                            <p><strong>Output:</strong> True / True.</p>
+                            <p><strong>Time:</strong> list membership could be O(n); set membership ~O(1).</p>
+
+                            <h3>4.2 Medium Example — caching repeated computation</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">memoization</div>
+                                </div>
+                                <pre><code>from functools import lru_cache
+
+@lru_cache(maxsize=None)
+def pow2(x):
+    # If called repeatedly with same x, cache saves time.
+    return x * x
+
+print(pow2(10))
+print(pow2(10))  # second call reused from cache
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> 100 then 100 again (faster second call concept).</p>
+
+                            <h3>4.3 Advanced Example — avoid work inside loops</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">move invariant code out</div>
+                                </div>
+                                <pre><code>import math
+
+def slow(nums):
+    out = []
+    for x in nums:
+        # recompute constant every iteration (bad)
+        out.append(x + math.sqrt(9))
+    return out
+
+def fast(nums):
+    const = math.sqrt(9)  # compute once
+    out = []
+    for x in nums:
+        out.append(x + const)
+    return out
+</code></pre>
+                            </div>
+                            <p><strong>Time:</strong> both O(n) but fast version reduces constant work.</p>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: optimization loop</h3>
+                                <pre><code>[Measure with profiler/time]
+            |
+            v
+ [Find bottleneck function]
+            |
+            v
+ [Choose fix: algorithm/data/cache]
+            |
+            v
+ [Test correctness]
+            |
+            v
+ [Measure again]
+            |
+            v
+  [Repeat until good]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <table class="table" aria-label="Optimization memory">
+                                <thead>
+                                    <tr>
+                                        <th>Technique</th>
+                                        <th>Memory impact</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Better algorithm</td>
+                                        <td>often same or less memory</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Caching/memoization</td>
+                                        <td>stores results → more memory</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Precomputing constants</td>
+                                        <td>small extra variables</td>
+                                    </tr>
+                                    <tr>
+                                        <td>In-place operations</td>
+                                        <td>can reduce copies</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Dry run</div>
+                                    <div class="meta">memoization idea</div>
+                                </div>
+                                <pre><code>Suppose fib(5) needs fib(4) + fib(3)
+Without memoization, fib(3) may be recomputed many times.
+With memoization:
+1) compute fib(3) once
+2) store result
+3) reuse stored result next time
+So fewer repeated calls happen.
+</code></pre>
+                            </div>
+                            <p><strong>Time:</strong> repeated computations removed • <strong>Space:</strong> cache
+                                stores values.</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>time.perf_counter()</code> to measure elapsed time.</li>
+                                <li><code>len()</code> for complexity reasoning.</li>
+                                <li><code>set()</code> for fast membership.</li>
+                            </ul>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <div class="callout note">
+                                <h3>Important APIs for optimization</h3>
+                                <ul>
+                                    <li><code>functools.lru_cache</code> (memoization).</li>
+                                    <li><code>list.sort</code> (optimized built-in sort).</li>
+                                    <li>Data structure methods: <code>set.add</code>, <code>dict.get</code>.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is performance optimization?</li>
+                                <li>Why should we profile before optimizing?</li>
+                                <li>What is a bottleneck?</li>
+                                <li>How does Big-O help in optimization?</li>
+                                <li>What is the difference between time and space complexity?</li>
+                                <li>Give an example where changing algorithm helps a lot.</li>
+                                <li>What is caching?</li>
+                                <li>What is memoization?</li>
+                                <li>When is caching not a good idea?</li>
+                                <li>What is an invariant in a loop?</li>
+                                <li>Why move invariants outside a loop?</li>
+                                <li>How can data structures affect speed?</li>
+                                <li>Why is <code>set</code> membership usually faster than <code>list</code>?</li>
+                                <li>What is a micro-optimization?</li>
+                                <li>Why should micro-optimizations come after bigger fixes?</li>
+                                <li>How do you measure performance in Python?</li>
+                                <li>What is <code>time.perf_counter</code> used for?</li>
+                                <li>What is a cache hit?</li>
+                                <li>What is a cache miss?</li>
+                                <li>What is eviction in caching (concept)?</li>
+                                <li>How do you avoid premature optimization?</li>
+                                <li>What is an in-place operation?</li>
+                                <li>How can in-place reduce memory usage?</li>
+                                <li>What is trade-off in optimization?</li>
+                                <li>What is profiling output telling you?</li>
+                                <li>Why may fast code still be wrong?</li>
+                                <li>How do you verify correctness after optimizing?</li>
+                                <li>What is algorithmic complexity vs constant factors?</li>
+                                <li>What is the “measure → improve → re-measure” loop?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>Optimization should start with:
+                                    <ul>
+                                        <li>A) guessing</li>
+                                        <li>B) profiling/measurement</li>
+                                        <li>C) deleting code</li>
+                                        <li>D) changing theme</li>
+                                    </ul>
+                                </li>
+                                <li>Bottleneck means:
+                                    <ul>
+                                        <li>A) slowest part</li>
+                                        <li>B) fastest part</li>
+                                        <li>C) empty file</li>
+                                        <li>D) CSS only</li>
+                                    </ul>
+                                </li>
+                                <li>Big-O describes:
+                                    <ul>
+                                        <li>A) time growth rate</li>
+                                        <li>B) exact milliseconds</li>
+                                        <li>C) file size only</li>
+                                        <li>D) colors</li>
+                                    </ul>
+                                </li>
+                                <li>Space complexity is about:
+                                    <ul>
+                                        <li>A) memory usage</li>
+                                        <li>B) CPU fan</li>
+                                        <li>C) network</li>
+                                        <li>D) SEO</li>
+                                    </ul>
+                                </li>
+                                <li>Caching stores:
+                                    <ul>
+                                        <li>A) previous results</li>
+                                        <li>B) CSS rules</li>
+                                        <li>C) HTML pages</li>
+                                        <li>D) nothing</li>
+                                    </ul>
+                                </li>
+                                <li>Memoization is:
+                                    <ul>
+                                        <li>A) caching function outputs</li>
+                                        <li>B) caching HTML</li>
+                                        <li>C) deleting outputs</li>
+                                        <li>D) theme toggle</li>
+                                    </ul>
+                                </li>
+                                <li>List membership is often:
+                                    <ul>
+                                        <li>A) O(n)</li>
+                                        <li>B) O(1) average</li>
+                                        <li>C) O(log n)</li>
+                                        <li>D) O(n²)</li>
+                                    </ul>
+                                </li>
+                                <li>Set membership is often:
+                                    <ul>
+                                        <li>A) ~O(1) average</li>
+                                        <li>B) O(n)</li>
+                                        <li>C) O(n²)</li>
+                                        <li>D) O(log n)</li>
+                                    </ul>
+                                </li>
+                                <li>Move invariant outside loop helps because:
+                                    <ul>
+                                        <li>A) avoid repeated work</li>
+                                        <li>B) change SEO</li>
+                                        <li>C) increase work</li>
+                                        <li>D) disable JS</li>
+                                    </ul>
+                                </li>
+                                <li>Time.perf_counter is used to:
+                                    <ul>
+                                        <li>A) measure elapsed time</li>
+                                        <li>B) parse HTML</li>
+                                        <li>C) cache offline</li>
+                                        <li>D) search terms</li>
+                                    </ul>
+                                </li>
+                                <li>Micro-optimizations are:
+                                    <ul>
+                                        <li>A) small tweaks</li>
+                                        <li>B) algorithm changes only</li>
+                                        <li>C) theme changes only</li>
+                                        <li>D) never used</li>
+                                    </ul>
+                                </li>
+                                <li>Cache miss means:
+                                    <ul>
+                                        <li>A) result not in cache</li>
+                                        <li>B) result found instantly</li>
+                                        <li>C) no computation</li>
+                                        <li>D) empty list</li>
+                                    </ul>
+                                </li>
+                                <li>Optimization should preserve correctness:
+                                    <ul>
+                                        <li>A) true</li>
+                                        <li>B) false</li>
+                                    </ul>
+                                </li>
+                                <li>Algorithm changes usually give:
+                                    <ul>
+                                        <li>A) bigger speedups than micro-tweaks</li>
+                                        <li>B) no improvement</li>
+                                        <li>C) random slowdowns</li>
+                                        <li>D) only memory changes</li>
+                                    </ul>
+                                </li>
+                                <li>Caching uses:
+                                    <ul>
+                                        <li>A) more memory</li>
+                                        <li>B) no memory</li>
+                                        <li>C) zero CPU</li>
+                                        <li>D) only disk</li>
+                                    </ul>
+                                </li>
+                                <li>Big-O ignores:
+                                    <ul>
+                                        <li>A) constant factors</li>
+                                        <li>B) growth rate</li>
+                                        <li>C) input size</li>
+                                        <li>D) order</li>
+                                    </ul>
+                                </li>
+                                <li>Invariant inside loop should be:
+                                    <ul>
+                                        <li>A) moved outside</li>
+                                        <li>B) kept inside always</li>
+                                        <li>C) removed completely</li>
+                                        <li>D) made global</li>
+                                    </ul>
+                                </li>
+                                <li>In-place operation means:
+                                    <ul>
+                                        <li>A) modify existing object</li>
+                                        <li>B) create new copy always</li>
+                                        <li>C) change theme</li>
+                                        <li>D) install PWA</li>
+                                    </ul>
+                                </li>
+                                <li>Re-measure after change is:
+                                    <ul>
+                                        <li>A) required</li>
+                                        <li>B) optional</li>
+                                    </ul>
+                                </li>
+                                <li>Profiling tells you:
+                                    <ul>
+                                        <li>A) where time is spent</li>
+                                        <li>B) theme color</li>
+                                        <li>C) robots status</li>
+                                        <li>D) download link</li>
+                                    </ul>
+                                </li>
+                                <li>Set reduces membership cost by:
+                                    <ul>
+                                        <li>A) hashing</li>
+                                        <li>B) BFS</li>
+                                        <li>C) HTML layout</li>
+                                        <li>D) SQL</li>
+                                    </ul>
+                                </li>
+                                <li>Worst-case complexity gives:
+                                    <ul>
+                                        <li>A) upper bound</li>
+                                        <li>B) exact time always</li>
+                                        <li>C) best case</li>
+                                        <li>D) theme</li>
+                                    </ul>
+                                </li>
+                                <li>Average-case is:
+                                    <ul>
+                                        <li>A) expected performance over inputs</li>
+                                        <li>B) exact performance for one input</li>
+                                        <li>C) HTML only</li>
+                                        <li>D) cache TTL</li>
+                                    </ul>
+                                </li>
+                                <li>Optimization loop is:
+                                    <ul>
+                                        <li>A) measure → improve → measure</li>
+                                        <li>B) guess → delete → ignore</li>
+                                        <li>C) theme → colors</li>
+                                        <li>D) robots → sitemap</li>
+                                    </ul>
+                                </li>
+                                <li>Memoization is safe when:
+                                    <ul>
+                                        <li>A) function is deterministic with same inputs</li>
+                                        <li>B) output changes randomly</li>
+                                        <li>C) function has side effects (concept)</li>
+                                        <li>D) never</li>
+                                    </ul>
+                                </li>
+                                <li>Deterministic function means:
+                                    <ul>
+                                        <li>A) same input gives same output</li>
+                                        <li>B) output random</li>
+                                    </ul>
+                                </li>
+                                <li>Trade-off means:
+                                    <ul>
+                                        <li>A) speed vs memory</li>
+                                        <li>B) HTML vs CSS only</li>
+                                        <li>C) PWA vs SEO</li>
+                                        <li>D) nothing</li>
+                                    </ul>
+                                </li>
+                                <li>When should you avoid caching?
+                                    <ul>
+                                        <li>A) huge result space</li>
+                                        <li>B) small repeat calls</li>
+                                        <li>C) low memory needed</li>
+                                        <li>D) always</li>
+                                    </ul>
+                                </li>
+                                <li>Correctness testing is:
+                                    <ul>
+                                        <li>A) always needed</li>
+                                        <li>B) never needed</li>
+                                    </ul>
+                                </li>
+                                <li>Fast code can still be:
+                                    <ul>
+                                        <li>A) wrong</li>
+                                        <li>B) always correct</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Write linear_search and measure time for increasing sizes (concept).</li>
+                                <li>Repeat using a binary_search on sorted lists (concept).</li>
+                                <li>Convert a list to a set and compare membership time (concept).</li>
+                                <li>Implement memoized function using <code>lru_cache</code>.</li>
+                                <li>Write a function that computes sum of squares and avoid recomputation for same input
+                                    (design).</li>
+                                <li>Dry run: show why moving constant sqrt out reduces repeated calls.</li>
+                                <li>Implement a function that caches expensive regex results (design).</li>
+                                <li>Use a dictionary cache manually: check then compute then store.</li>
+                                <li>Implement a quick benchmark using <code>time.perf_counter</code>.</li>
+                                <li>Predict which of two loops is faster and explain (concept).</li>
+                                <li>Write code to print n and time growth (concept).</li>
+                                <li>Find invariant in a nested loop and move it out (design).</li>
+                                <li>Implement list membership check vs set membership for target in loops.</li>
+                                <li>Compute complexity comments for your functions.</li>
+                                <li>Write a helper function to time a callable (design).</li>
+                                <li>Dry run: cache hit vs miss for two sequential calls.</li>
+                                <li>Fix a bug: memoized function returns wrong due to incorrect key (design).</li>
+                                <li>Explain trade-off when using cache size limit (concept).</li>
+                                <li>Implement caching with maxsize=100 and test behavior (concept).</li>
+                                <li>Write a short report: bottleneck explanation (design).</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Implement a naive prime check and optimize by caching primes (design).</li>
+                                <li>Optimize repeated factorial computations with memoization.</li>
+                                <li>Optimize string pattern search by precompiling regex (concept).</li>
+                                <li>Write a function to compute Fibonacci iteratively and compare to memoized recursion
+                                    (concept).</li>
+                                <li>Dry run: show how iterative Fibonacci stores only two values (space optimization).
+                                </li>
+                                <li>Implement a dictionary lookup instead of loop search for keys (design).</li>
+                                <li>Optimize graph BFS by using visited set (concept).</li>
+                                <li>Instrument code by counting operations (concept).</li>
+                                <li>Use benchmarking for O(n) vs O(n log n) with same data size (concept).</li>
+                                <li>Debug: ensure cache does not grow unbounded (concept).</li>
+                                <li>Implement LRU cache and show eviction concept (design).</li>
+                                <li>Optimize a function that repeatedly sorts the same list by caching sorted results
+                                    (concept).</li>
+                                <li>Explain why sorting a list inside a loop is expensive (concept).</li>
+                                <li>Implement improvement: sort once outside the loop (design).</li>
+                                <li>Measure correctness before/after optimization (design).</li>
+                                <li>Implement in-place vs copy for list transformations and explain memory effect.</li>
+                                <li>Debug: micro-optimization changed output (fix by tests).</li>
+                                <li>Write a profiler plan (no code) describing steps and what to look for.</li>
+                                <li>Explain why using Python loops may be slower than list comprehensions (concept).
+                                </li>
+                                <li>Design a “stop criteria” for optimization (when improvement small).</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Implement a fast lookup structure for interval queries (design using sorting +
+                                    binary search).</li>
+                                <li>Implement a caching strategy for function calls with multiple parameters (design
+                                    keys).</li>
+                                <li>Design and explain a safe memoization for functions with side-effect concerns
+                                    (concept).</li>
+                                <li>Build a simple profiler-like operation counter for nested loops (design).</li>
+                                <li>Optimize a slow text processing pipeline using precomputed vocabulary (design).</li>
+                                <li>Explain and implement “batching” to reduce repeated overhead (design).</li>
+                                <li>Debug: memory leak due to storing references in cache (concept).</li>
+                                <li>Implement a bounded cache and measure hit rate (concept).</li>
+                                <li>Design test cases that ensure optimizations don’t break correctness.</li>
+                                <li>Explain why parallelism doesn’t always help (concept: overhead, GIL).</li>
+                                <li>Design an optimization strategy: algorithm → caching → data structures → micro.</li>
+                                <li>Write a small benchmark harness that runs each function multiple times (design).
+                                </li>
+                                <li>Explain complexity after optimization (Big-O) and constant factor improvements.</li>
+                                <li>Implement caching for expensive parsing (design).</li>
+                                <li>Debug: wrong cache key causes stale results (fix by including params).</li>
+                                <li>Explain time/space trade-offs in one chosen example.</li>
+                                <li>Design an experiment to measure speedup percentage.</li>
+                                <li>Implement a function that estimates runtime based on operation counts (design).</li>
+                                <li>Write a final optimization summary: what changed and why it is faster.</li>
+                                <li>Explain risks: complexity increase and maintainability.</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment44_1.py</code>: compare list vs set membership time for
+                                    increasing sizes (concept measurement).</li>
+                                <li>Create <code>assignment44_2.py</code>: implement memoized factorial and show speed
+                                    for repeated calls.</li>
+                                <li>Create <code>assignment44_3.py</code>: take a slow function and optimize by moving
+                                    invariants out + caching results, then verify same output.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Fast Lookup Toolkit</h3>
+                                <ul>
+                                    <li>Given a list of records (id → value), build a fast lookup.</li>
+                                    <li>Write slow version using loop search.</li>
+                                    <li>Write fast version using dictionary.</li>
+                                    <li>Benchmark for multiple query counts and explain complexity.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+
+                            <div class="callout warning">
+                                <h3>Case 1: caching stale results</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">wrong cache key</div>
+                                    </div>
+                                    <pre><code># cache only by first param, ignoring second
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> include all parameters in cache key.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: optimization removed correctness</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">moved code changes behavior</div>
+                                    </div>
+                                    <pre><code># invariant wasn’t actually invariant
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> verify assumptions with tests.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: benchmark compares unfair cases</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">different inputs</div>
+                                    </div>
+                                    <pre><code># ran functions with different data
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> use the same input data for all comparisons.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>Wrong optimization:</strong> changing output while trying to speed up.</li>
+                                <li><strong>Memory blow-up:</strong> unbounded caches.</li>
+                                <li><strong>Benchmark mistakes:</strong> timing different workloads.</li>
+                                <li><strong>Premature optimization:</strong> optimizing before finding bottleneck.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Measure first, optimize second.</li>
+                                <li>Pick the biggest bottleneck.</li>
+                                <li>Prefer algorithm/data structure changes over micro tweaks.</li>
+                                <li>Use caching only when it saves time significantly.</li>
+                                <li>Test correctness after every change.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                You learned the optimization mindset: measure → find bottleneck → improve with
+                                algorithms/data structures/caching → test → re-measure.
+                                You also practiced common techniques like using sets for membership, memoization, and
+                                moving loop invariants.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Optimization cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Problem</th>
+                                        <th>Fix</th>
+                                        <th>Why</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Slow membership</td>
+                                        <td>use <code>set</code></td>
+                                        <td>hashing → fast average lookup</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Repeated computation</td>
+                                        <td>cache/memoize</td>
+                                        <td>avoid recomputation</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Expensive inside loop</td>
+                                        <td>move invariant out</td>
+                                        <td>compute once</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Searching in unsorted data</td>
+                                        <td>consider sort + binary search</td>
+                                        <td>O(log n) search</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Speed Up a Text Counter</h3>
+                                <ul>
+                                    <li>Given a list of words, count how many times each word appears.</li>
+                                    <li>Write a slow version using nested loops.</li>
+                                    <li>Write a fast version using a dictionary (hash map).</li>
+                                    <li>Benchmark and explain time complexity.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>Why profile before optimizing?</li>
+                                <li>What is a bottleneck?</li>
+                                <li>What does Big-O tell you?</li>
+                                <li>What is caching?</li>
+                                <li>When can caching hurt?</li>
+                                <li>Why move invariant outside loops?</li>
+                                <li>What is the set vs list membership idea?</li>
+                                <li>What is time/space trade-off?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>Profiling:</strong> shows where time is spent so you optimize the real
+                                        bottleneck.</li>
+                                    <li><strong>Big-O:</strong> helps compare scaling behavior as input grows.</li>
+                                    <li><strong>Caching:</strong> reuses results to avoid repeated work.</li>
+                                    <li><strong>Trade-off:</strong> caching uses memory for faster time.</li>
+                                    <li><strong>Invariant:</strong> something that does not change across loop
+                                        iterations.</li>
+                                    <li><strong>Data structures:</strong> choosing sets/dicts can reduce time from O(n)
+                                        to ~O(1).</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-45.html">Next Chapter</a></div>
+                            </div>
+
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

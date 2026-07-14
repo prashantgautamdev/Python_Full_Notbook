@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Chapter 20 — Date &amp; Time</title>
+  <meta name="description"
+    content="Chapter 20: Date &amp; Time. Learn datetime objects, parsing, formatting, and time arithmetic." />
+  <link rel="canonical" href="./chapters/chapter-20.html" />
+
+  <meta property="og:title" content="Chapter 20 — Date &amp; Time" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="Learn datetime objects, parsing, formatting, and time arithmetic." />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 20 — Date &amp; Time" />
+  <meta name="twitter:description" content="datetime basics with examples, practice, and explained answers." />
+
+  <meta name="theme-color" content="#f7f2e8" />
+
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="icon" href="data:," />
+  <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+  <div class="progress" aria-hidden="true">
+    <div></div>
+
+    <div class="notebook">
+      <header class="site-header">
+        <div class="header-inner">
+          <div class="brand">
+            <strong>Python Notebook</strong>
+            <span>Chapter 20 • Offline • Search • Dark mode</span>
+          </div>
+          <div class="top-actions">
+            <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+            <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+          </div>
+      </header>
+
+      <div class="container">
+        <div class="layout">
+          <aside class="sidebar" aria-label="Sidebar navigation">
+            <h2>Chapters</h2>
+            <nav class="nav-list" aria-label="Chapter list">
+              <div class="subtle" style="padding:6px 0;">Loading…</div>
+            </nav>
+
+            <div class="callout remember" style="margin-top:12px;">
+              <h3>🧠 Memory trick</h3>
+              <p>
+                <code>datetime</code> = date + time.
+                <br />
+                <code>timedelta</code> = a duration (difference between two times).
+              </p>
+            </div>
+          </aside>
+
+          <main class="main" aria-label="Chapter content">
+            <div class="main-inner">
+              <div class="breadcrumbs">Home • Chapter 20</div>
+              <h1 class="chapter-title">Chapter 20 — Date &amp; Time</h1>
+              <p class="subtle">Learn Python’s <code>datetime</code> and <code>timedelta</code>: create dates, parse
+                strings, format output, and do time math.</p>
+
+              <div class="nav-buttons no-print" aria-label="Chapter actions">
+                <div class="footer-actions">
+                  <a class="btn" href="../chapters/chapter-19.html">Previous Chapter</a>
+                  <a class="btn" href="../index.html">Back To Home</a>
+                  <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                  <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                </div>
+
+                <div class="sticky-toc" aria-label="Table of contents">
+                  <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                  <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                    <a href="#objectives">Learning Objectives</a>
+                    <a href="#intro">Introduction</a>
+                    <a href="#theory">Theory</a>
+                    <a href="#syntax">Syntax</a>
+                    <a href="#examples">Examples</a>
+                    <a href="#flow">Flow Diagram</a>
+                    <a href="#memory">Memory Visualization</a>
+                    <a href="#dryrun">Dry Run</a>
+                    <a href="#builtins">Built-in Functions</a>
+                    <a href="#methods">Methods</a>
+                    <a href="#interview">Interview Questions</a>
+                    <a href="#mcq">MCQs</a>
+                    <a href="#practice">Coding Practice</a>
+                    <a href="#assignments">Assignments</a>
+                    <a href="#mini-project">Mini Project</a>
+                    <a href="#debugging">Debugging Practice</a>
+                    <a href="#errors">Common Errors</a>
+                    <a href="#best">Best Practices</a>
+                    <a href="#interview">Interview Questions</a>
+                    <a href="#mcq">MCQs</a>
+                    <a href="#practice">Coding Practice</a>
+                    <a href="#assignments">Assignments</a>
+                    <a href="#mini-project">Mini Project</a>
+                    <a href="#debugging">Debugging Practice</a>
+                    <a href="#errors">Common Errors</a>
+                    <a href="#best">Best Practices</a>
+                    <a href="#summary">Summary</a>
+                    <a href="#cheatsheet">Cheat Sheet</a>
+                    <a href="#challenge">Coding Challenge</a>
+                    <a href="#revision">Revision Questions</a>
+                    <a href="#answers">Answer Key</a>
+                  </div>
+                </div>
+
+                <section id="objectives">
+                  <div class="callout tip">
+                    <h3>🎯 Learning Objectives</h3>
+                    <p>By the end of this chapter, you will be able to:</p>
+                    <ul>
+                      <li>Use <code>datetime</code> to work with dates and times.</li>
+                      <li>Create a <code>datetime</code> object from components (year, month, day...).</li>
+                      <li>Parse a date/time string using <code>strptime</code>.</li>
+                      <li>Format output using <code>strftime</code>.</li>
+                      <li>Compute differences with <code>timedelta</code> and do simple time arithmetic.</li>
+                    </ul>
+                  </div>
+                </section>
+
+                <section id="intro">
+                  <h2>1) Introduction</h2>
+                  <p>
+                    Dates and times are everywhere: birthdays, deadlines, logs, reminders, and timestamps.
+                    Python needs special tools to handle them correctly.
+                  </p>
+                  <p>
+                    In this chapter you will learn the standard library module <code>datetime</code>, and how to do safe
+                    time math.
+                  </p>
+
+                  <div class="callout note">
+                    <h3>🌍 Real-life example</h3>
+                    <p>
+                      A fitness app stores your activity time stamps. It needs to show “how many hours ago” and sort
+                      events
+                      by time.
+                    </p>
+                  </div>
+                </section>
+
+                <section id="theory">
+                  <h2>2) Theory</h2>
+
+                  <h3>2.1 datetime vs date vs time</h3>
+                  <ul>
+                    <li><strong><code>date</code></strong>: year, month, day.</li>
+                    <li><strong><code>time</code></strong>: hour, minute, second, microsecond.</li>
+                    <li><strong><code>datetime</code></strong>: both date and time together.</li>
+                  </ul>
+
+                  <h3>2.2 timedelta = duration</h3>
+                  <p>
+                    <code>timedelta</code> represents a duration like “3 days 4 hours”.
+                    You usually get it by subtracting two <code>datetime</code> objects.
+                  </p>
+
+                  <h3>2.3 Formatting and parsing</h3>
+                  <p>
+                    Dates are often stored as strings (like from a CSV).
+                    Python needs to convert them into <code>datetime</code> objects (parse), and later convert back to
+                    strings (format).
+                  </p>
+
+                  <div class="callout warning">
+                    <h3>⚠ Warning: time zones (concept)</h3>
+                    <p>
+                      This chapter focuses on basic usage without deep time-zone complexity.
+                      Real systems must handle time zones carefully.
+                    </p>
+                  </div>
+                </section>
+
+                <section id="syntax">
+                  <h2>3) Syntax</h2>
+
+                  <div class="code-card">
+                    <div class="code-header">
+                      <div class="lang">Python</div>
+                      <div class="meta">import + now()</div>
+                    </div>
+                    <pre><code>from datetime import datetime
+
+now = datetime.now()
+print(now)
+</code></pre>
+                  </div>
+
+                  <div class="code-card">
+                    <div class="code-header">
+                      <div class="lang">Python</div>
+                      <div class="meta">create datetime</div>
+                    </div>
+                    <pre><code>from datetime import datetime
+
+dt = datetime(2026, 7, 13, 10, 30, 0)
+print(dt)
+</code></pre>
+                  </div>
+
+                  <div class="code-card">
+                    <div class="code-header">
+                      <div class="lang">Python</div>
+                      <div class="meta">parse with strptime</div>
+                    </div>
+                    <pre><code>from datetime import datetime
+
+text = "2026-07-13 10:30:00"
+
+dt = datetime.strptime(text, "%Y-%m-%d %H:%M:%S")
+print(dt)
+</code></pre>
+                  </div>
+
+                  <div class="code-card">
+                    <div class="code-header">
+                      <div class="lang">Python</div>
+                      <div class="meta">format with strftime</div>
+                    </div>
+                    <pre><code>from datetime import datetime
+
+dt = datetime(2026, 7, 13, 10, 30, 0)
+
+nice = dt.strftime("%d/%m/%Y")
+print(nice)
+</code></pre>
+                  </div>
+
+                  <p><strong>Time:</strong> operations depend on parsing/formatting length • <strong>Space:</strong>
+                    small
+                    object sizes for <code>datetime</code>/<code>timedelta</code>.</p>
+                  <p><strong>Alternative:</strong> use plain strings, but you lose correct ordering and time math.</p>
+                </section>
+
+                <section id="examples">
+                  <h2>4) Examples</h2>
+
+                  <h3>4.1 Easy Example — current timestamp</h3>
+                  <div class="code-card">
+                    <div class="code-header">
+                      <div class="lang">Python</div>
+                      <div class="meta">now</div>
+                    </div>
+                    <pre><code>from datetime import datetime
+
+now = datetime.now()
+print("Now:", now)
+</code></pre>
+                  </div>
+
+                  <p><strong>Output:</strong> prints the current date and time (varies each run).</p>
+
+                  <h3>4.2 Medium Example — parse + format</h3>
+                  <div class="code-card">
+                    <div class="code-header">
+                      <div class="lang">Python</div>
+                      <div class="meta">CSV string → datetime</div>
+                    </div>
+                    <pre><code>from datetime import datetime
+
+text = "2026-07-13"
+d = datetime.strptime(text, "%Y-%m-%d")
+
+print("Parsed:", d)
+print("Formatted:", d.strftime("%d %B %Y"))
+</code></pre>
+                  </div>
+                  <p><strong>Output:</strong> Parsed then a human readable date like <em>13 July 2026</em> (month name
+                    depends on locale).</p>
+                  <p><strong>Time:</strong> O(len(text)) for parsing • <strong>Space:</strong> O(1) object overhead.</p>
+
+                  <h3>4.3 Advanced Example — time difference with timedelta</h3>
+                  <div class="code-card">
+                    <div class="code-header">
+                      <div class="lang">Python</div>
+                      <div class="meta">subtract datetimes</div>
+                    </div>
+                    <pre><code>from datetime import datetime, timedelta
+
+start = datetime(2026, 7, 1, 9, 0, 0)
+end = datetime(2026, 7, 1, 12, 30, 0)
+
+elapsed = end - start
+print("Elapsed:", elapsed)
+
+# Add duration
+bonus = start + timedelta(hours=2)
+print("Two hours later:", bonus)
+</code></pre>
+                  </div>
+                  <p><strong>Output:</strong> elapsed shows something like <code>3:30:00</code> and “two hours later”
+                    prints
+                    a later time.</p>
+                </section>
+
+                <section id="flow">
+                  <h2>5) Flow Diagram</h2>
+                  <div class="callout note">
+                    <h3>Flowchart: date string → datetime → output</h3>
+                    <pre><code>[Start]
+  |
+  v
+[Get input string]
+  |
+  v
+[Parse using strptime]
+  |
+  v
+[Do time math (optional)]
+  |
+  v
+[Format for display using strftime]
+  |
+  v
+[End]
+</code></pre>
+                  </div>
+                </section>
+
+                <section id="memory">
+                  <h2>6) Memory Visualization</h2>
+                  <p>
+                    A <code>datetime</code> object stores structured fields (year/month/day/hour/minute/...).
+                    When you subtract two <code>datetime</code> objects, Python creates a <code>timedelta</code> object
+                    representing the difference.
+                  </p>
+                  <table class="table" aria-label="Datetime memory">
+                    <thead>
+                      <tr>
+                        <th>Object</th>
+                        <th>Stores</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><code>datetime</code></td>
+                        <td>calendar date + clock time</td>
+                      </tr>
+                      <tr>
+                        <td><code>timedelta</code></td>
+                        <td>duration (days/seconds/microseconds)</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </section>
+
+                <section id="dryrun">
+                  <h2>7) Dry Run</h2>
+                  <div class="code-card">
+                    <div class="code-header">
+                      <div class="lang">Python</div>
+                      <div class="meta">elapsed time dry run</div>
+                    </div>
+                    <pre><code>from datetime import datetime
+
+start = datetime(2026, 7, 1, 9, 0, 0)
+end = datetime(2026, 7, 1, 12, 30, 0)
+
+elapsed = end - start
+print(elapsed)
+</code></pre>
+                  </div>
+
+                  <table class="table" aria-label="Dry run table">
+                    <thead>
+                      <tr>
+                        <th>Step</th>
+                        <th>Input</th>
+                        <th>Operation</th>
+                        <th>Result</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td><code>start=09:00</code></td>
+                        <td>store start datetime</td>
+                        <td>start object</td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td><code>end=12:30</code></td>
+                        <td>store end datetime</td>
+                        <td>end object</td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td>end - start</td>
+                        <td>compute duration</td>
+                        <td><code>3:30:00</code></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </section>
+
+                <section id="builtins">
+                  <h2>8) Built-in Functions</h2>
+                  <ul>
+                    <li><code>len()</code> (optional) for string length when debugging parsing formats.</li>
+                    <li><code>print()</code> for output.</li>
+                  </ul>
+                  <p>Most date/time functions are methods/classes in the <code>datetime</code> module.</p>
+                </section>
+
+                <section id="methods">
+                  <h2>9) Methods</h2>
+                  <div class="callout note">
+                    <h3>Useful datetime methods</h3>
+                    <ul>
+                      <li><code>datetime.strptime(text, format)</code>: parse string.</li>
+                      <li><code>dt.strftime(format)</code>: format datetime to string.</li>
+                      <li><code>dt.year / dt.month / dt.day</code>: access fields.</li>
+                    </ul>
+                  </div>
+
+                  <div class="code-card">
+                    <div class="code-header">
+                      <div class="lang">Python</div>
+                      <div class="meta">field access</div>
+                    </div>
+                    <pre><code>from datetime import datetime
+
+dt = datetime(2026, 7, 13, 10, 30, 0)
+
+print(dt.year)
+print(dt.month)
+print(dt.day)
+</code></pre>
+                  </div>
+                </section>
+
+                <section id="interview">
+                  <h2>10) Interview Questions (Minimum 30)</h2>
+                  <ol>
+                    <li>What module in Python handles date and time?</li>
+                    <li>What is <code>datetime</code> used for?</li>
+                    <li>What is <code>date</code> used for?</li>
+                    <li>What is <code>time</code> used for?</li>
+                    <li>What is <code>timedelta</code>?</li>
+                    <li>How do you create a current timestamp using Python?</li>
+                    <li>How do you create a specific <code>datetime</code> object?</li>
+                    <li>What is the difference between <code>strptime</code> and <code>strftime</code>?</li>
+                    <li>What does <code>%Y</code> mean in a datetime format string?</li>
+                    <li>What does <code>%m</code> mean?</li>
+                    <li>What does <code>%d</code> mean?</li>
+                    <li>What does <code>%H</code> mean?</li>
+                    <li>What does <code>%M</code> mean?</li>
+                    <li>What does <code>%S</code> mean?</li>
+                    <li>How do you parse a date like <code>2026-07-13</code>?</li>
+                    <li>How do you format a datetime into <code>13/07/2026</code>?</li>
+                    <li>How do you compute elapsed time between two datetimes?</li>
+                    <li>What type do you get when you subtract two datetimes?</li>
+                    <li>How do you add time duration to a datetime?</li>
+                    <li>How do you access year/month/day from a datetime?</li>
+                    <li>Why are datetime objects better than plain strings for time math?</li>
+                    <li>What error might you get if your <code>strptime</code> format doesn’t match?</li>
+                    <li>What is a common bug with day/month order?</li>
+                    <li>How do you debug datetime parsing issues?</li>
+                    <li>Is <code>datetime.now()</code> affected by time zones (concept)?</li>
+                    <li>How can you sort events by timestamp (concept)?</li>
+                    <li>How would you convert datetime to Unix timestamp (concept)?</li>
+                    <li>What is microsecond precision?</li>
+                    <li>What is the difference between local time and UTC (concept)?</li>
+                    <li>Can <code>timedelta</code> be negative?</li>
+                    <li>How do you compare two datetime objects?</li>
+                  </ol>
+                </section>
+
+                <section id="mcq">
+                  <h2>11) MCQs (Minimum 30)</h2>
+                  <ol>
+                    <li><code>datetime</code> module is used for:
+                      <ul>
+                        <li>A) CSS styling</li>
+                        <li>B) dates and times</li>
+                        <li>C) file encryption</li>
+                        <li>D) HTML tables</li>
+                      </ul>
+                    </li>
+                    <li><code>datetime.now()</code> returns:
+                      <ul>
+                        <li>A) only date</li>
+                        <li>B) current datetime</li>
+                        <li>C) only time</li>
+                        <li>D) a string</li>
+                      </ul>
+                    </li>
+                    <li><code>timedelta</code> represents:
+                      <ul>
+                        <li>A) a duration</li>
+                        <li>B) a time zone</li>
+                        <li>C) a file path</li>
+                        <li>D) a regex pattern</li>
+                      </ul>
+                    </li>
+                    <li><code>strptime</code> is used to:
+                      <ul>
+                        <li>A) format datetime</li>
+                        <li>B) parse a string</li>
+                        <li>C) download icons</li>
+                        <li>D) print output only</li>
+                      </ul>
+                    </li>
+                    <li><code>strftime</code> is used to:
+                      <ul>
+                        <li>A) parse strings</li>
+                        <li>B) format datetime into string</li>
+                        <li>C) raise errors</li>
+                        <li>D) style CSS</li>
+                      </ul>
+                    </li>
+                    <li><code>%Y</code> means:
+                      <ul>
+                        <li>A) year</li>
+                        <li>B) month</li>
+                        <li>C) day</li>
+                        <li>D) hour</li>
+                      </ul>
+                    </li>
+                    <li><code>%m</code> means:
+                      <ul>
+                        <li>A) month</li>
+                        <li>B) minute</li>
+                        <li>C) microsecond</li>
+                        <li>D) name</li>
+                      </ul>
+                    </li>
+                    <li><code>%d</code> means:
+                      <ul>
+                        <li>A) day</li>
+                        <li>B) date name</li>
+                        <li>C) day of week always</li>
+                        <li>D) duration</li>
+                      </ul>
+                    </li>
+                    <li><code>%H</code> means:
+                      <ul>
+                        <li>A) hour (24h)</li>
+                        <li>B) hour (12h)</li>
+                        <li>C) year</li>
+                        <li>D) seconds</li>
+                      </ul>
+                    </li>
+                    <li><code>%M</code> means:
+                      <ul>
+                        <li>A) minutes</li>
+                        <li>B) months</li>
+                        <li>C) milliseconds</li>
+                        <li>D) microseconds</li>
+                      </ul>
+                    </li>
+                    <li><code>%S</code> means:
+                      <ul>
+                        <li>A) seconds</li>
+                        <li>B) days</li>
+                        <li>C) years</li>
+                        <li>D) smart strings</li>
+                      </ul>
+                    </li>
+                    <li>Subtracting two datetimes gives:
+                      <ul>
+                        <li>A) number</li>
+                        <li>B) timedelta</li>
+                        <li>C) dict</li>
+                        <li>D) list</li>
+                      </ul>
+                    </li>
+                    <li>Adding <code>timedelta</code> to datetime gives:
+                      <ul>
+                        <li>A) another datetime</li>
+                        <li>B) a set</li>
+                        <li>C) a string</li>
+                        <li>D) a regex</li>
+                      </ul>
+                    </li>
+                    <li><code>dt.year</code> is:
+                      <ul>
+                        <li>A) string</li>
+                        <li>B) integer year</li>
+                        <li>C) method</li>
+                        <li>D) list</li>
+                      </ul>
+                    </li>
+                    <li><code>dt.strftime("%d/%m/%Y")</code> produces:
+                      <ul>
+                        <li>A) datetime object</li>
+                        <li>B) formatted string</li>
+                        <li>C) timedelta</li>
+                        <li>D) regex</li>
+                      </ul>
+                    </li>
+                    <li><code>datetime.strptime</code> needs:
+                      <ul>
+                        <li>A) only a string</li>
+                        <li>B) text and matching format</li>
+                        <li>C) CSS only</li>
+                        <li>D) nothing</li>
+                      </ul>
+                    </li>
+                    <li>Formatting and parsing are inverse operations:
+                      <ul>
+                        <li>A) yes</li>
+                        <li>B) no</li>
+                        <li>C) only for regex</li>
+                        <li>D) only in dark mode</li>
+                      </ul>
+                    </li>
+                    <li>Wrong format in <code>strptime</code> can cause:
+                      <ul>
+                        <li>A) ValueError</li>
+                        <li>B) SyntaxError</li>
+                        <li>C) KeyError</li>
+                        <li>D) IndexError always</li>
+                      </ul>
+                    </li>
+                    <li>Best practice for time math is:
+                      <ul>
+                        <li>A) keep as strings</li>
+                        <li>B) use datetime objects</li>
+                        <li>C) use HTML tags</li>
+                        <li>D) use set operations</li>
+                      </ul>
+                    </li>
+                    <li><code>timedelta(hours=2)</code> represents:
+                      <ul>
+                        <li>A) 2 hours duration</li>
+                        <li>B) 2 days</li>
+                        <li>C) 2 months</li>
+                        <li>D) 2 regex patterns</li>
+                      </ul>
+                    </li>
+                    <li>Elapsed time “end - start” where end < start can be: <ul>
+                    <li>A) always zero</li>
+                    <li>B) negative timedelta</li>
+                    <li>C) dict</li>
+                    <li>D) throws nothing</li>
+                    </ul>
+                    </li>
+                    <li><code>datetime.now()</code> includes time fields like:
+                      <ul>
+                        <li>A) year only</li>
+                        <li>B) hour/minute/second</li>
+                        <li>C) month names only</li>
+                        <li>D) regex</li>
+                      </ul>
+                    </li>
+                    <li>In <code>strftime</code>, <code>%m</code> is month, not minute.
+                      <ul>
+                        <li>A) True</li>
+                        <li>B) False</li>
+                        <li>C) Depends on OS always</li>
+                        <li>D) It’s random</li>
+                      </ul>
+                    </li>
+                    <li>In datetime math, types must be compatible:
+                      <ul>
+                        <li>A) True</li>
+                        <li>B) False</li>
+                        <li>C) Only CSS</li>
+                        <li>D) Never</li>
+                      </ul>
+                    </li>
+                    <li>To compare datetimes you can use:
+                      <ul>
+                        <li>A) == only</li>
+                        <li>B) <,>, ==</li>
+                        <li>C) never</li>
+                        <li>D) only regex</li>
+                      </ul>
+                    </li>
+                    <li>A common bug is mixing:
+                      <ul>
+                        <li>A) %m and %M</li>
+                        <li>B) %Y and %y only</li>
+                        <li>C) indentation and tabs</li>
+                        <li>D) commas and colons</li>
+                      </ul>
+                    </li>
+                    <li><code>timedelta(days=1)</code> is 24 hours (concept):
+                      <ul>
+                        <li>A) Usually yes</li>
+                        <li>B) Always no</li>
+                        <li>C) Always random</li>
+                        <li>D) Only in regex</li>
+                      </ul>
+                    </li>
+                    <li>Time zone correctness is:
+                      <ul>
+                        <li>A) ignored</li>
+                        <li>B) not covered deeply</li>
+                        <li>C) only CSS</li>
+                        <li>D) impossible</li>
+                      </ul>
+                    </li>
+                    <li>Output in <code>print(dt)</code> is default format:
+                      <ul>
+                        <li>A) always custom</li>
+                        <li>B) system default repr</li>
+                        <li>C) empty</li>
+                        <li>D) regex output</li>
+                      </ul>
+                    </li>
+                    <li>Most datetime work happens in:
+                      <ul>
+                        <li>A) datetime module</li>
+                        <li>B) list module</li>
+                        <li>C) regex only</li>
+                        <li>D) CSS only</li>
+                      </ul>
+                    </li>
+                  </ol>
+                </section>
+
+                <section id="practice">
+                  <h2>12) Coding Practice</h2>
+
+                  <h3>Easy (20)</h3>
+                  <ol>
+                    <li>Import <code>datetime</code> and print <code>datetime.now()</code>.</li>
+                    <li>Create <code>datetime(2026, 1, 1)</code> and print it.</li>
+                    <li>Create a datetime with specific time like 09:15:30 and print it.</li>
+                    <li>Print <code>dt.year</code>, <code>dt.month</code>, <code>dt.day</code>.</li>
+                    <li>Parse the string <code>"2026-07-13"</code> using <code>strptime</code>.</li>
+                    <li>Parse <code>"2026-07-13 10:30:00"</code> with the correct format.</li>
+                    <li>Format a datetime into <code>%d/%m/%Y</code>.</li>
+                    <li>Format a datetime into <code>%Y-%m-%d</code>.</li>
+                    <li>Create <code>timedelta(hours=2)</code> and print it.</li>
+                    <li>Subtract two datetimes (same day) and print the result.</li>
+                    <li>Add a <code>timedelta</code> duration to a datetime and print the new datetime.</li>
+                    <li>Compute elapsed minutes between two times conceptually (attempt with total_seconds idea).</li>
+                    <li>Format datetime into a readable string like <code>13 July 2026</code>.</li>
+                    <li>Print only the time portion by formatting (concept).</li>
+                    <li>Predict output: formatting <code>dt.strftime("%d")</code> for day value.</li>
+                    <li>Predict output: <code>end - start</code> where end is later.</li>
+                    <li>Try parsing with a wrong format string and observe error type (concept).</li>
+                    <li>Parse and then re-format the same string (round trip).</li>
+                    <li>Create a datetime from given components and compare with another datetime using <code><</code>
+                      (concept).</li>
+                    <li>Write a function that returns formatted date string from an input string (attempt).</li>
+                  </ol>
+
+                  <h3>Medium (20)</h3>
+                  <ol>
+                    <li>Read a date string like <code>YYYY/MM/DD</code> and parse/convert to <code>YYYY-MM-DD</code>.
+                    </li>
+                    <li>Create a “days from now” calculation by adding <code>timedelta(days=N)</code> (concept).</li>
+                    <li>Given two date strings, compute how many days between them (attempt with <code>.days</code>).
+                    </li>
+                    <li>Compute time difference in seconds between two datetimes (use <code>total_seconds()</code>
+                      concept).
+                    </li>
+                    <li>Build a function that parses three possible formats (concept with try/except).</li>
+                    <li>Given a timestamp string, format it as <code>HH:MM</code> only.</li>
+                    <li>Filter a list of event datetime objects and keep those after a given datetime.</li>
+                    <li>Sort a list of event datetimes and print them in order (concept).</li>
+                    <li>Parse multiple timestamps and compute average time offset from a base time (concept).</li>
+                    <li>Write code that counts how many events happened in the same month.</li>
+                    <li>Predict output for <code>dt.strftime("%m")</code> vs <code>dt.strftime("%M")</code>.</li>
+                    <li>Write code that adds 90 minutes using <code>timedelta(minutes=90)</code>.</li>
+                    <li>Compute “hours ago” (concept: elapsed / 3600).</li>
+                    <li>Create datetimes for each day in a month using a loop and print formatted day numbers.</li>
+                    <li>Parse timestamps from strings and store them in a dict keyed by date string.</li>
+                    <li>Create a function that returns the weekday name for a date using formatting (concept).</li>
+                    <li>Output prediction: adding <code>timedelta(days=1)</code> changes month correctly (concept).</li>
+                    <li>Implement a “is weekend” check (concept using weekday).</li>
+                    <li>Write code to convert a datetime to ISO format string (use <code>strftime</code>).</li>
+                    <li>Build a small “scheduler” list: event time + reminder time using timedeltas.</li>
+                  </ol>
+
+                  <h3>Hard (20)</h3>
+                  <ol>
+                    <li>Implement a robust parser that tries formats and prints which one matched (attempt).</li>
+                    <li>Create a function that normalizes input date formats to a canonical format.</li>
+                    <li>Compute “age” in years given birthdate and a reference date (concept).</li>
+                    <li>Calculate the next occurrence of a weekday (e.g., next Monday) (concept).</li>
+                    <li>Build a timeline from start datetime and multiple durations; print ordered checkpoints
+                      (attempt).
+                    </li>
+                    <li>Given two datetime strings, compute difference and print days/hours/minutes breakdown.</li>
+                    <li>Write code to parse timestamps with optional seconds (concept).</li>
+                    <li>Handle invalid dates safely and show a user-friendly message (attempt with try/except).</li>
+                    <li>Implement “human readable time ago” like “2 days ago” (attempt).</li>
+                    <li>Compute number of business days between two dates (concept with weekdays only).</li>
+                    <li>Design a mini “log analyzer”: parse timestamps then count events per hour.</li>
+                    <li>Output prediction: demonstrate what happens around midnight when adding hours.</li>
+                    <li>Build a schedule that handles crossing month boundaries automatically.</li>
+                    <li>Implement caching of parsed datetime results (concept).</li>
+                    <li>Compare two approaches: string sorting vs datetime sorting (reason about correctness).</li>
+                    <li>Write defensive code for missing time part in input (concept).</li>
+                    <li>Build a function that returns a timeline sorted by datetime and formatted for display.</li>
+                    <li>Implement conversion from date string to Unix timestamp (concept using
+                      <code>timestamp()</code>).
+                    </li>
+                    <li>Explain why naive datetime objects may be tricky with real time zones (concept).</li>
+                    <li>Create unit-test-like checks by printing expected formatted dates (attempt).</li>
+                  </ol>
+                </section>
+
+                <section id="assignments">
+                  <h2>13) Assignments</h2>
+                  <ol>
+                    <li>Create <code>assignment20_1.py</code>: parse <code>"2026-07-13"</code> and print
+                      <code>%d/%m/%Y</code>.
+                    </li>
+                    <li>Create <code>assignment20_2.py</code>: given start and end strings, print elapsed days and
+                      seconds
+                      (attempt).</li>
+                    <li>Create <code>assignment20_3.py</code>: build a function
+                      <code>format_datetime(text, fmt_out)</code>.
+                    </li>
+                  </ol>
+                </section>
+
+                <section id="mini-project">
+                  <h2>14) Mini Project</h2>
+                  <div class="callout note">
+                    <h3>🧪 Mini Project: Event Countdown (Text Output)</h3>
+                    <p>Create a script:</p>
+                    <ul>
+                      <li>Take an event datetime string like <code>2026-07-20 18:00:00</code>.</li>
+                      <li>Compare it to <code>datetime.now()</code>.</li>
+                      <li>Print: “Event is in X days” or “Event time passed by X days”.</li>
+                    </ul>
+                  </div>
+                  <div class="code-card">
+                    <div class="code-header">
+                      <div class="lang">Python</div>
+                      <div class="meta">starter</div>
+                    </div>
+                    <pre><code>from datetime import datetime
+
+event_text = input("Enter event (YYYY-MM-DD HH:MM:SS): ").strip()
+
+event_dt = datetime.strptime(event_text, "%Y-%m-%d %H:%M:%S")
+now = datetime.now()
+
+diff = event_dt - now
+
+if diff.total_seconds() >= 0:
+    print("Event is in", diff.days, "day(s)")
+else:
+    print("Event already passed by", abs(diff.days), "day(s)")
+</code></pre>
+                  </div>
+                </section>
+
+                <section id="debugging">
+                  <h2>15) Debugging Practice</h2>
+
+                  <div class="callout warning">
+                    <h3>Case 1: format mismatch</h3>
+                    <div class="code-card">
+                      <div class="code-header">
+                        <div class="lang">Python</div>
+                        <div class="meta">bug</div>
+                      </div>
+                      <pre><code>from datetime import datetime
+
+text = "2026-07-13"
+dt = datetime.strptime(text, "%Y/%m/%d")
+print(dt)
+</code></pre>
+                    </div>
+                    <p><strong>Fix:</strong> match separators. If input uses <code>-</code>, format must use
+                      <code>-</code>
+                      too.</p>
+                  </div>
+
+                  <div class="callout warning">
+                    <h3>Case 2: using %m vs %M</h3>
+                    <div class="code-card">
+                      <div class="code-header">
+                        <div class="lang">Python</div>
+                        <div class="meta">bug</div>
+                      </div>
+                      <pre><code>from datetime import datetime
+
+dt = datetime(2026, 7, 13, 10, 30, 0)
+print(dt.strftime("%m"))  # month
+print(dt.strftime("%M"))  # minute
+</code></pre>
+                    </div>
+                    <p><strong>Fix:</strong> remember <code>%m</code>=month and <code>%M</code>=minute.</p>
+                  </div>
+
+                  <div class="callout warning">
+                    <h3>Case 3: calling .group() on datetime (concept mistake)</h3>
+                    <div class="code-card">
+                      <div class="code-header">
+                        <div class="lang">Python</div>
+                        <div class="meta">bug</div>
+                      </div>
+                      <pre><code>from datetime import datetime
+
+text = "2026-07-13"
+dt = datetime.strptime(text, "%Y-%m-%d")
+print(dt.group(1))
+</code></pre>
+                    </div>
+                    <p><strong>Fix:</strong> <code>group()</code> belongs to regex match objects. For datetime use field
+                      access like <code>dt.year</code>.</p>
+                  </div>
+                </section>
+
+                <section id="errors">
+                  <h2>16) Common Errors</h2>
+                  <ul>
+                    <li><strong>ValueError</strong>: <code>strptime</code> format doesn’t match the input string.</li>
+                    <li><strong>TypeError</strong>: mixing incompatible types in arithmetic (e.g., adding int instead of
+                      <code>timedelta</code>).
+                    </li>
+                    <li><strong>Logic error</strong>: incorrect format directives (<code>%m</code> vs <code>%M</code>,
+                      wrong
+                      order).</li>
+                    <li><strong>Timezone logic issues</strong>: naive datetime comparisons can be misleading (concept).
+                    </li>
+                  </ul>
+                </section>
+
+                <section id="best">
+                  <h2>17) Best Practices</h2>
+                  <ul>
+                    <li>Always parse strings into <code>datetime</code> before doing time math.</li>
+                    <li>Use <code>strftime</code>/<code>strptime</code> with correct directives; double-check
+                      placeholders.
+                    </li>
+                    <li>Keep formatting simple for learning; avoid complex one-line prints.</li>
+                    <li>When parsing user data, wrap in try/except and show a helpful message.</li>
+                    <li>Be careful around time zones in real projects.</li>
+                  </ul>
+                </section>
+
+                <section id="summary">
+                  <h2>18) Summary</h2>
+                  <p>
+                    You learned Python date/time basics using the <code>datetime</code> module.
+                    You created <code>datetime</code> objects, parsed strings with <code>strptime</code>, and formatted
+                    output with <code>strftime</code>.
+                    You computed time differences with <code>timedelta</code> and used time arithmetic like
+                    <code>start + timedelta(...)</code>.
+                  </p>
+                </section>
+
+                <section id="cheatsheet">
+                  <h2>19) Cheat Sheet</h2>
+                  <table class="table" aria-label="Datetime cheat sheet">
+                    <thead>
+                      <tr>
+                        <th>Need</th>
+                        <th>Code</th>
+                        <th>Meaning</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Now</td>
+                        <td><code>datetime.now()</code></td>
+                        <td>current datetime</td>
+                      </tr>
+                      <tr>
+                        <td>Create</td>
+                        <td><code>datetime(YYYY, M, D, H, Min, S)</code></td>
+                        <td>specific moment</td>
+                      </tr>
+                      <tr>
+                        <td>Parse</td>
+                        <td><code>datetime.strptime(text, fmt)</code></td>
+                        <td>string → datetime</td>
+                      </tr>
+                      <tr>
+                        <td>Format</td>
+                        <td><code>dt.strftime(fmt_out)</code></td>
+                        <td>datetime → string</td>
+                      </tr>
+                      <tr>
+                        <td>Duration</td>
+                        <td><code>dt2 - dt1</code></td>
+                        <td>timedelta elapsed</td>
+                      </tr>
+                      <tr>
+                        <td>Add duration</td>
+                        <td><code>dt + timedelta(days=1)</code></td>
+                        <td>new datetime</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </section>
+
+                <section id="challenge">
+                  <h2>20) Coding Challenge</h2>
+                  <div class="callout note">
+                    <h3>🎯 Challenge: Format Converter</h3>
+                    <p>Given input <code>"2026-07-13 10:30:00"</code>:</p>
+                    <ul>
+                      <li>Parse it into a datetime.</li>
+                      <li>Print it in the format: <code>13/07/2026 10:30</code> (drop seconds).</li>
+                    </ul>
+                  </div>
+                </section>
+
+                <section id="revision">
+                  <h2>21) Revision Questions</h2>
+                  <ol>
+                    <li>What module do you import for date/time?</li>
+                    <li>What is <code>datetime</code>?</li>
+                    <li>What is <code>timedelta</code>?</li>
+                    <li>What does <code>strptime</code> do?</li>
+                    <li>What does <code>strftime</code> do?</li>
+                    <li>Why is datetime math better than string math?</li>
+                  </ol>
+                </section>
+
+                <section id="answers">
+                  <h2>22) Answer Key (Explain every answer)</h2>
+                  <div class="callout tip">
+                    <h3>Key explanations</h3>
+                    <ul>
+                      <li><strong>datetime</strong> stores a calendar date + clock time.</li>
+                      <li><strong>timedelta</strong> stores a duration difference.</li>
+                      <li><strong>strptime</strong> converts input text into a datetime object using a format string.
+                      </li>
+                      <li><strong>strftime</strong> converts datetime back into a formatted string.</li>
+                      <li><strong>Time math</strong> works because datetime objects know their fields.</li>
+                    </ul>
+                  </div>
+
+                  <div class="nav-buttons no-print" style="margin-top:18px;">
+                    <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                    <div><a class="btn primary" data-next href="chapter-21.html">Next Chapter</a></div>
+                  </div>
+                </section>
+
+              </div>
+          </main>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const nav = document.querySelector('.nav-list');
+        if (!nav) return;
+        nav.innerHTML = '';
+        for (let i = 1; i <= 48; i++) {
+          const file = `chapter-${String(i).padStart(2, '0')}.html`;
+          const a = document.createElement('a');
+          a.className = 'nav-link';
+          a.href = `${file}`;
+          a.setAttribute('data-chapter-link', file);
+          a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+          const wrap = document.createElement('div');
+          wrap.className = 'nav-item';
+          const dot = document.createElement('span');
+          dot.className = 'nav-dot';
+          wrap.appendChild(dot);
+          wrap.appendChild(a);
+          nav.appendChild(wrap);
+        }
+      });
+    </script>
+</body>
+
+</html>

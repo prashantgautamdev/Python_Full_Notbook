@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 39 — Artificial Intelligence</title>
+    <meta name="description"
+        content="Chapter 39: Artificial Intelligence. Learn AI concepts, agents, search, planning, and basic reasoning ideas." />
+    <link rel="canonical" href="./chapters/chapter-39.html" />
+
+    <meta property="og:title" content="Chapter 39 — Artificial Intelligence" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="AI concepts with practice: agents, search, planning, and reasoning." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 39 — Artificial Intelligence" />
+    <meta name="twitter:description" content="AI fundamentals with practice and explained answers." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 39 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout remember" style="margin-top:12px;">
+                        <h3>⭐ Remember</h3>
+                        <p>
+                            AI builds agents that choose actions to reach goals.
+                            Search and reasoning help the agent decide.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 39</div>
+                        <h1 class="chapter-title">Chapter 39 — Artificial Intelligence</h1>
+                        <p class="subtle">Learn the big picture of AI: what it is, agents, search, planning, and simple
+                            reasoning examples.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-38.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <ul>
+                                    <li>Understand what AI is (and what it is not).</li>
+                                    <li>Learn the agent + environment idea.</li>
+                                    <li>Understand search (BFS/DFS) as a decision technique.</li>
+                                    <li>Learn planning as choosing actions to reach a goal.</li>
+                                    <li>Apply reasoning with a small maze/search example.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                Artificial Intelligence (AI) is the area of computer science that builds systems that
+                                can reason and decide.
+                            </p>
+                            <p>
+                                In this chapter, we focus on classic AI ideas: agents, search, and planning.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 AI vs automation</h3>
+                            <p>
+                                Automation follows fixed rules.
+                                AI often learns patterns or uses reasoning to choose actions.
+                            </p>
+
+                            <h3>2.2 The agent model</h3>
+                            <p>
+                                An AI agent observes the environment and chooses actions.
+                            </p>
+                            <ul>
+                                <li><strong>Environment</strong>: the world state (maze, game, tasks).</li>
+                                <li><strong>Agent</strong>: the decision-making program.</li>
+                                <li><strong>Goal</strong>: a target the agent tries to reach.</li>
+                            </ul>
+
+                            <h3>2.3 Search</h3>
+                            <p>
+                                Search tries many possibilities to find a path from start to goal.
+                            </p>
+
+                            <h3>2.4 Planning (concept)</h3>
+                            <p>
+                                Planning chooses a sequence of actions.
+                                If an action leads to a dead end, the planner tries another sequence.
+                            </p>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    Search can become slow if you explore too many states.
+                                    That’s why heuristics (later concept) help.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">BFS concept (queue)</div>
+                                </div>
+                                <pre><code>from collections import deque
+
+def bfs(graph, start, goal):
+    # queue holds (node, path)
+    q = deque()
+    q.append((start, [start]))
+
+    # visited prevents repeating states
+    visited = {start}
+
+    while q:
+        node, path = q.popleft()
+        if node == goal:
+            return path
+
+        for nxt in graph.get(node, []):
+            if nxt not in visited:
+                visited.add(nxt)
+                q.append((nxt, path + [nxt]))
+
+    return None
+</code></pre>
+                            </div>
+
+                            <p><strong>Time:</strong> depends on number of nodes and edges • <strong>Space:</strong>
+                                depends on visited/path.</p>
+                            <p><strong>Alternative:</strong> use DFS when you want deep exploration (not always shortest
+                                path).</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — BFS shortest path in a graph</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">graph + bfs</div>
+                                </div>
+                                <pre><code>from collections import deque
+
+def bfs_path(graph, start, goal):
+    q = deque([(start, [start])])
+    visited = {start}
+
+    while q:
+        node, path = q.popleft()
+        if node == goal:
+            return path
+
+        for nxt in graph.get(node, []):
+            if nxt not in visited:
+                visited.add(nxt)
+                q.append((nxt, path + [nxt]))
+
+    return None
+
+graph = {
+    "A": ["B", "C"],
+    "B": ["D"],
+    "C": ["E"],
+    "D": ["F"],
+    "E": ["F"],
+    "F": []
+}
+
+print(bfs_path(graph, "A", "F"))
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> a path list like <code>['A','B','D','F']</code> (depends on
+                                graph order).</p>
+
+                            <h3>4.2 Medium Example — maze as a grid (concept)</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Concept</div>
+                                    <div class="meta">grid neighbors</div>
+                                </div>
+                                <pre><code>Imagine a maze grid.
+A cell (r,c) can move to:
+- (r+1,c) if inside bounds and not a wall
+- (r-1,c)
+- (r,c+1)
+- (r,c-1)
+
+BFS tries neighbors level by level.
+</code></pre>
+                            </div>
+
+                            <h3>4.3 Advanced Example — planning with action sequences (concept)</h3>
+                            <div class="callout note">
+                                <h3>Flow idea</h3>
+                                <ul>
+                                    <li>State space: all possible states.</li>
+                                    <li>Actions: transitions between states.</li>
+                                    <li>Plan: action sequence from start state to goal state.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: agent search</h3>
+                                <pre><code>[Observe current state]
+            |
+            v
+ [Generate possible actions]
+            |
+            v
+   [Apply action → next state]
+            |
+            v
+    [Check goal state?]
+        /       \
+     Yes         No
+      |           |
+      v           v
+ [Return plan] [Continue search]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <table class="table" aria-label="AI memory">
+                                <thead>
+                                    <tr>
+                                        <th>Part</th>
+                                        <th>Stored as</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Frontier</td>
+                                        <td>queue/stack of states to explore</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Visited</td>
+                                        <td>set of already explored states</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Path/Plan</td>
+                                        <td>list of nodes or actions</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Dry run</div>
+                                    <div class="meta">BFS A→F</div>
+                                </div>
+                                <pre><code>Queue start: [(A, [A])]
+Visited: {A}
+
+Pop A:
+- goal? no
+- add neighbors B and C
+Queue: [(B,[A,B]), (C,[A,C])]
+
+Pop B:
+- goal? no
+- add D
+Queue: [(C,[A,C]), (D,[A,B,D])]
+
+Pop C:
+- add E
+Queue: [(D,[A,B,D]), (E,[A,C,E])]
+
+Pop D:
+- add F
+Queue: [(E,[A,C,E]), (F,[A,B,D,F])]
+
+Pop F:
+- goal reached → return [A,B,D,F]
+</code></pre>
+                            </div>
+                            <p><strong>Time:</strong> O(V+E) in typical BFS • <strong>Space:</strong> O(V).</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>print()</code> for showing discovered path.</li>
+                                <li><code>len()</code> to check path length (concept).</li>
+                            </ul>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <div class="callout note">
+                                <h3>Common BFS helpers</h3>
+                                <ul>
+                                    <li><code>deque.popleft()</code> remove from front</li>
+                                    <li><code>deque.append()</code> add to back</li>
+                                    <li><code>set.add()</code> record visited states</li>
+                                    <li><code>graph.get(node, [])</code> safe neighbor fetch</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is AI?</li>
+                                <li>What is an agent in AI?</li>
+                                <li>What is the environment in AI?</li>
+                                <li>What is a goal in AI?</li>
+                                <li>What is the difference between AI and automation?</li>
+                                <li>What is search in AI?</li>
+                                <li>Why do we need visited states?</li>
+                                <li>What is BFS?</li>
+                                <li>Why BFS finds shortest path in unweighted graphs?</li>
+                                <li>What is DFS?</li>
+                                <li>What is a state space?</li>
+                                <li>What is a transition (concept)?</li>
+                                <li>What is a plan in planning?</li>
+                                <li>What is over-exploration in search?</li>
+                                <li>What is a dead end state?</li>
+                                <li>What does branching factor mean (concept)?</li>
+                                <li>Why can search become slow?</li>
+                                <li>What is a heuristic (concept, later)?</li>
+                                <li>What is the purpose of a heuristic?</li>
+                                <li>How can you reduce search complexity?</li>
+                                <li>What is a graph in BFS?</li>
+                                <li>What is a tree in BFS?</li>
+                                <li>What is a neighbor in graph search?</li>
+                                <li>What is a frontier in search?</li>
+                                <li>What is path reconstruction?</li>
+                                <li>Is BFS always the best search?</li>
+                                <li>When might DFS be useful?</li>
+                                <li>What is an example of an AI agent?</li>
+                                <li>How is planning different from reactive actions?</li>
+                                <li>What is a solution in search?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>AI is mainly about:
+                                    <ul>
+                                        <li>A) fixed rules only</li>
+                                        <li>B) reasoning/decision making</li>
+                                        <li>C) CSS styling</li>
+                                        <li>D) file copying</li>
+                                    </ul>
+                                </li>
+                                <li>An agent is responsible for:
+                                    <ul>
+                                        <li>A) choosing actions</li>
+                                        <li>B) storing CSS</li>
+                                        <li>C) reading database</li>
+                                        <li>D) editing HTML only</li>
+                                    </ul>
+                                </li>
+                                <li>The environment is:
+                                    <ul>
+                                        <li>A) the world state</li>
+                                        <li>B) a function</li>
+                                        <li>C) only weights</li>
+                                        <li>D) the theme</li>
+                                    </ul>
+                                </li>
+                                <li>Search explores:
+                                    <ul>
+                                        <li>A) states</li>
+                                        <li>B) fonts</li>
+                                        <li>C) threads only</li>
+                                        <li>D) html tags</li>
+                                    </ul>
+                                </li>
+                                <li>Visited set prevents:
+                                    <ul>
+                                        <li>A) repeated work</li>
+                                        <li>B) faster CSS</li>
+                                        <li>C) deletion</li>
+                                        <li>D) caching disable</li>
+                                    </ul>
+                                </li>
+                                <li>BFS uses:
+                                    <ul>
+                                        <li>A) stack</li>
+                                        <li>B) queue</li>
+                                        <li>C) recursion only</li>
+                                        <li>D) regex</li>
+                                    </ul>
+                                </li>
+                                <li>BFS explores level by level, so it is good for:
+                                    <ul>
+                                        <li>A) shortest paths in unweighted graphs</li>
+                                        <li>B) printing</li>
+                                        <li>C) regex</li>
+                                        <li>D) theme toggles</li>
+                                    </ul>
+                                </li>
+                                <li>DFS typically uses:
+                                    <ul>
+                                        <li>A) recursion/stack</li>
+                                        <li>B) queue only</li>
+                                        <li>C) DB cursor</li>
+                                        <li>D) CSS</li>
+                                    </ul>
+                                </li>
+                                <li>Planning means:
+                                    <ul>
+                                        <li>A) choose action sequence to reach goal</li>
+                                        <li>B) change colors</li>
+                                        <li>C) parse HTML</li>
+                                        <li>D) update CSS</li>
+                                    </ul>
+                                </li>
+                                <li>A state space is:
+                                    <ul>
+                                        <li>A) set of all possible states</li>
+                                        <li>B) one file</li>
+                                        <li>C) CSS theme</li>
+                                        <li>D) none</li>
+                                    </ul>
+                                </li>
+                                <li>Branching factor means (concept):
+                                    <ul>
+                                        <li>A) number of actions per state</li>
+                                        <li>B) color choices</li>
+                                        <li>C) DB tables</li>
+                                        <li>D) line numbers</li>
+                                    </ul>
+                                </li>
+                                <li>Dead end means:
+                                    <ul>
+                                        <li>A) cannot reach goal from this state</li>
+                                        <li>B) correct state</li>
+                                        <li>C) CSS rule</li>
+                                        <li>D) cached file</li>
+                                    </ul>
+                                </li>
+                                <li>Over-exploration happens when:
+                                    <ul>
+                                        <li>A) too many states are explored</li>
+                                        <li>B) too few actions exist</li>
+                                        <li>C) theme is correct</li>
+                                        <li>D) JSON is invalid</li>
+                                    </ul>
+                                </li>
+                                <li>Path reconstruction means:
+                                    <ul>
+                                        <li>A) returning the found sequence</li>
+                                        <li>B) hiding path</li>
+                                        <li>C) converting to CSS</li>
+                                        <li>D) deleting queue</li>
+                                    </ul>
+                                </li>
+                                <li>A frontier is:
+                                    <ul>
+                                        <li>A) states to explore next</li>
+                                        <li>B) finished paths only</li>
+                                        <li>C) theme variable</li>
+                                        <li>D) SQL cursor</li>
+                                    </ul>
+                                </li>
+                                <li>Heuristics help by:
+                                    <ul>
+                                        <li>A) guiding search more intelligently</li>
+                                        <li>B) hiding results</li>
+                                        <li>C) editing HTML</li>
+                                        <li>D) turning off JS</li>
+                                    </ul>
+                                </li>
+                                <li>AI agent model includes:
+                                    <ul>
+                                        <li>A) agent, environment, goal</li>
+                                        <li>B) CSS, JS, HTML</li>
+                                        <li>C) only database</li>
+                                        <li>D) only files</li>
+                                    </ul>
+                                </li>
+                                <li>In BFS, queue is used for:
+                                    <ul>
+                                        <li>A) FIFO exploration</li>
+                                        <li>B) LIFO exploration</li>
+                                        <li>C) parallel threads</li>
+                                        <li>D) regex replacements</li>
+                                    </ul>
+                                </li>
+                                <li>BFS returns None if:
+                                    <ul>
+                                        <li>A) no path exists</li>
+                                        <li>B) path exists</li>
+                                        <li>C) CSS exists</li>
+                                        <li>D) no visited set</li>
+                                    </ul>
+                                </li>
+                                <li>Time complexity of BFS is often:
+                                    <ul>
+                                        <li>A) O(V+E)</li>
+                                        <li>B) O(1)</li>
+                                        <li>C) O(V^2) always</li>
+                                        <li>D) O(CSS)</li>
+                                    </ul>
+                                </li>
+                                <li>Space for BFS visited is about:
+                                    <ul>
+                                        <li>A) O(V)</li>
+                                        <li>B) O(1)</li>
+                                        <li>C) O(E only)</li>
+                                        <li>D) O(C)</li>
+                                    </ul>
+                                </li>
+                                <li>In graphs, neighbor means:
+                                    <ul>
+                                        <li>A) connected node</li>
+                                        <li>B) theme color</li>
+                                        <li>C) package import</li>
+                                        <li>D) CSS grid</li>
+                                    </ul>
+                                </li>
+                                <li>Search explores to find:
+                                    <ul>
+                                        <li>A) solution path</li>
+                                        <li>B) output HTML only</li>
+                                        <li>C) stylesheet</li>
+                                        <li>D) sockets</li>
+                                    </ul>
+                                </li>
+                                <li>In unweighted graphs BFS finds:
+                                    <ul>
+                                        <li>A) shortest number of edges</li>
+                                        <li>B) shortest weighted cost always</li>
+                                        <li>C) only long paths</li>
+                                        <li>D) theme only</li>
+                                    </ul>
+                                </li>
+                                <li>DFS may not be optimal for:
+                                    <ul>
+                                        <li>A) shortest path</li>
+                                        <li>B) printing</li>
+                                        <li>C) CSS</li>
+                                        <li>D) search</li>
+                                    </ul>
+                                </li>
+                                <li>Visited prevents:
+                                    <ul>
+                                        <li>A) infinite loops in cyclic graphs</li>
+                                        <li>B) printing</li>
+                                        <li>C) CSS updates</li>
+                                        <li>D) JSON parsing</li>
+                                    </ul>
+                                </li>
+                                <li>Planning tries to solve:
+                                    <ul>
+                                        <li>A) action sequence selection</li>
+                                        <li>B) theme selection</li>
+                                        <li>C) database schema</li>
+                                        <li>D) token parsing</li>
+                                    </ul>
+                                </li>
+                                <li>AI is best described as:
+                                    <ul>
+                                        <li>A) decision-making systems</li>
+                                        <li>B) color libraries</li>
+                                        <li>C) HTML editors</li>
+                                        <li>D) nothing</li>
+                                    </ul>
+                                </li>
+                                <li>Solution in search is:
+                                    <ul>
+                                        <li>A) reaching goal state</li>
+                                        <li>B) changing CSS</li>
+                                        <li>C) reading disk</li>
+                                        <li>D) compiling</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Write BFS for a small graph and print the returned path.</li>
+                                <li>Modify BFS to return path length only (concept).</li>
+                                <li>Create a graph where goal is unreachable; confirm BFS returns None.</li>
+                                <li>Add a start == goal case and return [start].</li>
+                                <li>Print the visited order list after running BFS.</li>
+                                <li>Change graph neighbor order and observe different paths (concept).</li>
+                                <li>Implement DFS using a stack (design).</li>
+                                <li>Compare BFS vs DFS path lengths (concept).</li>
+                                <li>Write helper to build adjacency list from edges list (concept).</li>
+                                <li>Dry run BFS steps on a 4-node graph (concept).</li>
+                                <li>Compute how many nodes BFS visits for a graph (concept).</li>
+                                <li>Add input validation for graph type (design).</li>
+                                <li>Implement a function that checks if a path exists using BFS (design).</li>
+                                <li>Predict output for a given start/goal pair (concept).</li>
+                                <li>Write a BFS variant that avoids revisiting by path membership (concept).</li>
+                                <li>Practice debugging a bug: forgot to add to visited set.</li>
+                                <li>Fix the bug and verify BFS terminates.</li>
+                                <li>Write a simple maze grid and convert to graph (concept).</li>
+                                <li>Find path from (r,c) to goal cell with BFS (design).</li>
+                                <li>Dry run a grid BFS for two steps (concept).</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Implement shortest path BFS and return the path coordinates in a grid (design).</li>
+                                <li>Add walls (#) and open cells (.) and parse grid input (concept).</li>
+                                <li>Write a function to generate neighbors in a grid (concept).</li>
+                                <li>Implement BFS with parent pointers instead of storing full path each queue item
+                                    (design).</li>
+                                <li>Dry run parent-pointer BFS to reconstruct path (concept).</li>
+                                <li>Add heuristics idea: prioritize certain directions (concept, no full A* needed).
+                                </li>
+                                <li>Implement a weighted graph search concept (Dijkstra later, concept now).</li>
+                                <li>Write an experiment: compare BFS visited counts with/without visited optimization
+                                    (design).</li>
+                                <li>Create a small “robot moves” environment (up/down/left/right).</li>
+                                <li>Predict number of states explored based on branching factor (concept).</li>
+                                <li>Implement planning as sequence generation for a simple turn-based game (concept).
+                                </li>
+                                <li>Design a small ruleset for an agent (design).</li>
+                                <li>Implement “stop when reaching goal” and count steps.</li>
+                                <li>Return both path and steps count (design).</li>
+                                <li>Debug: incorrect coordinate mapping (r,c) → index.</li>
+                                <li>Fix it and verify with a known example.</li>
+                                <li>Implement a function to validate grid bounds (concept).</li>
+                                <li>Explain (in comments) why BFS finds shortest in unweighted grids (concept).</li>
+                                <li>Write tests with asserts for known small cases (concept).</li>
+                                <li>Improve code readability with helper functions (design).</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Implement bidirectional BFS (design).</li>
+                                <li>Explain time/space improvements (concept).</li>
+                                <li>Implement DFS path search with pruning (design).</li>
+                                <li>Add pruning rules based on distance-to-goal (concept).</li>
+                                <li>Build a general search framework: problem, successor function, goal test (design).
+                                </li>
+                                <li>Implement BFS as one strategy class (design).</li>
+                                <li>Implement a state representation object (design).</li>
+                                <li>Debug: state hashing errors (concept).</li>
+                                <li>Implement a simple heuristic-guided greedy search (design).</li>
+                                <li>Compare greedy vs BFS results on a tricky maze (design).</li>
+                                <li>Implement A* concept with a simple heuristic (concept).</li>
+                                <li>Explain admissibility requirement (concept).</li>
+                                <li>Design an agent that avoids forbidden zones (design).</li>
+                                <li>Implement a planner that handles changing obstacles (concept).</li>
+                                <li>Write a unit-test suite for grid search (design).</li>
+                                <li>Design a benchmark plan measuring explored states (concept).</li>
+                                <li>Explain why visited set must store states not paths (concept).</li>
+                                <li>Design a visualization plan printing grid and path (design).</li>
+                                <li>Implement path rendering on a grid (design).</li>
+                                <li>Write a short report comparing strategies (design).</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment39_1.py</code>: implement BFS path on a given adjacency list.
+                                </li>
+                                <li>Create <code>assignment39_2.py</code>: convert a grid maze to neighbors and find a
+                                    path.</li>
+                                <li>Create <code>assignment39_3.py</code>: implement DFS and compare path length with
+                                    BFS for the same maze.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Maze Agent</h3>
+                                <ul>
+                                    <li>Read a maze grid from a list of strings.</li>
+                                    <li>Use BFS to find the shortest path from S to G.</li>
+                                    <li>Render the path on the grid using symbols.</li>
+                                    <li>Print the number of explored states.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+
+                            <div class="callout warning">
+                                <h3>Case 1: infinite loop</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">forgot visited update</div>
+                                    </div>
+                                    <pre><code># if you never add to visited,
+# BFS may keep revisiting nodes in cycles
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> add <code>visited.add(node)</code> when enqueuing.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: wrong neighbors</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">bounds check wrong</div>
+                                    </div>
+                                    <pre><code># (r-1,c) might go out of bounds
+# and crash or move into walls
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> validate bounds and allow only open cells.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: path not reconstructed</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">missing parent pointers</div>
+                                    </div>
+                                    <pre><code># you return goal but cannot show route
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> store parent or store full path in the queue.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>KeyError:</strong> missing node in adjacency list.</li>
+                                <li><strong>IndexError:</strong> grid out-of-bounds.</li>
+                                <li><strong>TypeError:</strong> neighbors not iterable.</li>
+                                <li><strong>Infinite loop:</strong> no visited tracking in cyclic graphs.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Always use a visited set for graph search.</li>
+                                <li>Validate input graph/grid shapes.</li>
+                                <li>Start with tiny examples and dry run by hand.</li>
+                                <li>Document what queue/stack items represent.</li>
+                                <li>Return both path and diagnostic info (concept).</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                You learned AI as decision-making through the agent model.
+                                You practiced search with BFS and learned how it finds paths.
+                                You also learned planning ideas and typical debugging mistakes.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="AI cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Need</th>
+                                        <th>Concept</th>
+                                        <th>Key idea</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Agent</td>
+                                        <td>choose actions</td>
+                                        <td>based on observed state</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Goal</td>
+                                        <td>target state</td>
+                                        <td>stop when reached</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Search</td>
+                                        <td>BFS/DFS</td>
+                                        <td>explore possibilities</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Visited</td>
+                                        <td>set of states</td>
+                                        <td>avoid repeating</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Path</td>
+                                        <td>parent pointers</td>
+                                        <td>reconstruct solution route</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Word Ladder (Concept + BFS)</h3>
+                                <ul>
+                                    <li>Given start word and goal word with same length.</li>
+                                    <li>Each step changes exactly one letter.</li>
+                                    <li>Only allow words from a provided dictionary.</li>
+                                    <li>Use BFS to find the shortest transformation path.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What is an agent in AI?</li>
+                                <li>What is search in AI?</li>
+                                <li>Why do we need visited sets?</li>
+                                <li>What is BFS and what does it guarantee?</li>
+                                <li>What is planning?</li>
+                                <li>What is a state space?</li>
+                                <li>What is a heuristic (concept)?</li>
+                                <li>What causes search to be slow?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>AI:</strong> systems that reason/decide to achieve goals.</li>
+                                    <li><strong>Agent:</strong> selects actions based on state.</li>
+                                    <li><strong>Environment:</strong> where the agent acts.</li>
+                                    <li><strong>Search:</strong> explores state space to reach goal.</li>
+                                    <li><strong>BFS:</strong> explores level-by-level using a queue; finds shortest path
+                                        in unweighted graphs.</li>
+                                    <li><strong>Visited:</strong> prevents revisiting and infinite loops in cyclic
+                                        graphs.</li>
+                                    <li><strong>Planning:</strong> chooses a sequence of actions to reach the goal.</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-40.html">Next Chapter</a></div>
+                            </div>
+
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

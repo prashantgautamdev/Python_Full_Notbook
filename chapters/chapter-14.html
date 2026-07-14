@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 14 — Exception Handling</title>
+    <meta name="description"
+        content="Chapter 14: Exception Handling. Learn what errors are, try/except blocks, raising errors, and safe recovery." />
+    <link rel="canonical" href="./chapters/chapter-14.html" />
+
+    <meta property="og:title" content="Chapter 14 — Exception Handling" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="Learn exception handling: try/except, else, finally, raising errors." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 14 — Exception Handling" />
+    <meta name="twitter:description" content="Python exception handling chapter." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 14 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout warning" style="margin-top:12px;">
+                        <h3>⚠ Warning</h3>
+                        <p>
+                            Exceptions are not enemies.
+                            They are the program’s way to say: “something went wrong here.”
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 14</div>
+
+                        <h1 class="chapter-title">Chapter 14 — Exception Handling</h1>
+                        <p class="subtle">Learn what exceptions are and how to handle them using <code>try</code>,
+                            <code>except</code>, <code>else</code>, and <code>finally</code>.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-13.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <p>By the end of this chapter, you will be able to:</p>
+                                <ul>
+                                    <li>Explain what an exception is.</li>
+                                    <li>Use <code>try/except</code> to handle errors safely.</li>
+                                    <li>Use <code>else</code> and <code>finally</code>.</li>
+                                    <li>Raise your own errors with <code>raise</code> (concept).</li>
+                                    <li>Write code that doesn’t crash on bad user input.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                Sometimes your code runs into problems.
+                                Example: a user types <code>abc</code> instead of a number.
+                            </p>
+                            <p>
+                                Python can show an error message and stop the program.
+                                Exception handling lets your program recover gracefully.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 What is an exception?</h3>
+                            <p>
+                                An exception is an error that happens during execution.
+                                It can be caught and handled.
+                            </p>
+
+                            <h3>2.2 try / except</h3>
+                            <p>
+                                <code>try</code> contains code that might fail.
+                                <code>except</code> handles the failure.
+                            </p>
+
+                            <div class="callout note">
+                                <h3>⭐ Remember</h3>
+                                <p>
+                                    If no error happens, <code>except</code> does nothing.
+                                    If an error happens, Python jumps to the matching <code>except</code> block.
+                                </p>
+                            </div>
+
+                            <h3>2.3 else and finally</h3>
+                            <ul>
+                                <li><code>else</code> runs only if no exception occurred.</li>
+                                <li><code>finally</code> runs always (cleanup).</li>
+                            </ul>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning: don’t hide bugs</h3>
+                                <p>
+                                    Catching every exception can hide real errors.
+                                    Catch the specific error you expect.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">try/except</div>
+                                </div>
+                                <pre><code>try:
+    x = int(input("Enter a number: "))
+except ValueError:
+    print("That was not a valid integer.")
+</code></pre>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">else + finally</div>
+                                </div>
+                                <pre><code>try:
+    data = "123"
+    value = int(data)
+except ValueError:
+    print("Bad data")
+else:
+    print("Converted successfully")
+finally:
+    print("Cleanup always runs")
+</code></pre>
+                            </div>
+
+                            <p><strong>Time complexity:</strong> depends on code inside try • <strong>Space:</strong>
+                                depends on stored data.
+                            </p>
+                            <p><strong>Alternative:</strong> validate input before converting to reduce exceptions.</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — safe int conversion</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">ValueError</div>
+                                </div>
+                                <pre><code>text = "abc"
+
+try:
+    n = int(text)
+    print("Number:", n)
+except ValueError:
+    print("Cannot convert to int")
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> Cannot convert to int</p>
+
+                            <h3>4.2 Medium Example — handle division by zero</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">ZeroDivisionError</div>
+                                </div>
+                                <pre><code>a = 10
+b = 0
+
+try:
+    result = a / b
+    print("Result:", result)
+except ZeroDivisionError:
+    print("Cannot divide by zero")
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> Cannot divide by zero</p>
+
+                            <h3>4.3 Advanced Example — finally cleanup</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">always runs</div>
+                                </div>
+                                <pre><code>try:
+    f = open("example.txt", "r")
+    content = f.read()
+    print(content)
+except FileNotFoundError:
+    print("File not found")
+finally:
+    try:
+        f.close()
+    except Exception:
+        pass
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> either file content or file not found, and cleanup happens.</p>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: try → except → else/finally</h3>
+                                <pre><code>[Start]
+  |
+  v
+[Execute try block]
+  |
+  | if error?
+  +-->[Jump to matching except]
+  |        |
+  |        v
+  |     [Handle error]
+  |
+  | if no error?
+  +-->[Execute else block]
+
+[Execute finally block always]
+  |
+  v
+[End]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <p>
+                                When an error happens inside <code>try</code>, Python creates an exception object.
+                                Your <code>except</code> block receives control and can read the error.
+                            </p>
+                            <table class="table" aria-label="Exception memory">
+                                <thead>
+                                    <tr>
+                                        <th>Event</th>
+                                        <th>Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Exception happens</td>
+                                        <td>Python creates an error object</td>
+                                    </tr>
+                                    <tr>
+                                        <td>except catches it</td>
+                                        <td>Program continues safely</td>
+                                    </tr>
+                                    <tr>
+                                        <td>finally runs</td>
+                                        <td>Cleanup runs no matter what</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">dry run</div>
+                                </div>
+                                <pre><code>text = "12x"
+
+try:
+    n = int(text)
+    print("n:", n)
+except ValueError:
+    print("Bad number")
+</code></pre>
+                            </div>
+
+                            <table class="table" aria-label="Dry run exception">
+                                <thead>
+                                    <tr>
+                                        <th>Step</th>
+                                        <th>Try line</th>
+                                        <th>Result</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td><code>int(text)</code></td>
+                                        <td>Raises ValueError</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td><code>except ValueError</code></td>
+                                        <td>Prints Bad number</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p><strong>Time:</strong> depends on conversion • <strong>Space:</strong> O(1) extra for the
+                                error handling.</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>type()</code>: helpful when debugging unexpected values.</li>
+                                <li><code>print()</code>: shows messages when errors occur.</li>
+                            </ul>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <p>Exceptions have useful string output when printed. Example: <code>str(e)</code>
+                                (concept).</p>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">show message</div>
+                                </div>
+                                <pre><code>try:
+    n = int("abc")
+except ValueError as e:
+    print("Error message:", e)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> Error message: invalid literal for int() ...</p>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is an exception in Python?</li>
+                                <li>Why do exceptions happen?</li>
+                                <li>What is <code>try</code> block?</li>
+                                <li>What is <code>except</code> block?</li>
+                                <li>What happens if an exception occurs inside try?</li>
+                                <li>What is <code>ValueError</code>?</li>
+                                <li>What is <code>ZeroDivisionError</code>?</li>
+                                <li>What does <code>else</code> do?</li>
+                                <li>What does <code>finally</code> do?</li>
+                                <li>Does <code>finally</code> run if an exception is caught?</li>
+                                <li>Can you catch multiple exceptions?</li>
+                                <li>How do you catch an exception variable (as e)?</li>
+                                <li>How do you display exception details?</li>
+                                <li>What is the risk of using a broad <code>except Exception</code>?</li>
+                                <li>When should you catch specific exceptions?</li>
+                                <li>What happens if there is no matching except block?</li>
+                                <li>What is the difference between syntax errors and exceptions?</li>
+                                <li>How would you prevent exceptions by validating input?</li>
+                                <li>What is <code>raise</code> used for?</li>
+                                <li>Explain “fail gracefully”.</li>
+                                <li>What is a stack trace?</li>
+                                <li>How do you read traceback line numbers?</li>
+                                <li>How would you debug a failing conversion?</li>
+                                <li>What is <code>FileNotFoundError</code>?</li>
+                                <li>How can you handle missing files?</li>
+                                <li>What is the purpose of cleanup in finally?</li>
+                                <li>Can you put return inside finally (concept)?</li>
+                                <li>What is a best practice for exception messages?</li>
+                                <li>What does it mean to re-raise an exception?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li><code>try</code> is for:
+                                    <ul>
+                                        <li>A) catching errors</li>
+                                        <li>B) code that might fail</li>
+                                        <li>C) printing only</li>
+                                        <li>D) importing files</li>
+                                    </ul>
+                                </li>
+                                <li><code>except</code> is for:
+                                    <ul>
+                                        <li>A) handling specific errors</li>
+                                        <li>B) defining variables</li>
+                                        <li>C) sorting data</li>
+                                        <li>D) formatting HTML</li>
+                                    </ul>
+                                </li>
+                                <li><code>ValueError</code> occurs when:
+                                    <ul>
+                                        <li>A) division by zero</li>
+                                        <li>B) value has wrong type/content</li>
+                                        <li>C) missing file</li>
+                                        <li>D) indentation wrong</li>
+                                    </ul>
+                                </li>
+                                <li><code>ZeroDivisionError</code> occurs when:
+                                    <ul>
+                                        <li>A) divide by zero</li>
+                                        <li>B) add strings</li>
+                                        <li>C) print wrong type</li>
+                                        <li>D) file missing</li>
+                                    </ul>
+                                </li>
+                                <li><code>else</code> runs when:
+                                    <ul>
+                                        <li>A) exception happens</li>
+                                        <li>B) no exception happens</li>
+                                        <li>C) always runs</li>
+                                        <li>D) never runs</li>
+                                    </ul>
+                                </li>
+                                <li><code>finally</code> runs when:
+                                    <ul>
+                                        <li>A) only if exception happens</li>
+                                        <li>B) only if no exception</li>
+                                        <li>C) always</li>
+                                        <li>D) only on return</li>
+                                    </ul>
+                                </li>
+                                <li>If exception is not caught:
+                                    <ul>
+                                        <li>A) program continues</li>
+                                        <li>B) program crashes/propagates</li>
+                                        <li>C) it ignores error</li>
+                                        <li>D) it retries automatically</li>
+                                    </ul>
+                                </li>
+                                <li>Using <code>except Exception</code> is risky because:
+                                    <ul>
+                                        <li>A) it always slows code</li>
+                                        <li>B) it may hide bugs</li>
+                                        <li>C) it prevents errors</li>
+                                        <li>D) it blocks imports</li>
+                                    </ul>
+                                </li>
+                                <li>To capture error as variable you use:
+                                    <ul>
+                                        <li>A) <code>except e</code></li>
+                                        <li>B) <code>except ... as e</code></li>
+                                        <li>C) <code>catch e</code></li>
+                                        <li>D) <code>except (e)</code></li>
+                                    </ul>
+                                </li>
+                                <li>Printed traceback is:
+                                    <ul>
+                                        <li>A) CSS error</li>
+                                        <li>B) stack trace for debugging</li>
+                                        <li>C) keyboard input</li>
+                                        <li>D) database output</li>
+                                    </ul>
+                                </li>
+                                <li>A best practice is:
+                                    <ul>
+                                        <li>A) catch all errors broadly</li>
+                                        <li>B) catch specific expected errors</li>
+                                        <li>C) ignore errors</li>
+                                        <li>D) never validate input</li>
+                                    </ul>
+                                </li>
+                                <li>Which keyword is used to raise an exception?
+                                    <ul>
+                                        <li>A) <code>send</code></li>
+                                        <li>B) <code>raise</code></li>
+                                        <li>C) <code>throw</code></li>
+                                        <li>D) <code>signal</code></li>
+                                    </ul>
+                                </li>
+                                <li>Which block is for cleanup?
+                                    <ul>
+                                        <li>A) try</li>
+                                        <li>B) except</li>
+                                        <li>C) finally</li>
+                                        <li>D) print</li>
+                                    </ul>
+                                </li>
+                                <li><code>finally</code> is executed:
+                                    <ul>
+                                        <li>A) only on success</li>
+                                        <li>B) only on error</li>
+                                        <li>C) regardless of error</li>
+                                        <li>D) never</li>
+                                    </ul>
+                                </li>
+                                <li>Conversion <code>int("abc")</code> causes:
+                                    <ul>
+                                        <li>A) TypeError</li>
+                                        <li>B) ValueError</li>
+                                        <li>C) KeyError</li>
+                                        <li>D) OSError</li>
+                                    </ul>
+                                </li>
+                                <li>Calling <code>open()</code> on missing file causes:
+                                    <ul>
+                                        <li>A) FileNotFoundError</li>
+                                        <li>B) IndexError</li>
+                                        <li>C) SyntaxError</li>
+                                        <li>D) NameError</li>
+                                    </ul>
+                                </li>
+                                <li>To handle missing key in dict, you can use:
+                                    <ul>
+                                        <li>A) except KeyError</li>
+                                        <li>B) except IndexError</li>
+                                        <li>C) except ValueError</li>
+                                        <li>D) except None</li>
+                                    </ul>
+                                </li>
+                                <li>One reason to use exceptions is:
+                                    <ul>
+                                        <li>A) to stop learning</li>
+                                        <li>B) to handle bad situations</li>
+                                        <li>C) to avoid code</li>
+                                        <li>D) to hide logic</li>
+                                    </ul>
+                                </li>
+                                <li>Exception handling improves:
+                                    <ul>
+                                        <li>A) user experience</li>
+                                        <li>B) network speed</li>
+                                        <li>C) HTML layout only</li>
+                                        <li>D) database schema</li>
+                                    </ul>
+                                </li>
+                                <li>If you catch wrong exception type, you:
+                                    <ul>
+                                        <li>A) never run except</li>
+                                        <li>B) catch successfully</li>
+                                        <li>C) always crash</li>
+                                        <li>D) delete file</li>
+                                    </ul>
+                                </li>
+                                <li><code>try/except</code> cannot handle:
+                                    <ul>
+                                        <li>A) runtime errors</li>
+                                        <li>B) compile-time syntax errors</li>
+                                        <li>C) ValueError</li>
+                                        <li>D) ZeroDivisionError</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Wrap <code>int("123")</code> in try/except (ValueError) and print success.</li>
+                                <li>Wrap <code>int("abc")</code> and print a friendly message.</li>
+                                <li>Handle <code>10 / 0</code> with ZeroDivisionError.</li>
+                                <li>Write try/except for dividing numbers read from two variables.</li>
+                                <li>Use <code>else</code> to print a success message.</li>
+                                <li>Use <code>finally</code> to print cleanup always.</li>
+                                <li>Capture exception as <code>as e</code> and print it.</li>
+                                <li>Catch missing file using FileNotFoundError and print not found.</li>
+                                <li>Handle KeyError by accessing dict with try/except.</li>
+                                <li>Write code that catches ValueError during int conversion in one function (concept).
+                                </li>
+                                <li>Predict output for code that triggers exception in try.</li>
+                                <li>Predict output for code with else/finally.</li>
+                                <li>Write try/except with two different except blocks for different errors.</li>
+                                <li>Use safe conversion wrapper and test with good/bad input (concept).</li>
+                                <li>Handle error and return default value (concept).</li>
+                                <li>Use nested try/except (small attempt).</li>
+                                <li>Catch ValueError and print type of input (debug concept).</li>
+                                <li>Write code: try convert float, except ValueError print message.</li>
+                                <li>Handle error and continue program after exception.</li>
+                                <li>Use finally to close a file (concept).</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Create function <code>safe_int(text)</code> that returns int or None (concept).</li>
+                                <li>Use try/except around <code>input()</code> conversion to int.</li>
+                                <li>Implement “keep asking” loop until conversion succeeds (attempt).</li>
+                                <li>Handle ZeroDivisionError and ask for a new divisor (attempt).</li>
+                                <li>Parse comma-separated numbers; handle conversion errors (attempt).</li>
+                                <li>Read from file: if not found, use default content (concept).</li>
+                                <li>Catch multiple exception types in one handler (concept with tuple).</li>
+                                <li>Build a safe dictionary lookup with default using except KeyError.</li>
+                                <li>Use <code>else</code> to run computations only after conversion success.</li>
+                                <li>Use <code>finally</code> for cleanup logic and verify it runs both cases.</li>
+                                <li>Implement a “try conversion then compute” pipeline.</li>
+                                <li>Write code that catches ValueError, then tries alternative conversion (float)
+                                    (attempt).</li>
+                                <li>Design error messages with hints for the user.</li>
+                                <li>Catch file errors and print which file failed (concept).</li>
+                                <li>Handle error with fallback value and keep running.</li>
+                                <li>Write code with manual validation first, then try/except (best practice).</li>
+                                <li>Output prediction exercise: when except runs.</li>
+                                <li>Catch ValueError and store error message into variable.</li>
+                                <li>Try to handle IndexError when reading list element.</li>
+                                <li>Write code that intentionally raises an error using <code>raise</code> (concept).
+                                </li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Implement a generic safe runner function: takes function and args, returns result or
+                                    None (concept).</li>
+                                <li>Catch errors, log error message to a file (concept).</li>
+                                <li>Handle nested operations: conversion inside division inside try.</li>
+                                <li>Write code that retries conversion up to 3 times (attempt).</li>
+                                <li>Write custom exception class (concept) and raise it for invalid input.</li>
+                                <li>Use finally to release resources even when exception happens.</li>
+                                <li>Implement “re-raise” after partial cleanup (concept).</li>
+                                <li>Design a function that raises ValueError with a custom message (concept).</li>
+                                <li>Use except blocks to decide different recovery strategies.</li>
+                                <li>Write a robust parser that handles whitespace and bad numbers (attempt).</li>
+                                <li>Predict exception flow for multiple nested try blocks (concept).</li>
+                                <li>Handle multiple exception types differently and print custom hints.</li>
+                                <li>Implement exception-based input validation for age (attempt).</li>
+                                <li>Build a safe calculator function that never crashes for invalid inputs (attempt).
+                                </li>
+                                <li>Write tests mentally: valid input path vs error path.</li>
+                                <li>Implement a fallback if file read fails, then try again (concept).</li>
+                                <li>Use try/except to protect numeric operations with conversion first.</li>
+                                <li>Implement a function that returns (success, value) tuple (concept).</li>
+                                <li>Write code that catches broad Exception but re-raises unknown errors (concept).</li>
+                                <li>Design a clean user-friendly error message dictionary.</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment14_1.py</code>: safe int conversion using try/except.</li>
+                                <li>Create <code>assignment14_2.py</code>: divide two numbers with ZeroDivisionError
+                                    handling.</li>
+                                <li>Create <code>assignment14_3.py</code>: open a file and handle FileNotFoundError with
+                                    default content.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Number Guess Input Validator</h3>
+                                <p>Ask user for a number. If input is not a valid integer, show a message and ask again
+                                    (retry concept).</p>
+                            </div>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">starter</div>
+                                </div>
+                                <pre><code>while True:
+    text = input("Enter a number: ").strip()
+    try:
+        n = int(text)
+        print("You entered:", n)
+        break
+    except ValueError:
+        print("Invalid input. Please type an integer.")
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+                            <div class="callout warning">
+                                <h3>Case 1: wrong exception type</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>try:
+    n = int("abc")
+except ZeroDivisionError:
+    print("No zero")
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> catch <code>ValueError</code>.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: missing colon after except</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>try:
+    n = int("abc")
+except ValueError
+    print("bad")
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> add <code>:</code> after the except line.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: trying to use variable that failed</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>try:
+    n = int("abc")
+except ValueError:
+    print("bad")
+
+print(n)
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> define a default value before or only print inside the success
+                                    path.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>SyntaxError:</strong> missing colon after <code>except</code>.</li>
+                                <li><strong>NameError:</strong> using a variable that was never assigned because
+                                    conversion failed.</li>
+                                <li><strong>KeyError:</strong> accessing dict without checking key existence (use get or
+                                    handle exceptions).</li>
+                                <li><strong>Logic error:</strong> catching too broad exceptions and masking real bugs.
+                                </li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Catch specific exceptions you expect.</li>
+                                <li>Use input validation when you can.</li>
+                                <li>Provide helpful, user-friendly messages.</li>
+                                <li>Use <code>finally</code> for cleanup.</li>
+                                <li>Avoid catching everything with <code>except Exception</code>.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                Exceptions are runtime errors.
+                                Use <code>try</code> to attempt risky code, <code>except</code> to handle specific
+                                problems,
+                                <code>else</code> for the success path, and <code>finally</code> for cleanup always.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Exception handling cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Need</th>
+                                        <th>Write</th>
+                                        <th>Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Handle risky code</td>
+                                        <td><code>try:</code></td>
+                                        <td>execute risky operations</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Handle error</td>
+                                        <td><code>except ValueError:</code></td>
+                                        <td>catch specific errors</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Success-only</td>
+                                        <td><code>else:</code></td>
+                                        <td>run when no error</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cleanup always</td>
+                                        <td><code>finally:</code></td>
+                                        <td>runs always</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Safe Input Converter</h3>
+                                <p>Ask for an integer. If conversion fails, show “Please type a valid integer” and ask
+                                    again.</p>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What is an exception?</li>
+                                <li>What goes inside try?</li>
+                                <li>What goes inside except?</li>
+                                <li>When does else run?</li>
+                                <li>When does finally run?</li>
+                                <li>Why catch specific exceptions?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>Exception:</strong> runtime error object that can be caught.</li>
+                                    <li><strong>try:</strong> attempt risky logic.</li>
+                                    <li><strong>except:</strong> handle the error type.</li>
+                                    <li><strong>else:</strong> only runs if try succeeds.</li>
+                                    <li><strong>finally:</strong> always runs to cleanup.</li>
+                                    <li><strong>Specific exceptions:</strong> prevents hiding bugs and gives correct
+                                        recovery.</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-15.html">Next Chapter</a></div>
+                            </div>
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

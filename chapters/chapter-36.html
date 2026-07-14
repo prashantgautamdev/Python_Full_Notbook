@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 36 — Data Visualization</title>
+    <meta name="description"
+        content="Chapter 36: Data Visualization. Learn charts, plotting with Matplotlib concept, labels, interpreting graphs, and best practices." />
+    <link rel="canonical" href="./chapters/chapter-36.html" />
+
+    <meta property="og:title" content="Chapter 36 — Data Visualization" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description"
+        content="Data visualization basics: charts, Matplotlib concept, and reading graphs with practice and explained answers." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 36 — Data Visualization" />
+    <meta name="twitter:description" content="Visualization fundamentals with practice and explained answers." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 36 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout tip" style="margin-top:12px;">
+                        <h3>💡 Tips</h3>
+                        <p>
+                            A good chart has a title, labels, and a clear message.
+                            Avoid confusing scales.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 36</div>
+                        <h1 class="chapter-title">Chapter 36 — Data Visualization</h1>
+                        <p class="subtle">Learn how to choose chart types, plot data with Matplotlib concepts, and
+                            interpret graphs safely.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-35.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <ul>
+                                    <li>Understand why visualization is important.</li>
+                                    <li>Choose the right chart type (line, bar, scatter).</li>
+                                    <li>Plot with Matplotlib concepts: figure, axes, labels.</li>
+                                    <li>Learn how to interpret trends, outliers, and distributions.</li>
+                                    <li>Apply best practices for clear and honest charts.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                Numbers are hard to understand quickly.
+                                Charts make patterns visible.
+                            </p>
+                            <p>
+                                In this chapter, you learn the basics of data visualization.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 Chart types and use cases</h3>
+                            <ul>
+                                <li><strong>Line chart</strong>: trends over time.</li>
+                                <li><strong>Bar chart</strong>: categories and comparisons.</li>
+                                <li><strong>Scatter plot</strong>: relationship between two numeric variables.</li>
+                            </ul>
+
+                            <h3>2.2 Axes and scale</h3>
+                            <p>
+                                X-axis is usually “independent variable”.
+                                Y-axis shows values.
+                                The scale must be honest.
+                            </p>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    Don’t distort charts by cutting off the axis without explanation.
+                                    Misleading charts harm trust.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">Matplotlib line plot (concept)</div>
+                                </div>
+                                <pre><code>import matplotlib.pyplot as plt
+
+x = [1, 2, 3, 4]
+y = [10, 8, 6, 4]
+
+plt.plot(x, y, marker="o")
+plt.title("Trend Example")
+plt.xlabel("X values")
+plt.ylabel("Y values")
+plt.grid(True)
+
+plt.show()
+</code></pre>
+                            </div>
+
+                            <p><strong>Time:</strong> O(n) for plotting points • <strong>Space:</strong> O(n).</p>
+                            <p><strong>Alternative:</strong> use libraries like Seaborn for higher-level plots.</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — bar chart</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">categories comparison</div>
+                                </div>
+                                <pre><code>import matplotlib.pyplot as plt
+
+categories = ["A", "B", "C"]
+values = [5, 9, 3]
+
+plt.bar(categories, values)
+plt.title("Scores by Category")
+plt.xlabel("Category")
+plt.ylabel("Value")
+
+plt.show()
+</code></pre>
+                            </div>
+
+                            <h3>4.2 Medium Example — scatter plot</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">relationship</div>
+                                </div>
+                                <pre><code>import matplotlib.pyplot as plt
+
+x = [1, 2, 3, 4, 5]
+y = [2, 4, 1, 8, 7]
+
+plt.scatter(x, y)
+plt.title("X vs Y Relationship")
+plt.xlabel("X")
+plt.ylabel("Y")
+
+plt.show()
+</code></pre>
+                            </div>
+
+                            <h3>4.3 Advanced Example — labeling + annotation (concept)</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">add a highlighted point</div>
+                                </div>
+                                <pre><code>import matplotlib.pyplot as plt
+
+x = [1, 2, 3, 4]
+y = [2, 3, 5, 4]
+
+plt.plot(x, y, marker="o")
+
+# highlight a point (x=3, y=5)
+plt.annotate(
+    "peak",
+    xy=(3, 5),
+    xytext=(3.2, 5.6),
+    arrowprops={"arrowstyle": "->"}
+)
+
+plt.title("Trend with Annotation")
+plt.xlabel("X")
+plt.ylabel("Y")
+
+plt.show()
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: visualization pipeline</h3>
+                                <pre><code>[Collect data]
+      |
+      v
+[Clean/prepare]
+      |
+      v
+[Choose chart type]
+      |
+      v
+[Plot points/bars]
+      |
+      v
+[Add title + labels]
+      |
+      v
+[Interpret and explain]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <table class="table" aria-label="Visualization memory">
+                                <thead>
+                                    <tr>
+                                        <th>Part</th>
+                                        <th>What it holds</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>x and y lists</td>
+                                        <td>input values</td>
+                                    </tr>
+                                    <tr>
+                                        <td>plot objects</td>
+                                        <td>coordinates and styling</td>
+                                    </tr>
+                                    <tr>
+                                        <td>rendered image</td>
+                                        <td>final pixels shown</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Dry run</div>
+                                    <div class="meta">line chart points</div>
+                                </div>
+                                <pre><code>x=[1,2,3] and y=[2,4,6]
+Plot draws 3 points:
+(1,2) → (2,4) → (3,6)
+Then connects them with a line.
+</code></pre>
+                            </div>
+                            <p><strong>Time:</strong> O(n).</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>print()</code> for showing numeric summaries.</li>
+                                <li><code>len()</code> to count data points (concept).</li>
+                            </ul>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <div class="callout note">
+                                <h3>Common plotting calls (concept)</h3>
+                                <ul>
+                                    <li><code>plt.plot(x, y)</code></li>
+                                    <li><code>plt.bar(labels, values)</code></li>
+                                    <li><code>plt.scatter(x, y)</code></li>
+                                    <li><code>plt.title()</code>, <code>plt.xlabel()</code>, <code>plt.ylabel()</code>
+                                    </li>
+                                    <li><code>plt.grid(True)</code></li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>Why do we visualize data?</li>
+                                <li>What is a line chart used for?</li>
+                                <li>What is a bar chart used for?</li>
+                                <li>What is a scatter plot used for?</li>
+                                <li>What is an axis?</li>
+                                <li>What is the difference between x and y axes?</li>
+                                <li>Why is grid helpful?</li>
+                                <li>What should every chart include?</li>
+                                <li>What is the purpose of a title?</li>
+                                <li>What is the purpose of axis labels?</li>
+                                <li>How do you interpret trends in a line chart?</li>
+                                <li>How do you interpret bars in a bar chart?</li>
+                                <li>How do you interpret clusters in scatter plots?</li>
+                                <li>What is an outlier?</li>
+                                <li>What does scale distortion mean (concept)?</li>
+                                <li>Why should you be honest with axes?</li>
+                                <li>What is annotation in charts?</li>
+                                <li>How can annotation help understanding?</li>
+                                <li>What is the difference between data and aesthetics?</li>
+                                <li>What does “choosing chart type” mean?</li>
+                                <li>Why might a line chart be wrong for categories?</li>
+                                <li>Why might a bar chart be wrong for time series?</li>
+                                <li>What is a good color choice (concept)?</li>
+                                <li>How do you avoid clutter in charts?</li>
+                                <li>What is the role of legends (concept)?</li>
+                                <li>What is a legend used for?</li>
+                                <li>What is the difference between show and save (concept)?</li>
+                                <li>How do you save a plot to a file (concept)?</li>
+                                <li>What is Matplotlib (concept)?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>A line chart is best for:
+                                    <ul>
+                                        <li>A) trends over time</li>
+                                        <li>B) filenames</li>
+                                        <li>C) class names only</li>
+                                        <li>D) theme colors</li>
+                                    </ul>
+                                </li>
+                                <li>A bar chart is best for:
+                                    <ul>
+                                        <li>A) categories comparison</li>
+                                        <li>B) two-variable relationships</li>
+                                        <li>C) no labels</li>
+                                        <li>D) CSS rules</li>
+                                    </ul>
+                                </li>
+                                <li>A scatter plot is best for:
+                                    <ul>
+                                        <li>A) relationships between two numeric variables</li>
+                                        <li>B) file copying</li>
+                                        <li>C) sockets</li>
+                                        <li>D) regex</li>
+                                    </ul>
+                                </li>
+                                <li>The purpose of axis labels is:
+                                    <ul>
+                                        <li>A) explain what x and y represent</li>
+                                        <li>B) hide data</li>
+                                        <li>C) change theme</li>
+                                        <li>D) delete values</li>
+                                    </ul>
+                                </li>
+                                <li>The purpose of title is:
+                                    <ul>
+                                        <li>A) describe chart message</li>
+                                        <li>B) replace data</li>
+                                        <li>C) install packages</li>
+                                        <li>D) do networking</li>
+                                    </ul>
+                                </li>
+                                <li>Grid helps by:
+                                    <ul>
+                                        <li>A) improving readability</li>
+                                        <li>B) hiding scale</li>
+                                        <li>C) changing CSS</li>
+                                        <li>D) running ML</li>
+                                    </ul>
+                                </li>
+                                <li>Distorting axis scale without telling is:
+                                    <ul>
+                                        <li>A) honest</li>
+                                        <li>B) misleading</li>
+                                    </ul>
+                                </li>
+                                <li>Annotation is:
+                                    <ul>
+                                        <li>A) extra text/arrow on chart</li>
+                                        <li>B) remove labels</li>
+                                        <li>C) database schema</li>
+                                        <li>D) theme toggle</li>
+                                    </ul>
+                                </li>
+                                <li>Matplotlib is a:
+                                    <ul>
+                                        <li>A) plotting library</li>
+                                        <li>B) database tool</li>
+                                        <li>C) file parser only</li>
+                                        <li>D) regex engine</li>
+                                    </ul>
+                                </li>
+                                <li>In a scatter plot, each point represents:
+                                    <ul>
+                                        <li>A) a pair (x,y)</li>
+                                        <li>B) a bar category</li>
+                                        <li>C) only x</li>
+                                        <li>D) only y</li>
+                                    </ul>
+                                </li>
+                                <li>In a line chart, points are connected to show:
+                                    <ul>
+                                        <li>A) trend</li>
+                                        <li>B) random order</li>
+                                        <li>C) database change</li>
+                                        <li>D) CSS hover</li>
+                                    </ul>
+                                </li>
+                                <li>Bar charts typically show:
+                                    <ul>
+                                        <li>A) categorical comparisons</li>
+                                        <li>B) continuous relationships always</li>
+                                        <li>C) only circles</li>
+                                        <li>D) only themes</li>
+                                    </ul>
+                                </li>
+                                <li>Scatter plots help find:
+                                    <ul>
+                                        <li>A) correlation/relationship patterns</li>
+                                        <li>B) only outliers</li>
+                                        <li>C) only CSS colors</li>
+                                        <li>D) only SQL joins</li>
+                                    </ul>
+                                </li>
+                                <li>A good chart should avoid:
+                                    <ul>
+                                        <li>A) clutter</li>
+                                        <li>B) title</li>
+                                        <li>C) labels</li>
+                                        <li>D) legend</li>
+                                    </ul>
+                                </li>
+                                <li>A legend is used for:
+                                    <ul>
+                                        <li>A) multiple series meaning</li>
+                                        <li>B) hiding axes</li>
+                                        <li>C) deleting data</li>
+                                        <li>D) printing errors</li>
+                                    </ul>
+                                </li>
+                                <li>To show a plot in Matplotlib, you use:
+                                    <ul>
+                                        <li>A) plt.show()</li>
+                                        <li>B) plt.save()</li>
+                                        <li>C) plt.print()</li>
+                                        <li>D) plt.copy()</li>
+                                    </ul>
+                                </li>
+                                <li>To save a plot, conceptually you use:
+                                    <ul>
+                                        <li>A) plt.savefig(...)</li>
+                                        <li>B) plt.status(...)</li>
+                                        <li>C) plt.copy2(...)</li>
+                                        <li>D) plt.commit()</li>
+                                    </ul>
+                                </li>
+                                <li>Why grid helps:
+                                    <ul>
+                                        <li>A) it helps compare values</li>
+                                        <li>B) it hides values</li>
+                                    </ul>
+                                </li>
+                                <li>Outlier means:
+                                    <ul>
+                                        <li>A) point far from most others</li>
+                                        <li>B) most frequent point</li>
+                                    </ul>
+                                </li>
+                                <li>Chart choice depends on:
+                                    <ul>
+                                        <li>A) data type and question</li>
+                                        <li>B) theme only</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Plot a line chart for x=[1..5] and y=[2,3,5,4,6].</li>
+                                <li>Add title and axis labels to the line chart.</li>
+                                <li>Enable grid on the line chart.</li>
+                                <li>Make a bar chart for categories A,B,C with values.</li>
+                                <li>Add labels to the bar chart.</li>
+                                <li>Create a scatter plot for given x and y arrays.</li>
+                                <li>Change scatter marker color (concept).</li>
+                                <li>Add annotation text to a specific scatter point.</li>
+                                <li>Plot two lines on the same chart using plt.plot twice.</li>
+                                <li>Add legend (concept) for the two lines.</li>
+                                <li>Save the plot to a PNG file (concept: plt.savefig).</li>
+                                <li>Predict output image: which chart type matches time data?</li>
+                                <li>Compute mean of y and print before plotting.</li>
+                                <li>Filter data to only points where y> threshold then plot.</li>
+                                <li>Dry run: if you swap x and y in line chart, what changes?</li>
+                                <li>Create a subplot with two charts (concept).</li>
+                                <li>Use smaller font sizes for labels (concept).</li>
+                                <li>Test empty data: what should happen?</li>
+                                <li>Use consistent colors for readability.</li>
+                                <li>Explain why too many points can clutter a scatter plot (concept).</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Load data from a CSV into lists (concept) and plot line chart.</li>
+                                <li>Create histogram plot (concept) for distribution.</li>
+                                <li>Use different bin sizes in histogram and compare visually.</li>
+                                <li>Plot bar chart with sorted categories by value (concept).</li>
+                                <li>Add horizontal reference line (concept) at y=0.</li>
+                                <li>Create a scatter plot with different point sizes based on another metric (concept).
+                                </li>
+                                <li>Normalize y values before plotting (concept).</li>
+                                <li>Plot a moving average line on a series (concept).</li>
+                                <li>Visualize grouped data by creating multiple bars per category (concept).</li>
+                                <li>Make sure x and y lengths match; handle mismatch with a check (concept).</li>
+                                <li>Use subplots for line + histogram comparison.</li>
+                                <li>Add annotation for max point in a line chart.</li>
+                                <li>Dry run: what happens if x length != y length?</li>
+                                <li>Export figure with high resolution (concept: dpi).</li>
+                                <li>Explain differences between plt.plot and plt.scatter (concept).</li>
+                                <li>Design a “chart checklist” and apply it to your plot.</li>
+                                <li>Filter outliers and compare charts before/after.</li>
+                                <li>Explain how log scale changes interpretation (concept).</li>
+                                <li>Create a dual-axis plot concept (design).</li>
+                                <li>Design visualization for your mini project dataset (design).</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Implement a function that auto-selects chart type based on data question (design).
+                                </li>
+                                <li>Build a reporting script that generates multiple charts and saves them to files
+                                    (concept).</li>
+                                <li>Make charts theme-consistent with your notebook UI (design).</li>
+                                <li>Implement unit tests concept for data preparation before plotting.</li>
+                                <li>Debug: missing labels due to wrong call order.</li>
+                                <li>Optimize performance by reducing number of plotted points (concept).</li>
+                                <li>Implement streaming updates for animation (concept).</li>
+                                <li>Create a “dashboard” layout using subplots grid (design).</li>
+                                <li>Explain how to choose scales to show small differences (concept).</li>
+                                <li>Prevent misleading charts: enforce baseline start at zero for bars (concept policy).
+                                </li>
+                                <li>Implement logic to detect when a scatter plot shows no relationship (concept).</li>
+                                <li>Design a pipeline: preprocess → plot → save → summary text (design).</li>
+                                <li>Explain potential privacy issues when plotting sensitive data (concept).</li>
+                                <li>Implement outlier detection and annotate them (design).</li>
+                                <li>Build a function to create consistent color palettes (concept).</li>
+                                <li>Explain why chart readability matters for decision making.</li>
+                                <li>Design chart export naming scheme with timestamps (concept).</li>
+                                <li>Explain complexity of preparing data for plotting (concept).</li>
+                                <li>Debug with printed min/max values before plotting.</li>
+                                <li>Write an interview cheat sheet: chart selection & interpretation.</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment36_1.py</code>: plot line chart with labels and grid and save
+                                    to PNG.</li>
+                                <li>Create <code>assignment36_2.py</code>: plot bar chart from category/value lists.
+                                </li>
+                                <li>Create <code>assignment36_3.py</code>: create scatter plot and annotate the point
+                                    with max y.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Sales Overview Charts</h3>
+                                <ul>
+                                    <li>Given monthly sales numbers, plot a line chart.</li>
+                                    <li>Given product categories and revenue, plot a bar chart.</li>
+                                    <li>Given ad spend vs sales, plot a scatter plot.</li>
+                                    <li>Add titles and labels for all charts.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+
+                            <div class="callout warning">
+                                <h3>Case 1: x and y lengths mismatch</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">length mismatch</div>
+                                    </div>
+                                    <pre><code>x=[1,2,3]
+y=[10,20]
+plt.plot(x, y)
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> check lengths and filter data accordingly.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: missing labels</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">order issue</div>
+                                    </div>
+                                    <pre><code>plt.show()
+plt.xlabel("X")
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> set title/labels before <code>plt.show()</code>.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: chart looks blank</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">empty data</div>
+                                    </div>
+                                    <pre><code>y=[]
+plt.plot(x,y)
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> verify data not empty and print sample values.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>ValueError:</strong> x and y lengths mismatch.</li>
+                                <li><strong>TypeError:</strong> non-numeric data in numeric plot.</li>
+                                <li><strong>FileNotFoundError:</strong> saving to an invalid path (concept).</li>
+                                <li><strong>ImportError:</strong> Matplotlib not installed.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Always add title and axis labels.</li>
+                                <li>Choose chart type based on question.</li>
+                                <li>Use readable font sizes and grid lines.</li>
+                                <li>Avoid misleading axis scaling.</li>
+                                <li>Annotate key points (max/min/outliers) when helpful.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                You learned visualization basics: line, bar, scatter.
+                                You practiced setting labels, grid, and interpreting patterns.
+                                You also learned debugging ideas for common plotting mistakes.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Visualization cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Chart</th>
+                                        <th>Matplotlib call</th>
+                                        <th>Use</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Line</td>
+                                        <td><code>plt.plot(x,y)</code></td>
+                                        <td>trends over time</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bar</td>
+                                        <td><code>plt.bar(labels,values)</code></td>
+                                        <td>compare categories</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Scatter</td>
+                                        <td><code>plt.scatter(x,y)</code></td>
+                                        <td>relationship between variables</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Title</td>
+                                        <td><code>plt.title("...")</code></td>
+                                        <td>message</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Labels</td>
+                                        <td><code>plt.xlabel/plt.ylabel</code></td>
+                                        <td>meaning of axes</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Grid</td>
+                                        <td><code>plt.grid(True)</code></td>
+                                        <td>read values</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Outlier Highlight Scatter</h3>
+                                <ul>
+                                    <li>Given x and y arrays, compute mean y.</li>
+                                    <li>Identify points where y is > mean + 2 (concept).</li>
+                                    <li>Plot scatter and highlight those outliers with a different color.</li>
+                                    <li>Add annotation “outlier” near one highlighted point.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>Why do we visualize data?</li>
+                                <li>When should you use a line chart?</li>
+                                <li>When should you use a bar chart?</li>
+                                <li>When should you use a scatter plot?</li>
+                                <li>What should a good chart include?</li>
+                                <li>Why avoid misleading axis scaling?</li>
+                                <li>What is annotation?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>Visualization:</strong> helps humans see patterns quickly.</li>
+                                    <li><strong>Line chart:</strong> shows trend across ordered values (often time).
+                                    </li>
+                                    <li><strong>Bar chart:</strong> compares categories by height.</li>
+                                    <li><strong>Scatter:</strong> shows how two numeric variables relate.</li>
+                                    <li><strong>Good chart:</strong> title, axis labels, and clear scales.</li>
+                                    <li><strong>Honest scaling:</strong> prevents wrong conclusions.</li>
+                                    <li><strong>Annotation:</strong> highlights important points or insights.</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-37.html">Next Chapter</a></div>
+                            </div>
+
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Chapter 38 — Deep Learning</title>
+  <meta name="description"
+    content="Chapter 38: Deep Learning. Learn neural networks concepts, training ideas, forward/backward passes, and evaluation." />
+  <link rel="canonical" href="./chapters/chapter-38.html" />
+
+  <meta property="og:title" content="Chapter 38 — Deep Learning" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description"
+    content="Deep learning concepts: neural networks, forward pass, training, and evaluation." />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 38 — Deep Learning" />
+  <meta name="twitter:description" content="Learn deep learning fundamentals with practice and explained answers." />
+
+  <meta name="theme-color" content="#f7f2e8" />
+
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="icon" href="data:," />
+  <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+  <div class="progress" aria-hidden="true">
+    <div></div>
+  </div>
+
+  <div class="notebook">
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="brand">
+          <strong>Python Notebook</strong>
+          <span>Chapter 38 • Offline • Search • Dark mode</span>
+        </div>
+        <div class="top-actions">
+          <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+          <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="layout">
+        <aside class="sidebar" aria-label="Sidebar navigation">
+          <h2>Chapters</h2>
+          <nav class="nav-list" aria-label="Chapter list">
+            <div class="subtle" style="padding:6px 0;">Loading…</div>
+          </nav>
+
+          <div class="callout remember" style="margin-top:12px;">
+            <h3>⭐ Remember</h3>
+            <p>
+              Deep learning uses neural networks with many layers.
+              It learns by adjusting weights to reduce error.
+            </p>
+          </div>
+        </aside>
+
+        <main class="main" aria-label="Chapter content">
+          <div class="main-inner">
+            <div class="breadcrumbs">Home • Chapter 38</div>
+            <h1 class="chapter-title">Chapter 38 — Deep Learning</h1>
+            <p class="subtle">Learn deep learning fundamentals: neural networks, layers, activations, training loops,
+              and evaluation concepts.</p>
+
+            <div class="nav-buttons no-print" aria-label="Chapter actions">
+              <div class="footer-actions">
+                <a class="btn" href="../chapters/chapter-37.html">Previous Chapter</a>
+                <a class="btn" href="../index.html">Back To Home</a>
+                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+              </div>
+            </div>
+
+            <div class="sticky-toc" aria-label="Table of contents">
+              <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+              <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                <a href="#objectives">Learning Objectives</a>
+                <a href="#intro">Introduction</a>
+                <a href="#theory">Theory</a>
+                <a href="#syntax">Syntax</a>
+                <a href="#examples">Examples</a>
+                <a href="#flow">Flow Diagram</a>
+                <a href="#memory">Memory Visualization</a>
+                <a href="#dryrun">Dry Run</a>
+                <a href="#builtins">Built-in Functions</a>
+                <a href="#methods">Methods</a>
+                <a href="#interview">Interview Questions</a>
+                <a href="#mcq">MCQs</a>
+                <a href="#practice">Coding Practice</a>
+                <a href="#assignments">Assignments</a>
+                <a href="#mini-project">Mini Project</a>
+                <a href="#debugging">Debugging Practice</a>
+                <a href="#errors">Common Errors</a>
+                <a href="#best">Best Practices</a>
+                <a href="#summary">Summary</a>
+                <a href="#cheatsheet">Cheat Sheet</a>
+                <a href="#challenge">Coding Challenge</a>
+                <a href="#revision">Revision Questions</a>
+                <a href="#answers">Answer Key</a>
+              </div>
+            </div>
+
+            <section id="objectives">
+              <div class="callout tip">
+                <h3>🎯 Learning Objectives</h3>
+                <ul>
+                  <li>Understand how a neural network is built from layers.</li>
+                  <li>Learn activations (concept) and why they matter.</li>
+                  <li>Understand forward pass vs training (concept).</li>
+                  <li>Learn the idea of loss function and reducing error.</li>
+                  <li>Practice a tiny neural-network math example.</li>
+                </ul>
+              </div>
+            </section>
+
+            <section id="intro">
+              <h2>1) Introduction</h2>
+              <p>
+                Machine learning learns patterns.
+                Deep learning goes further by using <strong>multiple layers</strong> of neurons.
+              </p>
+              <p>
+                Each layer learns a simpler pattern.
+                Together they form a complex idea.
+              </p>
+            </section>
+
+            <section id="theory">
+              <h2>2) Theory</h2>
+
+              <h3>2.1 Neuron basics</h3>
+              <p>
+                A neuron takes inputs, multiplies by weights, adds a bias, then applies an activation.
+              </p>
+
+              <div class="callout remember">
+                <h3>⭐ Remember</h3>
+                <p>
+                  Activation is like a “smart squashing” function.
+                  It lets networks learn non-linear patterns.
+                </p>
+              </div>
+
+              <h3>2.2 Layers and deep networks</h3>
+              <ul>
+                <li><strong>Input layer</strong>: receives data.</li>
+                <li><strong>Hidden layers</strong>: learn features.</li>
+                <li><strong>Output layer</strong>: produces predictions.</li>
+              </ul>
+
+              <h3>2.3 Loss and training (concept)</h3>
+              <p>
+                Training means: make predictions → compute loss → update weights to reduce loss.
+              </p>
+
+              <div class="callout warning">
+                <h3>⚠ Warning</h3>
+                <p>
+                  Deep learning is powerful, but training can overfit.
+                  Always evaluate on validation/test data.
+                </p>
+              </div>
+            </section>
+
+            <section id="syntax">
+              <h2>3) Syntax</h2>
+
+              <div class="code-card">
+                <div class="code-header">
+                  <div class="lang">Python</div>
+                  <div class="meta">tiny forward pass (concept)</div>
+                </div>
+                <pre><code>import math
+
+# Activation function: sigmoid (concept)
+def sigmoid(x):
+    return 1 / (1 + math.exp(-x))
+
+# A single neuron forward pass
+# y = sigmoid(w1*x1 + w2*x2 + b)
+w1 = 0.5
+w2 = -1.2
+b = 0.3
+
+x1 = 2
+x2 = 1
+
+z = w1*x1 + w2*x2 + b
+y = sigmoid(z)
+
+print("z:", z)
+print("y:", y)
+
+# Output: depends on your numbers.
+</code></pre>
+              </div>
+
+              <p><strong>Output:</strong> shows intermediate value <code>z</code> and final activation <code>y</code>.
+              </p>
+              <p><strong>Time:</strong> O(1) • <strong>Space:</strong> O(1).</p>
+              <p><strong>Alternative:</strong> use ReLU activation for simpler math in practice.</p>
+            </section>
+
+            <section id="examples">
+              <h2>4) Examples</h2>
+
+              <h3>4.1 Easy Example — ReLU intuition (concept)</h3>
+              <div class="code-card">
+                <div class="code-header">
+                  <div class="lang">Concept</div>
+                  <div class="meta">ReLU</div>
+                </div>
+                <pre><code># ReLU activation: f(z) = max(0, z)
+# If z is negative → output 0
+# If z is positive → output z
+</code></pre>
+              </div>
+
+              <h3>4.2 Medium Example — forward pass for 2 inputs</h3>
+              <div class="code-card">
+                <div class="code-header">
+                  <div class="lang">Python</div>
+                  <div class="meta">manual compute</div>
+                </div>
+                <pre><code>import math
+
+def sigmoid(x):
+    return 1 / (1 + math.exp(-x))
+
+# Example weights
+w = [1.0, -0.5]
+b = -0.1
+
+# Example inputs
+x = [2.0, 3.0]
+
+# Compute z = sum(w_i * x_i) + b
+z = w[0]*x[0] + w[1]*x[1] + b
+
+# Apply activation
+out = sigmoid(z)
+
+print("z =", z)
+print("output =", out)
+</code></pre>
+              </div>
+              <p><strong>Output:</strong> prints a number between 0 and 1 for sigmoid.</p>
+
+              <h3>4.3 Advanced Example — tiny training loop concept</h3>
+              <div class="callout note">
+                <h3>Flow idea</h3>
+                <p>Repeat for epochs:</p>
+                <ul>
+                  <li>Forward pass → predict</li>
+                  <li>Loss = difference from target</li>
+                  <li>Update weights (gradient step concept)</li>
+                </ul>
+              </div>
+            </section>
+
+            <section id="flow">
+              <h2>5) Flow Diagram</h2>
+              <div class="callout note">
+                <h3>Flowchart: Deep learning training (concept)</h3>
+                <pre><code>[Initialize weights]
+          |
+          v
+     [Forward pass]
+          |
+          v
+      [Compute loss]
+          |
+          v
+ [Backprop / gradients]
+          |
+          v
+  [Update weights]
+          |
+          v
+    [Next epoch]
+</code></pre>
+              </div>
+            </section>
+
+            <section id="memory">
+              <h2>6) Memory Visualization</h2>
+              <table class="table" aria-label="Deep learning memory">
+                <thead>
+                  <tr>
+                    <th>Stored thing</th>
+                    <th>What it is</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Weights</td>
+                    <td>learnable parameters</td>
+                  </tr>
+                  <tr>
+                    <td>Activations</td>
+                    <td>outputs of each layer</td>
+                  </tr>
+                  <tr>
+                    <td>Loss</td>
+                    <td>single number measuring error</td>
+                  </tr>
+                  <tr>
+                    <td>Gradients</td>
+                    <td>how much to change weights</td>
+                  </tr>
+                </tbody>
+              </table>
+            </section>
+
+            <section id="dryrun">
+              <h2>7) Dry Run</h2>
+              <div class="code-card">
+                <div class="code-header">
+                  <div class="lang">Dry run</div>
+                  <div class="meta">single neuron</div>
+                </div>
+                <pre><code>Given:
+  w1=0.5, w2=-1.2, b=0.3
+  x1=2, x2=1
+
+Compute z:
+  z = 0.5*2 + (-1.2)*1 + 0.3
+  z = 1.0 - 1.2 + 0.3
+  z = 0.1
+
+Apply sigmoid:
+  y = sigmoid(0.1) ≈ 0.525
+
+So output is about 0.525.
+</code></pre>
+              </div>
+              <p><strong>Time:</strong> O(1) • <strong>Space:</strong> O(1).</p>
+            </section>
+
+            <section id="builtins">
+              <h2>8) Built-in Functions</h2>
+              <ul>
+                <li><code>math.exp()</code> for sigmoid exponent.</li>
+                <li><code>max()</code> for ReLU concept.</li>
+              </ul>
+            </section>
+
+            <section id="methods">
+              <h2>9) Methods</h2>
+              <div class="callout note">
+                <h3>Neural-network terminology (concept)</h3>
+                <ul>
+                  <li>weights, bias</li>
+                  <li>activation functions (sigmoid/ReLU)</li>
+                  <li>loss function (MSE/CE concept)</li>
+                  <li>forward pass and backprop</li>
+                </ul>
+              </div>
+            </section>
+
+            <section id="interview">
+              <h2>10) Interview Questions (Minimum 30)</h2>
+              <ol>
+                <li>What is deep learning?</li>
+                <li>What is a neural network?</li>
+                <li>What is a neuron?</li>
+                <li>What are weights?</li>
+                <li>What is a bias?</li>
+                <li>What is an activation function?</li>
+                <li>Why do we need non-linear activations?</li>
+                <li>What is ReLU?</li>
+                <li>What is sigmoid?</li>
+                <li>What is a layer in a neural network?</li>
+                <li>What is the difference between input and hidden layers?</li>
+                <li>What is an output layer?</li>
+                <li>What is forward pass?</li>
+                <li>What is backpropagation (concept)?</li>
+                <li>What is a loss function?</li>
+                <li>Why do we minimize loss?</li>
+                <li>What is an epoch?</li>
+                <li>What is learning rate (concept)?</li>
+                <li>What happens if learning rate is too high?</li>
+                <li>What happens if learning rate is too low?</li>
+                <li>What is overfitting?</li>
+                <li>How do you reduce overfitting (concept)?</li>
+                <li>What is underfitting?</li>
+                <li>What is training vs testing?</li>
+                <li>What is validation data?</li>
+                <li>What is a prediction?</li>
+                <li>What is classification?</li>
+                <li>What is regression?</li>
+                <li>Why do deep networks use multiple layers?</li>
+                <li>What is gradient descent (concept)?</li>
+                <li>What is a computational graph (concept)?</li>
+              </ol>
+            </section>
+
+            <section id="mcq">
+              <h2>11) MCQs (Minimum 30)</h2>
+              <ol>
+                <li>A neural network is made of:
+                  <ul>
+                    <li>A) CSS rules</li>
+                    <li>B) neurons connected in layers</li>
+                    <li>C) only SQL tables</li>
+                    <li>D) sockets</li>
+                  </ul>
+                </li>
+                <li>Weights are:
+                  <ul>
+                    <li>A) fixed random values</li>
+                    <li>B) learnable parameters</li>
+                    <li>C) file paths</li>
+                    <li>D) log levels</li>
+                  </ul>
+                </li>
+                <li>Bias helps a neuron:
+                  <ul>
+                    <li>A) shift activation boundary</li>
+                    <li>B) delete data</li>
+                    <li>C) change theme</li>
+                    <li>D) cache HTML</li>
+                  </ul>
+                </li>
+                <li>Activation functions allow:
+                  <ul>
+                    <li>A) non-linear behavior</li>
+                    <li>B) only linear math</li>
+                    <li>C) no gradients</li>
+                    <li>D) no output</li>
+                  </ul>
+                </li>
+                <li>ReLU outputs:
+                  <ul>
+                    <li>A) max(0, z)</li>
+                    <li>B) min(0, z)</li>
+                    <li>C) always 1</li>
+                    <li>D) always 0</li>
+                  </ul>
+                </li>
+                <li>Sigmoid outputs values in:
+                  <ul>
+                    <li>A) negative range only</li>
+                    <li>B) [0,1]</li>
+                    <li>C) any random range</li>
+                    <li>D) only integers</li>
+                  </ul>
+                </li>
+                <li>Forward pass means:
+                  <ul>
+                    <li>A) compute prediction</li>
+                    <li>B) compute loss only</li>
+                    <li>C) update weights immediately</li>
+                    <li>D) print charts</li>
+                  </ul>
+                </li>
+                <li>Backprop is used to:
+                  <ul>
+                    <li>A) compute gradients</li>
+                    <li>B) style HTML</li>
+                    <li>C) connect CSS</li>
+                    <li>D) train GUI</li>
+                  </ul>
+                </li>
+                <li>Loss function measures:
+                  <ul>
+                    <li>A) model error</li>
+                    <li>B) database size</li>
+                    <li>C) theme color</li>
+                    <li>D) number of files</li>
+                  </ul>
+                </li>
+                <li>An epoch is:
+                  <ul>
+                    <li>A) one full pass over training data</li>
+                    <li>B) one prediction only</li>
+                    <li>C) one CSS load</li>
+                    <li>D) one commit</li>
+                  </ul>
+                </li>
+                <li>Learning rate controls:
+                  <ul>
+                    <li>A) update step size</li>
+                    <li>B) chart color</li>
+                    <li>C) file extension</li>
+                    <li>D) cache TTL</li>
+                  </ul>
+                </li>
+                <li>If learning rate is too high:
+                  <ul>
+                    <li>A) training may diverge</li>
+                    <li>B) training always stable</li>
+                    <li>C) loss stays constant</li>
+                    <li>D) accuracy becomes 100%</li>
+                  </ul>
+                </li>
+                <li>Deep learning uses:
+                  <ul>
+                    <li>A) many layers</li>
+                    <li>B) one layer only</li>
+                    <li>C) no layers</li>
+                    <li>D) only loops</li>
+                  </ul>
+                </li>
+                <li>Overfitting means:
+                  <ul>
+                    <li>A) poor on new data</li>
+                    <li>B) good on new data always</li>
+                    <li>C) perfect training only</li>
+                    <li>D) no loss</li>
+                  </ul>
+                </li>
+                <li>Underfitting means:
+                  <ul>
+                    <li>A) model too simple</li>
+                    <li>B) model too complex always</li>
+                    <li>C) no data</li>
+                    <li>D) no weights</li>
+                  </ul>
+                </li>
+                <li>Training data is used to:
+                  <ul>
+                    <li>A) learn parameters</li>
+                    <li>B) evaluate only</li>
+                    <li>C) show UI</li>
+                    <li>D) store CSS</li>
+                  </ul>
+                </li>
+                <li>Test/validation data is used to:
+                  <ul>
+                    <li>A) check generalization</li>
+                    <li>B) train only</li>
+                    <li>C) delete data</li>
+                    <li>D) style pages</li>
+                  </ul>
+                </li>
+                <li>Loss is minimized during:
+                  <ul>
+                    <li>A) training</li>
+                    <li>B) testing only</li>
+                    <li>C) git commit</li>
+                    <li>D) caching</li>
+                  </ul>
+                </li>
+                <li>Classification predicts:
+                  <ul>
+                    <li>A) categories/labels</li>
+                    <li>B) only numbers</li>
+                    <li>C) only CSS</li>
+                    <li>D) only HTML</li>
+                  </ul>
+                </li>
+                <li>Regression predicts:
+                  <ul>
+                    <li>A) continuous values</li>
+                    <li>B) only labels</li>
+                    <li>C) only booleans</li>
+                    <li>D) only images</li>
+                  </ul>
+                </li>
+                <li>In a neuron, z is:
+                  <ul>
+                    <li>A) weighted sum + bias</li>
+                    <li>B) only bias</li>
+                    <li>C) only input</li>
+                    <li>D) only loss</li>
+                  </ul>
+                </li>
+                <li>Activation is applied to z to produce:
+                  <ul>
+                    <li>A) output</li>
+                    <li>B) gradients</li>
+                    <li>C) labels</li>
+                    <li>D) logs</li>
+                  </ul>
+                </li>
+                <li>Deep learning often uses:
+                  <ul>
+                    <li>A) gradient descent</li>
+                    <li>B) string replace</li>
+                    <li>C) os.listdir</li>
+                    <li>D) print only</li>
+                  </ul>
+                </li>
+                <li>Gradients tell us:
+                  <ul>
+                    <li>A) direction to change weights</li>
+                    <li>B) theme color</li>
+                    <li>C) DB size</li>
+                    <li>D) nothing</li>
+                  </ul>
+                </li>
+                <li>Sigmoid is often used for:
+                  <ul>
+                    <li>A) probabilities</li>
+                    <li>B) file paths</li>
+                    <li>C) CSS layout</li>
+                    <li>D) SQL</li>
+                  </ul>
+                </li>
+                <li>ReLU is often used for:
+                  <ul>
+                    <li>A) hiding negative values</li>
+                    <li>B) always output 1</li>
+                    <li>C) only regression</li>
+                    <li>D) always output 0</li>
+                  </ul>
+                </li>
+                <li>A simple output range of sigmoid is:
+                  <ul>
+                    <li>A) 0 to 1</li>
+                    <li>B) -inf to inf</li>
+                    <li>C) only integers</li>
+                    <li>D) only strings</li>
+                  </ul>
+                </li>
+                <li>Loss does not tell:
+                  <ul>
+                    <li>A) accuracy always (concept)</li>
+                    <li>B) error size</li>
+                    <li>C) prediction quality</li>
+                    <li>D) difference from target</li>
+                  </ul>
+                </li>
+                <li>A good model should generalize:
+                  <ul>
+                    <li>A) perform on unseen data</li>
+                    <li>B) only memorize training</li>
+                    <li>C) only work on localhost</li>
+                    <li>D) avoid evaluation</li>
+                  </ul>
+                </li>
+              </ol>
+            </section>
+
+            <section id="practice">
+              <h2>12) Coding Practice</h2>
+              <h3>Easy (20)</h3>
+              <ol>
+                <li>Implement sigmoid(x) using math.exp.</li>
+                <li>Test sigmoid on x = -2, 0, 2.</li>
+                <li>Implement ReLU(z) using max(0, z).</li>
+                <li>Test ReLU on z = -3 and z = 5.</li>
+                <li>Write a function neuron_forward(x1, x2, w1, w2, b) that returns y.</li>
+                <li>Compute y for a given set of numbers (predict output).</li>
+                <li>Change w1 and see how y changes (concept).</li>
+                <li>Write a function weighted_sum(x, w, b) for general inputs list.</li>
+                <li>Test weighted_sum with x=[1,2], w=[0.1,0.2], b=0.</li>
+                <li>Predict z when you swap inputs (design).</li>
+                <li>Compute MSE loss for a single prediction and target.</li>
+                <li>Write loss_mse(y_pred, y_true) returning a float.</li>
+                <li>Test loss_mse with y_pred=0.5, y_true=1.0.</li>
+                <li>Implement a single-layer classifier that uses sigmoid and rounds to 0/1.</li>
+                <li>Test classifier on multiple inputs (design).</li>
+                <li>Dry run: compute sigmoid(0) and interpret meaning.</li>
+                <li>Write code to print intermediate z and y for debugging.</li>
+                <li>Write a small script to evaluate loss for different predictions.</li>
+                <li>Predict which prediction has smaller loss (concept).</li>
+                <li>Refactor functions so they are reusable.</li>
+              </ol>
+
+              <h3>Medium (20)</h3>
+              <ol>
+                <li>Create a 2-layer network concept: layer1 produces hidden value, layer2 produces output.</li>
+                <li>Implement forward pass for a network with 1 hidden neuron (design).</li>
+                <li>Use ReLU for hidden and sigmoid for output.</li>
+                <li>Compute forward outputs for sample inputs and weights.</li>
+                <li>Implement batch forward (loop over input rows).</li>
+                <li>Compute average loss over batch.</li>
+                <li>Implement a simple gradient descent update for a single weight (concept).</li>
+                <li>Update weight to reduce loss on one training example.</li>
+                <li>Predict direction: if loss is too high, how should weight move (concept).</li>
+                <li>Create a loop for a few steps of training (toy).</li>
+                <li>Track loss values per step and print them.</li>
+                <li>Dry run: if you increase learning rate, what might happen?</li>
+                <li>Stop early if loss goes below threshold (concept).</li>
+                <li>Implement a “predict” function separate from “train” (design).</li>
+                <li>Compare two learning rates on the toy example.</li>
+                <li>Implement a threshold classifier and compute accuracy.</li>
+                <li>Compute precision/recall (concept with counts).</li>
+                <li>Visualize loss trend using a simple printed list (concept).</li>
+                <li>Explain why deep networks need more data (concept).</li>
+                <li>Write tests for your forward pass outputs.</li>
+              </ol>
+
+              <h3>Hard (20)</h3>
+              <ol>
+                <li>Implement backprop for a tiny 1-neuron sigmoid model (design concept).</li>
+                <li>Compute gradient of MSE loss w.r.t. weight (concept math).</li>
+                <li>Verify gradient using numerical approximation (concept).</li>
+                <li>Implement training for multiple points with your gradient rule.</li>
+                <li>Handle edge cases where sigmoid saturates (concept).</li>
+                <li>Implement gradient clipping (concept).</li>
+                <li>Design a tiny neural network class with fit/predict methods.</li>
+                <li>Add configuration for learning rate and epochs.</li>
+                <li>Add logging of loss per epoch.</li>
+                <li>Implement early stopping based on validation loss (concept).</li>
+                <li>Explain overfitting using train vs validation loss (concept).</li>
+                <li>Implement simple feature scaling (concept).</li>
+                <li>Debug: incorrect gradient sign causes loss to increase.</li>
+                <li>Fix gradient sign and verify loss decreases.</li>
+                <li>Design an experiment plan to compare activations.</li>
+                <li>Implement L2 regularization (concept) in toy gradient.</li>
+                <li>Explain how regularization reduces overfitting (concept).</li>
+                <li>Design unit tests for loss and gradients (concept).</li>
+                <li>Build a confusion matrix concept for binary predictions.</li>
+                <li>Write an explanation paragraph for your toy model behavior.</li>
+              </ol>
+            </section>
+
+            <section id="assignments">
+              <h2>13) Assignments</h2>
+              <ol>
+                <li>Create <code>assignment38_1.py</code>: implement sigmoid and ReLU; print results for given inputs.
+                </li>
+                <li>Create <code>assignment38_2.py</code>: implement a 2-layer forward pass (1 hidden neuron) and print
+                  outputs.</li>
+                <li>Create <code>assignment38_3.py</code>: implement MSE loss and compute loss for multiple predictions.
+                </li>
+              </ol>
+            </section>
+
+            <section id="mini-project">
+              <h2>14) Mini Project</h2>
+              <div class="callout note">
+                <h3>🧪 Mini Project: Tiny Neural Trainer (Toy)</h3>
+                <ul>
+                  <li>Create a small toy dataset (e.g., points labeled by a rule).</li>
+                  <li>Build a tiny neural net (even 1 hidden neuron is fine).</li>
+                  <li>Train for a few epochs using a simplified gradient concept.</li>
+                  <li>Print loss before/after and accuracy on the toy dataset.</li>
+                </ul>
+              </div>
+            </section>
+
+            <section id="debugging">
+              <h2>15) Debugging Practice</h2>
+
+              <div class="callout warning">
+                <h3>Case 1: sigmoid overflow</h3>
+                <div class="code-card">
+                  <div class="code-header">
+                    <div class="lang">bug</div>
+                    <div class="meta">exp too large</div>
+                  </div>
+                  <pre><code>def sigmoid(x):
+    return 1/(1+math.exp(-x))
+# if x is huge, exp can overflow
+</code></pre>
+                </div>
+                <p><strong>Fix:</strong> use a safer sigmoid approach (concept) or clamp x.</p>
+              </div>
+
+              <div class="callout warning">
+                <h3>Case 2: forgetting bias</h3>
+                <div class="code-card">
+                  <div class="code-header">
+                    <div class="lang">bug</div>
+                    <div class="meta">missing + b</div>
+                  </div>
+                  <pre><code>z = w1*x1 + w2*x2
+# forgot bias term b
+</code></pre>
+                </div>
+                <p><strong>Fix:</strong> ensure z includes bias.</p>
+              </div>
+
+              <div class="callout warning">
+                <h3>Case 3: loss increases during training</h3>
+                <div class="code-card">
+                  <div class="code-header">
+                    <div class="lang">bug</div>
+                    <div class="meta">wrong gradient sign</div>
+                  </div>
+                  <pre><code># weights updated in wrong direction
+</code></pre>
+                </div>
+                <p><strong>Fix:</strong> verify gradient math and update rule.</p>
+              </div>
+            </section>
+
+            <section id="errors">
+              <h2>16) Common Errors</h2>
+              <ul>
+                <li><strong>OverflowError:</strong> sigmoid exponent too large (concept).</li>
+                <li><strong>ZeroDivisionError:</strong> not typical here, but can happen in custom losses.</li>
+                <li><strong>ValueError:</strong> incorrect input shapes for your manual model.</li>
+                <li><strong>Logic bug:</strong> using wrong activation for output layer.</li>
+              </ul>
+            </section>
+
+            <section id="best">
+              <h2>17) Best Practices</h2>
+              <ul>
+                <li>Start with tiny models and verify outputs by hand.</li>
+                <li>Print intermediate values <code>z</code>, <code>y</code>, and loss while debugging.</li>
+                <li>Use clear loss definitions and consistent target formats.</li>
+                <li>Track loss over epochs to confirm training is working.</li>
+                <li>Evaluate on unseen data to avoid overfitting.</li>
+              </ul>
+            </section>
+
+            <section id="summary">
+              <h2>18) Summary</h2>
+              <p>
+                You learned deep learning fundamentals: neural networks as layers of neurons,
+                forward pass ideas, activations, and loss-based training concepts.
+                You also practiced a tiny neural-network math example and debugging tips.
+              </p>
+            </section>
+
+            <section id="cheatsheet">
+              <h2>19) Cheat Sheet</h2>
+              <table class="table" aria-label="Deep learning cheat sheet">
+                <thead>
+                  <tr>
+                    <th>Need</th>
+                    <th>Idea</th>
+                    <th>Example</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Neuron</td>
+                    <td>compute z then activation</td>
+                    <td><code>y=sigmoid(z)</code></td>
+                  </tr>
+                  <tr>
+                    <td>Loss</td>
+                    <td>measure error</td>
+                    <td><code>MSE</code> concept</td>
+                  </tr>
+                  <tr>
+                    <td>Training</td>
+                    <td>forward → loss → update</td>
+                    <td>epochs loop</td>
+                  </tr>
+                  <tr>
+                    <td>Generalization</td>
+                    <td>evaluate on unseen data</td>
+                    <td>train/val/test split</td>
+                  </tr>
+                </tbody>
+              </table>
+            </section>
+
+            <section id="challenge">
+              <h2>20) Coding Challenge</h2>
+              <div class="callout note">
+                <h3>🎯 Challenge: XOR as a Toy Network (Concept)</h3>
+                <p>Build a toy model that can learn XOR behavior.</p>
+                <ul>
+                  <li>Explain why a single neuron cannot solve XOR.</li>
+                  <li>Use at least one hidden neuron layer in your design.</li>
+                  <li>Train for a small number of epochs and watch loss decrease.</li>
+                </ul>
+              </div>
+            </section>
+
+            <section id="revision">
+              <h2>21) Revision Questions</h2>
+              <ol>
+                <li>What is deep learning?</li>
+                <li>What is a neural network?</li>
+                <li>What are weights and bias?</li>
+                <li>What is an activation function?</li>
+                <li>What is forward pass?</li>
+                <li>What is loss?</li>
+                <li>What is training?</li>
+                <li>What is overfitting?</li>
+                <li>Why do we use multiple layers?</li>
+              </ol>
+            </section>
+
+            <section id="answers">
+              <h2>22) Answer Key (Explain every answer)</h2>
+              <div class="callout tip">
+                <h3>Key explanations</h3>
+                <ul>
+                  <li><strong>Deep learning:</strong> learning with neural networks with many layers.</li>
+                  <li><strong>Weights:</strong> learnable multipliers that shape decisions.</li>
+                  <li><strong>Bias:</strong> shifts the activation boundary.</li>
+                  <li><strong>Activation:</strong> creates non-linear behavior.</li>
+                  <li><strong>Forward pass:</strong> compute predictions from inputs.</li>
+                  <li><strong>Loss:</strong> numeric measure of prediction error.</li>
+                  <li><strong>Training:</strong> adjust weights to reduce loss over epochs.</li>
+                  <li><strong>Overfitting:</strong> good on training, bad on new data.</li>
+                </ul>
+              </div>
+
+              <div class="nav-buttons no-print" style="margin-top:18px;">
+                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                <div><a class="btn primary" data-next href="chapter-39.html">Next Chapter</a></div>
+              </div>
+            </section>
+
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/darkmode.js"></script>
+  <script src="../assets/js/script.js"></script>
+  <script src="../assets/js/navigation.js"></script>
+  <script src="../assets/js/search.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const nav = document.querySelector('.nav-list');
+      if (!nav) return;
+      nav.innerHTML = '';
+      for (let i = 1; i <= 48; i++) {
+        const file = `chapter-${String(i).padStart(2, '0')}.html`;
+        const a = document.createElement('a');
+        a.className = 'nav-link';
+        a.href = `${file}`;
+        a.setAttribute('data-chapter-link', file);
+        a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+        const wrap = document.createElement('div');
+        wrap.className = 'nav-item';
+        const dot = document.createElement('span');
+        dot.className = 'nav-dot';
+        wrap.appendChild(dot);
+        wrap.appendChild(a);
+        nav.appendChild(wrap);
+      }
+    });
+  </script>
+</body>
+
+</html>

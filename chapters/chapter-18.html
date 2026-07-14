@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 18 — Advanced Python</title>
+    <meta name="description"
+        content="Chapter 18: Advanced Python. Learn comprehensions, iterators/generators concepts, and deeper language features." />
+    <link rel="canonical" href="./chapters/chapter-18.html" />
+
+    <meta property="og:title" content="Chapter 18 — Advanced Python" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description"
+        content="Advanced Python chapter with comprehensions, iterators/generators ideas, and practice." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 18 — Advanced Python" />
+    <meta name="twitter:description" content="Advanced Python: comprehensions + iterators/generators (concepts)" />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 18 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+                    <div class="callout remember" style="margin-top:12px;">
+                        <h3>🧠 Memory trick</h3>
+                        <p>
+                            Comprehensions = “make a new collection from existing data” in one line.
+                            Generators = “produce values one by one, when needed”.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 18</div>
+                        <h1 class="chapter-title">Chapter 18 — Advanced Python</h1>
+                        <p class="subtle">Learn list/dict/set comprehensions, iterators/generators concepts, and more
+                            expressive code.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-17.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <ul>
+                                    <li>Use list comprehensions, dict comprehensions, and set comprehensions.</li>
+                                    <li>Write comprehensions with conditions (<code>if</code>)</li>
+                                    <li>Explain iterators and generators (conceptually).</li>
+                                    <li>Use <code>yield</code> idea to create generator functions.</li>
+                                    <li>Predict output and understand readability trade-offs.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                Earlier you used loops.
+                                Sometimes you want a “shorter and clearer” way to build a new list/dict/set from
+                                existing data.
+                            </p>
+                            <p>
+                                That is where <strong>comprehensions</strong> and <strong>generators</strong> help.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 Comprehension idea</h3>
+                            <p>
+                                A comprehension is a compact way to apply an expression to each item.
+                                It can also filter items with <code>if</code>.
+                            </p>
+
+                            <h3>2.2 Iterators and generators (concept)</h3>
+                            <ul>
+                                <li><strong>Iterator</strong>: an object that produces values one by one.</li>
+                                <li><strong>Generator</strong>: an iterator made with <code>yield</code>.</li>
+                            </ul>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    Generators are lazy: they compute values only when you ask for them.
+                                    Don’t expect them to be fully stored in memory.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">list comprehension</div>
+                                </div>
+                                <pre><code>nums = [1, 2, 3, 4]
+
+squares = [n * n for n in nums]
+print(squares)
+</code></pre>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">with condition</div>
+                                </div>
+                                <pre><code>nums = [1, 2, 3, 4, 5]
+
+evens = [n for n in nums if n % 2 == 0]
+print(evens)
+</code></pre>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">generator using yield</div>
+                                </div>
+                                <pre><code>def count_up_to(n):
+    i = 1
+    while i <= n:
+        yield i
+        i += 1
+
+for x in count_up_to(3):
+    print(x)
+</code></pre>
+                            </div>
+
+                            <p><strong>Time:</strong> depends on how many items you generate/process •
+                                <strong>Space:</strong> generator saves memory.</p>
+                            <p><strong>Alternative:</strong> use regular loops.</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — squares</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">squares</div>
+                                </div>
+                                <pre><code>nums = [1, 2, 3]
+print([n*n for n in nums])
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> [1, 4, 9]</p>
+
+                            <h3>4.2 Medium Example — dict comprehension</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">word length map</div>
+                                </div>
+                                <pre><code>words = ["cat", "hello", "a"]
+length_map = {w: len(w) for w in words}
+print(length_map)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> {'cat': 3, 'hello': 5, 'a': 1}</p>
+
+                            <h3>4.3 Advanced Example — generator filter</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">lazy generation</div>
+                                </div>
+                                <pre><code>def filtered_evens(nums):
+    for n in nums:
+        if n % 2 == 0:
+            yield n
+
+nums = [1,2,3,4,5,6]
+
+for x in filtered_evens(nums):
+    print(x)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> 2 then 4 then 6</p>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: comprehension / generator</h3>
+                                <pre><code>[Take input collection]
+          |
+          v
+[For each item]
+  apply expression
+  optional filter
+          |
+          v
+[Build result OR yield values]
+          |
+          v
+[Print/consume output]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <table class="table" aria-label="Memory for list vs generator">
+                                <thead>
+                                    <tr>
+                                        <th>Tool</th>
+                                        <th>Memory behavior</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>List comprehension</td>
+                                        <td>creates whole list in memory</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Generator (<code>yield</code>)</td>
+                                        <td>computes one value at a time</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">generator dry run</div>
+                                </div>
+                                <pre><code>def count_up_to(n):
+    i = 1
+    while i <= n:
+        yield i
+        i += 1
+
+g = count_up_to(3)
+print(next(g))
+print(next(g))
+</code></pre>
+                            </div>
+                            <table class="table" aria-label="next() dry run">
+                                <thead>
+                                    <tr>
+                                        <th>Call</th>
+                                        <th>What happens</th>
+                                        <th>Returned</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>next(g)</code></td>
+                                        <td>runs until first yield</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>next(g)</code></td>
+                                        <td>continues after yield</td>
+                                        <td>2</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p><strong>Time:</strong> O(k) for k yielded values • <strong>Space:</strong> small extra
+                                memory.</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>next(generator)</code>: get next yielded value.</li>
+                            </ul>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">next()</div>
+                                </div>
+                                <pre><code>def g():
+    yield 10
+    yield 20
+
+gen = g()
+print(next(gen))
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <p>
+                                Generators don’t have “methods” for calculation. They are iterators.
+                                Their useful interface is <code>__iter__</code> and <code>__next__</code> (concept).
+                            </p>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is a comprehension in Python?</li>
+                                <li>What is a list comprehension?</li>
+                                <li>What is a dict comprehension?</li>
+                                <li>What is a set comprehension?</li>
+                                <li>How do you add a condition in comprehension?</li>
+                                <li>Do comprehensions always use one loop?</li>
+                                <li>Can you nest comprehensions?</li>
+                                <li>What is an iterator?</li>
+                                <li>What is a generator?</li>
+                                <li>What does <code>yield</code> do?</li>
+                                <li>Why are generators memory efficient?</li>
+                                <li>What is lazy evaluation?</li>
+                                <li>What happens when a generator is exhausted?</li>
+                                <li>How do you get next value from generator?</li>
+                                <li>List comprehension vs generator: which uses more memory?</li>
+                                <li>Is generator result stored fully in memory?</li>
+                                <li>When should you prefer generator?</li>
+                                <li>Can comprehensions replace loops always?</li>
+                                <li>Can you use comprehensions for readability?</li>
+                                <li>Why might comprehension code be harder to read?</li>
+                                <li>Explain generator function conceptually.</li>
+                                <li>Is generator a function?</li>
+                                <li>How to iterate over generator?</li>
+                                <li>What is <code>StopIteration</code> (concept)?</li>
+                                <li>Can generator yield multiple values?</li>
+                                <li>What is the performance trade-off?</li>
+                                <li>How do generator expressions differ from lists?</li>
+                                <li>Can dict comprehension overwrite keys?</li>
+                                <li>What is a common bug with comprehensions?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>List comprehension uses:
+                                    <ul>
+                                        <li>A) braces only</li>
+                                        <li>B) brackets [ ]</li>
+                                        <li>C) parentheses ( )</li>
+                                        <li>D) nothing</li>
+                                    </ul>
+                                </li>
+                                <li>Dict comprehension usually uses:
+                                    <ul>
+                                        <li>A) { }</li>
+                                        <li>B) [ ]</li>
+                                        <li>C) ( )</li>
+                                        <li>D) <>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>Comprehension creates a new collection:
+                                    <ul>
+                                        <li>A) always</li>
+                                        <li>B) depends</li>
+                                        <li>C) never</li>
+                                        <li>D) only prints</li>
+                                    </ul>
+                                </li>
+                                <li>Generator uses <code>yield</code>:
+                                    <ul>
+                                        <li>A) yes</li>
+                                        <li>B) no</li>
+                                        <li>C) only in strings</li>
+                                        <li>D) only in dicts</li>
+                                    </ul>
+                                </li>
+                                <li>Generator is lazy:
+                                    <ul>
+                                        <li>A) computes immediately</li>
+                                        <li>B) computes on demand</li>
+                                        <li>C) stores all values</li>
+                                        <li>D) never computes</li>
+                                    </ul>
+                                </li>
+                                <li><code>next(gen)</code> returns:
+                                    <ul>
+                                        <li>A) next yielded value</li>
+                                        <li>B) list itself</li>
+                                        <li>C) error always</li>
+                                        <li>D) file</li>
+                                    </ul>
+                                </li>
+                                <li>List comprehension is usually:</li>
+                                <ul>
+                                    <li>A) memory heavy for large data</li>
+                                    <li>B) always memory free</li>
+                                    <li>C) faster always</li>
+                                    <li>D) not related</li>
+                                </ul>
+                                <li>Generator expression would use:</li>
+                                <ul>
+                                    <li>A) ( )</li>
+                                    <li>B) [ ]</li>
+                                    <li>C) { }</li>
+                                    <li>D) <>
+                                    </li>
+                                </ul>
+                                </li>
+                                <li>Condition in comprehension is written with:
+                                    <ul>
+                                        <li>A) where</li>
+                                        <li>B) if</li>
+                                        <li>C) then</li>
+                                        <li>D) select</li>
+                                    </ul>
+                                </li>
+                                <li>Comprehension syntax is usually:
+                                    <ul>
+                                        <li>A) expr for item in items</li>
+                                        <li>B) for expr item in items</li>
+                                        <li>C) item in expr</li>
+                                        <li>D) if expr</li>
+                                    </ul>
+                                </li>
+                                <li>Dict comprehension values are computed by:
+                                    <ul>
+                                        <li>A) expression after :</li>
+                                        <li>B) expression after if</li>
+                                        <li>C) expression after len</li>
+                                        <li>D) never</li>
+                                    </ul>
+                                </li>
+                                <li>Set comprehension removes duplicates because:
+                                    <ul>
+                                        <li>A) sets are unique</li>
+                                        <li>B) sets are lists</li>
+                                        <li>C) duplicates allowed</li>
+                                        <li>D) order kept</li>
+                                    </ul>
+                                </li>
+                                <li>Generator exhaustion means:
+                                    <ul>
+                                        <li>A) generator restarts</li>
+                                        <li>B) no more values to yield</li>
+                                        <li>C) infinite values</li>
+                                        <li>D) prints nothing</li>
+                                    </ul>
+                                </li>
+                                <li>Use generator when:
+                                    <ul>
+                                        <li>A) you need all values always</li>
+                                        <li>B) data is large or streaming</li>
+                                        <li>C) you want fixed memory</li>
+                                        <li>D) only for CSS</li>
+                                    </ul>
+                                </li>
+                                <li>When comprehension is too complex, prefer:
+                                    <ul>
+                                        <li>A) readability via loops</li>
+                                        <li>B) more one-liners</li>
+                                        <li>C) ignore</li>
+                                        <li>D) random</li>
+                                    </ul>
+                                </li>
+                                <li>Comprehension can include nested loops:
+                                    <ul>
+                                        <li>A) yes</li>
+                                        <li>B) no</li>
+                                        <li>C) only dicts</li>
+                                        <li>D) only sets</li>
+                                    </ul>
+                                </li>
+                                <li>Generator returns values using:
+                                    <ul>
+                                        <li>A) yield</li>
+                                        <li>B) return</li>
+                                        <li>C) print</li>
+                                        <li>D) save</li>
+                                    </ul>
+                                </li>
+                                <li>List comprehension runs expression for each element:
+                                    <ul>
+                                        <li>A) yes</li>
+                                        <li>B) no</li>
+                                        <li>C) only for strings</li>
+                                        <li>D) only for numbers</li>
+                                    </ul>
+                                </li>
+                                <li>Set comprehension uses unique output:
+                                    <ul>
+                                        <li>A) yes</li>
+                                        <li>B) no</li>
+                                        <li>C) only ordered</li>
+                                        <li>D) only duplicates</li>
+                                    </ul>
+                                </li>
+                                <li>In comprehension, “for item in items” is mandatory:
+                                    <ul>
+                                        <li>A) yes</li>
+                                        <li>B) no</li>
+                                        <li>C) optional</li>
+                                        <li>D) only for dict</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Write list comprehension for squares of [1,2,3].</li>
+                                <li>Create list of even numbers from 1..10.</li>
+                                <li>Create list of lengths for words ["cat","hello"].</li>
+                                <li>Create set of unique vowels from a string.</li>
+                                <li>Create dict mapping numbers to cubes for 1..5.</li>
+                                <li>Use comprehension with if to filter out odd numbers.</li>
+                                <li>Make list comprehension with expression (n+1).</li>
+                                <li>Write dict comprehension from two lists concept.</li>
+                                <li>Create set comprehension for squares 1..5.</li>
+                                <li>Use comprehension to uppercase a list of names.</li>
+                                <li>Dry run: predict output for [n*2 for n in [1,2]].</li>
+                                <li>Dry run: predict output for [n for n in [1,2,3] if n>1].</li>
+                                <li>Create generator function count_up_to(3) and print values.</li>
+                                <li>Use next() twice on generator and predict.</li>
+                                <li>Filter generator to yield only even numbers.</li>
+                                <li>Write generator that yields squares lazily.</li>
+                                <li>Convert generator to list and print (concept).</li>
+                                <li>Use comprehension to get word lengths greater than 3.</li>
+                                <li>Create dict comprehension with conditional keys (concept).</li>
+                                <li>Compare loop vs comprehension readability.</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Nested comprehension: build pairs (i,j) where i<j for 1..4.</li>
+                                <li>Build dict of student name → marks from two lists.</li>
+                                <li>Generator that yields words of length ≥ 4 from a sentence.</li>
+                                <li>Generator that yields prime numbers up to N (concept).</li>
+                                <li>List comprehension that flattens list of lists one level.</li>
+                                <li>Set comprehension to remove duplicates from list.</li>
+                                <li>Dict comprehension to count word frequencies (concept).</li>
+                                <li>Generator expression vs list comprehension for range squares.</li>
+                                <li>Create dict mapping char → occurrence count from a string.</li>
+                                <li>Filter comprehension to keep only numbers divisible by 3.</li>
+                                <li>Write function returning generator rather than list.</li>
+                                <li>Output prediction: generator exhausted after full loop.</li>
+                                <li>Refactor a loop into comprehension carefully.</li>
+                                <li>Implement a comprehension to build summary string list.</li>
+                                <li>Write generator that stops early when condition met (concept).</li>
+                                <li>Compute total using generator without building list.</li>
+                                <li>Write code that uses generator inside sum().</li>
+                                <li>Compare memory usage conceptually.</li>
+                                <li>Use comprehension to group words by first letter (concept).</li>
+                                <li>Debug: fix comprehension syntax error.</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Create a generator that yields (n, n*n) pairs.</li>
+                                <li>Create generator for Fibonacci numbers until limit.</li>
+                                <li>Write a function that returns generator for filtered items.</li>
+                                <li>Use nested generator expressions to compute statistics.</li>
+                                <li>Write generator that yields chunks of a list (concept).</li>
+                                <li>Implement “lazy” map: generator that applies function to values.</li>
+                                <li>Build dict comprehension from a stream (concept with iteration).</li>
+                                <li>Write comprehension that transforms tuples into dict.</li>
+                                <li>Output prediction with conditions in nested comprehension.</li>
+                                <li>Debug: identify wrong “if” placement in comprehension.</li>
+                                <li>Write code to flatten list using comprehension and compare to loop.</li>
+                                <li>Implement generator for reading lines from a file (concept).</li>
+                                <li>Implement generator that skips first K elements (concept).</li>
+                                <li>Write generator for running total (prefix sums).</li>
+                                <li>Design a readable version: choose between loop and comprehension.</li>
+                                <li>Implement prime sieve generator (concept).</li>
+                                <li>Explain the difference in types between list and generator.</li>
+                                <li>Write unit-test-like checks mentally for comprehension output.</li>
+                                <li>Complex condition comprehension: filter by multiple rules.</li>
+                                <li>Refactor large loop into comprehensions safely.</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li><code>assignment18_1.py</code>: list comprehension for cubes 1..6.</li>
+                                <li><code>assignment18_2.py</code>: dict comprehension for word length points.</li>
+                                <li><code>assignment18_3.py</code>: generator that yields only even numbers up to N.
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Lazy Log Filter</h3>
+                                <p>
+                                    Write a generator that yields only log lines containing a keyword.
+                                    Then print matching lines.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+                            <div class="callout warning">
+                                <h3>Case 1: wrong comprehension order</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>nums = [1,2,3]
+# Wrong syntax (expression after for)
+print([n for n*n in nums])
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> <code>[n*n for n in nums]</code></p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: generator used like a list</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>gen = (n*n for n in range(3))
+print(gen[0])
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> convert to list <code>list(gen)</code> or iterate.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: generator exhausted</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>gen = (n for n in range(3))
+for x in gen:
+    pass
+for y in gen:
+    print(y)  # nothing
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> create a new generator or convert to list.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>SyntaxError:</strong> wrong comprehension placement.</li>
+                                <li><strong>TypeError:</strong> treating generator like list (indexing).</li>
+                                <li><strong>Logic error:</strong> wrong condition leading to missing values.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Use comprehensions for simple transformations.</li>
+                                <li>If it becomes hard to read, use a normal loop.</li>
+                                <li>Prefer generators for large or streaming data.</li>
+                                <li>Don’t use complicated nesting early in learning.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                You learned comprehensions to create new collections from existing data.
+                                You learned that generators use <code>yield</code> and compute values lazily.
+                                You practiced predicting outputs and debugging comprehension/generator mistakes.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Comprehensions cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Feature</th>
+                                        <th>Example</th>
+                                        <th>Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>List comp</td>
+                                        <td><code>[expr for x in xs]</code></td>
+                                        <td>build list</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Filter</td>
+                                        <td><code>[x for x in xs if cond]</code></td>
+                                        <td>keep matching</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Dict comp</td>
+                                        <td><code>{k: v for ...}</code></td>
+                                        <td>key/value map</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Generator</td>
+                                        <td><code>yield</code></td>
+                                        <td>produce on demand</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Points from Numbers</h3>
+                                <p>Given <code>nums = [1..10]</code>, create:</p>
+                                <ul>
+                                    <li>a dict mapping each number to points (even=2 points, odd=1 point)</li>
+                                    <li>use dict comprehension</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What is a comprehension?</li>
+                                <li>How do you filter values in a comprehension?</li>
+                                <li>What is a generator?</li>
+                                <li>What does <code>yield</code> do?</li>
+                                <li>Why are generators memory efficient?</li>
+                                <li>Difference between list and generator types (concept)?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>Comprehension:</strong> compact loop that builds a new collection.</li>
+                                    <li><strong>Filter:</strong> add <code>if condition</code> inside comprehension.
+                                    </li>
+                                    <li><strong>Generator:</strong> iterator that yields values lazily.</li>
+                                    <li><strong>yield:</strong> pause function and return next value to caller.</li>
+                                    <li><strong>Memory:</strong> generators don’t build full list at once.</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-19.html">Next Chapter</a></div>
+                            </div>
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

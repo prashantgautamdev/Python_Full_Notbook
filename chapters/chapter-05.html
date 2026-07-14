@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 05 — Operators</title>
+    <meta name="description"
+        content="Chapter 5: Operators. Learn arithmetic, comparison, logical operators, and how they work with different data types." />
+    <link rel="canonical" href="./chapters/chapter-05.html" />
+
+    <meta property="og:title" content="Chapter 05 — Operators" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="Learn Python operators with examples, practice, and explained answers." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 05 — Operators" />
+    <meta name="twitter:description" content="Python operators chapter." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 05 • Offline • Search • Dark mode</span>
+                </div>
+
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout tip" style="margin-top:12px;">
+                        <h3>💡 Tips Box</h3>
+                        <p>
+                            Operators are like <strong>tools</strong>: <code>+</code> for adding, <code>==</code> for
+                            checking equality,
+                            <code>and</code> / <code>or</code> for combining conditions.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 05</div>
+
+                        <h1 class="chapter-title">Chapter 05 — Operators</h1>
+                        <p class="subtle">Learn how to combine values using arithmetic, comparison, and logical
+                            operators.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-04.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <p>By the end of this chapter, you will be able to:</p>
+                                <ul>
+                                    <li>Use arithmetic operators like <code>+</code>, <code>-</code>, <code>*</code>,
+                                        <code>/</code>.</li>
+                                    <li>Use comparison operators like <code>==</code>, <code>></code>, <code><=</code>.
+                                    </li>
+                                    <li>Use logical operators like <code>and</code>, <code>or</code>, <code>not</code>.
+                                    </li>
+                                    <li>Predict outputs that involve operator results.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                After learning variables and types, the next question is:
+                                <strong>How do we combine values?</strong>
+                                That is the job of operators.
+                            </p>
+                            <div class="callout remember">
+                                <h3>⭐ Remember</h3>
+                                <p>
+                                    Arithmetic operators give numbers.
+                                    Comparison operators give <code>True</code> or <code>False</code>.
+                                    Logical operators combine booleans.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 Arithmetic operators</h3>
+                            <ul>
+                                <li><code>+</code> addition</li>
+                                <li><code>-</code> subtraction</li>
+                                <li><code>*</code> multiplication</li>
+                                <li><code>/</code> division (float result)</li>
+                                <li><code>//</code> floor division (integer-like result)</li>
+                                <li><code>%</code> remainder (modulo)</li>
+                                <li><code>**</code> exponent (power)</li>
+                            </ul>
+
+                            <h3>2.2 Comparison operators</h3>
+                            <ul>
+                                <li><code>==</code> equal to</li>
+                                <li><code>!=</code> not equal</li>
+                                <li><code>></code> greater than</li>
+                                <li><code><</code> less than</li>
+                                <li><code>>=</code> greater or equal</li>
+                                <li><code><=</code> less or equal</li>
+                            </ul>
+
+                            <h3>2.3 Logical operators</h3>
+                            <ul>
+                                <li><code>and</code> True only if both sides are True</li>
+                                <li><code>or</code> True if at least one side is True</li>
+                                <li><code>not</code> flips True/False</li>
+                            </ul>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning: = vs ==</h3>
+                                <p>
+                                    <code>=</code> assigns a value.
+                                    <code>==</code> compares for equality.
+                                    Beginners often mix them and create logic bugs.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">operators</div>
+                                </div>
+                                <pre><code>a = 10
+b = 3
+
+print(a + b)   # 13
+print(a - b)   # 7
+print(a * b)   # 30
+print(a / b)   # 3.333...
+print(a // b)  # 3
+print(a % b)   # 1
+print(a ** 2)  # 100
+</code></pre>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">comparisons and logic</div>
+                                </div>
+                                <pre><code>x = 7
+y = 9
+
+print(x == 7)   # True
+print(x > y)    # False
+
+print((x > 5) and (y < 10))  # True
+print(not (x < 0))            # True
+</code></pre>
+                            </div>
+
+                            <p><strong>Time complexity:</strong> O(1) for single operations • <strong>Space:</strong>
+                                O(1) extra.</p>
+                            <p><strong>Alternative approach:</strong> use parentheses to control order and readability.
+                            </p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — modulo for patterns</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">odd/even using %</div>
+                                </div>
+                                <pre><code>n = 9
+
+if n % 2 == 0:
+    print("Even")
+else:
+    print("Odd")
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> Odd</p>
+                            <p><strong>Time:</strong> O(1) • <strong>Space:</strong> O(1)</p>
+                            <p><strong>Alternative approach:</strong> check <code>n &amp; 1</code> in bitwise logic
+                                (advanced).</p>
+
+                            <h3>4.2 Medium Example — comparison chains (concept)</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">range check</div>
+                                </div>
+                                <pre><code>score = 72
+
+print(score >= 60 and score <= 80)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> True</p>
+                            <p><strong>Time:</strong> O(1) • <strong>Space:</strong> O(1)</p>
+                            <p><strong>Alternative approach:</strong> use chained comparisons:
+                                <code>60 <= score <= 80</code> (later referenced).</p>
+
+                            <h3>4.3 Advanced Example — mixing types (careful)</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">string repetition</div>
+                                </div>
+                                <pre><code>word = "ha"
+print(word * 3)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> <code>hahaha</code></p>
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    Operators behave differently depending on types.
+                                    <code>*</code> can mean multiplication (numbers) or repetition (strings).
+                                </p>
+                            </div>
+                            <p><strong>Time:</strong> O(n) where n is output length • <strong>Space:</strong> O(n) for
+                                output string.</p>
+                            <p><strong>Alternative approach:</strong> prefer explicit conversions and comments when
+                                mixing operations.</p>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: operator → result → decision</h3>
+                                <pre><code>[Start]
+   |
+   v
+[Take values]
+   |
+   v
+[Apply operator]
+   |
+   v
+[Get result (number or bool)]
+   |
+   v
+[If boolean used: decide]
+   |
+   v
+[End]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <table class="table" aria-label="Operator memory table">
+                                <thead>
+                                    <tr>
+                                        <th>Variable</th>
+                                        <th>Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>a</code> = 10</td>
+                                        <td>int box holds number</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>b</code> = 3</td>
+                                        <td>int box holds number</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>a % b</code></td>
+                                        <td>operator computes remainder</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>a % b == 0</code></td>
+                                        <td>comparison gives boolean</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="callout remember">
+                                <h3>🧠 Memory trick</h3>
+                                <p>
+                                    <code>%</code> sounds like “<strong>mod</strong>” → gives a “remainder” value.
+                                    Comparison operators then decide what to do next.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">dry run</div>
+                                </div>
+                                <pre><code>n = 8
+print(n % 2)
+print(n % 2 == 0)
+</code></pre>
+                            </div>
+                            <table class="table" aria-label="Dry run remainder table">
+                                <thead>
+                                    <tr>
+                                        <th>Step</th>
+                                        <th>Line</th>
+                                        <th>Computed</th>
+                                        <th>Result</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td><code>n % 2</code></td>
+                                        <td>8 divided by 2 leaves remainder 0</td>
+                                        <td><code>0</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td><code>n % 2 == 0</code></td>
+                                        <td>Compare remainder with 0</td>
+                                        <td><code>True</code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p><strong>Time:</strong> O(1) • <strong>Space:</strong> O(1)</p>
+                            <p><strong>Alternative:</strong> use <code>if n &amp; 1 == 0</code> (advanced bitwise).</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>type()</code>: helps verify results of operations.</li>
+                                <li><code>bool()</code>: converts values to boolean (careful: truthiness).</li>
+                            </ul>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">type and bool</div>
+                                </div>
+                                <pre><code>a = 5
+b = a > 2
+print(b)
+print(type(b))
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> <code>True</code> then <code><class 'bool'></code></p>
+                            <p><strong>Time:</strong> O(1) • <strong>Space:</strong> O(1)</p>
+                            <p><strong>Alternative:</strong> skip <code>type()</code> once you are confident; still
+                                useful for learning.</p>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <p>
+                                Operators can work with strings. Methods help transform strings.
+                                Example: check length using <code>len()</code> and compare.
+                            </p>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">string method + operator</div>
+                                </div>
+                                <pre><code>word = "learn"
+upper_word = word.upper()
+
+print(upper_word == "LEARN")
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> True</p>
+                            <p><strong>Time:</strong> O(n) for uppercase • <strong>Space:</strong> O(n) for new string
+                            </p>
+                            <p><strong>Alternative:</strong> use lower/upper based on your input rules.</p>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is an operator?</li>
+                                <li>List arithmetic operators in Python.</li>
+                                <li>What does <code>//</code> mean?</li>
+                                <li>What does <code>%</code> mean?</li>
+                                <li>What does <code>**</code> mean?</li>
+                                <li>What does <code>==</code> mean?</li>
+                                <li>What does <code>!=</code> mean?</li>
+                                <li>What does <code>>=</code> mean?</li>
+                                <li>What does <code>and</code> mean?</li>
+                                <li>What does <code>or</code> mean?</li>
+                                <li>What does <code>not</code> do?</li>
+                                <li>Difference between <code>=</code> and <code>==</code>?</li>
+                                <li>What type is the result of <code>3 == 3</code>?</li>
+                                <li>What type is the result of <code>10 / 2</code>?</li>
+                                <li>What is operator precedence (concept)?</li>
+                                <li>How can you control evaluation order?</li>
+                                <li>Why might <code>"ha" * 3</code> work?</li>
+                                <li>Why can an operator behave differently for different types?</li>
+                                <li>What is truthiness (basic idea)?</li>
+                                <li>How does <code>bool()</code> help?</li>
+                                <li>Why do we use parentheses in complex expressions?</li>
+                                <li>How do you check if a number is even?</li>
+                                <li>Explain remainder with a simple example.</li>
+                                <li>What happens if you compare different types (concept)?</li>
+                                <li>What is a common bug with logical operators?</li>
+                                <li>How do you debug incorrect True/False logic?</li>
+                                <li>What is a typical mistake in condition checks?</li>
+                                <li>What is “output prediction” for operator-based code?</li>
+                                <li>Give one example where <code>and</code> should be used.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li><code>5 + 2</code> equals:
+                                    <ul>
+                                        <li>A) 3</li>
+                                        <li>B) 7</li>
+                                        <li>C) 5</li>
+                                        <li>D) 9</li>
+                                    </ul>
+                                </li>
+                                <li><code>10 - 4</code> equals:
+                                    <ul>
+                                        <li>A) 2</li>
+                                        <li>B) 6</li>
+                                        <li>C) 14</li>
+                                        <li>D) 4</li>
+                                    </ul>
+                                </li>
+                                <li><code>3 * 4</code> equals:
+                                    <ul>
+                                        <li>A) 7</li>
+                                        <li>B) 12</li>
+                                        <li>C) 14</li>
+                                        <li>D) 34</li>
+                                    </ul>
+                                </li>
+                                <li><code>7 / 2</code> returns:
+                                    <ul>
+                                        <li>A) 3</li>
+                                        <li>B) 3.5</li>
+                                        <li>C) 2</li>
+                                        <li>D) TypeError</li>
+                                    </ul>
+                                </li>
+                                <li><code>7 // 2</code> returns:
+                                    <ul>
+                                        <li>A) 3</li>
+                                        <li>B) 3.5</li>
+                                        <li>C) 7.2</li>
+                                        <li>D) 4</li>
+                                    </ul>
+                                </li>
+                                <li><code>7 % 2</code> returns:
+                                    <ul>
+                                        <li>A) 1</li>
+                                        <li>B) 2</li>
+                                        <li>C) 3</li>
+                                        <li>D) 0</li>
+                                    </ul>
+                                </li>
+                                <li><code>2 ** 3</code> equals:
+                                    <ul>
+                                        <li>A) 6</li>
+                                        <li>B) 5</li>
+                                        <li>C) 8</li>
+                                        <li>D) 9</li>
+                                    </ul>
+                                </li>
+                                <li><code>3 == 3</code> is:
+                                    <ul>
+                                        <li>A) False</li>
+                                        <li>B) True</li>
+                                        <li>C) 3</li>
+                                        <li>D) None</li>
+                                    </ul>
+                                </li>
+                                <li><code>3 != 3</code> is:
+                                    <ul>
+                                        <li>A) True</li>
+                                        <li>B) False</li>
+                                        <li>C) 0</li>
+                                        <li>D) Error</li>
+                                    </ul>
+                                </li>
+                                <li><code>5 > 2</code> is:
+                                    <ul>
+                                        <li>A) False</li>
+                                        <li>B) True</li>
+                                        <li>C) 3</li>
+                                        <li>D) 2</li>
+                                    </ul>
+                                </li>
+                                <li><code>5 < 2</code> is:
+                                    <ul>
+                                        <li>A) True</li>
+                                        <li>B) False</li>
+                                        <li>C) 3</li>
+                                        <li>D) 0</li>
+                                    </ul>
+                                </li>
+                                <li><code>2 <= 2</code> is:
+                                    <ul>
+                                        <li>A) True</li>
+                                        <li>B) False</li>
+                                        <li>C) 2</li>
+                                        <li>D) None</li>
+                                    </ul>
+                                </li>
+                                <li>Logical <code>and</code> is True when:
+                                    <ul>
+                                        <li>A) both are True</li>
+                                        <li>B) either is True</li>
+                                        <li>C) none are True</li>
+                                        <li>D) first is True</li>
+                                    </ul>
+                                </li>
+                                <li>Logical <code>or</code> is True when:
+                                    <ul>
+                                        <li>A) both are True</li>
+                                        <li>B) either is True</li>
+                                        <li>C) none are True</li>
+                                        <li>D) neither is True</li>
+                                    </ul>
+                                </li>
+                                <li><code>not True</code> equals:
+                                    <ul>
+                                        <li>A) True</li>
+                                        <li>B) False</li>
+                                        <li>C) 1</li>
+                                        <li>D) 0</li>
+                                    </ul>
+                                </li>
+                                <li>A common bug is using:
+                                    <ul>
+                                        <li>A) <code>==</code> instead of <code>=</code></li>
+                                        <li>B) <code>=</code> instead of <code>==</code></li>
+                                        <li>C) <code>+</code> instead of <code>-</code></li>
+                                        <li>D) <code>%</code> instead of <code>//</code></li>
+                                    </ul>
+                                </li>
+                                <li><code>"ha" * 3</code> becomes:
+                                    <ul>
+                                        <li>A) "3ha"</li>
+                                        <li>B) "haha"</li>
+                                        <li>C) "hahaha"</li>
+                                        <li>D) Error</li>
+                                    </ul>
+                                </li>
+                                <li><code>10 % 2 == 0</code> is:
+                                    <ul>
+                                        <li>A) True</li>
+                                        <li>B) False</li>
+                                        <li>C) 2</li>
+                                        <li>D) 10</li>
+                                    </ul>
+                                </li>
+                                <li><code>10 % 3</code> equals:
+                                    <ul>
+                                        <li>A) 0</li>
+                                        <li>B) 1</li>
+                                        <li>C) 2</li>
+                                        <li>D) 3</li>
+                                    </ul>
+                                </li>
+                                <li>Which expression returns boolean?
+                                    <ul>
+                                        <li>A) <code>5 + 2</code></li>
+                                        <li>B) <code>5 == 2</code></li>
+                                        <li>C) <code>5 * 2</code></li>
+                                        <li>D) <code>5 ** 2</code></li>
+                                    </ul>
+                                </li>
+                                <li>Which best describes <code>//</code>?
+                                    <ul>
+                                        <li>A) exact division only</li>
+                                        <li>B) floor division</li>
+                                        <li>C) remainder operator</li>
+                                        <li>D) exponent operator</li>
+                                    </ul>
+                                </li>
+                                <li>Which best describes <code>%</code>?
+                                    <ul>
+                                        <li>A) power</li>
+                                        <li>B) remainder</li>
+                                        <li>C) equality</li>
+                                        <li>D) multiplication</li>
+                                    </ul>
+                                </li>
+                                <li><code>(x > 0) and (x < 10)</code> is True for:
+                                    <ul>
+                                        <li>A) x=0</li>
+                                        <li>B) x between 1 and 9</li>
+                                        <li>C) x=10</li>
+                                        <li>D) x<0 only</li>
+                                    </ul>
+                                </li>
+                                <li>Parentheses are used to:
+                                    <ul>
+                                        <li>A) change meaning clearly</li>
+                                        <li>B) control evaluation order</li>
+                                        <li>C) convert types</li>
+                                        <li>D) print labels</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Compute <code>2 + 3</code> and print.</li>
+                                <li>Compute <code>10 - 7</code> and print.</li>
+                                <li>Compute <code>4 * 5</code> and print.</li>
+                                <li>Compute <code>9 / 2</code> and print.</li>
+                                <li>Compute <code>9 // 2</code> and print.</li>
+                                <li>Compute <code>9 % 2</code> and print.</li>
+                                <li>Compute <code>2 ** 5</code> and print.</li>
+                                <li>Check if <code>5 == 5</code> and print result.</li>
+                                <li>Check if <code>5 != 5</code> and print result.</li>
+                                <li>Check if <code>3 > 2</code> and print result.</li>
+                                <li>Check if <code>3 <= 3</code> and print result.</li>
+                                <li>Check <code>not True</code> and print.</li>
+                                <li>Check <code>True and False</code> and print.</li>
+                                <li>Check <code>True or False</code> and print.</li>
+                                <li>Compute <code>10 % 5</code> and interpret meaning (multiple?).</li>
+                                <li>Predict output: <code>"ab" * 2</code>. Run.</li>
+                                <li>Predict output: <code>7 // 3</code>. Run.</li>
+                                <li>Predict output: <code>7 / 3</code>. Run.</li>
+                                <li>Create variables <code>a=8</code>, <code>b=2</code> and print <code>a % b</code>.
+                                </li>
+                                <li>Create <code>x=5</code> and print whether x is even using %.</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Read two numbers as variables and print sum and product.</li>
+                                <li>Compute average: (a+b)/2 and print.</li>
+                                <li>Given score, print pass if score >= 40 using comparison.</li>
+                                <li>Check if a number is between 1 and 10 inclusive using <code>and</code>.</li>
+                                <li>Use <code>or</code> to print “hot” if temp > 30 or temp < 0 (toy example).</li>
+                                <li>Given a string name, print whether name == "Python" (case sensitive).</li>
+                                <li>Check if <code>x % 3 == 0</code> for divisibility.</li>
+                                <li>Compute square and cube using <code>**</code> and print.</li>
+                                <li>Compare two numbers and print which is larger.</li>
+                                <li>Use <code>not</code> to flip a condition.</li>
+                                <li>Predict and verify: <code>0 and True</code> (explain output).</li>
+                                <li>Predict and verify: <code>1 and 0</code> (explain output).</li>
+                                <li>Compute remainder of a bigger number % smaller number.</li>
+                                <li>Use parentheses in a complex boolean expression and print result.</li>
+                                <li>Write code that checks even and positive using <code>and</code>.</li>
+                                <li>Write code that checks odd or negative using <code>or</code>.</li>
+                                <li>Print a boolean expression result and its type.</li>
+                                <li>Compute <code>(a+b) * (a-b)</code> and print.</li>
+                                <li>Use modulo with a step: <code>n % 7</code> and print.</li>
+                                <li>Use comparisons to find if two floats are equal (concept: may be tricky).</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Build a mini “discount” condition: if price >= 100 and member is True then discount
+                                    applies.</li>
+                                <li>Create a boolean checklist and print which items passed.</li>
+                                <li>Implement a function mentally: check valid age and has consent using
+                                    <code>and</code>.</li>
+                                <li>Use modulo to wrap values: convert day number 0..6.</li>
+                                <li>Write code that prints category based on multiple <code>and/or</code> conditions.
+                                </li>
+                                <li>Compare and print all relational results for given pair (a,b): ==, !=, >, <.< /li>
+                                <li>Write expressions only (no if) that determine pass/fail and print.</li>
+                                <li>Predict results of complex boolean expressions and explain.</li>
+                                <li>Prevent a common bug: ensure you use <code>==</code> not <code>=</code>.</li>
+                                <li>Use <code>not</code> with parentheses: <code>not (x > 5)</code>.</li>
+                                <li>Implement a simple parity check for many numbers in a loop conceptually (attempt).
+                                </li>
+                                <li>Compute exponent with negative base carefully and print.</li>
+                                <li>Write code that prints whether a string length is between two bounds.</li>
+                                <li>Write code to check if a value is divisible by 2 and 3.</li>
+                                <li>Combine arithmetic and comparison: print if <code>(a*b) % c == 0</code>.</li>
+                                <li>Use <code>//</code> and <code>%</code> together to break a number into quotient and
+                                    remainder.</li>
+                                <li>Create a “risk score” boolean: risk high if score >= 80 or errors > 5.</li>
+                                <li>Build boolean algebra expression and simplify it (concept).</li>
+                                <li>Write output prediction: for each expression, predict True/False.</li>
+                                <li>Write code that prints whether user is eligible based on multiple inputs.</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment05.py</code> to compute sum, difference, product, and
+                                    quotient of two numbers stored in variables.</li>
+                                <li>Read three numbers as variables and print: which one is largest using comparisons.
+                                </li>
+                                <li>Create a boolean expression: check if score >= 50 and score <= 100. Print the
+                                        result.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Even/Odd + Range Checker</h3>
+                                <p>Read a number (store as variable) and print:</p>
+                                <ul>
+                                    <li>whether it is even or odd</li>
+                                    <li>whether it is between 10 and 20 inclusive</li>
+                                </ul>
+                            </div>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">starter</div>
+                                </div>
+                                <pre><code>n = 14
+
+is_even = (n % 2 == 0)
+in_range = (n >= 10 and n <= 20)
+
+print("Even?", is_even)
+print("In range (10-20)?", in_range)
+</code></pre>
+                            </div>
+                            <p><strong>Expected output:</strong> two lines with boolean results.</p>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+
+                            <div class="callout warning">
+                                <h3>Case 1: = instead of ==</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>x = 5
+if x = 5:
+    print("Equal")
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> use <code>if x == 5:</code>.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: wrong boolean logic</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>temp = 35
+if temp > 30 or temp < 0:
+    print("Hot")
+</code></pre>
+                                </div>
+                                <p><strong>Hint:</strong> decide if you meant “very hot” or “extreme hot/cold”.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: operator confusion</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>a = "5"
+b = 2
+print(a % b)
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> convert <code>a</code> to int first:
+                                    <code>print(int(a) % b)</code>.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>SyntaxError:</strong> using <code>=</code> inside conditions instead of
+                                    <code>==</code>.</li>
+                                <li><strong>TypeError:</strong> using arithmetic operators on incompatible types.</li>
+                                <li><strong>Logic error:</strong> wrong use of <code>and</code>/<code>or</code> leading
+                                    to wrong True/False.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Use parentheses in complex conditions.</li>
+                                <li>Comment on non-obvious boolean logic.</li>
+                                <li>Use <code>==</code> for comparisons, <code>=</code> for assignment.</li>
+                                <li>Convert types before doing math.</li>
+                                <li>Practice output prediction often.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                Operators let you compute values and make decisions.
+                                Arithmetic operators produce numbers.
+                                Comparison operators produce booleans.
+                                Logical operators combine booleans.
+                                You also learned the classic <code>=</code> vs <code>==</code> warning.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Operators cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>Operator</th>
+                                        <th>Example</th>
+                                        <th>Result</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Arithmetic</td>
+                                        <td><code>+</code></td>
+                                        <td><code>2+3</code></td>
+                                        <td><code>5</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Arithmetic</td>
+                                        <td><code>//</code></td>
+                                        <td><code>7//2</code></td>
+                                        <td><code>3</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Arithmetic</td>
+                                        <td><code>%</code></td>
+                                        <td><code>7%2</code></td>
+                                        <td><code>1</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Comparison</td>
+                                        <td><code>==</code></td>
+                                        <td><code>3==3</code></td>
+                                        <td><code>True</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Logical</td>
+                                        <td><code>and</code></td>
+                                        <td><code>True and False</code></td>
+                                        <td><code>False</code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Operator Prediction</h3>
+                                <p>Given <code>a = 6</code>, <code>b = 2</code>, predict and print:</p>
+                                <ul>
+                                    <li><code>a / b</code></li>
+                                    <li><code>a // b</code></li>
+                                    <li><code>a % b</code></li>
+                                    <li><code>a == b</code></li>
+                                    <li><code>a > b and a != b</code></li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What does <code>//</code> do?</li>
+                                <li>What does <code>%</code> do?</li>
+                                <li>What returns boolean: arithmetic or comparison?</li>
+                                <li>What does <code>==</code> mean?</li>
+                                <li>What is the difference between <code>and</code> and <code>or</code>?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations (example set)</h3>
+                                <ul>
+                                    <li><strong>Arithmetic</strong> operators compute numbers like addition and
+                                        multiplication.</li>
+                                    <li><strong>Comparison</strong> operators check relationships and return
+                                        <code>True</code> or <code>False</code>.</li>
+                                    <li><strong>Logical</strong> operators combine boolean results: <code>and</code>
+                                        requires both True, <code>or</code> needs at least one True.</li>
+                                    <li><strong>Bug fix:</strong> use <code>==</code> to compare. <code>=</code>
+                                        assigns.</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-06.html">Next Chapter</a></div>
+                            </div>
+
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

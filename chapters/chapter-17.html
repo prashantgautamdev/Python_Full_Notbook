@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 17 — Object-Oriented Programming (OOP)</title>
+    <meta name="description"
+        content="Chapter 17: Object-Oriented Programming (OOP). Learn classes, objects, attributes, methods, and basic OOP design." />
+    <link rel="canonical" href="./chapters/chapter-17.html" />
+
+    <meta property="og:title" content="Chapter 17 — Object-Oriented Programming (OOP)" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description"
+        content="Learn OOP concepts: classes, objects, attributes, methods, and a simple mental model." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 17 — OOP" />
+    <meta name="twitter:description" content="OOP chapter with examples, practice, debugging, and answer key." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 17 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+                    <div class="callout remember" style="margin-top:12px;">
+                        <h3>⭐ Remember</h3>
+                        <p>
+                            A class is a <strong>blueprint</strong>.
+                            An object is an <strong>instance</strong> made from that blueprint.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 17</div>
+                        <h1 class="chapter-title">Chapter 17 — Object-Oriented Programming (OOP)</h1>
+                        <p class="subtle">Learn the class/object model: attributes, methods, constructors, and simple
+                            design patterns.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-16.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <p>By the end of this chapter, you will be able to:</p>
+                                <ul>
+                                    <li>Create classes using <code>class</code>.</li>
+                                    <li>Create objects (instances) from classes.</li>
+                                    <li>Use attributes to store data.</li>
+                                    <li>Use methods to define behavior.</li>
+                                    <li>Understand <code>self</code> and the constructor idea.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                If your program uses many “things” (like users, students, orders, vehicles), OOP helps
+                                you organize them.
+                            </p>
+                            <p>
+                                Instead of passing lots of variables around, you bundle data + behavior into classes.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 Class and object</h3>
+                            <p>
+                                A <strong>class</strong> is a blueprint.
+                                An <strong>object</strong> is created from that blueprint.
+                            </p>
+
+                            <h3>2.2 Attributes and methods</h3>
+                            <ul>
+                                <li><strong>Attributes</strong> store data (like name, age).</li>
+                                <li><strong>Methods</strong> perform actions (like <code>greet()</code>).</li>
+                            </ul>
+
+                            <h3>2.3 The <code>self</code> keyword</h3>
+                            <p>
+                                <code>self</code> represents the current object.
+                                It lets a method read/write that object’s attributes.
+                            </p>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    Inside class methods, you must use <code>self.attribute</code> to store attributes.
+                                    Don’t write just <code>attribute = ...</code> (that becomes a local variable).
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">basic class</div>
+                                </div>
+                                <pre><code>class Person:
+    # This is like a blueprint.
+    pass
+</code></pre>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">constructor + method</div>
+                                </div>
+                                <pre><code>class Person:
+    def __init__(self, name, age):
+        # Store data in attributes.
+        self.name = name
+        self.age = age
+
+    def greet(self):
+        # Use stored attributes.
+        return f"Hello, I am {self.name} and I am {self.age}."
+
+p = Person("Ravi", 20)
+print(p.greet())
+</code></pre>
+                            </div>
+
+                            <p><strong>Time complexity:</strong> depends on method logic • <strong>Space:</strong>
+                                object holds attributes.</p>
+                            <p><strong>Alternative:</strong> procedural style (functions + dicts) is possible, but OOP
+                                scales better for complex systems.</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — student class</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">attributes + greet</div>
+                                </div>
+                                <pre><code>class Student:
+    def __init__(self, name, marks):
+        self.name = name
+        self.marks = marks
+
+    def status(self):
+        if self.marks >= 40:
+            return "Pass"
+        return "Fail"
+
+s = Student("Asha", 55)
+print(s.status())
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> Pass</p>
+
+                            <h3>4.2 Medium Example — multiple objects</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">loop over objects</div>
+                                </div>
+                                <pre><code>class Product:
+    def __init__(self, name, price):
+        self.name = name
+        self.price = price
+
+    def price_tag(self):
+        return f"{self.name}: {self.price}" 
+
+items = [
+    Product("Pen", 10),
+    Product("Notebook", 50)
+]
+
+for item in items:
+    print(item.price_tag())
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> Pen: 10 then Notebook: 50 (order as listed).</p>
+
+                            <h3>4.3 Advanced Example — method returns computed result</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">simple business logic</div>
+                                </div>
+                                <pre><code>class Rectangle:
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+    def area(self):
+        return self.width * self.height
+
+    def perimeter(self):
+        return 2 * (self.width + self.height)
+
+r = Rectangle(5, 7)
+print("Area:", r.area())
+print("Perimeter:", r.perimeter())
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> Area: 35 and Perimeter: 24</p>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: class → object → method call</h3>
+                                <pre><code>[Define class blueprint]
+          |
+          v
+[Create object]
+          |
+          v
+[Call method]
+          |
+          v
+[Use self attributes]
+          |
+          v
+[Return/print result]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <p>
+                                A class holds shared blueprint code.
+                                Each object stores its own attribute values.
+                            </p>
+                            <table class="table" aria-label="OOP memory">
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>What it holds</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>class Person</code></td>
+                                        <td>methods like <code>greet</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>p = Person(...)</code></td>
+                                        <td>attributes <code>name</code>, <code>age</code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="callout remember">
+                                <h3>🧠 Memory trick</h3>
+                                <p><strong>Blueprint → object</strong>. <strong>Self</strong> points to the object you
+                                    created.</p>
+                            </div>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">constructor dry run</div>
+                                </div>
+                                <pre><code>class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+p = Person("Ravi", 20)
+print(p.name)
+print(p.age)
+</code></pre>
+                            </div>
+                            <table class="table" aria-label="Constructor dry run">
+                                <thead>
+                                    <tr>
+                                        <th>Step</th>
+                                        <th>Line</th>
+                                        <th>What changes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td><code>p=Person(...)</code></td>
+                                        <td>Create new object instance <code>p</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td><code>self.name=name</code></td>
+                                        <td>Store <code>self.name="Ravi"</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td><code>self.age=age</code></td>
+                                        <td>Store <code>self.age=20</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td><code>print(p.name)</code></td>
+                                        <td>prints <code>Ravi</code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p><strong>Time:</strong> O(1) • <strong>Space:</strong> stores attributes for object.</p>
+                            <p><strong>Alternative:</strong> use dicts like <code>{"name":...,"age":...}</code> (works
+                                but OOP gives methods for behavior).</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>type(obj)</code>: check object type.</li>
+                                <li><code>isinstance(obj, ClassName)</code>: check instance belongs to class.</li>
+                            </ul>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">isinstance</div>
+                                </div>
+                                <pre><code>class Person:
+    pass
+
+p = Person()
+
+print(isinstance(p, Person))
+print(type(p))
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <p>
+                                In OOP, “methods” are functions inside a class.
+                                The term <strong>method</strong> is important because it usually operates on
+                                <code>self</code>.
+                            </p>
+                            <div class="callout tip">
+                                <h3>💡 Tip</h3>
+                                <p>If you think “this function needs the object data,” it belongs in the class as a
+                                    method.</p>
+                            </div>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is OOP?</li>
+                                <li>What is a class?</li>
+                                <li>What is an object?</li>
+                                <li>What is the difference between class and object?</li>
+                                <li>What are attributes?</li>
+                                <li>What are methods?</li>
+                                <li>What is <code>self</code> in Python?</li>
+                                <li>What is <code>__init__</code> used for?</li>
+                                <li>When is <code>__init__</code> called?</li>
+                                <li>How do you create an object from a class?</li>
+                                <li>How do you call a method on an object?</li>
+                                <li>Why do we pass <code>self</code> in method definitions?</li>
+                                <li>What happens if you forget <code>self</code>?</li>
+                                <li>Can an object change its own attributes?</li>
+                                <li>Where are instance attributes stored (concept)?</li>
+                                <li>What is method overloading (concept in Python)?</li>
+                                <li>What is inheritance (concept)?</li>
+                                <li>What is encapsulation (concept)?</li>
+                                <li>Why is OOP useful for large programs?</li>
+                                <li>What is a constructor?</li>
+                                <li>What is the role of <code>return</code> in methods?</li>
+                                <li>Can methods access instance attributes?</li>
+                                <li>Can methods modify attributes?</li>
+                                <li>What is the difference between local variables and instance attributes?</li>
+                                <li>How to print an object (concept: <code>__str__</code>) later?</li>
+                                <li>What is a typical bug with missing <code>self.</code>?</li>
+                                <li>What is composition (concept)?</li>
+                                <li>What is aggregation (concept)?</li>
+                                <li>Is everything in Python a class instance?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>A class is:
+                                    <ul>
+                                        <li>A) data only</li>
+                                        <li>B) blueprint</li>
+                                        <li>C) program output</li>
+                                        <li>D) module</li>
+                                    </ul>
+                                </li>
+                                <li>An object is:
+                                    <ul>
+                                        <li>A) blueprint</li>
+                                        <li>B) instance of a class</li>
+                                        <li>C) error</li>
+                                        <li>D) file</li>
+                                    </ul>
+                                </li>
+                                <li><code>self</code> refers to:
+                                    <ul>
+                                        <li>A) current object</li>
+                                        <li>B) class name</li>
+                                        <li>C) module</li>
+                                        <li>D) theme</li>
+                                    </ul>
+                                </li>
+                                <li><code>__init__</code> is called:
+                                    <ul>
+                                        <li>A) when object is created</li>
+                                        <li>B) only when program ends</li>
+                                        <li>C) never automatically</li>
+                                        <li>D) when printing CSS</li>
+                                    </ul>
+                                </li>
+                                <li>Instance attributes are usually written with:
+                                    <ul>
+                                        <li>A) <code>name=</code></li>
+                                        <li>B) <code>self.name=</code></li>
+                                        <li>C) <code>this.name=</code></li>
+                                        <li>D) <code>$name=</code></li>
+                                    </ul>
+                                </li>
+                                <li>Methods belong to:
+                                    <ul>
+                                        <li>A) classes/objects</li>
+                                        <li>B) comments</li>
+                                        <li>C) HTML tags</li>
+                                        <li>D) JS</li>
+                                    </ul>
+                                </li>
+                                <li>To call a method, you do:
+                                    <ul>
+                                        <li>A) <code>Class.method()</code></li>
+                                        <li>B) <code>obj.method()</code></li>
+                                        <li>C) <code>method(obj)</code> always</li>
+                                        <li>D) never call</li>
+                                    </ul>
+                                </li>
+                                <li>In a method, <code>self</code> is passed automatically:
+                                    <ul>
+                                        <li>A) yes</li>
+                                        <li>B) no</li>
+                                        <li>C) only in loops</li>
+                                        <li>D) only in lists</li>
+                                    </ul>
+                                </li>
+                                <li>For constructor parameters, you define:
+                                    <ul>
+                                        <li>A) <code>def init(a,b)</code></li>
+                                        <li>B) <code>def __init__(self, ...)</code></li>
+                                        <li>C) <code>def constructor()</code></li>
+                                        <li>D) <code>def init</code> no self</li>
+                                    </ul>
+                                </li>
+                                <li>A method returning a string can be printed with:
+                                    <ul>
+                                        <li>A) <code>print(obj.method())</code></li>
+                                        <li>B) only print CSS</li>
+                                        <li>C) ignore return</li>
+                                        <li>D) can’t</li>
+                                    </ul>
+                                </li>
+                                <li>Which is correct? local variable vs attribute:
+                                    <ul>
+                                        <li>A) local persists forever</li>
+                                        <li>B) attribute persists with object</li>
+                                        <li>C) attributes disappear after function</li>
+                                        <li>D) local stored in class always</li>
+                                    </ul>
+                                </li>
+                                <li>For OOP encapsulation, you usually:
+                                    <ul>
+                                        <li>A) hide data with methods</li>
+                                        <li>B) show raw variables always</li>
+                                        <li>C) remove functions</li>
+                                        <li>D) change theme</li>
+                                    </ul>
+                                </li>
+                                <li>Inheritance is:
+                                    <ul>
+                                        <li>A) reusing code from a base class</li>
+                                        <li>B) changing file extension</li>
+                                        <li>C) sorting lists</li>
+                                        <li>D) writing CSS</li>
+                                    </ul>
+                                </li>
+                                <li>Composition means:
+                                    <ul>
+                                        <li>A) objects contain other objects</li>
+                                        <li>B) CSS contains JS</li>
+                                        <li>C) files are zipped</li>
+                                        <li>D) ignore objects</li>
+                                    </ul>
+                                </li>
+                                <li>Constructor is also called:
+                                    <ul>
+                                        <li>A) <code>__init__</code></li>
+                                        <li>B) <code>__name__</code></li>
+                                        <li>C) <code>print()</code></li>
+                                        <li>D) <code>len()</code></li>
+                                    </ul>
+                                </li>
+                                <li>If you forget <code>self.</code>, attribute may be:
+                                    <ul>
+                                        <li>A) set as instance attribute</li>
+                                        <li>B) local variable only</li>
+                                        <li>C) class attribute always</li>
+                                        <li>D) none</li>
+                                    </ul>
+                                </li>
+                                <li>Where is <code>self.name</code> stored?
+                                    <ul>
+                                        <li>A) inside method stack only</li>
+                                        <li>B) inside the object</li>
+                                        <li>C) in CSS file</li>
+                                        <li>D) in README</li>
+                                    </ul>
+                                </li>
+                                <li>What is the goal of OOP?
+                                    <ul>
+                                        <li>A) organize code and model real-world entities</li>
+                                        <li>B) avoid variables</li>
+                                        <li>C) skip learning</li>
+                                        <li>D) disable errors</li>
+                                    </ul>
+                                </li>
+                                <li>Methods can access:
+                                    <ul>
+                                        <li>A) only HTML</li>
+                                        <li>B) instance attributes via self</li>
+                                        <li>C) only JS variables</li>
+                                        <li>D) none</li>
+                                    </ul>
+                                </li>
+                                <li>Calling <code>obj.area()</code> is an example of:
+                                    <ul>
+                                        <li>A) calling a method</li>
+                                        <li>B) calling a module</li>
+                                        <li>C) calling a file</li>
+                                        <li>D) calling CSS</li>
+                                    </ul>
+                                </li>
+                                <li><code>class Person: pass</code> means:
+                                    <ul>
+                                        <li>A) class exists but no methods</li>
+                                        <li>B) error</li>
+                                        <li>C) theme only</li>
+                                        <li>D) dict</li>
+                                    </ul>
+                                </li>
+                                <li>Objects are created using:
+                                    <ul>
+                                        <li>A) calling the class</li>
+                                        <li>B) calling print</li>
+                                        <li>C) calling len</li>
+                                        <li>D) calling manifest</li>
+                                    </ul>
+                                </li>
+                                <li><code>self</code> is just a name; you can rename?
+                                    <ul>
+                                        <li>A) yes (but not recommended)</li>
+                                        <li>B) no ever</li>
+                                        <li>C) only in JS</li>
+                                        <li>D) only in HTML</li>
+                                    </ul>
+                                </li>
+                                <li>Best practice is:
+                                    <ul>
+                                        <li>A) always use <code>self</code></li>
+                                        <li>B) never use self</li>
+                                        <li>C) use this</li>
+                                        <li>D) use this.name</li>
+                                    </ul>
+                                </li>
+                                <li>When is OOP code executed?
+                                    <ul>
+                                        <li>A) when methods run or object created</li>
+                                        <li>B) only at compile time</li>
+                                        <li>C) never</li>
+                                        <li>D) in CSS</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Create a class <code>Car</code> with <code>pass</code>.</li>
+                                <li>Create an object <code>c = Car()</code> and print its type.</li>
+                                <li>Add <code>__init__</code> with parameters <code>(name, price)</code>.</li>
+                                <li>Store <code>self.name</code> and <code>self.price</code>.</li>
+                                <li>Create a method <code>details()</code> returning a string.</li>
+                                <li>Create two cars and print each details.</li>
+                                <li>Create a <code>Student</code> class with <code>marks</code>.</li>
+                                <li>Add a method <code>is_pass()</code> returning True/False.</li>
+                                <li>Create students and print their pass status.</li>
+                                <li>Create a class <code>Circle</code> with radius and method <code>area()</code>.</li>
+                                <li>Use <code>print(circle.area())</code>.</li>
+                                <li>Add a method <code>perimeter()</code>.</li>
+                                <li>Update an attribute after object creation (e.g. change price).</li>
+                                <li>Print updated details.</li>
+                                <li>Create <code>Person</code> with <code>greet()</code>.</li>
+                                <li>Call <code>obj.greet()</code>.</li>
+                                <li>Write a method that returns an integer score.</li>
+                                <li>Use a loop to call method on many objects.</li>
+                                <li>Dry run: explain what happens during <code>__init__</code>.</li>
+                                <li>Dry run: explain what <code>self</code> points to.</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Create a class <code>BankAccount</code> with balance and method
+                                    <code>deposit()</code>.</li>
+                                <li>Create method <code>withdraw()</code> that checks for enough balance.</li>
+                                <li>Create 2 accounts and test methods.</li>
+                                <li>Implement method <code>transfer_to(other, amount)</code> (concept).</li>
+                                <li>Create a <code>Rectangle</code> class with area + perimeter.</li>
+                                <li>Write a method <code>scale(factor)</code> that updates width/height.</li>
+                                <li>Make a class <code>Book</code> with title + author.</li>
+                                <li>Add <code>summary()</code> method returning formatted text.</li>
+                                <li>Create list of books and print summaries.</li>
+                                <li>Create <code>Temperature</code> class with celsius and method to_fahrenheit.</li>
+                                <li>Store fahrenheit output as string (concept).</li>
+                                <li>Create <code>GradeBook</code> storing list of marks.</li>
+                                <li>Add method <code>average()</code>.</li>
+                                <li>Write <code>best()</code> returning max mark.</li>
+                                <li>Write method <code>add_mark(x)</code> updating list.</li>
+                                <li>Dry run: method modifies attributes.</li>
+                                <li>Create method with condition returning different strings.</li>
+                                <li>Refactor a procedural function into a method.</li>
+                                <li>Make a method that takes parameters and uses stored state.</li>
+                                <li>Output prediction: what prints if attribute changed?</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Implement a class <code>Timer</code> with start time (concept).</li>
+                                <li>Create method <code>elapsed()</code> returning seconds (concept).</li>
+                                <li>Write class <code>Calculator</code> with methods add/sub/mul/div.</li>
+                                <li>In div method, handle divide by zero (concept with try/except later).</li>
+                                <li>Create class <code>Vector2D</code> with x,y and method <code>magnitude()</code>.
+                                </li>
+                                <li>Write method <code>dot(other)</code> computing dot product.</li>
+                                <li>Implement <code>distance_to(other)</code> using Pythagoras.</li>
+                                <li>Build a <code>Deck</code> class (concept) with list of cards.</li>
+                                <li>Add method <code>shuffle()</code> (concept) and <code>draw()</code>.</li>
+                                <li>Implement a <code>stack</code> behavior using class (concept).</li>
+                                <li>Output prediction: track attributes after multiple method calls.</li>
+                                <li>Design a <code>User</code> class with <code>display()</code>.</li>
+                                <li>Write a class method (concept) using <code>@classmethod</code>.</li>
+                                <li>Write a static method (concept) using <code>@staticmethod</code>.</li>
+                                <li>Explain difference between instance method and static method (concept).</li>
+                                <li>Refactor to reduce duplication across methods (design).</li>
+                                <li>Create a class that validates inputs in <code>__init__</code> (concept).</li>
+                                <li>Implement method that returns <code>self</code> (fluent interface concept).</li>
+                                <li>Build a tiny OOP “model” with 2 interacting classes.</li>
+                                <li>Debugging: find missing <code>self.</code> in methods (attempt).</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment17_1.py</code>: class <code>Person</code> with
+                                    <code>greet()</code>.</li>
+                                <li>Create <code>assignment17_2.py</code>: class <code>BankAccount</code> with
+                                    deposit/withdraw.</li>
+                                <li>Create <code>assignment17_3.py</code>: class <code>Rectangle</code> with area and
+                                    perimeter.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Simple Recipe Book</h3>
+                                <p>Create classes:</p>
+                                <ul>
+                                    <li><code>Recipe</code> with <code>name</code>, <code>ingredients</code> (list), and
+                                        <code>steps</code> (list).</li>
+                                    <li><code>RecipeBook</code> with a list of recipes and method to add and print
+                                        recipes.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+
+                            <div class="callout warning">
+                                <h3>Case 1: forgetting <code>self</code></h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>class Person:
+    def __init__(self, name):
+        name = name
+
+p = Person("Ravi")
+print(p.name)
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> use <code>self.name = name</code>.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: calling method wrong</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>class A:
+    def hello(self):
+        return "Hi"
+
+print(A.hello())
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> create object first: <code>a=A(); print(a.hello())</code>.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: local variable vs attribute</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>class Counter:
+    def __init__(self):
+        self.count = 0
+
+    def inc(self):
+        count = self.count + 1
+
+c = Counter()
+c.inc()
+print(c.count)
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> update <code>self.count = count</code> or directly
+                                    <code>self.count += 1</code>.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>AttributeError:</strong> accessing attribute not stored on object.</li>
+                                <li><strong>TypeError:</strong> calling a method without creating object (missing
+                                    <code>self</code>).</li>
+                                <li><strong>NameError:</strong> using variables not defined inside methods.</li>
+                                <li><strong>Logic error:</strong> updating local variable instead of <code>self.</code>
+                                    attribute.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Name classes using nouns: <code>Person</code>, <code>Rectangle</code>.</li>
+                                <li>Use methods to group behavior with data.</li>
+                                <li>Always store instance data as <code>self.x</code> inside <code>__init__</code>.</li>
+                                <li>Return values from methods instead of printing inside methods (clean design).</li>
+                                <li>Keep methods short and focused.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                OOP helps you bundle data and behavior. You learned classes and objects.
+                                You learned attributes, methods, <code>__init__</code>, and the <code>self</code> idea.
+                                You also practiced debugging mistakes like missing <code>self.</code>.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="OOP cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Task</th>
+                                        <th>Syntax</th>
+                                        <th>Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Create class</td>
+                                        <td><code>class X:</code></td>
+                                        <td>Blueprint</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Constructor</td>
+                                        <td><code>def __init__(self,...)</code></td>
+                                        <td>Runs at object creation</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Attribute</td>
+                                        <td><code>self.name = ...</code></td>
+                                        <td>Store data in object</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Method</td>
+                                        <td><code>def greet(self):</code></td>
+                                        <td>Behavior</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Create object</td>
+                                        <td><code>x = X(...)</code></td>
+                                        <td>Instance</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Ticket Generator</h3>
+                                <p>Create a class <code>Ticket</code> with:</p>
+                                <ul>
+                                    <li><code>event_name</code> and <code>seat_number</code></li>
+                                    <li>a method <code>render()</code> returning a formatted ticket string</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What is a class?</li>
+                                <li>What is an object?</li>
+                                <li>What is <code>self</code>?</li>
+                                <li>What does <code>__init__</code> do?</li>
+                                <li>How do you store attributes?</li>
+                                <li>How do you call a method?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>Class:</strong> blueprint.</li>
+                                    <li><strong>Object:</strong> instance created from blueprint.</li>
+                                    <li><strong>self:</strong> refers to the current instance.</li>
+                                    <li><strong>__init__:</strong> runs when creating an object.</li>
+                                    <li><strong>Attributes:</strong> stored using <code>self.x = ...</code>.</li>
+                                    <li><strong>Methods:</strong> functions inside a class, called as
+                                        <code>obj.method()</code>.</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-18.html">Next Chapter</a></div>
+                            </div>
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

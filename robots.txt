@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Sitemap: /sitemap.xml
+
+# Generated: Python Notebook Course (48 chapters)
+
+

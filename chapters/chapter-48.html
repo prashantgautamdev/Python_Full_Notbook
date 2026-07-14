@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 48 — Capstone Project</title>
+    <meta name="description"
+        content="Chapter 48: Capstone Project. Build a full end-to-end Python project: CLI + data processing + tests + packaging ideas." />
+    <link rel="canonical" href="./chapters/chapter-48.html" />
+
+    <meta property="og:title" content="Chapter 48 — Capstone Project" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description"
+        content="Capstone project: end-to-end Python mini app with CLI, data, testing, and release steps." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 48 — Capstone Project" />
+    <meta name="twitter:description" content="Capstone project with practice and explained answers." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 48 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout remember" style="margin-top:12px;">
+                        <h3>⭐ Remember</h3>
+                        <p>
+                            Capstone = combine everything.
+                            Build a small end-to-end tool, test it, document it, and package/release.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 48</div>
+                        <h1 class="chapter-title">Chapter 48 — Capstone Project</h1>
+                        <p class="subtle">Build an end-to-end Python capstone: a small “Notebook Practice Organizer”
+                            that reads tasks, validates them, exports a report, and includes tests + clean design.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-47.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <ul>
+                                    <li>Plan an end-to-end Python tool (inputs → processing → outputs).</li>
+                                    <li>Use functions, modules, and clean separation of concerns.</li>
+                                    <li>Validate inputs, handle errors, and test core logic.</li>
+                                    <li>Provide a CLI interface and export a report.</li>
+                                    <li>Explain time/space complexity for key steps.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                Capstone projects show you can build software, not only learn concepts.
+                            </p>
+                            <p>
+                                In this capstone, you will design a small organizer tool:
+                                it reads a tasks file, marks completion, validates entries, and exports a report.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 Problem breakdown</h3>
+                            <p>
+                                Think in 4 parts:
+                            </p>
+                            <ul>
+                                <li><strong>Input:</strong> a JSON tasks file (or CSV).</li>
+                                <li><strong>Validation:</strong> ensure fields are correct.</li>
+                                <li><strong>Processing:</strong> update statuses + compute summary.</li>
+                                <li><strong>Output:</strong> export a text/JSON report.</li>
+                            </ul>
+
+                            <h3>2.2 Design with modules (concept)</h3>
+                            <ul>
+                                <li><code>models.py</code> — data structures</li>
+                                <li><code>io.py</code> — read/write tasks</li>
+                                <li><code>logic.py</code> — validation and report calculations</li>
+                                <li><code>cli.py</code> — command parsing and calling logic</li>
+                            </ul>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    Don’t mix file reading with business logic.
+                                    Keep validation and processing separate so testing becomes easy.
+                                </p>
+                            </div>
+
+                            <h3>2.3 Testing mindset</h3>
+                            <p>
+                                Test pure functions first.
+                                If your logic is pure, you can test it without files.
+                            </p>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">task validation + report (core logic)</div>
+                                </div>
+                                <pre><code>from dataclasses import dataclass
+
+@dataclass
+class Task:
+    id: int
+    title: str
+    done: bool
+
+
+def validate_tasks(raw_tasks):
+    """Return list[Task] after validation.
+
+    Time complexity: O(n) over tasks.
+    Space complexity: O(n) for validated objects.
+
+    Alternative: validate using JSON schema libraries (advanced).
+    """
+    tasks = []
+
+    for t in raw_tasks:
+        # Validate required keys
+        if "id" not in t or "title" not in t or "done" not in t:
+            raise ValueError("Each task must have id, title, done")
+
+        # Validate types
+        if not isinstance(t["id"], int):
+            raise TypeError("Task id must be int")
+        if not isinstance(t["title"], str) or not t["title"].strip():
+            raise ValueError("Task title must be non-empty string")
+        if not isinstance(t["done"], bool):
+            raise TypeError("Task done must be boolean")
+
+        tasks.append(Task(id=t["id"], title=t["title"], done=t["done"]))
+
+    return tasks
+
+
+def build_report(tasks):
+    """Build a report string.
+
+    Time: O(n) • Space: O(1) extra (report building aside).
+    Alternative: return structured dict instead of text.
+    """
+    total = len(tasks)
+    done_count = sum(1 for x in tasks if x.done)
+    pending = total - done_count
+
+    lines = []
+    lines.append(f"Total tasks: {total}")
+    lines.append(f"Done: {done_count}")
+    lines.append(f"Pending: {pending}")
+
+    # List pending tasks
+    lines.append("Pending titles:")
+    for x in tasks:
+        if not x.done:
+            lines.append(f"- [{x.id}] {x.title}")
+
+    return "\n".join(lines)
+</code></pre>
+                            </div>
+
+                            <p><strong>Output:</strong> validated tasks list and a report string.</p>
+                            <p><strong>Time:</strong> O(n) • <strong>Space:</strong> O(n).</p>
+                            <p><strong>Alternative:</strong> keep tasks as dicts (simpler) but dataclass improves
+                                clarity.</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — validate and build report</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">example data + calling core logic</div>
+                                </div>
+                                <pre><code>raw = [
+    {"id": 1, "title": "Read Chapter 47", "done": False},
+    {"id": 2, "title": "Solve practice problems", "done": True},
+]
+
+tasks = validate_tasks(raw)
+report = build_report(tasks)
+print(report)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> a report listing pending tasks.</p>
+
+                            <h3>4.2 Medium Example — update a task status (concept)</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">mark done by id</div>
+                                </div>
+                                <pre><code>def mark_done(tasks, task_id):
+    """Mark the task as done.
+
+    Time: O(n) to find a task.
+    Space: O(1) extra.
+
+    Alternative: store tasks in a dict by id for O(1) lookup.
+    """
+    for t in tasks:
+        if t.id == task_id:
+            t.done = True
+            return True
+    return False
+</code></pre>
+                            </div>
+
+                            <h3>4.3 Advanced Example — dict-based tasks for faster updates</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">id → Task mapping</div>
+                                </div>
+                                <pre><code>def tasks_to_dict(tasks):
+    # build lookup dict
+    return {t.id: t for t in tasks}
+
+# Now mark_done can be:
+# tasks_map[task_id].done = True
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: capstone pipeline</h3>
+                                <pre><code>[CLI command]
+     |
+     v
+[Read tasks file]
+     |
+     v
+[Validate input]
+     |
+     v
+[Apply command update]
+     |
+     v
+[Build report]
+     |
+     v
+[Write updated tasks + report]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <table class="table" aria-label="Capstone memory">
+                                <thead>
+                                    <tr>
+                                        <th>Data</th>
+                                        <th>What it is</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Raw tasks</td>
+                                        <td>list of dicts loaded from JSON</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Task objects</td>
+                                        <td>validated dataclass objects</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Report lines</td>
+                                        <td>temporary list of strings</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Output files</td>
+                                        <td>saved report and updated JSON</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Dry run</div>
+                                    <div class="meta">mark done then export</div>
+                                </div>
+                                <pre><code>Start tasks:
+1 done=False
+2 done=True
+
+Command: mark_done(1)
+- find id=1
+- set done=True
+
+Now:
+1 done=True
+2 done=True
+
+Report:
+Total tasks: 2
+Done: 2
+Pending: 0
+Pending titles: (none)
+</code></pre>
+                            </div>
+                            <p><strong>Time:</strong> O(n) for list search (or O(1) with dict mapping).</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>sum()</code> for done counts.</li>
+                                <li><code>len()</code> for totals.</li>
+                                <li><code>open()</code> and <code>json</code> conceptually for IO.</li>
+                            </ul>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <div class="callout note">
+                                <h3>Core method patterns</h3>
+                                <ul>
+                                    <li><code>validate_tasks</code> — pure validation function.</li>
+                                    <li><code>build_report</code> — pure summary function.</li>
+                                    <li><code>mark_done</code> — update command logic.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is a capstone project?</li>
+                                <li>Why do we break problems into input/logic/output?</li>
+                                <li>What is validation?</li>
+                                <li>What happens if you skip validation?</li>
+                                <li>What is a dataclass?</li>
+                                <li>Why use dataclasses for tasks?</li>
+                                <li>What is separation of concerns?</li>
+                                <li>What is the advantage of pure functions?</li>
+                                <li>How do you test pure functions?</li>
+                                <li>How do you test file IO code?</li>
+                                <li>What is dry-run mode?</li>
+                                <li>Why is it important for destructive actions?</li>
+                                <li>How do you design a CLI interface?</li>
+                                <li>What is an exit code?</li>
+                                <li>What is error handling strategy?</li>
+                                <li>How do you handle “task id not found”?</li>
+                                <li>What is time complexity of scanning a list?</li>
+                                <li>What is a dict lookup complexity?</li>
+                                <li>When should you use list vs dict?</li>
+                                <li>What is serialization?</li>
+                                <li>Why do we use JSON for tasks?</li>
+                                <li>What are edge cases for tasks file?</li>
+                                <li>How do you document a project?</li>
+                                <li>How do you prepare a release?</li>
+                                <li>What does reproducible mean?</li>
+                                <li>How do you ensure correctness?</li>
+                                <li>What is mocking in tests (concept)?</li>
+                                <li>What is integration vs unit testing?</li>
+                                <li>How do you avoid storing secrets in code?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>A capstone project is:
+                                    <ul>
+                                        <li>A) only theory</li>
+                                        <li>B) an end-to-end project showing skills</li>
+                                        <li>C) only UI</li>
+                                        <li>D) only deployment</li>
+                                    </ul>
+                                </li>
+                                <li>Validation is used to:
+                                    <ul>
+                                        <li>A) confirm input matches requirements</li>
+                                        <li>B) change theme</li>
+                                        <li>C) ignore input errors</li>
+                                        <li>D) remove tests</li>
+                                    </ul>
+                                </li>
+                                <li>Dataclass is best for:
+                                    <ul>
+                                        <li>A) structured data objects</li>
+                                        <li>B) CSS styling</li>
+                                        <li>C) caching</li>
+                                        <li>D) only web pages</li>
+                                    </ul>
+                                </li>
+                                <li>Separation of concerns means:
+                                    <ul>
+                                        <li>A) separate tasks into modules/functions</li>
+                                        <li>B) put everything into one function</li>
+                                        <li>C) skip IO</li>
+                                        <li>D) ignore errors</li>
+                                    </ul>
+                                </li>
+                                <li>Pure function means:
+                                    <ul>
+                                        <li>A) no side effects and deterministic output</li>
+                                        <li>B) changes files</li>
+                                        <li>C) prints always</li>
+                                        <li>D) reads random data</li>
+                                    </ul>
+                                </li>
+                                <li>Dry-run mode typically:
+                                    <ul>
+                                        <li>A) previews changes without writing</li>
+                                        <li>B) deletes immediately</li>
+                                        <li>C) installs packages</li>
+                                        <li>D) changes cache forever</li>
+                                    </ul>
+                                </li>
+                                <li>List scanning to find id takes:
+                                    <ul>
+                                        <li>A) O(1)</li>
+                                        <li>B) O(n)</li>
+                                        <li>C) O(log n)</li>
+                                        <li>D) O(n²)</li>
+                                    </ul>
+                                </li>
+                                <li>Dict lookup by key is usually:
+                                    <ul>
+                                        <li>A) O(n)</li>
+                                        <li>B) ~O(1) average</li>
+                                        <li>C) O(n log n)</li>
+                                        <li>D) O(1 always no hashing</li>
+                                    </ul>
+                                </li>
+                                <li><code>sum()</code> is used for:
+                                    <ul>
+                                        <li>A) aggregation of numbers</li>
+                                        <li>B) building HTML</li>
+                                        <li>C) caching</li>
+                                        <li>D) regex</li>
+                                    </ul>
+                                </li>
+                                <li><code>len()</code> gives:
+                                    <ul>
+                                        <li>A) size/length</li>
+                                        <li>B) theme</li>
+                                        <li>C) network</li>
+                                        <li>D) nothing</li>
+                                    </ul>
+                                </li>
+                                <li>Unit tests focus on:
+                                    <ul>
+                                        <li>A) small pieces like functions</li>
+                                        <li>B) whole server only</li>
+                                        <li>C) CSS only</li>
+                                        <li>D) offline cache</li>
+                                    </ul>
+                                </li>
+                                <li>Integration tests focus on:
+                                    <ul>
+                                        <li>A) multiple components together</li>
+                                        <li>B) only one function</li>
+                                        <li>C) only theme</li>
+                                        <li>D) no IO</li>
+                                    </ul>
+                                </li>
+                                <li>Correctness means:
+                                    <ul>
+                                        <li>A) output matches requirements</li>
+                                        <li>B) output looks pretty</li>
+                                        <li>C) only no crash</li>
+                                        <li>D) it’s dark mode</li>
+                                    </ul>
+                                </li>
+                                <li>Serialization means:
+                                    <ul>
+                                        <li>A) converting objects to storable format</li>
+                                        <li>B) deleting objects</li>
+                                        <li>C) compiling python</li>
+                                        <li>D) rewriting CSS</li>
+                                    </ul>
+                                </li>
+                                <li>JSON stands for:
+                                    <ul>
+                                        <li>A) JavaScript Object Notation</li>
+                                        <li>B) Java Screenshot Output</li>
+                                        <li>C) JSON cache system</li>
+                                        <li>D) none</li>
+                                    </ul>
+                                </li>
+                                <li>Edge cases include:
+                                    <ul>
+                                        <li>A) empty inputs</li>
+                                        <li>B) typical inputs only</li>
+                                        <li>C) always correct inputs</li>
+                                        <li>D) always large inputs</li>
+                                    </ul>
+                                </li>
+                                <li>Exit code 0 typically means:
+                                    <ul>
+                                        <li>A) success</li>
+                                        <li>B) failure</li>
+                                        <li>C) unknown</li>
+                                        <li>D) restart</li>
+                                    </ul>
+                                </li>
+                                <li>In optimization, correctness should be:
+                                    <ul>
+                                        <li>A) preserved while improving speed</li>
+                                        <li>B) removed</li>
+                                        <li>C) ignored</li>
+                                        <li>D) replaced with UI</li>
+                                    </ul>
+                                </li>
+                                <li>Error handling strategy aims to:
+                                    <ul>
+                                        <li>A) recover or fail gracefully</li>
+                                        <li>B) crash</li>
+                                        <li>C) hide bugs</li>
+                                        <li>D) ignore exceptions</li>
+                                    </ul>
+                                </li>
+                                <li>CLI is good for:
+                                    <ul>
+                                        <li>A) automation and batch processing</li>
+                                        <li>B) only web browsing</li>
+                                        <li>C) only styling</li>
+                                        <li>D) only ML training</li>
+                                    </ul>
+                                </li>
+                                <li>When task id is not found, you should:
+                                    <ul>
+                                        <li>A) return False or raise a clear error</li>
+                                        <li>B) crash without message</li>
+                                        <li>C) silently ignore</li>
+                                        <li>D) change theme</li>
+                                    </ul>
+                                </li>
+                                <li>Packaging means:
+                                    <ul>
+                                        <li>A) preparing project for sharing</li>
+                                        <li>B) changing sidebar</li>
+                                        <li>C) deleting assets</li>
+                                        <li>D) only README</li>
+                                    </ul>
+                                </li>
+                                <li>Documentation helps:
+                                    <ul>
+                                        <li>A) users and maintainers understand usage</li>
+                                        <li>B) break code</li>
+                                        <li>C) hide errors</li>
+                                        <li>D) cache offline</li>
+                                    </ul>
+                                </li>
+                                <li>Mocking in tests is conceptually:
+                                    <ul>
+                                        <li>A) replacing real dependencies with fakes</li>
+                                        <li>B) deleting functions</li>
+                                        <li>C) changing CSS</li>
+                                        <li>D) caching service worker</li>
+                                    </ul>
+                                </li>
+                                <li>Integration tests often need:
+                                    <ul>
+                                        <li>A) real IO or more complete components</li>
+                                        <li>B) only one function</li>
+                                        <li>C) only static assets</li>
+                                        <li>D) no files</li>
+                                    </ul>
+                                </li>
+                                <li>In IO logic, you should:
+                                    <ul>
+                                        <li>A) handle encoding and missing files</li>
+                                        <li>B) ignore errors</li>
+                                        <li>C) assume keys exist</li>
+                                        <li>D) not validate</li>
+                                    </ul>
+                                </li>
+                                <li>Capstone success means:
+                                    <ul>
+                                        <li>A) tool works end-to-end and is tested</li>
+                                        <li>B) only code compiles</li>
+                                        <li>C) only UI exists</li>
+                                        <li>D) no docs</li>
+                                    </ul>
+                                </li>
+                                <li>Complexity of building report with one loop is:
+                                    <ul>
+                                        <li>A) O(n)</li>
+                                        <li>B) O(1)</li>
+                                        <li>C) O(log n)</li>
+                                        <li>D) O(n²)</li>
+                                    </ul>
+                                </li>
+                                <li>Time complexity tells you:
+                                    <ul>
+                                        <li>A) how work scales with n</li>
+                                        <li>B) what color to use</li>
+                                        <li>C) DB schema</li>
+                                        <li>D) nothing</li>
+                                    </ul>
+                                </li>
+                                <li>Space complexity tells you:
+                                    <ul>
+                                        <li>A) how extra memory scales</li>
+                                        <li>B) CSS border</li>
+                                        <li>C) robots rules</li>
+                                        <li>D) none</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Create a list of raw task dicts and validate them using <code>validate_tasks</code>.
+                                </li>
+                                <li>Make one task invalid (missing key) and catch the error (concept).</li>
+                                <li>Build a report for a list of 3 tasks (two done, one pending).</li>
+                                <li>Dry run report building: count done tasks manually.</li>
+                                <li>Implement <code>mark_done</code> and test with a task id that exists.</li>
+                                <li>Test <code>mark_done</code> with a task id that does not exist.</li>
+                                <li>Write a function <code>filter_done(tasks)</code> returning only done tasks.</li>
+                                <li>Explain time complexity for the filter function (O(n)).</li>
+                                <li>Write a function <code>filter_pending(tasks)</code>.</li>
+                                <li>Dry run filter_pending with 2 done / 1 pending tasks.</li>
+                                <li>Implement a <code>find_task</code> helper returning the Task or None.</li>
+                                <li>Use <code>len()</code> to compute total tasks.</li>
+                                <li>Use <code>sum()</code> to compute done_count with boolean filtering.</li>
+                                <li>Implement a simple CLI parser concept using <code>argparse</code>.</li>
+                                <li>Predict output of CLI when given a command “status”.</li>
+                                <li>Write basic tests using <code>assert</code> for validate_tasks.</li>
+                                <li>Test that invalid id type raises TypeError.</li>
+                                <li>Test that empty title raises ValueError.</li>
+                                <li>Refactor code into smaller helpers (concept).</li>
+                                <li>Write comments describing each function’s purpose (concept).</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Implement file IO: read tasks from JSON (concept).</li>
+                                <li>Implement file IO: write tasks back to JSON (concept).</li>
+                                <li>Design the tasks file format and document it.</li>
+                                <li>Add a CLI command: <code>list</code> printing pending and done.</li>
+                                <li>Add a CLI command: <code>mark-done <id></code>.</li>
+                                <li>Ensure “mark-done” updates only the correct task.</li>
+                                <li>Add a CLI command: <code>export-report</code> writing report.txt.</li>
+                                <li>Dry run CLI output for a sample tasks file.</li>
+                                <li>Implement a “dry-run” option that does not write files (design).</li>
+                                <li>Ensure dry-run still validates and shows what would happen.</li>
+                                <li>Write integration tests concept: validate + update + export on temp data.</li>
+                                <li>Implement dictionary-based task map for faster updates (design).</li>
+                                <li>Explain time complexity improvement (O(n) → ~O(1)).</li>
+                                <li>Debug: ensure Task dataclass equality works (concept).</li>
+                                <li>Debug: JSON boolean types become True/False correctly.</li>
+                                <li>Design error messages that help the user fix input.</li>
+                                <li>Add “help” text for CLI arguments.</li>
+                                <li>Use exceptions to separate error types: ValueError vs TypeError.</li>
+                                <li>Write a test that checks report content includes done/pending counts.</li>
+                                <li>Design an exit code convention for CLI errors.</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Implement undo concept: keep previous state before marking done.</li>
+                                <li>Implement atomic write concept: write temp file then replace.</li>
+                                <li>Design schema versioning for tasks file format.</li>
+                                <li>Handle migration if schema changes (concept).</li>
+                                <li>Add logging (concept) and ensure log messages are consistent.</li>
+                                <li>Implement “validate” mode that prints all validation problems.</li>
+                                <li>Design error report output as JSON.</li>
+                                <li>Explain complexity of validation over n tasks.</li>
+                                <li>Implement a plugin system for new task types (design).</li>
+                                <li>Integrate multiple modules: io + logic + cli.</li>
+                                <li>Design a test suite structure (concept) for unit tests.</li>
+                                <li>Debug: ensure report ordering is stable and deterministic.</li>
+                                <li>Implement concurrency concept: export reports in background (design).</li>
+                                <li>Design a benchmark plan comparing list vs dict-based updates.</li>
+                                <li>Explain how to prevent data corruption on crashes (concept).</li>
+                                <li>Implement command “reset” with confirmation prompt (design).</li>
+                                <li>Explain trade-off of prompt vs non-interactive mode.</li>
+                                <li>Design a deployment plan: packaging as a pip-installable tool (concept).</li>
+                                <li>Write a small “user guide” for the CLI.</li>
+                                <li>Write final reflection: what skills you used from previous chapters.</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment48_1.py</code>: implement <code>validate_tasks</code> and
+                                    <code>build_report</code> and test them.</li>
+                                <li>Create <code>assignment48_2.py</code>: implement <code>mark_done</code> and CLI
+                                    “mark-done” concept.</li>
+                                <li>Create <code>assignment48_3.py</code>: implement file IO + export-report with
+                                    dry-run option (design).</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Build Your Capstone Skeleton</h3>
+                                <ul>
+                                    <li>Create modules: <code>models.py</code>, <code>logic.py</code>,
+                                        <code>io.py</code>, <code>cli.py</code>.</li>
+                                    <li>Write unit tests for validation and report building.</li>
+                                    <li>Implement CLI commands using <code>argparse</code>.</li>
+                                    <li>Add dry-run mode.</li>
+                                    <li>Export a report to a file.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+                            <div class="callout warning">
+                                <h3>Case 1: validation passes wrong type</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">string id accepted</div>
+                                    </div>
+                                    <pre><code>if isinstance(t["id"], (int, str)):  # wrong
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> validate strict types and raise clear errors.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: report counts wrong</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">done_count computed wrong</div>
+                                    </div>
+                                    <pre><code>done_count = len(tasks)  # wrong
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> recompute with <code>sum(1 for x in tasks if x.done)</code>.
+                                </p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: writing files in dry-run</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">dry_run not respected</div>
+                                    </div>
+                                    <pre><code>if dry_run:
+    print("Dry run")
+# still writes afterwards
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> wrap write logic inside <code>if not dry_run</code> or return
+                                    early.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>KeyError:</strong> missing task fields in raw JSON.</li>
+                                <li><strong>TypeError:</strong> wrong type for <code>done</code> or <code>id</code>.
+                                </li>
+                                <li><strong>ValueError:</strong> empty title string.</li>
+                                <li><strong>JSONDecodeError:</strong> corrupted file input.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Keep logic pure and testable.</li>
+                                <li>Validate inputs and raise clear errors.</li>
+                                <li>Add dry-run before destructive writes.</li>
+                                <li>Write unit tests for validation and summary.</li>
+                                <li>Document file formats and CLI usage.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                Capstone complete: you built a design for a full end-to-end Python project.
+                                You learned to separate modules, validate inputs, compute reports, and test core logic.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Capstone cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Need</th>
+                                        <th>Do this</th>
+                                        <th>Complexity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Validate tasks</td>
+                                        <td>loop and check keys/types</td>
+                                        <td>O(n)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Build report</td>
+                                        <td>sum done + list pending</td>
+                                        <td>O(n)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Update by id</td>
+                                        <td>scan list or use dict map</td>
+                                        <td>O(n) or ~O(1)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Export report</td>
+                                        <td>write output file</td>
+                                        <td>O(report_size)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Add “Priority” to Tasks</h3>
+                                <ul>
+                                    <li>Add a new field <code>priority</code> with allowed values: low/medium/high.</li>
+                                    <li>Update validation rules for priority.</li>
+                                    <li>Update report to show pending tasks sorted by priority.</li>
+                                    <li>Explain how sorting affects time complexity (concept).</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What is a capstone?</li>
+                                <li>Why do we validate inputs?</li>
+                                <li>What is separation of concerns?</li>
+                                <li>Why test pure functions first?</li>
+                                <li>How do you mark a task done?</li>
+                                <li>What does build_report do?</li>
+                                <li>What is the time complexity of validation?</li>
+                                <li>What is the time complexity of scanning tasks by id?</li>
+                                <li>How do you export output to a file?</li>
+                                <li>Why add dry-run?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>Capstone:</strong> demonstrates end-to-end skills.</li>
+                                    <li><strong>Validate:</strong> prevents crashes and wrong outputs.</li>
+                                    <li><strong>Separation:</strong> makes code maintainable and testable.</li>
+                                    <li><strong>Pure tests:</strong> no IO needed, faster and more reliable.</li>
+                                    <li><strong>Report building:</strong> loops tasks to count done/pending.</li>
+                                    <li><strong>Complexity:</strong> single pass loops give O(n).</li>
+                                    <li><strong>Dry-run:</strong> previews without destructive writes.</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next style="visibility:hidden;" href="#">Next
+                                        Chapter</a></div>
+                            </div>
+
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

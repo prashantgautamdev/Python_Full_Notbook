@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 34 — NumPy</title>
+    <meta name="description"
+        content="Chapter 34: NumPy. Learn arrays, vectorization, indexing, slicing, and common operations with explained examples and practice." />
+    <link rel="canonical" href="./chapters/chapter-34.html" />
+
+    <meta property="og:title" content="Chapter 34 — NumPy" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description"
+        content="Learn NumPy arrays and vectorized operations with practice and explained answers." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 34 — NumPy" />
+    <meta name="twitter:description" content="NumPy fundamentals with practice and solved explanations." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 34 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout remember" style="margin-top:12px;">
+                        <h3>⭐ Remember</h3>
+                        <p>
+                            NumPy is for fast math with arrays.
+                            Vectorization means “do operations on the whole array” at once.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 34</div>
+                        <h1 class="chapter-title">Chapter 34 — NumPy</h1>
+                        <p class="subtle">Learn NumPy arrays, indexing, slicing, vectorized operations, and common
+                            statistics with practice and explained answers.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-33.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <ul>
+                                    <li>Understand NumPy arrays and why they are faster than lists.</li>
+                                    <li>Create 1D and 2D arrays.</li>
+                                    <li>Learn indexing and slicing rules.</li>
+                                    <li>Use vectorized operations and broadcasting concept.</li>
+                                    <li>Compute statistics like mean and sum.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                Python lists are flexible, but not optimized for heavy numeric work.
+                                NumPy arrays store data compactly and operate with fast code.
+                            </p>
+                            <p>
+                                In this chapter you learn the core NumPy skills you need for data science.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 Arrays instead of lists</h3>
+                            <p>
+                                A NumPy <strong>array</strong> is a grid of numbers.
+                                It has:
+                            </p>
+                            <ul>
+                                <li><strong>shape</strong>: how many rows/columns</li>
+                                <li><strong>dtype</strong>: the data type stored</li>
+                                <li><strong>size</strong>: total elements</li>
+                            </ul>
+
+                            <h3>2.2 Vectorization</h3>
+                            <p>
+                                Vectorized operations run on the whole array at once.
+                                Example: <code>arr * 2</code> multiplies every element.
+                            </p>
+
+                            <h3>2.3 Broadcasting (concept)</h3>
+                            <p>
+                                Broadcasting lets NumPy combine arrays with different shapes when it is safe.
+                                For example, a scalar can be added to every element.
+                            </p>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    Shape mismatch causes errors.
+                                    Always check <code>arr.shape</code> when things fail.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">create arrays + basic ops</div>
+                                </div>
+                                <pre><code>import numpy as np
+
+arr = np.array([1, 2, 3])
+print("arr:", arr)
+
+arr2 = arr * 2
+print("arr2:", arr2)
+
+print("sum:", arr.sum())
+print("mean:", arr.mean())
+</code></pre>
+                            </div>
+
+                            <p><strong>Time:</strong> O(n) • <strong>Space:</strong> O(n) for arrays.</p>
+                            <p><strong>Alternative:</strong> use pure Python loops, but they are usually slower.</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — indexing</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">1D indexing</div>
+                                </div>
+                                <pre><code>import numpy as np
+
+a = np.array([10, 20, 30, 40])
+
+print(a[0])   # first element
+print(a[-1])  # last element
+
+# slicing: start inclusive, end exclusive
+print(a[1:3]) # elements at index 1 and 2
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> 10, 40, and [20 30].</p>
+
+                            <h3>4.2 Medium Example — 2D indexing + slicing</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">2D grid</div>
+                                </div>
+                                <pre><code>import numpy as np
+
+m = np.array([
+    [1, 2, 3],
+    [4, 5, 6]
+])
+
+print(m[0, 1])  # row 0, col 1
+print(m[:, 2])  # all rows, col 2
+print(m[0, :])  # row 0, all cols
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> 2, [3 6], [1 2 3].</p>
+
+                            <h3>4.3 Advanced Example — vectorized transform</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">vectorized math</div>
+                                </div>
+                                <pre><code>import numpy as np
+
+x = np.array([0, 1, 2, 3, 4], dtype=float)
+
+# Example: compute y = x^2 + 2x + 1
+# This works element-wise because NumPy is vectorized.
+y = x**2 + 2*x + 1
+
+print(y)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> array of transformed values (element-wise).</p>
+                            <p><strong>Time:</strong> O(n) • <strong>Space:</strong> O(n).</p>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: NumPy operation</h3>
+                                <pre><code>[Create array]
+      |
+      v
+[Choose operation]
+      |
+      v
+[Vectorized compute]
+      |
+      v
+[Get output array or statistic]
+      |
+      v
+[Print result]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <p>
+                                NumPy arrays store numbers in a contiguous block of memory.
+                                That’s one reason operations are fast.
+                            </p>
+                            <table class="table" aria-label="NumPy memory">
+                                <thead>
+                                    <tr>
+                                        <th>Component</th>
+                                        <th>Stored</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Array buffer</td>
+                                        <td>raw numeric values</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Shape</td>
+                                        <td>rows/cols metadata</td>
+                                    </tr>
+                                    <tr>
+                                        <td>dtype</td>
+                                        <td>how to interpret bytes</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Dry run</div>
+                                    <div class="meta">array * 2</div>
+                                </div>
+                                <pre><code>x = [1,2,3]
+operation: x * 2
+
+Step-by-step (concept):
+1 * 2 = 2
+2 * 2 = 4
+3 * 2 = 6
+
+Output: [2,4,6]
+</code></pre>
+                            </div>
+                            <p><strong>Time:</strong> O(n) • <strong>Space:</strong> O(n).</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>print()</code> to display results.</li>
+                                <li><code>range()</code> (concept) for loops, though vectorization is preferred.</li>
+                            </ul>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <div class="callout note">
+                                <h3>Common NumPy methods</h3>
+                                <ul>
+                                    <li><code>arr.shape</code></li>
+                                    <li><code>arr.dtype</code></li>
+                                    <li><code>arr.sum()</code></li>
+                                    <li><code>arr.mean()</code></li>
+                                    <li><code>arr.max()</code></li>
+                                    <li><code>arr.min()</code></li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is NumPy?</li>
+                                <li>What is an array?</li>
+                                <li>What does <code>np.array</code> do?</li>
+                                <li>What is shape in NumPy?</li>
+                                <li>What is dtype in NumPy?</li>
+                                <li>Why are NumPy arrays faster than Python lists (concept)?</li>
+                                <li>What is vectorization?</li>
+                                <li>What does <code>arr * 2</code> do?</li>
+                                <li>What does <code>arr.sum()</code> compute?</li>
+                                <li>What does <code>arr.mean()</code> compute?</li>
+                                <li>How do you access first element in 1D array?</li>
+                                <li>How do you access last element using negative index?</li>
+                                <li>What is slicing in arrays?</li>
+                                <li>What does <code>a[1:3]</code> mean?</li>
+                                <li>How do you index a 2D array?</li>
+                                <li>What does <code>m[:, 1]</code> represent?</li>
+                                <li>What does <code>m[0, :]</code> represent?</li>
+                                <li>What is broadcasting (concept)?</li>
+                                <li>When broadcasting fails, what error happens (concept)?</li>
+                                <li>What is the risk of shape mismatch?</li>
+                                <li>What is dtype conversion?</li>
+                                <li>How can you create float arrays (concept)?</li>
+                                <li>What is <code>np.zeros</code> (concept)?</li>
+                                <li>What is <code>np.arange</code> (concept)?</li>
+                                <li>What is the difference between list multiplication and NumPy multiplication?</li>
+                                <li>What is element-wise operation?</li>
+                                <li>What is matrix multiplication (concept: dot/@)?</li>
+                                <li>Why does vectorization reduce Python loops?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>NumPy is used for:
+                                    <ul>
+                                        <li>A) web scraping</li>
+                                        <li>B) fast numeric arrays</li>
+                                        <li>C) GUI creation</li>
+                                        <li>D) CSS styling</li>
+                                    </ul>
+                                </li>
+                                <li><code>np.array([1,2,3])</code> creates:
+                                    <ul>
+                                        <li>A) list</li>
+                                        <li>B) NumPy array</li>
+                                        <li>C) dict</li>
+                                        <li>D) html</li>
+                                    </ul>
+                                </li>
+                                <li>Array shape tells you:
+                                    <ul>
+                                        <li>A) rows/cols count</li>
+                                        <li>B) colors</li>
+                                        <li>C) database table</li>
+                                        <li>D) password</li>
+                                    </ul>
+                                </li>
+                                <li><code>dtype</code> is:
+                                    <ul>
+                                        <li>A) data type of elements</li>
+                                        <li>B) theme color</li>
+                                        <li>C) port number</li>
+                                        <li>D) file type only</li>
+                                    </ul>
+                                </li>
+                                <li>Vectorization means:
+                                    <ul>
+                                        <li>A) loops in Python</li>
+                                        <li>B) operations on whole arrays</li>
+                                        <li>C) string concat</li>
+                                        <li>D) deleting data</li>
+                                    </ul>
+                                </li>
+                                <li><code>arr * 2</code> in NumPy is:
+                                    <ul>
+                                        <li>A) multiply each element</li>
+                                        <li>B) repeat list</li>
+                                        <li>C) error always</li>
+                                        <li>D) only works on strings</li>
+                                    </ul>
+                                </li>
+                                <li><code>arr.sum()</code> returns:
+                                    <ul>
+                                        <li>A) total sum of elements</li>
+                                        <li>B) max value</li>
+                                        <li>C) length only</li>
+                                        <li>D) JSON string</li>
+                                    </ul>
+                                </li>
+                                <li><code>arr.mean()</code> returns:
+                                    <ul>
+                                        <li>A) average of elements</li>
+                                        <li>B) median always</li>
+                                        <li>C) smallest value</li>
+                                        <li>D) theme</li>
+                                    </ul>
+                                </li>
+                                <li>Indexing a 2D array uses:
+                                    <ul>
+                                        <li>A) one index only</li>
+                                        <li>B) row, col</li>
+                                        <li>C) filename only</li>
+                                        <li>D) theme only</li>
+                                    </ul>
+                                </li>
+                                <li><code>m[:,2]</code> means:
+                                    <ul>
+                                        <li>A) all rows, column 2</li>
+                                        <li>B) row 2 only</li>
+                                        <li>C) column 2 as scalar</li>
+                                        <li>D) theme</li>
+                                    </ul>
+                                </li>
+                                <li><code>m[0,:]</code> means:
+                                    <ul>
+                                        <li>A) row 0, all columns</li>
+                                        <li>B) col 0, all rows</li>
+                                        <li>C) nothing</li>
+                                        <li>D) error</li>
+                                    </ul>
+                                </li>
+                                <li>Slicing <code>a[1:3]</code> includes:
+                                    <ul>
+                                        <li>A) indices 1,2 only</li>
+                                        <li>B) indices 0..3</li>
+                                        <li>C) index 3</li>
+                                        <li>D) none</li>
+                                    </ul>
+                                </li>
+                                <li>Broadcasting allows:
+                                    <ul>
+                                        <li>A) combining compatible shapes</li>
+                                        <li>B) random shapes</li>
+                                        <li>C) only lists</li>
+                                        <li>D) no operations</li>
+                                    </ul>
+                                </li>
+                                <li>Shape mismatch leads to:
+                                    <ul>
+                                        <li>A) correct result</li>
+                                        <li>B) errors</li>
+                                        <li>C) silent ignore</li>
+                                        <li>D) CSS change</li>
+                                    </ul>
+                                </li>
+                                <li>NumPy arrays store data contiguously (concept):
+                                    <ul>
+                                        <li>A) true</li>
+                                        <li>B) false</li>
+                                    </ul>
+                                </li>
+                                <li>List multiplication in Python repeats list, but NumPy multiplication:
+                                    <ul>
+                                        <li>A) is element-wise</li>
+                                        <li>B) repeats list</li>
+                                        <li>C) does nothing</li>
+                                        <li>D) changes theme</li>
+                                    </ul>
+                                </li>
+                                <li>Element-wise operation means:
+                                    <ul>
+                                        <li>A) each element transforms with corresponding value</li>
+                                        <li>B) operate on whole array as one number</li>
+                                        <li>C) no changes</li>
+                                        <li>D) only for strings</li>
+                                    </ul>
+                                </li>
+                                <li>Matrix multiplication uses:
+                                    <ul>
+                                        <li>A) <code>@</code> or <code>dot</code> (concept)</li>
+                                        <li>B) only +</li>
+                                        <li>C) only * element-wise</li>
+                                        <li>D) regex</li>
+                                    </ul>
+                                </li>
+                                <li><code>arr.shape</code> is an attribute:
+                                    <ul>
+                                        <li>A) true</li>
+                                        <li>B) false</li>
+                                    </ul>
+                                </li>
+                                <li><code>arr.sum()</code> is a method call:
+                                    <ul>
+                                        <li>A) true</li>
+                                        <li>B) false</li>
+                                    </ul>
+                                </li>
+                                <li><code>arr[0]</code> returns:
+                                    <ul>
+                                        <li>A) first element</li>
+                                        <li>B) second element</li>
+                                        <li>C) list</li>
+                                        <li>D) dict</li>
+                                    </ul>
+                                </li>
+                                <li><code>np.arange(5)</code> creates:
+                                    <ul>
+                                        <li>A) [0..4]</li>
+                                        <li>B) [1..5]</li>
+                                        <li>C) empty array</li>
+                                        <li>D) error</li>
+                                    </ul>
+                                </li>
+                                <li><code>np.zeros((2,3))</code> creates:
+                                    <ul>
+                                        <li>A) 2x3 array of zeros</li>
+                                        <li>B) 1x1 array</li>
+                                        <li>C) list</li>
+                                        <li>D) HTML</li>
+                                    </ul>
+                                </li>
+                                <li>Choosing float dtype helps with division results:
+                                    <ul>
+                                        <li>A) true</li>
+                                        <li>B) false</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Create a 1D NumPy array of integers [1,2,3,4].</li>
+                                <li>Print its shape and dtype.</li>
+                                <li>Multiply the array by 3 and print.</li>
+                                <li>Add 10 to every element.</li>
+                                <li>Compute sum and mean.</li>
+                                <li>Index the first and last element.</li>
+                                <li>Slice [1:3] and print.</li>
+                                <li>Convert a list of numeric strings to a NumPy int array (concept).</li>
+                                <li>Create an array using <code>np.arange</code>.</li>
+                                <li>Create an array of zeros with length 5.</li>
+                                <li>Create an array of ones with length 4.</li>
+                                <li>Use <code>max</code> and <code>min</code> methods.</li>
+                                <li>Compute standard deviation (concept).</li>
+                                <li>Dry run: predict output of <code>np.array([2,4]) / 2</code>.</li>
+                                <li>Explain difference between array division and integer division (concept).</li>
+                                <li>Replace one element using indexing (concept).</li>
+                                <li>Check if an element is greater than a value using boolean arrays (concept).</li>
+                                <li>Extract elements using boolean mask (concept).</li>
+                                <li>Predict output for an empty array statistics (concept).</li>
+                                <li>Use <code>astype(float)</code> concept to convert dtype.</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Create a 2D array (2 rows, 3 cols) and print it.</li>
+                                <li>Index a single element using <code>m[row, col]</code>.</li>
+                                <li>Select all rows of a specific column.</li>
+                                <li>Select all columns of a specific row.</li>
+                                <li>Compute column-wise sum (concept using axis).</li>
+                                <li>Compute row-wise mean (concept using axis).</li>
+                                <li>Broadcast add a scalar to a 2D array.</li>
+                                <li>Broadcast add a 1D array to rows (concept).</li>
+                                <li>Multiply two arrays element-wise.</li>
+                                <li>Demonstrate shape mismatch and explain the error (concept).</li>
+                                <li>Use slicing on 2D arrays to get sub-matrix.</li>
+                                <li>Replace sub-matrix values with a constant (concept).</li>
+                                <li>Create an identity matrix using <code>np.eye</code> (concept).</li>
+                                <li>Create random numbers using <code>np.random</code> concept.</li>
+                                <li>Compute determinant for a 2x2 matrix (concept).</li>
+                                <li>Use matrix multiplication with <code>@</code> for 2x2 matrices (concept).</li>
+                                <li>Dry run: predict shape of <code>A @ B</code>.</li>
+                                <li>Explain why vectorization is faster than loops (concept).</li>
+                                <li>Convert array to list using <code>tolist()</code> (concept).</li>
+                                <li>Create a mask for values > threshold and count them (concept).</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Implement a function that normalizes data using mean/std (concept).</li>
+                                <li>Implement safe normalization with zero-std check (concept).</li>
+                                <li>Compute cosine similarity between two vectors (concept).</li>
+                                <li>Write code to find top-k largest values using argsort (concept).</li>
+                                <li>Implement k-means update step (concept) for 1 iteration.</li>
+                                <li>Explain memory views vs copies when slicing (concept).</li>
+                                <li>Modify a slice and observe effect on original array (concept).</li>
+                                <li>Build a function to pad arrays (design concept).</li>
+                                <li>Implement convolution-like operation using sliding windows (concept).</li>
+                                <li>Explain time complexity of matrix multiplication for n x n (concept).</li>
+                                <li>Implement efficient row normalization using broadcasting.</li>
+                                <li>Design vectorized approach for computing distances (concept).</li>
+                                <li>Explain and prevent overflow issues in integer arrays (concept).</li>
+                                <li>Use dtype casting to prevent overflow (concept).</li>
+                                <li>Debug: shape mismatch in broadcasting; fix by reshaping (concept).</li>
+                                <li>Compute linear regression using least squares (concept).</li>
+                                <li>Explain difference between <code>reshape</code> and <code>resize</code> (concept).
+                                </li>
+                                <li>Create a 3D array and slice a 2D plane (concept).</li>
+                                <li>Build a function that stacks arrays and explain shapes (concept).</li>
+                                <li>Design performance comparison plan: loops vs vectorization (design).</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment34_1.py</code>: create array, multiply by 2, print sum and
+                                    mean.</li>
+                                <li>Create <code>assignment34_2.py</code>: create 2D array and print specific row/column
+                                    slices.</li>
+                                <li>Create <code>assignment34_3.py</code>: normalize a 1D array using mean/std
+                                    (concept).</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Simple Data Analyzer</h3>
+                                <ul>
+                                    <li>Use NumPy to create an array of values.</li>
+                                    <li>Compute min, max, mean, std.</li>
+                                    <li>Create a boolean mask for values above the mean.</li>
+                                    <li>Print count and the filtered values.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+
+                            <div class="callout warning">
+                                <h3>Case 1: shape mismatch</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">broadcast fails</div>
+                                    </div>
+                                    <pre><code>A.shape = (2,3)
+B.shape = (4,)
+A + B  # error
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> check <code>A.shape</code> and reshape B to be compatible.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: dtype integer division surprises</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">integer dtype</div>
+                                    </div>
+                                    <pre><code>x = np.array([1,2,3], dtype=int)
+print(x / 2)  # may produce floats, but check dtype rules
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> cast to float with <code>x.astype(float)</code> before division
+                                    (concept).</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: slicing off by one</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">end exclusive</div>
+                                    </div>
+                                    <pre><code>a[1:3]  # includes 1 and 2, not 3
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> remember Python slices are <em>end exclusive</em>.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>ValueError:</strong> broadcasting shape mismatch.</li>
+                                <li><strong>IndexError:</strong> wrong indices for array dimensions.</li>
+                                <li><strong>TypeError:</strong> operations with non-numeric types (concept).</li>
+                                <li><strong>OverflowError/overflow wrap:</strong> arithmetic overflow in integer dtypes
+                                    (concept).</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Use vectorized operations instead of Python loops.</li>
+                                <li>Check <code>shape</code> and <code>dtype</code> when results are strange.</li>
+                                <li>Use masks for filtering instead of manual loops (concept).</li>
+                                <li>Cast dtype when needed (e.g., to float).</li>
+                                <li>Prefer stable numerical operations for large values (concept).</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                You learned how to create NumPy arrays, index and slice them, and perform vectorized
+                                math.
+                                You practiced computing statistics and understanding shapes to avoid broadcasting
+                                errors.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="NumPy cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Need</th>
+                                        <th>Code</th>
+                                        <th>Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Create</td>
+                                        <td><code>np.array([...])</code></td>
+                                        <td>make array</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Shape</td>
+                                        <td><code>arr.shape</code></td>
+                                        <td>rows/cols</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Slice</td>
+                                        <td><code>a[1:3]</code></td>
+                                        <td>end exclusive</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sum</td>
+                                        <td><code>arr.sum()</code></td>
+                                        <td>total</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mean</td>
+                                        <td><code>arr.mean()</code></td>
+                                        <td>average</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mask</td>
+                                        <td><code>arr[arr > t]</code></td>
+                                        <td>filter</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Vectorized Grade Calculator</h3>
+                                <p>Given scores array:</p>
+                                <ul>
+                                    <li>Compute percentage = score / max_score * 100.</li>
+                                    <li>Assign grade: A if ≥90, B if ≥80, else C.</li>
+                                    <li>Do it using vectorized operations (concept: boolean masks).</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What is NumPy used for?</li>
+                                <li>What is a NumPy array?</li>
+                                <li>What is vectorization?</li>
+                                <li>How do you get array shape?</li>
+                                <li>How do you slice arrays?</li>
+                                <li>What is broadcasting (concept)?</li>
+                                <li>How do you compute sum and mean?</li>
+                                <li>Why should you check shape when you see an error?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>NumPy:</strong> library for fast numeric arrays and vectorized
+                                        operations.</li>
+                                    <li><strong>Array:</strong> grid of elements with a specific dtype.</li>
+                                    <li><strong>Vectorization:</strong> perform operations on entire arrays at once
+                                        (less Python looping).</li>
+                                    <li><strong>shape:</strong> shows dimensions like (rows, cols).</li>
+                                    <li><strong>slicing:</strong> selects a range; end is exclusive.</li>
+                                    <li><strong>broadcasting:</strong> lets scalars/smaller arrays combine safely with
+                                        larger arrays.</li>
+                                    <li><strong>sum/mean:</strong> compute statistics across array elements.</li>
+                                    <li><strong>check shape:</strong> broadcasting errors happen when shapes are
+                                        incompatible.</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-35.html">Next Chapter</a></div>
+                            </div>
+
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

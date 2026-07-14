@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 07 — Conditional Statements</title>
+    <meta name="description"
+        content="Chapter 7: Conditional Statements. Learn if, elif, else, and how to make decisions in Python." />
+    <link rel="canonical" href="./chapters/chapter-07.html" />
+
+    <meta property="og:title" content="Chapter 07 — Conditional Statements" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description"
+        content="Learn if/elif/else decisions with examples, practice, and explained answers." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 07 — Conditional Statements" />
+    <meta name="twitter:description" content="Python conditionals chapter." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 07 • Offline • Search • Dark mode</span>
+                </div>
+
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout note" style="margin-top:12px;">
+                        <h3>📌 Sticky idea</h3>
+                        <p>
+                            <strong>if</strong> answers: “Should I do this?”
+                            <br />
+                            <strong>elif</strong> answers: “What if a different condition is true?”
+                            <br />
+                            <strong>else</strong> is the fallback.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 07</div>
+
+                        <h1 class="chapter-title">Chapter 07 — Conditional Statements</h1>
+                        <p class="subtle">Learn how to make decisions in Python using <code>if</code>,
+                            <code>elif</code>, and <code>else</code>.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-06.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <p>By the end of this chapter, you will be able to:</p>
+                                <ul>
+                                    <li>Use <code>if</code> to run code only when a condition is True.</li>
+                                    <li>Use <code>elif</code> for multiple checks.</li>
+                                    <li>Use <code>else</code> as a fallback.</li>
+                                    <li>Write conditions using comparisons and logical operators.</li>
+                                    <li>Predict output for small conditional programs.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                In real life, decisions matter:
+                                <strong>if it is raining</strong>, take an umbrella.
+                                <strong>else</strong>, walk outside.
+                            </p>
+                            <p>
+                                Conditional statements let your Python program do the same.
+                            </p>
+                            <div class="callout remember">
+                                <h3>⭐ Remember</h3>
+                                <p>
+                                    Conditions must be <strong>True</strong> or <strong>False</strong>.
+                                    Comparisons like <code>x > 5</code> produce booleans.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 What is a condition?</h3>
+                            <p>
+                                A condition is an expression that evaluates to <code>True</code> or <code>False</code>.
+                                Examples:
+                            </p>
+                            <ul>
+                                <li><code>age >= 18</code></li>
+                                <li><code>password == "1234"</code></li>
+                                <li><code>score > 60 and score < 90</code></li>
+                            </ul>
+
+                            <h3>2.2 The if / elif / else rule</h3>
+                            <ul>
+                                <li><code>if</code>: first check</li>
+                                <li><code>elif</code>: extra checks (0 or more)</li>
+                                <li><code>else</code>: runs only if none of the previous checks are True</li>
+                            </ul>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning: indentation defines blocks</h3>
+                                <p>
+                                    Python uses indentation to know what belongs inside <code>if</code>,
+                                    <code>elif</code>, and <code>else</code>.
+                                    Incorrect indentation will break your program.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">if / else structure</div>
+                                </div>
+                                <pre><code># Basic if / else
+age = 17
+
+if age >= 18:
+    print("Adult")
+else:
+    print("Minor")
+</code></pre>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">if / elif / else</div>
+                                </div>
+                                <pre><code># Multiple conditions
+score = 72
+
+if score >= 90:
+    grade = "A"
+elif score >= 80:
+    grade = "B"
+elif score >= 70:
+    grade = "C"
+else:
+    grade = "D"
+
+print("Grade:", grade)
+</code></pre>
+                            </div>
+
+                            <p><strong>Time complexity:</strong> O(1) per condition check • <strong>Space:</strong>
+                                O(1).</p>
+                            <p><strong>Alternative approach:</strong> use a lookup table (advanced) when conditions are
+                                simple categories.</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — even or odd</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">% and if</div>
+                                </div>
+                                <pre><code>n = 9
+
+if n % 2 == 0:
+    print("Even")
+else:
+    print("Odd")
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> Odd</p>
+                            <p><strong>Time:</strong> O(1)</p>
+                            <p><strong>Alternative:</strong> use <code>n &amp; 1</code> (bitwise; later).</p>
+
+                            <h3>4.2 Medium Example — multiple checks</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">age category</div>
+                                </div>
+                                <pre><code>age = 14
+
+if age < 13:
+    category = "Kid"
+elif age < 20:
+    category = "Teen"
+else:
+    category = "Adult"
+
+print(category)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> Teen</p>
+
+                            <h3>4.3 Advanced Example — combine conditions</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">eligibility</div>
+                                </div>
+                                <pre><code>age = 22
+has_id = True
+is_member = False
+
+if age >= 18 and has_id and (is_member or age >= 50):
+    print("Eligible")
+else:
+    print("Not eligible")
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> depends on values.</p>
+                            <div class="callout note">
+                                <h3>💡 Tips</h3>
+                                <p>
+                                    Use parentheses in long conditions to make meaning obvious.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: condition → branch</h3>
+                                <pre><code>[Start]
+   |
+   v
+[Check condition 1]
+   |
+  Yes
+   v
+[Run if-block]
+   |
+   v
+  [End]
+
+  No
+   v
+[Check elif conditions...]
+   |
+   v
+[Else-block if none]
+   |
+   v
+  [End]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <p>
+                                Conditions use existing variables.
+                                Python evaluates the boolean result and chooses which block to run.
+                            </p>
+                            <table class="table" aria-label="Conditional memory">
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Example</th>
+                                        <th>Result</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>age</code></td>
+                                        <td>17</td>
+                                        <td>used in condition</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Condition: <code>age >= 18</code></td>
+                                        <td>17 >= 18</td>
+                                        <td><code>False</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Executed block</td>
+                                        <td>else</td>
+                                        <td>prints Minor</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="callout remember">
+                                <h3>🧠 Memory trick</h3>
+                                <p>
+                                    Think: <strong>if</strong> is a fork in a road.
+                                    Only one path is taken.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">dry run</div>
+                                </div>
+                                <pre><code>score = 72
+
+if score >= 90:
+    print("A")
+elif score >= 80:
+    print("B")
+elif score >= 70:
+    print("C")
+else:
+    print("D")
+</code></pre>
+                            </div>
+
+                            <table class="table" aria-label="Dry run condition">
+                                <thead>
+                                    <tr>
+                                        <th>Check</th>
+                                        <th>Expression</th>
+                                        <th>True/False</th>
+                                        <th>Next</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td><code>72 >= 90</code></td>
+                                        <td><code>False</code></td>
+                                        <td>try elif 2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td><code>72 >= 80</code></td>
+                                        <td><code>False</code></td>
+                                        <td>try elif 3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td><code>72 >= 70</code></td>
+                                        <td><code>True</code></td>
+                                        <td>print C</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <p><strong>Time complexity:</strong> O(m) where m is number of checks (worst case) •
+                                <strong>Space:</strong> O(1).</p>
+                            <p><strong>Alternative:</strong> if ranges are fixed, use interval checks carefully (still
+                                same idea).</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <p>
+                                Conditional code often uses print. You may also check types with <code>type()</code>
+                                while debugging.
+                            </p>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">debug type</div>
+                                </div>
+                                <pre><code>x = 10
+
+if type(x) == int:
+    print("x is int")
+else:
+    print("x is not int")
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> x is int</p>
+                            <p><strong>Time:</strong> O(1) • <strong>Space:</strong> O(1)</p>
+                            <p><strong>Alternative:</strong> use <code>isinstance(x, int)</code> (advanced note).</p>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <p>
+                                Methods can help generate booleans for conditions.
+                            </p>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">string condition</div>
+                                </div>
+                                <pre><code>email = input("Enter email: ")
+
+if email.endswith("@gmail.com"):
+    print("Gmail user")
+else:
+    print("Not Gmail")
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> depends on input</p>
+                            <p><strong>Time:</strong> O(n) for checking string ending • <strong>Space:</strong> O(1)
+                                extra.</p>
+                            <p><strong>Alternative:</strong> use <code>find()</code> (concept; later).</p>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is an <code>if</code> statement?</li>
+                                <li>What does the condition in <code>if</code> evaluate to?</li>
+                                <li>What is the difference between <code>if</code> and <code>elif</code>?</li>
+                                <li>When does <code>else</code> run?</li>
+                                <li>Why is indentation important in Python?</li>
+                                <li>What happens if your <code>if</code> condition is False?</li>
+                                <li>How many <code>elif</code> blocks can you have?</li>
+                                <li>Can you have <code>if</code> without <code>else</code>?</li>
+                                <li>Can you have multiple separate <code>if</code> statements?</li>
+                                <li>What is a boolean?</li>
+                                <li>Which operators often appear inside conditions?</li>
+                                <li>What is the meaning of <code>and</code> in conditions?</li>
+                                <li>What is the meaning of <code>or</code> in conditions?</li>
+                                <li>What does <code>not</code> do?</li>
+                                <li>What is operator precedence (concept)?</li>
+                                <li>Why should you use parentheses in complex conditions?</li>
+                                <li>What is a logic error?</li>
+                                <li>Give an example of a logic error with <code>and</code>/<code>or</code>.</li>
+                                <li>What is output prediction for conditionals?</li>
+                                <li>Which block runs first in if/elif/else?</li>
+                                <li>How do you choose between <code>==</code> and <code>=</code>?</li>
+                                <li>How do you debug incorrect conditional results?</li>
+                                <li>How would you test a few values for conditions?</li>
+                                <li>Why is input conversion important before comparisons?</li>
+                                <li>Can you use strings in conditions (truthiness concept)?</li>
+                                <li>What are truthy and falsy values?</li>
+                                <li>How would you check if a string is empty?</li>
+                                <li>How do you check if a number is in a range?</li>
+                                <li>What is the best practice for writing conditions clearly?</li>
+                                <li>Explain a simple eligibility check using if/else.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li><code>if</code> statement runs when:
+                                    <ul>
+                                        <li>A) condition is True</li>
+                                        <li>B) condition is False</li>
+                                        <li>C) condition is missing</li>
+                                        <li>D) indentation is wrong</li>
+                                    </ul>
+                                </li>
+                                <li><code>elif</code> stands for:
+                                    <ul>
+                                        <li>A) else if</li>
+                                        <li>B) else try</li>
+                                        <li>C) extra if</li>
+                                        <li>D) equal if</li>
+                                    </ul>
+                                </li>
+                                <li><code>else</code> runs when:
+                                    <ul>
+                                        <li>A) any elif is True</li>
+                                        <li>B) if and elif are False</li>
+                                        <li>C) if is True</li>
+                                        <li>D) none run</li>
+                                    </ul>
+                                </li>
+                                <li>Python uses indentation to:
+                                    <ul>
+                                        <li>A) ignore blocks</li>
+                                        <li>B) define code blocks</li>
+                                        <li>C) speed up</li>
+                                        <li>D) store variables</li>
+                                    </ul>
+                                </li>
+                                <li>Which is correct syntax?
+                                    <ul>
+                                        <li>A) <code>if x > 5 {}</code></li>
+                                        <li>B) <code>if x > 5:</code></li>
+                                        <li>C) <code>if (x > 5)</code></li>
+                                        <li>D) <code>if x>5 then</code></li>
+                                    </ul>
+                                </li>
+                                <li><code>and</code> is True when:
+                                    <ul>
+                                        <li>A) both sides are True</li>
+                                        <li>B) one side is True</li>
+                                        <li>C) none are True</li>
+                                        <li>D) always False</li>
+                                    </ul>
+                                </li>
+                                <li><code>or</code> is True when:
+                                    <ul>
+                                        <li>A) both False</li>
+                                        <li>B) at least one True</li>
+                                        <li>C) exactly one True</li>
+                                        <li>D) always True</li>
+                                    </ul>
+                                </li>
+                                <li><code>not</code> flips:
+                                    <ul>
+                                        <li>A) numbers</li>
+                                        <li>B) True ↔ False</li>
+                                        <li>C) strings</li>
+                                        <li>D) variables</li>
+                                    </ul>
+                                </li>
+                                <li>A common bug is using:
+                                    <ul>
+                                        <li>A) <code>==</code> for assignment</li>
+                                        <li>B) <code>=</code> instead of <code>==</code></li>
+                                        <li>C) <code>and</code> instead of <code>or</code></li>
+                                        <li>D) <code>%</code> in if</li>
+                                    </ul>
+                                </li>
+                                <li>In if/elif/else, which executes at most once?
+                                    <ul>
+                                        <li>A) all blocks</li>
+                                        <li>B) only one matching block</li>
+                                        <li>C) none</li>
+                                        <li>D) every elif</li>
+                                    </ul>
+                                </li>
+                                <li>If the first <code>if</code> is True, <code>elif</code> does what?
+                                    <ul>
+                                        <li>A) still checks</li>
+                                        <li>B) does not run</li>
+                                        <li>C) always runs</li>
+                                        <li>D) causes error</li>
+                                    </ul>
+                                </li>
+                                <li><code>else</code> has no condition.
+                                    <ul>
+                                        <li>A) True</li>
+                                        <li>B) False</li>
+                                        <li>C) optional always</li>
+                                        <li>D) only with elif</li>
+                                    </ul>
+                                </li>
+                                <li>Time complexity of one if condition is:
+                                    <ul>
+                                        <li>A) O(n)</li>
+                                        <li>B) O(1)</li>
+                                        <li>C) O(n^2)</li>
+                                        <li>D) O(log n)</li>
+                                    </ul>
+                                </li>
+                                <li>A range check like <code>x >= 1 and x <= 10</code> returns:
+                                    <ul>
+                                        <li>A) number</li>
+                                        <li>B) boolean</li>
+                                        <li>C) string</li>
+                                        <li>D) None</li>
+                                    </ul>
+                                </li>
+                                <li>Parentheses in conditions help:
+                                    <ul>
+                                        <li>A) readability</li>
+                                        <li>B) order of evaluation</li>
+                                        <li>C) both</li>
+                                        <li>D) neither</li>
+                                    </ul>
+                                </li>
+                                <li>If indentation is wrong, Python raises:
+                                    <ul>
+                                        <li>A) IndentationError</li>
+                                        <li>B) ZeroDivisionError</li>
+                                        <li>C) SyntaxError only</li>
+                                        <li>D) MemoryError</li>
+                                    </ul>
+                                </li>
+                                <li>Logic error means:
+                                    <ul>
+                                        <li>A) program crashes</li>
+                                        <li>B) wrong result but no crash</li>
+                                        <li>C) syntax failure</li>
+                                        <li>D) network problem</li>
+                                    </ul>
+                                </li>
+                                <li>Output prediction is about:
+                                    <ul>
+                                        <li>A) guessing correct outputs</li>
+                                        <li>B) deleting code</li>
+                                        <li>C) ignoring errors</li>
+                                        <li>D) installing packages</li>
+                                    </ul>
+                                </li>
+                                <li>Conditions require:
+                                    <ul>
+                                        <li>A) True/False</li>
+                                        <li>B) integers only</li>
+                                        <li>C) strings only</li>
+                                        <li>D) file paths</li>
+                                    </ul>
+                                </li>
+                                <li>String comparisons like <code>name == "Alice"</code> return:
+                                    <ul>
+                                        <li>A) True/False</li>
+                                        <li>B) length</li>
+                                        <li>C) print</li>
+                                        <li>D) list</li>
+                                    </ul>
+                                </li>
+                                <li>Best practice: keep code blocks indented properly.
+                                    <ul>
+                                        <li>A) True</li>
+                                        <li>B) False</li>
+                                        <li>C) optional</li>
+                                        <li>D) only in JavaScript</li>
+                                    </ul>
+                                </li>
+                                <li>Which is safest order?
+                                    <ul>
+                                        <li>A) test simpler conditions first</li>
+                                        <li>B) random order</li>
+                                        <li>C) always check worst</li>
+                                        <li>D) never check</li>
+                                    </ul>
+                                </li>
+                                <li>When user input is numeric text, comparisons need conversion.
+                                    <ul>
+                                        <li>A) True</li>
+                                        <li>B) False</li>
+                                        <li>C) optional</li>
+                                        <li>D) always works</li>
+                                    </ul>
+                                </li>
+                                <li>Truthiness concept means:
+                                    <ul>
+                                        <li>A) all strings are True</li>
+                                        <li>B) some values considered True/False</li>
+                                        <li>C) only booleans exist</li>
+                                        <li>D) None always True</li>
+                                    </ul>
+                                </li>
+                                <li><code>if "":</code> usually is:
+                                    <ul>
+                                        <li>A) True</li>
+                                        <li>B) False</li>
+                                        <li>C) Error</li>
+                                        <li>D) unknown</li>
+                                    </ul>
+                                </li>
+                                <li><code>if "hello":</code> usually is:
+                                    <ul>
+                                        <li>A) False</li>
+                                        <li>B) True</li>
+                                        <li>C) Error</li>
+                                        <li>D) None</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Set <code>n=6</code>. Print even/odd using <code>%</code> and if/else.</li>
+                                <li>Set <code>age=15</code>. Print minor/adult.</li>
+                                <li>Given <code>score=85</code>, print pass if score >= 40 else fail.</li>
+                                <li>Given <code>x=0</code>, print positive/negative/zero.</li>
+                                <li>Given <code>year=2024</code>, print “Leap year” if divisible by 4 (simple).</li>
+                                <li>Given <code>temp=25</code>, print “Hot” if > 30 else “Normal”.</li>
+                                <li>Given <code>name="Python"</code>, print “Correct” if name == "Python" else “Wrong”.
+                                </li>
+                                <li>Given <code>num=7</code>, print divisible by 3 or not.</li>
+                                <li>Given <code>n=10</code>, print “Large” if n >= 10 else “Small”.</li>
+                                <li>Predict output and verify: <code>if 3 > 5: print("X") else: print("Y")</code>.</li>
+                                <li>Use elif ladder to print grade A/B/C/D for score variable.</li>
+                                <li>Given <code>is_member=True</code>, print discount available if True.</li>
+                                <li>Given <code>flag=False</code>, print “ON” if flag else “OFF”.</li>
+                                <li>Check if <code>x==y</code> for x=4, y=4 and print equal/not equal.</li>
+                                <li>Print if a string length > 5 else short.</li>
+                                <li>Use parentheses: check if <code>(a>0) and (b>0)</code>.</li>
+                                <li>Write if/else to choose between two messages.</li>
+                                <li>Print “teen” if 13 <= age <=19.</li>
+                                <li>Print “adult” if age >= 18 else “young”.</li>
+                                <li>Given <code>n=1</code>, print “Odd” using if.</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Read <code>age</code> as int using <code>input()</code> and print eligible if >= 18.
+                                </li>
+                                <li>Create logic to compute discount: if member and price >= 100 then 20% else 0%.</li>
+                                <li>Given two numbers a and b, print which is larger using if/elif/else.</li>
+                                <li>Print “pass” if score between 40 and 60 inclusive else “review”.</li>
+                                <li>Given <code>temp</code>, print categories: <0 cold, 0..29 normal,>=30 hot.</li>
+                                <li>Check if character <code>c</code> is vowel using if/elif ladder (concept).</li>
+                                <li>Print “even” if n%2==0 else “odd”. Extend to also print “large” if n>10.</li>
+                                <li>Write two independent if statements (not elif) to show two outputs.</li>
+                                <li>Predict output for:
+                                    <code>if True and False: print("A") elif True: print("B")</code>.</li>
+                                <li>Check if a number is divisible by 2 and 3 at the same time.</li>
+                                <li>Print “valid” only if email contains "@" (simple check using <code>in</code>
+                                    operator concept).</li>
+                                <li>Read salary and print tax bracket labels using if ranges.</li>
+                                <li>Write condition for “free shipping” if cart_total >= 500.</li>
+                                <li>Given <code>height</code> and <code>weight</code>, compute BMI formula and print
+                                    category (simple).</li>
+                                <li>Use elif to classify age groups: child, teen, adult, senior.</li>
+                                <li>Check if a word starts with a given letter.</li>
+                                <li>Build a simple yes/no confirmation: if answer == "yes".</li>
+                                <li>Read a year and check leap year using divisible by 400 or by 4 (not all rules).</li>
+                                <li>Implement “check password length >= 8” logic.</li>
+                                <li>Use nested if: if age >= 18 then check membership else not allowed.</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Implement an eligibility engine: multiple conditions and clear output messages.</li>
+                                <li>Write code that handles three input variables and prints different outputs based on
+                                    combinations.</li>
+                                <li>Create an if/elif ladder that maps score ranges to grades and prints a full
+                                    sentence.</li>
+                                <li>Build a “traffic light” decision: given hour (0..23), decide day/night (concept).
+                                </li>
+                                <li>Use nested conditions to validate input: age non-negative and reasonable range.</li>
+                                <li>Implement: if temperature <0 and humidity> 80 print “danger”, else “okay”.</li>
+                                <li>Write code that checks if a number is prime (basic small) using conditions
+                                    (attempt).</li>
+                                <li>Create a function-like block (concept) that returns discount rate using if logic.
+                                </li>
+                                <li>Write boolean expressions and ensure they match truth tables (concept).</li>
+                                <li>Prevent logic bug: ensure you use <code>==</code> not <code>=</code> inside checks.
+                                </li>
+                                <li>Use early return idea (concept) by structuring if/else carefully.</li>
+                                <li>Design conditions to avoid repeating work; use variables for intermediate checks.
+                                </li>
+                                <li>Output prediction practice with 3-branch elif code.</li>
+                                <li>Write condition that classifies triangle type given three side lengths.</li>
+                                <li>Write a validation check for date: day 1..31, month 1..12.</li>
+                                <li>Implement “membership discount” with else fallback and compute final price.</li>
+                                <li>Given two strings, print comparison results: equal? longer? (using if/len).</li>
+                                <li>Build a small “risk score” with if logic based on 3 numbers.</li>
+                                <li>Create a menu: choose option A/B/C and print result. (Needs more in later loops.)
+                                </li>
+                                <li>Use parentheses for readability in complex conditions and verify outputs.</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment07.py</code>: read score (int) and print grade A/B/C/D using
+                                    if/elif/else.</li>
+                                <li>Create <code>assignment07_2.py</code>: read age and print “Minor” if <18 else
+                                        “Adult”.</li>
+                                <li>Create <code>assignment07_3.py</code>: read two numbers and print which is bigger.
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Ticket Price Decision</h3>
+                                <p>Create a program that calculates ticket price based on:</p>
+                                <ul>
+                                    <li><code>age</code></li>
+                                    <li><code>is_student</code></li>
+                                    <li><code>day_type</code> ("weekday" or "weekend")</li>
+                                </ul>
+                                <p>Rules (example):</p>
+                                <ul>
+                                    <li>Base price: 500</li>
+                                    <li>Weekend +100</li>
+                                    <li>Student discount 30% if age < 25</li>
+                                </ul>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">solution idea</div>
+                                </div>
+                                <pre><code>age_text = input("Enter age: ")
+age = int(age_text)
+
+student_text = input("Are you a student? (yes/no): ")
+is_student = (student_text.strip().lower() == "yes")
+
+day_type = input("Day type (weekday/weekend): ").strip().lower()
+
+price = 500
+
+if day_type == "weekend":
+    price = price + 100
+
+if is_student and age < 25:
+    price = price - (price * 0.30)
+
+print("Ticket price =", price)
+</code></pre>
+                            </div>
+                            <p><strong>Expected output:</strong> a final price number based on inputs.</p>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+
+                            <div class="callout warning">
+                                <h3>Case 1: using assignment in condition</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>age = 20
+if age = 18:
+    print("Adult")
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> use <code>==</code> for comparison: <code>if age == 18:</code>
+                                </p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: wrong elif order</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>score = 85
+
+if score >= 80:
+    print("B")
+elif score >= 90:
+    print("A")
+</code></pre>
+                                </div>
+                                <p><strong>Issue:</strong> the <code>>= 80</code> check catches 90+ first.
+                                    <br /><strong>Fix:</strong> place <code>>= 90</code> check first.
+                                </p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: indentation broken</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>n = 3
+if n % 2 == 1:
+print("Odd")
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> indent the code under <code>if</code>.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>SyntaxError:</strong> missing <code>:</code> after
+                                    <code>if</code>/<code>elif</code>.</li>
+                                <li><strong>IndentationError:</strong> code inside if/elif/else is not indented
+                                    correctly.</li>
+                                <li><strong>TypeError:</strong> comparing different types (e.g., string with int without
+                                    conversion).</li>
+                                <li><strong>Logic error:</strong> conditions are written incorrectly (common with
+                                    <code>and</code>/<code>or</code>).</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Write simple conditions first, then combine them.</li>
+                                <li>Use parentheses for clarity in complex conditions.</li>
+                                <li>Keep the <code>elif</code> ladder in correct order (most specific first).</li>
+                                <li>Convert input values to correct type before comparing.</li>
+                                <li>Use small tests (try multiple inputs) to validate logic.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                Conditional statements let Python choose what to do.
+                                Use <code>if</code> for the main check, <code>elif</code> for alternatives, and
+                                <code>else</code> as the fallback.
+                                Conditions are expressions that return booleans.
+                                Python block indentation controls what code runs.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Conditional cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Part</th>
+                                        <th>Syntax</th>
+                                        <th>Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>if</td>
+                                        <td><code>if cond:</code></td>
+                                        <td>run block when cond is True</td>
+                                    </tr>
+                                    <tr>
+                                        <td>elif</td>
+                                        <td><code>elif cond:</code></td>
+                                        <td>run when previous checks were False</td>
+                                    </tr>
+                                    <tr>
+                                        <td>else</td>
+                                        <td><code>else:</code></td>
+                                        <td>run when all conditions are False</td>
+                                    </tr>
+                                    <tr>
+                                        <td>common operators</td>
+                                        <td><code>and/or/not</code></td>
+                                        <td>combine boolean checks</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Pass / Fail / Retake</h3>
+                                <p>Use a <code>score</code> variable and print:</p>
+                                <ul>
+                                    <li><code>"Pass"</code> if score >= 40</li>
+                                    <li><code>"Retake"</code> if score < 40 but score>= 20</li>
+                                    <li><code>"Fail"</code> if score < 20</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What does <code>if</code> check?</li>
+                                <li>When does <code>else</code> run?</li>
+                                <li>What is the role of <code>elif</code>?</li>
+                                <li>Why is indentation required?</li>
+                                <li>What boolean operators do you know for conditions?</li>
+                                <li>Write a condition that checks 10 <= x <=20.</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Quick explanations</h3>
+                                <ul>
+                                    <li><strong>if runs when cond is True</strong> because Python chooses the first
+                                        matching branch.</li>
+                                    <li><strong>elif is else-if</strong> used for additional checks after the first
+                                        fails.</li>
+                                    <li><strong>else runs last</strong> only when all earlier conditions are False.</li>
+                                    <li><strong>Indentation</strong> defines which lines belong inside a block.</li>
+                                    <li><strong>and/or/not</strong> combine boolean results: and needs both True, or
+                                        needs at least one True, not flips.</li>
+                                </ul>
+                            </div>
+
+                            <div class="callout remember" style="margin-top:12px;">
+                                <h3>Debugging recap</h3>
+                                <ul>
+                                    <li><strong>SyntaxError:</strong> missing <code>:</code> after conditions.</li>
+                                    <li><strong>IndentationError:</strong> block lines are not indented.</li>
+                                    <li><strong>Logic error:</strong> conditions use wrong operators or wrong order.
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div>
+                                    <a class="btn" style="visibility:hidden;" data-prev>Previous</a>
+                                </div>
+                                <div>
+                                    <a class="btn primary" data-next href="chapter-08.html">Next Chapter</a>
+                                </div>
+                            </div>
+
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

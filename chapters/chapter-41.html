@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 41 — Computer Vision</title>
+    <meta name="description"
+        content="Chapter 41: Computer Vision. Learn images, pixels, filtering concept, edges, simple feature ideas, and practice." />
+    <link rel="canonical" href="./chapters/chapter-41.html" />
+
+    <meta property="og:title" content="Chapter 41 — Computer Vision" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description"
+        content="Computer vision concepts with practice: pixels, filters, edges, and simple reasoning." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 41 — Computer Vision" />
+    <meta name="twitter:description" content="Computer vision fundamentals with practice and explained answers." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 41 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout remember" style="margin-top:12px;">
+                        <h3>⭐ Remember</h3>
+                        <p>
+                            Images are grids of pixels.
+                            Computer vision changes images into numbers so a model can understand them.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 41</div>
+                        <h1 class="chapter-title">Chapter 41 — Computer Vision</h1>
+                        <p class="subtle">Learn pixels, grayscale, filtering concepts (blur/edge), and simple feature
+                            ideas with practice.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-40.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <ul>
+                                    <li>Understand pixels and image grids.</li>
+                                    <li>Convert color image to grayscale (concept).</li>
+                                    <li>Learn simple filtering ideas: blur and edge detection concept.</li>
+                                    <li>Convert image to numbers (arrays) for analysis.</li>
+                                    <li>Practice a tiny edge detector using a kernel concept.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                Humans see images easily.
+                                Computers need images turned into numbers.
+                            </p>
+                            <p>
+                                Computer vision studies how to do that.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 Pixels and channels</h3>
+                            <p>
+                                A digital image is a grid.
+                                Each cell is a <strong>pixel</strong>.
+                            </p>
+                            <ul>
+                                <li>Grayscale: one value per pixel.</li>
+                                <li>RGB: three values per pixel (red, green, blue).</li>
+                            </ul>
+
+                            <h3>2.2 Grayscale conversion (concept)</h3>
+                            <p>
+                                Grayscale is often computed as a weighted sum of RGB values.
+                                Example concept: gray ≈ 0.299R + 0.587G + 0.114B.
+                            </p>
+
+                            <h3>2.3 Convolution filtering (concept)</h3>
+                            <p>
+                                Filters look at a small neighborhood (like 3×3).
+                                A kernel multiplies neighbors and sums them.
+                            </p>
+
+                            <h3>2.4 Edge detection idea</h3>
+                            <p>
+                                Edges are where pixel values change quickly.
+                                A kernel can highlight those changes.
+                            </p>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    Filtering can create noise or lose details.
+                                    Always check output visually and test on multiple images.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">tiny edge detector (kernel concept)</div>
+                                </div>
+                                <pre><code># This is a teaching example using a simple 3x3 kernel idea.
+# We'll compute a horizontal gradient using a Sobel-like kernel concept.
+
+
+def convolve_2d(grid, kernel):
+    """
+    grid: list of lists (2D) of numbers
+    kernel: 3x3 list of lists of numbers
+
+    Time complexity: O(H*W*kH*kW) where k is kernel size (constant 3).
+    Space complexity: O(H*W) for output.
+    """
+    H = len(grid)
+    W = len(grid[0])
+
+    kH = len(kernel)
+    kW = len(kernel[0])
+    pad_h = kH // 2
+    pad_w = kW // 2
+
+    # Output grid (same size for simplicity with zero padding)
+    out = [[0 for _ in range(W)] for _ in range(H)]
+
+    for r in range(H):
+        for c in range(W):
+            s = 0
+            for kr in range(kH):
+                for kc in range(kW):
+                    rr = r + (kr - pad_h)
+                    cc = c + (kc - pad_w)
+
+                    val = grid[rr][cc] if (0 <= rr < H and 0 <= cc < W) else 0
+                    s += val * kernel[kr][kc]
+            out[r][c] = s
+
+    return out
+
+
+# Example 2D "image" (grayscale values)
+img = [
+    [0, 0, 0, 0, 0],
+    [0, 10, 10, 10, 0],
+    [0, 10, 50, 10, 0],
+    [0, 10, 10, 10, 0],
+    [0, 0, 0, 0, 0],
+]
+
+# Simple edge kernel concept (detect changes)
+kernel = [
+    [-1, -1, -1],
+    [-1,  8, -1],
+    [-1, -1, -1]
+]
+
+edges = convolve_2d(img, kernel)
+for row in edges:
+    print(row)
+</code></pre>
+                            </div>
+
+                            <p><strong>Output:</strong> numbers showing strong response near changes.</p>
+                            <p><strong>Alternative:</strong> use OpenCV or scikit-image for real filters.</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — grayscale as numbers</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">RGB to grayscale concept</div>
+                                </div>
+                                <pre><code># Example: convert one RGB pixel to grayscale
+
+R, G, B = 100, 150, 200
+
+# weighted sum concept
+gray = 0.299*R + 0.587*G + 0.114*B
+
+print("gray:", gray)
+</code></pre>
+                            </div>
+
+                            <h3>4.2 Medium Example — blur filter (concept)</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Concept</div>
+                                    <div class="meta">3x3 average kernel</div>
+                                </div>
+                                <pre><code># Blur kernel concept: average neighbors
+blur_kernel = [
+  [1,1,1],
+  [1,1,1],
+  [1,1,1]
+]
+
+# After convolution, divide by 9 to get average.
+</code></pre>
+                            </div>
+
+                            <h3>4.3 Advanced Example — pipeline idea</h3>
+                            <div class="callout note">
+                                <h3>Flow idea</h3>
+                                <ul>
+                                    <li>Load image</li>
+                                    <li>Convert to grayscale</li>
+                                    <li>Apply blur + edge filters</li>
+                                    <li>Use results for detection/classification</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: vision steps</h3>
+                                <pre><code>[Load image]
+     |
+     v
+[Convert/normalize]
+     |
+     v
+[Filter (blur/edges)]
+     |
+     v
+[Extract features]
+     |
+     v
+[Predict/decide]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <table class="table" aria-label="Vision memory">
+                                <thead>
+                                    <tr>
+                                        <th>Stored thing</th>
+                                        <th>What it is</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Image array</td>
+                                        <td>pixel values in a 2D/3D grid</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kernel</td>
+                                        <td>small matrix used for filtering</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Output array</td>
+                                        <td>result of filtering / feature maps</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Dry run</div>
+                                    <div class="meta">center pixel response</div>
+                                </div>
+                                <pre><code>Using kernel with center weight 8 and neighbors -1 (concept).
+For the center of the image, neighbors are ~10 and center is 50.
+
+response ≈ 8*50 + (-1)*(8 neighbors * 10)
+         ≈ 400 - 80
+         ≈ 320 (large positive)
+
+So the center becomes a strong "edge/feature" response.
+</code></pre>
+                            </div>
+                            <p><strong>Time:</strong> O(H*W) with constant kernel • <strong>Space:</strong> O(H*W).</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>len()</code> to get image height/width (concept).</li>
+                                <li><code>print()</code> to view intermediate matrices.</li>
+                            </ul>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <div class="callout note">
+                                <h3>Common vision steps (concept)</h3>
+                                <ul>
+                                    <li>Normalize image values (scale to 0..1)</li>
+                                    <li>Apply filter kernels</li>
+                                    <li>Threshold response to get a mask</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is computer vision?</li>
+                                <li>What is a pixel?</li>
+                                <li>What is an image grid?</li>
+                                <li>What is RGB?</li>
+                                <li>What is grayscale?</li>
+                                <li>Why do we convert to grayscale (concept)?</li>
+                                <li>What is a filter kernel?</li>
+                                <li>What does convolution do (concept)?</li>
+                                <li>What is an edge?</li>
+                                <li>How do edge detectors work conceptually?</li>
+                                <li>What is blur used for?</li>
+                                <li>Why can filtering lose details?</li>
+                                <li>What is feature extraction?</li>
+                                <li>What does thresholding do (concept)?</li>
+                                <li>What is normalization in images (concept)?</li>
+                                <li>What are dimensions of an RGB image array?</li>
+                                <li>What are dimensions of a grayscale array?</li>
+                                <li>What is noise in images?</li>
+                                <li>How can kernels highlight noise (concept)?</li>
+                                <li>What is padding in convolution?</li>
+                                <li>What is zero padding?</li>
+                                <li>What is stride (concept)?</li>
+                                <li>What is the output of a convolution called?</li>
+                                <li>What is a feature map?</li>
+                                <li>Why do we need to handle boundaries in convolution?</li>
+                                <li>What is a 3x3 kernel?</li>
+                                <li>Why do real libraries use optimized implementations?</li>
+                                <li>What is an example of a vision pipeline?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>An image is stored as:
+                                    <ul>
+                                        <li>A) a text file</li>
+                                        <li>B) a grid/array of pixels</li>
+                                        <li>C) a single number</li>
+                                        <li>D) HTML only</li>
+                                    </ul>
+                                </li>
+                                <li>A pixel represents:
+                                    <ul>
+                                        <li>A) a color value at a location</li>
+                                        <li>B) a string</li>
+                                        <li>C) a CSS rule</li>
+                                        <li>D) a SQL row</li>
+                                    </ul>
+                                </li>
+                                <li>RGB images have how many channels:
+                                    <ul>
+                                        <li>A) 1</li>
+                                        <li>B) 2</li>
+                                        <li>C) 3</li>
+                                        <li>D) 4</li>
+                                    </ul>
+                                </li>
+                                <li>Grayscale images have how many channels:
+                                    <ul>
+                                        <li>A) 3</li>
+                                        <li>B) 1</li>
+                                        <li>C) 0</li>
+                                        <li>D) 2</li>
+                                    </ul>
+                                </li>
+                                <li>Convolution is used for:
+                                    <ul>
+                                        <li>A) filtering and feature extraction</li>
+                                        <li>B) caching</li>
+                                        <li>C) printing</li>
+                                        <li>D) file renaming</li>
+                                    </ul>
+                                </li>
+                                <li>A kernel is:
+                                    <ul>
+                                        <li>A) a large matrix of pixels</li>
+                                        <li>B) a small matrix used in filtering</li>
+                                        <li>C) a browser extension</li>
+                                        <li>D) a database index</li>
+                                    </ul>
+                                </li>
+                                <li>Edge detection highlights:
+                                    <ul>
+                                        <li>A) fast value changes</li>
+                                        <li>B) constant values only</li>
+                                        <li>C) empty areas</li>
+                                        <li>D) file paths</li>
+                                    </ul>
+                                </li>
+                                <li>Blur kernel concept is:
+                                    <ul>
+                                        <li>A) average neighbors</li>
+                                        <li>B) maximum only</li>
+                                        <li>C) random values</li>
+                                        <li>D) theme toggle</li>
+                                    </ul>
+                                </li>
+                                <li>Padding helps with:
+                                    <ul>
+                                        <li>A) boundary handling</li>
+                                        <li>B) theme issues</li>
+                                        <li>C) removing pixels</li>
+                                        <li>D) changing HTML</li>
+                                    </ul>
+                                </li>
+                                <li>Stride affects:
+                                    <ul>
+                                        <li>A) filter step size</li>
+                                        <li>B) font size</li>
+                                        <li>C) cache size</li>
+                                        <li>D) JS loading</li>
+                                    </ul>
+                                </li>
+                                <li>Output of convolution is called:
+                                    <ul>
+                                        <li>A) feature map</li>
+                                        <li>B) CSS table</li>
+                                        <li>C) SQL join</li>
+                                        <li>D) manifest</li>
+                                    </ul>
+                                </li>
+                                <li>Thresholding produces:
+                                    <ul>
+                                        <li>A) a mask/boolean map</li>
+                                        <li>B) a string</li>
+                                        <li>C) a spreadsheet</li>
+                                        <li>D) a socket</li>
+                                    </ul>
+                                </li>
+                                <li>Normalization typically scales:
+                                    <ul>
+                                        <li>A) pixel values to a range (concept)</li>
+                                        <li>B) filenames</li>
+                                        <li>C) CSS colors</li>
+                                        <li>D) network ports</li>
+                                    </ul>
+                                </li>
+                                <li>Zero padding means outside pixels are:
+                                    <ul>
+                                        <li>A) zeros</li>
+                                        <li>B) ones</li>
+                                        <li>C) random</li>
+                                        <li>D) NaN always</li>
+                                    </ul>
+                                </li>
+                                <li>A 3x3 kernel covers:
+                                    <ul>
+                                        <li>A) 9 neighbor values</li>
+                                        <li>B) 3 neighbor values</li>
+                                        <li>C) 1 value</li>
+                                        <li>D) whole image always</li>
+                                    </ul>
+                                </li>
+                                <li>Convolution uses weights and sums:
+                                    <ul>
+                                        <li>A) weighted neighborhood</li>
+                                        <li>B) plain concatenation</li>
+                                        <li>C) deletes data</li>
+                                        <li>D) ignores pixels</li>
+                                    </ul>
+                                </li>
+                                <li>Feature extraction means:
+                                    <ul>
+                                        <li>A) compute meaningful patterns from image</li>
+                                        <li>B) download images</li>
+                                        <li>C) edit HTML</li>
+                                        <li>D) install JS</li>
+                                    </ul>
+                                </li>
+                                <li>Blur can help because it:
+                                    <ul>
+                                        <li>A) reduces noise</li>
+                                        <li>B) increases noise</li>
+                                        <li>C) removes edges always</li>
+                                        <li>D) changes SEO</li>
+                                    </ul>
+                                </li>
+                                <li>Edges correspond to:
+                                    <ul>
+                                        <li>A) intensity changes</li>
+                                        <li>B) theme changes</li>
+                                        <li>C) database writes</li>
+                                        <li>D) sitemap updates</li>
+                                    </ul>
+                                </li>
+                                <li>A vision pipeline often includes:
+                                    <ul>
+                                        <li>A) load → process → extract → predict</li>
+                                        <li>B) cache → compile</li>
+                                        <li>C) CSS only</li>
+                                        <li>D) robots only</li>
+                                    </ul>
+                                </li>
+                                <li>Grayscale conversion uses:
+                                    <ul>
+                                        <li>A) weighted sum of RGB (concept)</li>
+                                        <li>B) database query</li>
+                                        <li>C) CSS filter</li>
+                                        <li>D) HTML tags</li>
+                                    </ul>
+                                </li>
+                                <li>A feature map is:
+                                    <ul>
+                                        <li>A) output of filtering</li>
+                                        <li>B) list of chapters</li>
+                                        <li>C) zip file</li>
+                                        <li>D) CSS stylesheet</li>
+                                    </ul>
+                                </li>
+                                <li>Convolution can be expensive, so libraries optimize with:
+                                    <ul>
+                                        <li>A) faster implementations</li>
+                                        <li>B) less math</li>
+                                        <li>C) no arrays</li>
+                                        <li>D) fewer values always</li>
+                                    </ul>
+                                </li>
+                                <li>Handling boundaries avoids:
+                                    <ul>
+                                        <li>A) index errors</li>
+                                        <li>B) theme issues</li>
+                                        <li>C) 404s</li>
+                                        <li>D) manifest errors</li>
+                                    </ul>
+                                </li>
+                                <li>Stride is often used in CNNs to:
+                                    <ul>
+                                        <li>A) reduce output size</li>
+                                        <li>B) increase size always</li>
+                                        <li>C) remove kernels</li>
+                                        <li>D) change fonts</li>
+                                    </ul>
+                                </li>
+                                <li>Padding type affects output:
+                                    <ul>
+                                        <li>A) dimensions and values near borders</li>
+                                        <li>B) SEO</li>
+                                        <li>C) page color only</li>
+                                        <li>D) JS errors</li>
+                                    </ul>
+                                </li>
+                                <li>Thresholding after edge detection helps to:
+                                    <ul>
+                                        <li>A) create a clear edge mask</li>
+                                        <li>B) hide edges</li>
+                                        <li>C) change theme</li>
+                                        <li>D) delete arrays</li>
+                                    </ul>
+                                </li>
+                                <li>Convolution output can be negative:
+                                    <ul>
+                                        <li>A) yes (kernels can have negative weights)</li>
+                                        <li>B) never</li>
+                                        <li>C) always strings</li>
+                                        <li>D) only positive integers</li>
+                                    </ul>
+                                </li>
+                                <li>Kernel size 3 means:
+                                    <ul>
+                                        <li>A) 3x3 neighborhood</li>
+                                        <li>B) 1x1 neighborhood</li>
+                                        <li>C) 2x2 neighborhood</li>
+                                        <li>D) 4x4 neighborhood only</li>
+                                    </ul>
+                                </li>
+                                <li>Computer vision goal is to:
+                                    <ul>
+                                        <li>A) interpret visual data</li>
+                                        <li>B) only print pictures</li>
+                                        <li>C) cache service worker</li>
+                                        <li>D) build HTML</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Create a tiny 2D grayscale image list (5x5) and print it.</li>
+                                <li>Implement a function to get pixel value at (r,c).</li>
+                                <li>Implement padding concept: if out-of-bounds return 0.</li>
+                                <li>Run convolve_2d with an average blur kernel.</li>
+                                <li>Compare blur output to input conceptually.</li>
+                                <li>Create an edge kernel (sharpen) and compute output.</li>
+                                <li>Dry run the center pixel response (concept).</li>
+                                <li>Change the center value and observe response changes.</li>
+                                <li>Use a zero kernel and confirm output is all zeros.</li>
+                                <li>Use an identity kernel and confirm output matches input (concept).</li>
+                                <li>Implement normalization scaling output values to 0..255 (concept).</li>
+                                <li>Implement thresholding: output > T becomes 1 else 0.</li>
+                                <li>Create a small binary mask and print it.</li>
+                                <li>Dry run threshold with a known threshold.</li>
+                                <li>Implement simple visualization in text: map 0..max to characters.</li>
+                                <li>Implement a kernel flip concept and explain why convolution flips (concept).</li>
+                                <li>Debug: fix an index error in convolve loops.</li>
+                                <li>Dry run a corner pixel with padding.</li>
+                                <li>Predict output dimensions after convolution.</li>
+                                <li>Add docstrings and comments.</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Implement a horizontal gradient kernel and run on a synthetic edge image.</li>
+                                <li>Create a vertical edge image (left side 0, right side 10) and run kernel.</li>
+                                <li>Compute absolute value of convolution output (concept).</li>
+                                <li>Normalize abs output and threshold to show edges.</li>
+                                <li>Implement multiple kernels (blur then edge) pipeline.</li>
+                                <li>Debug: ensure kernels are 3x3.</li>
+                                <li>Implement stride concept by skipping steps (design).</li>
+                                <li>Implement different padding types: zero vs replicate (design).</li>
+                                <li>Build a function apply_pipeline(image) returning edges mask.</li>
+                                <li>Dry run pipeline for a 3x3 input image.</li>
+                                <li>Create a test where blur removes a single spike (concept).</li>
+                                <li>Explain why edges might shift after blur (concept).</li>
+                                <li>Implement a 5x5 kernel extension (design).</li>
+                                <li>Explain complexity increase from 3x3 to 5x5 (concept).</li>
+                                <li>Implement boundary-safe convolution using bounds checks.</li>
+                                <li>Debug: output seems shifted; investigate padding alignment.</li>
+                                <li>Compare using flipped vs non-flipped kernel (concept).</li>
+                                <li>Implement grayscale conversion on a tiny RGB array (design).</li>
+                                <li>Implement feature vector extraction: count edge pixels (design).</li>
+                                <li>Write comments describing each step clearly.</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Implement a small convolution engine that supports any odd kernel size.</li>
+                                <li>Use nested loops but optimize by precomputing valid indices.</li>
+                                <li>Write a function to detect corners by combining kernels (design).</li>
+                                <li>Implement Non-Max Suppression conceptually (design).</li>
+                                <li>Design a mini classifier: if edge count > threshold => class A else B.</li>
+                                <li>Implement tests for synthetic images and confirm behavior.</li>
+                                <li>Implement automatic threshold selection based on percentiles (concept).</li>
+                                <li>Debug: inconsistent results due to wrong normalization.</li>
+                                <li>Implement gradient magnitude from dx/dy kernels (concept).</li>
+                                <li>Explain why magnitude highlights edges more robustly.</li>
+                                <li>Design a pipeline that outputs both blurred image and edge mask.</li>
+                                <li>Explain complexity with kernel size K (concept).</li>
+                                <li>Implement caching for repeated kernel applications (design).</li>
+                                <li>Design a benchmark plan measuring runtime per image size.</li>
+                                <li>Handle color images by converting to grayscale before filtering.</li>
+                                <li>Debug shape/channel confusion in RGB arrays (design).</li>
+                                <li>Write a short “model card” description for your approach (design).</li>
+                                <li>Explain risks: false edges from noise.</li>
+                                <li>Improve readability and add comments per line.</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment41_1.py</code>: blur a 2D image using average kernel.</li>
+                                <li>Create <code>assignment41_2.py</code>: apply sharpen/edge kernel and threshold.</li>
+                                <li>Create <code>assignment41_3.py</code>: create synthetic images and classify based on
+                                    edge count.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Tiny Edge Map</h3>
+                                <ul>
+                                    <li>Create a few synthetic grayscale images (lines, squares, noise).</li>
+                                    <li>Apply blur then edge kernel.</li>
+                                    <li>Threshold to create an edge mask.</li>
+                                    <li>Print edge masks in terminal using characters.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+
+                            <div class="callout warning">
+                                <h3>Case 1: index error at boundaries</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">no bounds check</div>
+                                    </div>
+                                    <pre><code># rr/cc may go out of bounds
+val = grid[rr][cc]
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> add padding logic when rr/cc invalid.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: output looks shifted</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">wrong padding alignment</div>
+                                    </div>
+                                    <pre><code># pad_h/pad_w computed incorrectly
+pad_h = kH
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> use <code>kH//2</code> and <code>kW//2</code>.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: everything is zero</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">threshold too high</div>
+                                    </div>
+                                    <pre><code>mask = out > 10000
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> check min/max of output before threshold.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>IndexError:</strong> accessing out-of-range pixels.</li>
+                                <li><strong>ZeroDivisionError:</strong> if normalization divides by 0 (concept).</li>
+                                <li><strong>TypeError:</strong> passing non-numeric grid values.</li>
+                                <li><strong>ValueError:</strong> kernel not odd sized.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Start with tiny arrays you can reason about.</li>
+                                <li>Print min/max and a few output rows for sanity checks.</li>
+                                <li>Document kernel meaning and units.</li>
+                                <li>Normalize carefully after filtering (if needed).</li>
+                                <li>Validate output dimensions and boundary behavior.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                You learned computer vision basics: pixels as numbers, grayscale conversion concept,
+                                and filtering with kernels (blur/sharpen/edges). You also practiced convolution
+                                conceptually,
+                                did dry runs, and reviewed common debugging mistakes.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Vision cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Need</th>
+                                        <th>Idea</th>
+                                        <th>Example</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Convert to grayscale</td>
+                                        <td>weighted sum</td>
+                                        <td>gray ≈ 0.299R + 0.587G + 0.114B</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Blur</td>
+                                        <td>average kernel</td>
+                                        <td>3x3 all ones / 9</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Edges</td>
+                                        <td>highlight changes</td>
+                                        <td>sharpen/gradient kernels</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Threshold</td>
+                                        <td>make mask</td>
+                                        <td>out > T → 1 else 0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Padding</td>
+                                        <td>handle boundaries</td>
+                                        <td>zero padding (concept)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Detect a Vertical Line</h3>
+                                <ul>
+                                    <li>Create a synthetic image with a vertical line.</li>
+                                    <li>Apply an edge/gradient kernel.</li>
+                                    <li>Use thresholding to produce a line mask.</li>
+                                    <li>Count how many pixels are detected as edges.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What is a pixel?</li>
+                                <li>What is an RGB image?</li>
+                                <li>What is grayscale?</li>
+                                <li>What is a kernel?</li>
+                                <li>What does convolution do?</li>
+                                <li>Why are edges important?</li>
+                                <li>What does padding do?</li>
+                                <li>What is thresholding?</li>
+                                <li>What is a feature map?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>Pixel:</strong> a single value at a coordinate.</li>
+                                    <li><strong>RGB:</strong> 3 channels (R,G,B) per pixel.</li>
+                                    <li><strong>Grayscale:</strong> one value representing intensity.</li>
+                                    <li><strong>Kernel:</strong> small matrix of weights for filtering.</li>
+                                    <li><strong>Convolution:</strong> apply kernel to neighborhoods to compute response.
+                                    </li>
+                                    <li><strong>Edges:</strong> where values change quickly.</li>
+                                    <li><strong>Padding:</strong> boundary handling to keep convolution valid.</li>
+                                    <li><strong>Thresholding:</strong> convert response to a binary mask.</li>
+                                    <li><strong>Feature map:</strong> output of filters showing detected patterns.</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-42.html">Next Chapter</a></div>
+                            </div>
+
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

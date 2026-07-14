@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 01 — Introduction to Python</title>
+    <meta name="description"
+        content="Chapter 1: Introduction to Python. Learn what Python is, why it matters, how it works, and your first mental model." />
+    <link rel="canonical" href="./chapters/chapter-01.html" />
+
+    <meta property="og:title" content="Chapter 01 — Introduction to Python" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="Learn the basics of what Python is and how to think like a programmer." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 01 — Introduction to Python" />
+    <meta name="twitter:description" content="Python course chapter 1." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 01 • Offline • Search • Dark mode</span>
+                </div>
+
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout note" style="margin-top:12px;">
+                        <h3>📌 Sticky idea</h3>
+                        <p>Programming is “give instructions to a machine”. Python is one friendly way to write those
+                            instructions.</p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 01</div>
+
+                        <h1 class="chapter-title">Chapter 01 — Introduction to Python</h1>
+                        <p class="subtle">Learn what Python is, why it is popular, and how to think before writing code.
+                        </p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <p>By the end of this chapter, you will be able to:</p>
+                                <ul>
+                                    <li>Explain what Python is and why it is beginner-friendly.</li>
+                                    <li>Understand basic program structure: input → processing → output.</li>
+                                    <li>Describe variables, values, and what “types” mean.</li>
+                                    <li>Write and run simple Python code safely.</li>
+                                    <li>Predict output for a tiny program (output prediction).</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                Python is a programming language. A programming language is a set of rules that
+                                lets you write instructions for a computer.
+                            </p>
+                            <p>
+                                Python is famous because it is readable. Many beginners choose Python first
+                                because the code looks close to normal English.
+                            </p>
+                            <div class="callout remember">
+                                <h3>⭐ Remember Box</h3>
+                                <p>
+                                    Python uses indentation (spaces at the beginning of lines) to group code.
+                                    That means the “shape” of your code matters.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <div class="callout note">
+                                <h3>📚 Big Picture</h3>
+                                <p>
+                                    Think of a program like a recipe. You provide ingredients (data),
+                                    and the program follows steps to produce a result.
+                                </p>
+                            </div>
+
+                            <h3>2.1 What happens when you run Python?</h3>
+                            <p>
+                                When you run a Python program, Python reads the code line by line and executes it.
+                                If something is wrong, Python raises an error. Errors are not “failures”.
+                                They are clues that help you fix your instructions.
+                            </p>
+
+                            <h3>2.2 Program building blocks</h3>
+                            <ul>
+                                <li><strong>Variables</strong> store values.</li>
+                                <li><strong>Types</strong> tell the kind of value (like numbers or text).</li>
+                                <li><strong>Statements</strong> tell Python what to do.</li>
+                                <li><strong>Expressions</strong> produce a value.</li>
+                                <li><strong>Functions</strong> are reusable actions.</li>
+                            </ul>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    Don’t worry if concepts feel new. The goal here is to build a mental model.
+                                    You will learn the details step by step in later chapters.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+                            <p>
+                                Syntax means the exact rule format that Python requires.
+                                If syntax is wrong, Python cannot understand your code.
+                            </p>
+
+                            <h3>3.1 The simplest program</h3>
+                            <div class="code-card" role="group" aria-label="Code example">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">Statement • output</div>
+                                </div>
+                                <pre><code># This line is a comment. Python ignores it.
+# A comment helps humans understand code.
+
+print("Hello, Python!")
+</code></pre>
+                            </div>
+
+                            <div class="callout tip">
+                                <h3>💡 Output prediction</h3>
+                                <p>
+                                    If you run this program, you should see:</p>
+                                <ul>
+                                    <li><code>Hello, Python!</code></li>
+                                </ul>
+                                <p>
+                                    The <code>print()</code> function sends text to the screen.
+                                </p>
+                            </div>
+
+                            <p>
+                                <strong>Time complexity:</strong> <code>O(1)</code> (it prints one fixed message).
+                                <br />
+                                <strong>Space complexity:</strong> <code>O(1)</code> (fixed output).
+                            </p>
+
+                            <p>
+                                <strong>Alternative approach:</strong> use string variables and then print the variable.
+                            </p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — variables and types</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">Variables • print</div>
+                                </div>
+                                <pre><code># Variables store values.
+name = "Asha"          # name is a text value (string)
+age = 12               # age is a number (integer)
+
+print(name)
+print(age)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong></p>
+                            <ul>
+                                <li>Asha</li>
+                                <li>12</li>
+                            </ul>
+                            <p><strong>Time:</strong> O(1) • <strong>Space:</strong> O(1)</p>
+                            <p><strong>Alternative approach:</strong> combine them in one print using f-strings (later
+                                chapters will cover f-strings deeply).</p>
+
+                            <h3>4.2 Medium Example — simple input/output thinking</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">Input-like flow (no real input)</div>
+                                </div>
+                                <pre><code># We can simulate "input" by using a variable.
+# In later chapters, you will use input() to read from keyboard.
+
+user_name = "Ravi"
+message = "Welcome, " + user_name
+
+print(message)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> Welcome, Ravi</p>
+                            <p><strong>Time:</strong> O(n) where n is length of the resulting string •
+                                <strong>Space:</strong> O(n)</p>
+                            <p><strong>Alternative approach:</strong> use f"Welcome, {user_name}" (Python 3).</p>
+
+                            <h3>4.3 Advanced Example — functions as mental tools</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">Function call • reuse</div>
+                                </div>
+                                <pre><code># Example of calling a built-in function.
+# range() is a generator of numbers.
+
+total = 0
+for x in range(5):
+    total += x
+
+print(total)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> 10 (0+1+2+3+4)</p>
+                            <p>
+                                <strong>Time:</strong> O(n) • <strong>Space:</strong> O(1) extra space (loop variables).
+                            </p>
+                            <p><strong>Alternative approach:</strong> use sum(range(5)) (built-in aggregation).</p>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: from idea to output</h3>
+                                <p style="margin-bottom:10px;"><strong>Goal:</strong> produce correct output.</p>
+                                <pre><code> [Start]
+    |
+    v
+ [Read/Prepare Data]  (variables)
+    |
+    v
+ [Process Logic]       (statements, expressions)
+    |
+    v
+ [Produce Output]      (print)
+    |
+    v
+ [End]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <p>
+                                Variables are like labeled boxes in memory.
+                                When you assign values, you fill the boxes.
+                            </p>
+                            <table class="table" aria-label="Memory visualization table">
+                                <thead>
+                                    <tr>
+                                        <th>Label</th>
+                                        <th>Value</th>
+                                        <th>Type</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>name</td>
+                                        <td>"Asha"</td>
+                                        <td>str</td>
+                                    </tr>
+                                    <tr>
+                                        <td>age</td>
+                                        <td>12</td>
+                                        <td>int</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="callout remember">
+                                <h3>🧠 Memory trick</h3>
+                                <p>
+                                    <strong>Variables = Boxes</strong>. <strong>Values = What you put inside</strong>.
+                                    Python also remembers the <strong>type</strong> (kind of value).
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="callout tip">
+                                <h3>Dry run table</h3>
+                                <p>Program:</p>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">Dry run</div>
+                                    </div>
+                                    <pre><code>city = "Delhi"
+message = city + " is big"
+print(message)
+</code></pre>
+                                </div>
+                            </div>
+
+                            <table class="table" aria-label="Dry run table">
+                                <thead>
+                                    <tr>
+                                        <th>Step</th>
+                                        <th>Line</th>
+                                        <th>What changes?</th>
+                                        <th>Result</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td><code>city = "Delhi"</code></td>
+                                        <td>Create box <code>city</code></td>
+                                        <td><code>city → "Delhi"</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td><code>message = ...</code></td>
+                                        <td>Compute concatenation</td>
+                                        <td><code>message → "Delhi is big"</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td><code>print(message)</code></td>
+                                        <td>Output to screen</td>
+                                        <td>Delhi is big</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <p><strong>Time complexity:</strong> O(n) (string concatenation) • <strong>Space
+                                    complexity:</strong> O(n).</p>
+                            <p><strong>Alternative approach:</strong> use <code>f"{city} is big"</code> to build
+                                strings.</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <p>These are functions that come with Python. You can use them immediately.</p>
+
+                            <div class="callout note">
+                                <h3>Common built-ins in this chapter</h3>
+                                <ul>
+                                    <li><code>print()</code>: shows values.</li>
+                                    <li><code>range()</code>: generates numbers for loops.</li>
+                                    <li><code>sum()</code>: totals numbers (alternative to loops).</li>
+                                </ul>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">Built-in: sum()</div>
+                                </div>
+                                <pre><code># Sum numbers quickly using sum().
+
+print(sum(range(5)))
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> 10</p>
+                            <p><strong>Time:</strong> O(n) • <strong>Space:</strong> O(1) extra.</p>
+                            <p><strong>Alternative approach:</strong> use a for-loop accumulator (shown earlier).</p>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <p>
+                                Methods are functions that belong to an object. In Python, strings have methods.
+                                (We will go deeper later, but here is a taste.)
+                            </p>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">String method: upper()</div>
+                                </div>
+                                <pre><code>text = "python"
+print(text.upper())
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> PYTHON</p>
+                            <p><strong>Time:</strong> O(n) • <strong>Space:</strong> O(n) for new string.</p>
+                            <p><strong>Alternative approach:</strong> use <code>text.capitalize()</code> or
+                                <code>text.title()</code>.</p>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is Python?</li>
+                                <li>Why do beginners often choose Python?</li>
+                                <li>What does indentation mean in Python?</li>
+                                <li>What is a variable?</li>
+                                <li>What is the difference between a value and a variable?</li>
+                                <li>What is a data type?</li>
+                                <li>What does <code>print()</code> do?</li>
+                                <li>What is a function?</li>
+                                <li>What is a built-in function?</li>
+                                <li>What is a method?</li>
+                                <li>Explain what an expression is.</li>
+                                <li>Explain what a statement is.</li>
+                                <li>What is the difference between a loop and a function?</li>
+                                <li>What is a common syntax error for beginners?</li>
+                                <li>How do errors help you while programming?</li>
+                                <li>What is <code>range()</code> used for?</li>
+                                <li>Why is <code>for</code> popular in Python?</li>
+                                <li>What does O(1) time complexity mean?</li>
+                                <li>What does O(n) time complexity mean?</li>
+                                <li>What is space complexity?</li>
+                                <li>How do you combine strings in Python?</li>
+                                <li>What is string concatenation?</li>
+                                <li>How does <code>sum()</code> help you?</li>
+                                <li>What is an “output prediction” question?</li>
+                                <li>How would you describe the flow of a program?</li>
+                                <li>What is a mental model?</li>
+                                <li>What is the difference between input and output?</li>
+                                <li>What is the benefit of comments?</li>
+                                <li>Why is readability important in code?</li>
+                                <li>What is “alternative approach” in solutions?</li>
+                            </ol>
+
+                            <div class="callout tip">
+                                <h3>🧾 Instructor note</h3>
+                                <p>During learning, always answer these questions in your own words, not by memorizing.
+                                    This builds real understanding.</p>
+                            </div>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>Python code typically uses which to define blocks?
+                                    <ul>
+                                        <li>A) Braces { }</li>
+                                        <li>B) Semicolons ;</li>
+                                        <li>C) Indentation (spaces/tabs)</li>
+                                        <li>D) End keywords</li>
+                                    </ul>
+                                </li>
+                                <li><code>print( )</code> is used to:
+                                    <ul>
+                                        <li>A) Store values</li>
+                                        <li>B) Display output</li>
+                                        <li>C) Write files</li>
+                                        <li>D) Hide errors</li>
+                                    </ul>
+                                </li>
+                                <li>A variable stores:
+                                    <ul>
+                                        <li>A) Instructions</li>
+                                        <li>B) Values</li>
+                                        <li>C) Only comments</li>
+                                        <li>D) Only errors</li>
+                                    </ul>
+                                </li>
+                                <li>A value without a variable is:
+                                    <ul>
+                                        <li>A) A constant</li>
+                                        <li>B) Still a piece of data</li>
+                                        <li>C) Not usable</li>
+                                        <li>D) Always undefined</li>
+                                    </ul>
+                                </li>
+                                <li>Built-in functions are:
+                                    <ul>
+                                        <li>A) User-made only</li>
+                                        <li>B) Provided by Python</li>
+                                        <li>C) Always external libraries</li>
+                                        <li>D) Not related to functions</li>
+                                    </ul>
+                                </li>
+                                <li>Methods usually belong to:
+                                    <ul>
+                                        <li>A) Objects</li>
+                                        <li>B) Comments</li>
+                                        <li>C) Keywords only</li>
+                                        <li>D) Hardware</li>
+                                    </ul>
+                                </li>
+                                <li><code>range(5)</code> generates:
+                                    <ul>
+                                        <li>A) 1 to 5</li>
+                                        <li>B) 0 to 4</li>
+                                        <li>C) 5 to 9</li>
+                                        <li>D) Only 5</li>
+                                    </ul>
+                                </li>
+                                <li><code>sum(range(5))</code> returns:
+                                    <ul>
+                                        <li>A) 5</li>
+                                        <li>B) 10</li>
+                                        <li>C) 0</li>
+                                        <li>D) 15</li>
+                                    </ul>
+                                </li>
+                                <li>String concatenation means:
+                                    <ul>
+                                        <li>A) Counting letters</li>
+                                        <li>B) Joining strings</li>
+                                        <li>C) Removing spaces</li>
+                                        <li>D) Sorting strings</li>
+                                    </ul>
+                                </li>
+                                <li>O(1) means:
+                                    <ul>
+                                        <li>A) Constant time</li>
+                                        <li>B) Random time</li>
+                                        <li>C) Quadratic time</li>
+                                        <li>D) Infinite time</li>
+                                    </ul>
+                                </li>
+                                <li>O(n) means:
+                                    <ul>
+                                        <li>A) Time grows with input size</li>
+                                        <li>B) Time is always zero</li>
+                                        <li>C) Time never changes</li>
+                                        <li>D) Only memory grows</li>
+                                    </ul>
+                                </li>
+                                <li>Comments are for:
+                                    <ul>
+                                        <li>A) Python execution only</li>
+                                        <li>B) Human understanding</li>
+                                        <li>C) Speed up hardware</li>
+                                        <li>D) Avoiding indentation</li>
+                                    </ul>
+                                </li>
+                                <li>Errors in Python are:
+                                    <ul>
+                                        <li>A) Friendly messages</li>
+                                        <li>B) Clues to fix code</li>
+                                        <li>C) Random numbers</li>
+                                        <li>D) Always ignored</li>
+                                    </ul>
+                                </li>
+                                <li><code>upper()</code> is typically a:
+                                    <ul>
+                                        <li>A) Print function</li>
+                                        <li>B) String method</li>
+                                        <li>C) File function</li>
+                                        <li>D) Math function</li>
+                                    </ul>
+                                </li>
+                                <li>Which is recommended?
+                                    <ul>
+                                        <li>A) Write unreadable code</li>
+                                        <li>B) Write clear code with comments</li>
+                                        <li>C) Remove spaces always</li>
+                                        <li>D) Avoid errors</li>
+                                    </ul>
+                                </li>
+                                <li>Indentation errors happen because:
+                                    <ul>
+                                        <li>A) Python doesn’t use indentation</li>
+                                        <li>B) Indentation affects code blocks</li>
+                                        <li>C) Tabs are illegal always</li>
+                                        <li>D) Only braces matter</li>
+                                    </ul>
+                                </li>
+                                <li>An expression produces:
+                                    <ul>
+                                        <li>A) A value</li>
+                                        <li>B) Only errors</li>
+                                        <li>C) Only comments</li>
+                                        <li>D) Only filenames</li>
+                                    </ul>
+                                </li>
+                                <li>A statement tells Python:
+                                    <ul>
+                                        <li>A) What to do</li>
+                                        <li>B) What not to do</li>
+                                        <li>C) Only how to print</li>
+                                        <li>D) Only about types</li>
+                                    </ul>
+                                </li>
+                                <li>In a program flow, output usually comes after:
+                                    <ul>
+                                        <li>A) Processing</li>
+                                        <li>B) Random guessing</li>
+                                        <li>C) Removing data</li>
+                                        <li>D) Skipping logic</li>
+                                    </ul>
+                                </li>
+                                <li>Functions help with:
+                                    <ul>
+                                        <li>A) Reuse</li>
+                                        <li>B) Duplicating logic</li>
+                                        <li>C) Avoiding variables</li>
+                                        <li>D) Hiding output</li>
+                                    </ul>
+                                </li>
+                                <li>A method is often called like:
+                                    <ul>
+                                        <li>A) <code>object.method()</code></li>
+                                        <li>B) <code>method object()</code></li>
+                                        <li>C) <code>call method</code></li>
+                                        <li>D) <code>{method}</code></li>
+                                    </ul>
+                                </li>
+                                <li><code>print("x")</code> outputs:
+                                    <ul>
+                                        <li>A) x</li>
+                                        <li>B) nothing</li>
+                                        <li>C) error</li>
+                                        <li>D) file</li>
+                                    </ul>
+                                </li>
+                                <li>A mental model helps you:
+                                    <ul>
+                                        <li>A) Understand before details</li>
+                                        <li>B) Skip learning</li>
+                                        <li>C) Only memorize</li>
+                                        <li>D) Avoid thinking</li>
+                                    </ul>
+                                </li>
+                                <li>A variable “type” helps with:
+                                    <ul>
+                                        <li>A) Correct operations</li>
+                                        <li>B) Wrong operations</li>
+                                        <li>C) No meaning</li>
+                                        <li>D) Disabling print</li>
+                                    </ul>
+                                </li>
+                                <li>In dry run, you:
+                                    <ul>
+                                        <li>A) Follow execution step by step</li>
+                                        <li>B) Skip steps</li>
+                                        <li>C) Only guess</li>
+                                        <li>D) Never use tables</li>
+                                    </ul>
+                                </li>
+                                <li>Dry run improves:
+                                    <ul>
+                                        <li>A) Understanding</li>
+                                        <li>B) Confusion</li>
+                                        <li>C) Randomness</li>
+                                        <li>D) No effect</li>
+                                    </ul>
+                                </li>
+                                <li>Alternative approach means:
+                                    <ul>
+                                        <li>A) Another valid way to solve</li>
+                                        <li>B) Wrong way</li>
+                                        <li>C) Skip solving</li>
+                                        <li>D) Only one way exists</li>
+                                    </ul>
+                                </li>
+                                <li>Which tool is shown in this course design?
+                                    <ul>
+                                        <li>A) Ruled notebook layout</li>
+                                        <li>B) Blank pages</li>
+                                        <li>C) No navigation</li>
+                                        <li>D) No search</li>
+                                    </ul>
+                                </li>
+                                <li>Which is true about errors?
+                                    <ul>
+                                        <li>A) They are always useless</li>
+                                        <li>B) They can guide fixes</li>
+                                        <li>C) They are hidden</li>
+                                        <li>D) They never happen</li>
+                                    </ul>
+                                </li>
+                                <li>Best practice for beginners:
+                                    <ul>
+                                        <li>A) Ask for help only</li>
+                                        <li>B) Learn step by step and run code</li>
+                                        <li>C) Avoid practice</li>
+                                        <li>D) Don’t read errors</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Write <code>print("Hi")</code>.</li>
+                                <li>Declare a variable <code>x=5</code> and print it.</li>
+                                <li>Declare <code>name="Sam"</code> and print it.</li>
+                                <li>Print the type of <code>3</code> using <code>type()</code>.</li>
+                                <li>Print the type of <code>"a"</code> using <code>type()</code>.</li>
+                                <li>Create two variables <code>a=2</code>, <code>b=3</code> and print <code>a+b</code>.
+                                </li>
+                                <li>Concatenate <code>"Hello"</code> and <code>"World"</code> and print result.</li>
+                                <li>Use <code>range(3)</code> in a loop and print each number.</li>
+                                <li>Use <code>sum(range(4))</code> and print it.</li>
+                                <li>Convert a string to upper case using <code>upper()</code>.</li>
+                                <li>Create a variable holding a sentence and print its length using <code>len()</code>.
+                                </li>
+                                <li>Create variable <code>age=20</code> and print: <code>age</code> and
+                                    <code>type(age)</code>.</li>
+                                <li>Print a message: <code>User is active</code>.</li>
+                                <li>Write code to print 3 lines using three <code>print</code> statements.</li>
+                                <li>Write code that prints numbers from 1 to 5 using <code>range(1,6)</code>.</li>
+                                <li>Assign <code>city="Delhi"</code> and print <code>city+"!"</code>.</li>
+                                <li>Print <code>bool(0)</code> and <code>bool(1)</code>.</li>
+                                <li>Print result of <code>"py" + "thon"</code>.</li>
+                                <li>Write code: <code>num=7</code>; print <code>num</code>.</li>
+                                <li>Print the result of <code>10-4</code>.</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Create a variable <code>first="A"</code>, <code>second="B"</code>, print
+                                    <code>first+second</code>.</li>
+                                <li>Calculate area of a rectangle: width=5, height=7. Print area.</li>
+                                <li>Use a loop to compute sum of numbers from 1 to 10.</li>
+                                <li>Given a name, print a greeting like <code>Hello, Ravi!</code>.</li>
+                                <li>Given <code>x=12</code>, print <code>x</code> and <code>x*2</code>.</li>
+                                <li>Print even numbers from 0 to 10 (use <code>if</code> inside loop; learn in later
+                                    chapters but attempt).</li>
+                                <li>Use <code>range</code> to print squares of 0..4.</li>
+                                <li>Build a sentence by concatenating 3 strings stored in variables.</li>
+                                <li>Compute <code>total = sum(range(1,6))</code> and print it.</li>
+                                <li>Use <code>len()</code> on a sentence and print length.</li>
+                                <li>Convert a string to lowercase with <code>lower()</code> (if you know it, try it).
+                                </li>
+                                <li>Write code that prints: <code>"Python"</code> 3 times.</li>
+                                <li>Try to compute factorial for small number (e.g. 5) using loop.</li>
+                                <li>Write code to find max among 3 numbers using if statements (basic).</li>
+                                <li>Readably format output using separate prints for labels.</li>
+                                <li>Create a small menu variable <code>option="A"</code> and print what it means (use
+                                    if/else).</li>
+                                <li>Use <code>range</code> with step (e.g. print every 2nd number).</li>
+                                <li>Compute sum of odd numbers from 1 to 9.</li>
+                                <li>Store multiple values in variables and print them nicely.</li>
+                                <li>Predict output for a loop and verify by running.</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Write a mini calculator function that handles add/sub/mul (use your own function
+                                    concept).</li>
+                                <li>Given two strings, print which one is longer using <code>len()</code>.</li>
+                                <li>Generate Fibonacci numbers up to a limit using loop logic.</li>
+                                <li>Find prime numbers up to 30 using nested loops.</li>
+                                <li>Create a countdown output using a loop and conditional stop.</li>
+                                <li>Implement a basic guessing game (no input needed; simulate random choices).</li>
+                                <li>Write code to parse a number from a string like <code>"123"</code> to int (use
+                                    <code>int()</code>).</li>
+                                <li>Normalize a string by stripping spaces using <code>strip()</code>.</li>
+                                <li>Write code that counts vowels in a sentence.</li>
+                                <li>Remove duplicate characters from a string while preserving order.</li>
+                                <li>Compute GCD for two numbers using Euclid algorithm.</li>
+                                <li>Write a loop that prints a pattern (triangle) using nested loops.</li>
+                                <li>Implement simple run-length encoding for a string.</li>
+                                <li>Sort three numbers using comparisons (no built-in sort).</li>
+                                <li>Write code that determines if a number is palindrome.</li>
+                                <li>Build a string histogram of characters using a dictionary (learn later but attempt).
+                                </li>
+                                <li>Create a function that formats a name and age into a sentence.</li>
+                                <li>Write code to simulate a bank balance update with multiple transactions variables.
+                                </li>
+                                <li>Create unit tests mentally: list expected outputs for given inputs (no framework).
+                                </li>
+                                <li>Implement a tiny “output prediction” checker: compare expected vs actual output
+                                    using your reasoning.</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create a Python file named <code>assignment1.py</code>. Print your name, your city,
+                                    and a motivation sentence.</li>
+                                <li>Write a program that stores your favorite number in a variable and prints:
+                                    <ul>
+                                        <li><code>Favorite Number: ...</code></li>
+                                        <li><code>Type: ...</code></li>
+                                    </ul>
+                                </li>
+                                <li>Build a “tiny program” that shows a 3-step flow: data → processing → output (use
+                                    variables and print).</li>
+                                <li>Write code that predicts output for a small snippet, then run and confirm.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Welcome Card Generator (Console)</h3>
+                                <p>Create a script that prints a personalized welcome message.</p>
+                            </div>
+                            <p><strong>Requirements:</strong></p>
+                            <ul>
+                                <li>Use at least 3 variables.</li>
+                                <li>Use concatenation or formatting.</li>
+                                <li>Print a “title” line, then a personalized line.</li>
+                                <li>Explain expected output.</li>
+                            </ul>
+
+                            <div class="callout tip">
+                                <h3>Example starter</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">Mini project starter</div>
+                                    </div>
+                                    <pre><code>name = "Your Name"
+course = "Python"
+level = "Beginner"
+
+print("=== Welcome Card ===")
+print("Hello, " + name + "!")
+print("You will learn " + course + " at " + level + " level.")
+</code></pre>
+                                </div>
+                                <p><strong>Explain:</strong> variables store info. <code>print()</code> outputs the
+                                    card.</p>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+                            <p>Find the bug(s), fix the code, and predict the correct output.</p>
+
+                            <div class="callout warning">
+                                <h3>Case 1</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">Buggy code</div>
+                                    </div>
+                                    <pre><code>print("Hello")
+print(Hello)
+</code></pre>
+                                </div>
+                                <p><strong>Hint:</strong> strings must be inside quotes.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">Buggy code</div>
+                                    </div>
+                                    <pre><code>name = "Asha"
+message = name + 5
+print(message)
+</code></pre>
+                                </div>
+                                <p><strong>Hint:</strong> you cannot directly add a string and an integer.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">Buggy code</div>
+                                    </div>
+                                    <pre><code>total = 0
+for x in range(3):
+total += x
+print(total)
+</code></pre>
+                                </div>
+                                <p><strong>Hint:</strong> indentation defines the loop body.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>NameError:</strong> using a variable that was never assigned.</li>
+                                <li><strong>SyntaxError:</strong> code format doesn’t match Python rules.</li>
+                                <li><strong>TypeError:</strong> using the wrong kind of value (e.g., string + int).</li>
+                                <li><strong>IndentationError:</strong> loop/function block indentation is wrong.</li>
+                                <li><strong>ValueError:</strong> converting wrong input to a type (later chapters).</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Run small code often.</li>
+                                <li>Use comments to explain intent.</li>
+                                <li>Name variables clearly: <code>age</code>, <code>user_name</code>.</li>
+                                <li>Prefer simple output with <code>print()</code> while learning.</li>
+                                <li>Read error messages carefully; they usually tell the line number.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                Python is readable and beginner-friendly. A program has a flow: data in → processing →
+                                output.
+                                Variables store values. Types matter. You can use built-in functions like
+                                <code>print()</code> and <code>range()</code>.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Feature</th>
+                                        <th>Syntax</th>
+                                        <th>Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Print</td>
+                                        <td><code>print(value)</code></td>
+                                        <td>Display output</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Variables</td>
+                                        <td><code>name = "Asha"</code></td>
+                                        <td>Store values</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Types</td>
+                                        <td><code>type(x)</code></td>
+                                        <td>Check type</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Range</td>
+                                        <td><code>range(5)</code></td>
+                                        <td>0..4 for loops</td>
+                                    </tr>
+                                    <tr>
+                                        <td>String concat</td>
+                                        <td><code>a + b</code></td>
+                                        <td>Join strings</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Upper method</td>
+                                        <td><code>s.upper()</code></td>
+                                        <td>Convert to uppercase</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Two Numbers to a Message</h3>
+                                <p>Create a program that:</p>
+                                <ul>
+                                    <li>Stores <code>a=3</code> and <code>b=7</code></li>
+                                    <li>Computes <code>c=a+b</code></li>
+                                    <li>Prints: <code>"Sum is: 10"</code></li>
+                                </ul>
+                            </div>
+                            <p><strong>Expected output:</strong> Sum is: 10</p>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What does <code>print()</code> do?</li>
+                                <li>Where do variables store values?</li>
+                                <li>Why is indentation important?</li>
+                                <li>What is the purpose of comments?</li>
+                                <li>What does <code>range(5)</code> produce?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+
+                            <div class="callout remember">
+                                <h3>MCQ Answer Key (first 10 shown here)</h3>
+                                <p>
+                                    For production, each chapter should provide explanations for all MCQs.
+                                    This project’s chapter pages follow the same structure.
+                                </p>
+                            </div>
+
+                            <ol>
+                                <li><strong>C</strong>. Python uses indentation to define blocks.</li>
+                                <li><strong>B</strong>. <code>print()</code> displays output.</li>
+                                <li><strong>B</strong>. Variables store values.</li>
+                                <li><strong>B</strong>. Values exist; variables are just names for them.</li>
+                                <li><strong>B</strong>. Built-in functions come with Python.</li>
+                                <li><strong>A</strong>. Methods belong to objects (e.g., strings).</li>
+                                <li><strong>B</strong>. <code>range(5)</code> generates 0..4.</li>
+                                <li><strong>B</strong>. Sum of 0+1+2+3+4 equals 10.</li>
+                                <li><strong>B</strong>. Concatenation joins strings together.</li>
+                                <li><strong>A</strong>. O(1) means constant time for fixed-size work.</li>
+                            </ol>
+
+                            <div class="callout tip">
+                                <h3>Debugging fixes (explained)</h3>
+                                <ul>
+                                    <li><strong>Case 1:</strong> <code>print(Hello)</code> fails because
+                                        <code>Hello</code> is not defined. Use <code>print("Hello")</code>.</li>
+                                    <li><strong>Case 2:</strong> <code>name + 5</code> mixes types. Convert number to
+                                        string: <code>message = name + str(5)</code>.</li>
+                                    <li><strong>Case 3:</strong> Indentation is missing before <code>total += x</code>.
+                                        Python requires the loop body to be indented.</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div>
+                                    <a class="btn" style="visibility:hidden;" data-prev>Previous</a>
+                                </div>
+                                <div>
+                                    <a class="btn primary" data-next href="chapter-02.html">Next Chapter</a>
+                                </div>
+                            </div>
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        // Render sidebar chapter list
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

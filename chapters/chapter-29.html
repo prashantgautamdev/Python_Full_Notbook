@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 29 — Web Scraping</title>
+    <meta name="description"
+        content="Chapter 29: Web Scraping. Learn HTML fetching, parsing basics, respect robots.txt, and extract data safely." />
+    <link rel="canonical" href="./chapters/chapter-29.html" />
+
+    <meta property="og:title" content="Chapter 29 — Web Scraping" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description"
+        content="Learn web scraping basics with Python: fetching, parsing HTML, and responsible scraping." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 29 — Web Scraping" />
+    <meta name="twitter:description" content="Web scraping fundamentals with examples and fully explained practice." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 29 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout warning" style="margin-top:12px;">
+                        <h3>⚠ Warning</h3>
+                        <p>
+                            Web scraping must be done responsibly.
+                            Always follow <strong>robots.txt</strong> and avoid heavy requests.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 29</div>
+                        <h1 class="chapter-title">Chapter 29 — Web Scraping</h1>
+                        <p class="subtle">Learn how to fetch HTML pages, parse them, extract data, and scrape
+                            responsibly.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-28.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <ul>
+                                    <li>Understand what web scraping means.</li>
+                                    <li>Fetch web pages using Python concepts (requests).</li>
+                                    <li>Parse HTML and extract elements (BeautifulSoup concept).</li>
+                                    <li>Respect robots.txt and rate limits (responsible scraping).</li>
+                                    <li>Predict outputs and debug extraction problems.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                Many websites show information in HTML.
+                                Web scraping means reading that HTML and extracting data automatically.
+                            </p>
+                            <p>
+                                This chapter uses a responsible beginner-friendly approach.
+                                You will focus on concepts and safe patterns.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 Fetch → parse → extract</h3>
+                            <ul>
+                                <li><strong>Fetch</strong>: download the HTML text from a URL.</li>
+                                <li><strong>Parse</strong>: turn HTML into a searchable structure.</li>
+                                <li><strong>Extract</strong>: select elements you want (titles, links, prices).</li>
+                            </ul>
+
+                            <h3>2.2 CSS selectors vs parsing methods (concept)</h3>
+                            <p>
+                                You can locate elements using tag names, attributes, and classes.
+                                In BeautifulSoup, you can find elements by <code>find()</code> / <code>select()</code>
+                                concepts.
+                            </p>
+
+                            <h3>2.3 Robots.txt and rate limiting</h3>
+                            <p>
+                                <code>robots.txt</code> tells you which paths may be scraped.
+                                Rate limiting avoids overloading servers.
+                            </p>
+
+                            <div class="callout remember">
+                                <h3>⭐ Remember</h3>
+                                <p>
+                                    Scraping is powerful.
+                                    Do it politely: small request rate + correct content usage.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">fetch HTML (requests concept)</div>
+                                </div>
+                                <pre><code># concept example (requires 'requests' and 'bs4')
+import requests
+
+url = "https://example.com"
+html = requests.get(url, timeout=10).text
+print("HTML length:", len(html))
+</code></pre>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">parse + extract (bs4 concept)</div>
+                                </div>
+                                <pre><code># concept example
+from bs4 import BeautifulSoup
+
+soup = BeautifulSoup(html, "html.parser")
+
+# Example extraction: first h1 title
+h1 = soup.find("h1")
+if h1:
+    print("Title:", h1.get_text(strip=True))
+else:
+    print("No h1 found")
+</code></pre>
+                            </div>
+
+                            <p><strong>Time:</strong> depends on page size • <strong>Space:</strong> depends on parsed
+                                DOM size.</p>
+                            <p><strong>Alternative:</strong> use official APIs when available instead of scraping.</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — extract links</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">extract all <a href></div>
+                                </div>
+                                <pre><code># concept example
+import requests
+from bs4 import BeautifulSoup
+
+url = "https://example.com"
+html = requests.get(url, timeout=10).text
+
+soup = BeautifulSoup(html, "html.parser")
+links = soup.find_all("a")
+
+for a in links[:5]:
+    href = a.get("href")
+    text = a.get_text(strip=True)
+    print(text, "→", href)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> prints the first few link texts and href targets (depends on
+                                page).</p>
+
+                            <h3>4.2 Medium Example — extract a table (concept)</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">extract rows from table</div>
+                                </div>
+                                <pre><code># concept example
+from bs4 import BeautifulSoup
+
+soup = BeautifulSoup(html, "html.parser")
+
+table = soup.find("table")
+if not table:
+    print("No table found")
+else:
+    rows = table.find_all("tr")
+    for row in rows[:3]:
+        cols = row.find_all("td")
+        values = [c.get_text(strip=True) for c in cols]
+        print(values)
+</code></pre>
+                            </div>
+
+                            <h3>4.3 Advanced Example — responsible scraping loop (concept)</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">rate limiting idea</div>
+                                </div>
+                                <pre><code># concept example
+import time
+import requests
+from bs4 import BeautifulSoup
+
+urls = [
+  "https://example.com/page1",
+  "https://example.com/page2",
+]
+
+for i, url in enumerate(urls, start=1):
+    print("Fetching:", url)
+    html = requests.get(url, timeout=10).text
+    soup = BeautifulSoup(html, "html.parser")
+
+    # Do small extraction
+    titles = [h.get_text(strip=True) for h in soup.find_all("h2")]
+    print("Found titles:", titles[:3])
+
+    # polite delay
+    time.sleep(1.0)
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: Web scraping pipeline</h3>
+                                <pre><code>[Start]
+  |
+  v
+[Choose URL list]
+  |
+  v
+[Fetch HTML]
+  |
+  v
+[Parse HTML]
+  |
+  v
+[Extract elements]
+  |
+  v
+[Clean data]
+  |
+  v
+[Save results]
+  |
+  v
+[Wait (rate limit)]
+  |
+  v
+[Next URL]
+  |
+  v
+[End]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <table class="table" aria-label="Scraping memory">
+                                <thead>
+                                    <tr>
+                                        <th>Stage</th>
+                                        <th>What it stores</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Fetch</td>
+                                        <td>HTML text (string)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Parse</td>
+                                        <td>Parsed tree (BeautifulSoup DOM-like structure)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Extract</td>
+                                        <td>Selected elements + cleaned values</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Dry run</div>
+                                    <div class="meta">extract first h1</div>
+                                </div>
+                                <pre><code>Assume HTML contains:
+<h1>Hello World</h1>
+
+Process:
+1) soup.find("h1") returns the h1 element
+2) h1.get_text(strip=True) → "Hello World"
+3) print("Title:", "Hello World")
+</code></pre>
+                            </div>
+                            <p><strong>Time:</strong> O(page_size) • <strong>Space:</strong> O(page_size).</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>print()</code> for logs.</li>
+                                <li><code>len()</code> for HTML size.</li>
+                                <li><code>range()</code> (concept) for loops.</li>
+                            </ul>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <div class="callout note">
+                                <h3>Common extraction methods (concept)</h3>
+                                <ul>
+                                    <li><code>requests.get(...).text</code></li>
+                                    <li><code>BeautifulSoup(html, "html.parser")</code></li>
+                                    <li><code>soup.find(tag)</code></li>
+                                    <li><code>soup.find_all(tag)</code></li>
+                                    <li><code>element.get_text(strip=True)</code></li>
+                                    <li><code>element.get("href")</code></li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is web scraping?</li>
+                                <li>What is HTML?</li>
+                                <li>What does fetching mean?</li>
+                                <li>What does parsing mean?</li>
+                                <li>What is extraction in scraping?</li>
+                                <li>Why do we parse HTML instead of using regex (concept)?</li>
+                                <li>What is BeautifulSoup used for?</li>
+                                <li>What does <code>soup.find()</code> do?</li>
+                                <li>What does <code>soup.find_all()</code> do?</li>
+                                <li>How do you get text from an element?</li>
+                                <li>How do you get an attribute like <code>href</code>?</li>
+                                <li>What is a timeout?</li>
+                                <li>Why should you use a timeout in requests?</li>
+                                <li>What is robots.txt?</li>
+                                <li>Why should you respect robots.txt?</li>
+                                <li>What is rate limiting?</li>
+                                <li>Why should you sleep between requests?</li>
+                                <li>What is HTML parsing speed dependent on?</li>
+                                <li>What is a common reason <code>find()</code> returns None?</li>
+                                <li>How do you debug missing elements?</li>
+                                <li>What is “pagination” (concept)?</li>
+                                <li>Why might scraping break when a site changes?</li>
+                                <li>How do you clean extracted text?</li>
+                                <li>Why avoid scraping logged-in content without permission?</li>
+                                <li>How do you store extracted results (concept)?</li>
+                                <li>What is the difference between static and dynamic websites (concept)?</li>
+                                <li>Why might you need browser automation for dynamic sites?</li>
+                                <li>What is a safer alternative to scraping?</li>
+                                <li>How do you choose what data to extract?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>Web scraping is mostly about:
+                                    <ul>
+                                        <li>A) styling pages</li>
+                                        <li>B) extracting data from HTML</li>
+                                        <li>C) compiling Python</li>
+                                        <li>D) training models</li>
+                                    </ul>
+                                </li>
+                                <li>First step in scraping is:
+                                    <ul>
+                                        <li>A) save results</li>
+                                        <li>B) fetch HTML</li>
+                                        <li>C) parse CSV</li>
+                                        <li>D) run deep learning</li>
+                                    </ul>
+                                </li>
+                                <li>Parsing HTML converts it into:
+                                    <ul>
+                                        <li>A) plain text only</li>
+                                        <li>B) searchable structure</li>
+                                        <li>C) CSS variables</li>
+                                        <li>D) SQL tables</li>
+                                    </ul>
+                                </li>
+                                <li>BeautifulSoup is used to:
+                                    <ul>
+                                        <li>A) parse HTML</li>
+                                        <li>B) edit video files</li>
+                                        <li>C) store passwords</li>
+                                        <li>D) run ML</li>
+                                    </ul>
+                                </li>
+                                <li><code>soup.find("h1")</code> returns:
+                                    <ul>
+                                        <li>A) list of all h1</li>
+                                        <li>B) first h1 element or None</li>
+                                        <li>C) None always</li>
+                                        <li>D) HTML file name</li>
+                                    </ul>
+                                </li>
+                                <li><code>soup.find_all("a")</code> returns:
+                                    <ul>
+                                        <li>A) all matching elements as list</li>
+                                        <li>B) one element</li>
+                                        <li>C) CSS classes</li>
+                                        <li>D) status code</li>
+                                    </ul>
+                                </li>
+                                <li>To get text inside element you use:
+                                    <ul>
+                                        <li>A) <code>get_text()</code></li>
+                                        <li>B) <code>set_text()</code></li>
+                                        <li>C) <code>text()</code></li>
+                                        <li>D) <code>html()</code></li>
+                                    </ul>
+                                </li>
+                                <li>To get href attribute you use:
+                                    <ul>
+                                        <li>A) <code>get("href")</code></li>
+                                        <li>B) <code>href()</code></li>
+                                        <li>C) <code>attribute()</code></li>
+                                        <li>D) <code>link()</code></li>
+                                    </ul>
+                                </li>
+                                <li>A timeout helps to:
+                                    <ul>
+                                        <li>A) stop hanging requests</li>
+                                        <li>B) change theme</li>
+                                        <li>C) ignore robots.txt</li>
+                                        <li>D) compress HTML</li>
+                                    </ul>
+                                </li>
+                                <li>robots.txt tells you:
+                                    <ul>
+                                        <li>A) app ports</li>
+                                        <li>B) scraping rules for paths</li>
+                                        <li>C) JSON schema</li>
+                                        <li>D) image format</li>
+                                    </ul>
+                                </li>
+                                <li>Rate limiting means:
+                                    <ul>
+                                        <li>A) sending too many requests quickly</li>
+                                        <li>B) waiting between requests</li>
+                                        <li>C) deleting caches</li>
+                                        <li>D) removing headers</li>
+                                    </ul>
+                                </li>
+                                <li>Using regex to parse HTML is often:
+                                    <ul>
+                                        <li>A) always best</li>
+                                        <li>B) fragile and error-prone</li>
+                                        <li>C) required always</li>
+                                        <li>D) faster always</li>
+                                    </ul>
+                                </li>
+                                <li>If find returns None, it means:
+                                    <ul>
+                                        <li>A) element is missing</li>
+                                        <li>B) HTML is empty</li>
+                                        <li>C) parser crashed always</li>
+                                        <li>D) network error always</li>
+                                    </ul>
+                                </li>
+                                <li>Good scraping practice includes:
+                                    <ul>
+                                        <li>A) huge request bursts</li>
+                                        <li>B) respecting limits</li>
+                                        <li>C) skipping timeouts</li>
+                                        <li>D) ignoring errors</li>
+                                    </ul>
+                                </li>
+                                <li>Which is safer alternative?
+                                    <ul>
+                                        <li>A) official API</li>
+                                        <li>B) screenshot parsing always</li>
+                                        <li>C) password reuse</li>
+                                        <li>D) random scraping</li>
+                                    </ul>
+                                </li>
+                                <li>Dynamic websites may require:
+                                    <ul>
+                                        <li>A) browser rendering</li>
+                                        <li>B) only regex</li>
+                                        <li>C) only offline cache</li>
+                                        <li>D) no parsing</li>
+                                    </ul>
+                                </li>
+                                <li>In our concepts, HTML extraction usually returns:
+                                    <ul>
+                                        <li>A) numbers only</li>
+                                        <li>B) strings after cleaning</li>
+                                        <li>C) CSS code</li>
+                                        <li>D) DB tables</li>
+                                    </ul>
+                                </li>
+                                <li>Time complexity depends mainly on:
+                                    <ul>
+                                        <li>A) page size</li>
+                                        <li>B) CPU temperature</li>
+                                        <li>C) theme color</li>
+                                        <li>D) browser zoom</li>
+                                    </ul>
+                                </li>
+                                <li>Space complexity depends mainly on:
+                                    <ul>
+                                        <li>A) DOM/parsing structure size</li>
+                                        <li>B) button count</li>
+                                        <li>C) logo size</li>
+                                        <li>D) progress bar height</li>
+                                    </ul>
+                                </li>
+                                <li><code>len(html)</code> gives:
+                                    <ul>
+                                        <li>A) number of requests</li>
+                                        <li>B) characters in HTML string</li>
+                                        <li>C) cookie count</li>
+                                        <li>D) CSS rules count</li>
+                                    </ul>
+                                </li>
+                                <li>Cleaning with <code>strip=True</code> removes:
+                                    <ul>
+                                        <li>A) leading/trailing whitespace</li>
+                                        <li>B) all tags</li>
+                                        <li>C) status code</li>
+                                        <li>D) network</li>
+                                    </ul>
+                                </li>
+                                <li>Saving results might include:
+                                    <ul>
+                                        <li>A) writing CSV/JSON</li>
+                                        <li>B) changing CSS</li>
+                                        <li>C) training without data</li>
+                                        <li>D) deleting caches only</li>
+                                    </ul>
+                                </li>
+                                <li>One common bug is:
+                                    <ul>
+                                        <li>A) wrong parser name</li>
+                                        <li>B) invalid HTML always</li>
+                                        <li>C) using correct tags always</li>
+                                        <li>D) no timeout</li>
+                                    </ul>
+                                </li>
+                                <li>What does <code>requests.get</code> do?
+                                    <ul>
+                                        <li>A) fetch response content</li>
+                                        <li>B) print theme</li>
+                                        <li>C) parse JSON only</li>
+                                        <li>D) run Tkinter</li>
+                                    </ul>
+                                </li>
+                                <li>A responsible scraper should:
+                                    <ul>
+                                        <li>A) obey robots.txt</li>
+                                        <li>B) ignore delays</li>
+                                        <li>C) hammer servers</li>
+                                        <li>D) delete logs</li>
+                                    </ul>
+                                </li>
+                                <li>When a site changes, scraping may fail because:
+                                    <ul>
+                                        <li>A) HTML structure changed</li>
+                                        <li>B) your computer is slow</li>
+                                        <li>C) CSS is different</li>
+                                        <li>D) PWA is disabled</li>
+                                    </ul>
+                                </li>
+                                <li>To extract multiple items, use:
+                                    <ul>
+                                        <li>A) find_all</li>
+                                        <li>B) find</li>
+                                        <li>C) encode</li>
+                                        <li>D) commit</li>
+                                    </ul>
+                                </li>
+                                <li>To select first match, use:
+                                    <ul>
+                                        <li>A) find</li>
+                                        <li>B) find_all</li>
+                                        <li>C) sleep</li>
+                                        <li>D) commit</li>
+                                    </ul>
+                                </li>
+                                <li>Timeout is set to avoid:
+                                    <ul>
+                                        <li>A) hanging forever</li>
+                                        <li>B) faster theme changes</li>
+                                        <li>C) missing markdown</li>
+                                        <li>D) wrong file paths</li>
+                                    </ul>
+                                </li>
+                                <li>Best practice: store only necessary data.
+                                    <ul>
+                                        <li>A) True</li>
+                                        <li>B) False</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Fetch <code>https://example.com</code> and print the length of HTML.</li>
+                                <li>Parse HTML using BeautifulSoup and print the title text (concept).</li>
+                                <li>Extract the first <code><a></code> href.</li>
+                                <li>Extract first 5 links into a list and print them.</li>
+                                <li>Extract all headings <code>h1</code> and print count (concept).</li>
+                                <li>Extract all <code>h2</code> texts into a list.</li>
+                                <li>Try <code>soup.find("h1")</code> and handle None safely.</li>
+                                <li>Use <code>get_text(strip=True)</code> to remove whitespace.</li>
+                                <li>Add a timeout parameter to every request.</li>
+                                <li>Add a polite delay using <code>time.sleep(1)</code>.</li>
+                                <li>Predict what happens if the site returns a non-200 status (concept).</li>
+                                <li>Implement error handling: if request fails, print message.</li>
+                                <li>Convert extracted titles to lowercase (concept).</li>
+                                <li>Remove duplicates using a set (concept).</li>
+                                <li>Print the first 80 characters of the HTML (for debugging).</li>
+                                <li>Extract a specific attribute (like <code>href</code>) from <code>a</code> tags.</li>
+                                <li>Filter links that start with <code>https://</code> (concept).</li>
+                                <li>Filter links containing the word <code>news</code> (concept).</li>
+                                <li>Dry run: explain what <code>strip=True</code> changes.</li>
+                                <li>Dry run: explain output if no <code>h1</code> exists.</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Extract all prices from HTML assuming a class <code>price</code> (concept).</li>
+                                <li>Clean price strings: remove currency symbols (concept).</li>
+                                <li>Extract product cards: title + link + price (concept).</li>
+                                <li>Use loops to build a list of dicts representing items.</li>
+                                <li>Save results to JSON file (concept).</li>
+                                <li>Save results to CSV file (concept).</li>
+                                <li>Add a function <code>fetch_html(url)</code> with error handling.</li>
+                                <li>Add a function <code>parse_products(html)</code>.</li>
+                                <li>Dry run: predict output for empty product list.</li>
+                                <li>Implement retry concept: try 2 times before failing.</li>
+                                <li>Respect rate limiting: sleep 0.5 seconds between pages.</li>
+                                <li>Implement pagination concept: follow next-page link (concept).</li>
+                                <li>Extract only links within a given domain (concept).</li>
+                                <li>Extract using tag + attribute conditions (concept).</li>
+                                <li>Debug: if extraction returns empty, print a snippet and inspect.</li>
+                                <li>Handle encoding: ensure you use <code>.text</code> not bytes (concept).</li>
+                                <li>Normalize whitespace in extracted text.</li>
+                                <li>Sort items by price numeric value (concept).</li>
+                                <li>Dry run: explain how to parse numeric price safely.</li>
+                                <li>Build a “summary” print: number of items + first item.</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Implement a scraper class with methods fetch/parse/extract/save (design).</li>
+                                <li>Add a robots.txt check function (concept).</li>
+                                <li>Implement caching: if you fetched before, reuse saved HTML (design).</li>
+                                <li>Implement concurrency concept: multiple pages at once (advanced idea).</li>
+                                <li>Explain why concurrency can overload servers (concept).</li>
+                                <li>Handle dynamic content: explain when you need headless browser (design).</li>
+                                <li>Implement structured error reporting: collect errors in list.</li>
+                                <li>Validate extracted data types (price must be float).</li>
+                                <li>Output prediction: what happens when HTML changes class name?</li>
+                                <li>Write tests mentally: parse returns expected keys.</li>
+                                <li>Implement unit tests for parsing functions (concept).</li>
+                                <li>Design stable selectors: prefer data attributes over class names (design).</li>
+                                <li>Implement “selector fallback” strategy (design).</li>
+                                <li>Log timing: time per request and parse (design).</li>
+                                <li>Explain memory heavy extraction and how to reduce it (concept).</li>
+                                <li>Batch saving: save every 10 pages to avoid data loss (design).</li>
+                                <li>Implement graceful shutdown on Ctrl+C (concept).</li>
+                                <li>Explain how to avoid duplicate extraction across pages (design).</li>
+                                <li>Design a pipeline that outputs to SQLite (concept).</li>
+                                <li>Explain legal/ethical considerations (concept).</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment29_1.py</code>: fetch a page and print all <code><h1></code>
+                                    text.</li>
+                                <li>Create <code>assignment29_2.py</code>: fetch a page and extract top 10 links (text +
+                                    href).</li>
+                                <li>Create <code>assignment29_3.py</code>: build a dict list with title + first
+                                    paragraph (concept).</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Quote Extractor</h3>
+                                <p>Choose a page with quotes (or example HTML saved locally).</p>
+                                <ul>
+                                    <li>Extract quote text and author name.</li>
+                                    <li>Clean whitespace.</li>
+                                    <li>Save results to <code>quotes.json</code>.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+                            <div class="callout warning">
+                                <h3>Case 1: find returns None</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">wrong tag or selector</div>
+                                    </div>
+                                    <pre><code>h1 = soup.find("h1")
+print(h1.text)  # crash if h1 is None
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> check <code>if h1:</code> before using <code>h1.text</code>.
+                                </p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: extraction returns empty list</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">page structure changed</div>
+                                    </div>
+                                    <pre><code>prices = soup.find_all(class_="price")
+print(len(prices))  # 0
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> inspect HTML and update selectors.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: timeout or request error</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">server slow or blocked</div>
+                                    </div>
+                                    <pre><code>requests.get(url)
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> set <code>timeout=</code>, handle exceptions, and reduce
+                                    request rate.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>requests.exceptions.Timeout:</strong> the server didn’t respond in time.
+                                </li>
+                                <li><strong>requests.exceptions.ConnectionError:</strong> network or DNS issue.</li>
+                                <li><strong>AttributeError:</strong> you used <code>.text</code> on <code>None</code>.
+                                </li>
+                                <li><strong>Unicode issues:</strong> wrong decoding; use <code>.text</code> (requests).
+                                </li>
+                                <li><strong>Empty extraction:</strong> selectors don’t match current HTML.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Prefer official APIs.</li>
+                                <li>Check robots.txt and follow rules.</li>
+                                <li>Use timeouts and retries carefully.</li>
+                                <li>Sleep between requests (rate limiting).</li>
+                                <li>Use parsing libraries instead of regex for HTML.</li>
+                                <li>Write extraction functions and test with saved HTML samples.</li>
+                                <li>Handle missing elements safely.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                You learned the scraping workflow: fetch HTML, parse it, and extract data.
+                                You also learned responsible scraping: robots.txt, timeouts, and rate limiting.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Scraping cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Need</th>
+                                        <th>Concept</th>
+                                        <th>Example</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Fetch</td>
+                                        <td>download HTML</td>
+                                        <td><code>requests.get(url).text</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Parse</td>
+                                        <td>create soup</td>
+                                        <td><code>BeautifulSoup(html,"html.parser")</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Find one</td>
+                                        <td>first match</td>
+                                        <td><code>soup.find("h1")</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Find many</td>
+                                        <td>all matches</td>
+                                        <td><code>soup.find_all("a")</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Text</td>
+                                        <td>clean text</td>
+                                        <td><code>el.get_text(strip=True)</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Attr</td>
+                                        <td>get href</td>
+                                        <td><code>el.get("href")</code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Top Links Saver</h3>
+                                <p>
+                                    Fetch one page.
+                                    Extract the first 15 links.
+                                    Save them to <code>links.json</code> as a list of objects with keys:
+                                </p>
+                                <ul>
+                                    <li><code>text</code></li>
+                                    <li><code>href</code></li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What are the three main steps in scraping?</li>
+                                <li>What does BeautifulSoup do?</li>
+                                <li>What is the difference between <code>find</code> and <code>find_all</code>?</li>
+                                <li>How do you get text from an element?</li>
+                                <li>How do you get an attribute like <code>href</code>?</li>
+                                <li>Why do you use timeouts?</li>
+                                <li>What is robots.txt?</li>
+                                <li>What is rate limiting?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>Fetch:</strong> download HTML from the URL.</li>
+                                    <li><strong>Parse:</strong> create a structure so you can search tags and
+                                        attributes.</li>
+                                    <li><strong>Extract:</strong> select elements and clean text/attributes.</li>
+                                    <li><strong>find vs find_all:</strong> <code>find</code> returns first match,
+                                        <code>find_all</code> returns a list of matches.
+                                    </li>
+                                    <li><strong>get_text(strip=True):</strong> returns readable text without extra
+                                        whitespace at ends.</li>
+                                    <li><strong>get("href"):</strong> returns the link target stored in the href
+                                        attribute.</li>
+                                    <li><strong>Timeout:</strong> prevents your program from waiting forever.</li>
+                                    <li><strong>robots.txt + rate limiting:</strong> reduces legal/ethical risk and
+                                        server load.</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-30.html">Next Chapter</a></div>
+                            </div>
+
+                        </section>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

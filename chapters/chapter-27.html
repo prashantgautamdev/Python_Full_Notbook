@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 27 — Flask</title>
+    <meta name="description"
+        content="Chapter 27: Flask. Learn routing, templates concept, request/response basics, and a small Flask app." />
+    <link rel="canonical" href="./chapters/chapter-27.html" />
+
+    <meta property="og:title" content="Chapter 27 — Flask" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description"
+        content="Build APIs and pages with Flask: routes, request handling, and simple server behavior." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 27 — Flask" />
+    <meta name="twitter:description" content="Flask fundamentals with practice and explained answers." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 27 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout tip" style="margin-top:12px;">
+                        <h3>💡 Tips</h3>
+                        <p>
+                            Flask is a lightweight web framework.
+                            You map URLs to functions (routes).
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 27</div>
+                        <h1 class="chapter-title">Chapter 27 — Flask</h1>
+                        <p class="subtle">Learn Flask basics: creating an app, writing routes, handling requests, and
+                            returning responses.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-26.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <ul>
+                                    <li>Understand what Flask is used for.</li>
+                                    <li>Create a Flask app and run a local server.</li>
+                                    <li>Use routes to return HTML or JSON responses.</li>
+                                    <li>Read request data (query params and form data concept).</li>
+                                    <li>Return status codes for errors (concept).</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                A website server must respond when a browser requests a URL.
+                                Flask makes it easy to write these responses in Python.
+                            </p>
+                            <p>
+                                In this chapter, you build your first Flask app and learn the idea of routes.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 Flask at a glance</h3>
+                            <p>
+                                Flask is a small framework that provides:
+                                <strong>routing</strong>, <strong>request handling</strong>, and <strong>response
+                                    building</strong>.
+                            </p>
+
+                            <h3>2.2 Routing</h3>
+                            <p>
+                                Routing means: URL path → Python function.
+                                Example: <code>/</code> → show homepage.
+                            </p>
+
+                            <h3>2.3 Requests and responses</h3>
+                            <p>
+                                The browser sends a request.
+                                Flask reads request data, then returns a response (HTML, JSON, or other types).
+                            </p>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    Do not run Flask in production mode using the debug server.
+                                    For learning it’s fine.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">minimal Flask app</div>
+                                </div>
+                                <pre><code>from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Hello from Flask!"
+
+if __name__ == "__main__":
+    app.run(host="127.0.0.1", port=5005, debug=True)
+</code></pre>
+                            </div>
+
+                            <p><strong>Output:</strong> start server, open <code>http://127.0.0.1:5005/</code>.</p>
+                            <p><strong>Time:</strong> O(1) for this tiny handler • <strong>Space:</strong> O(1).</p>
+                            <p><strong>Alternative:</strong> use Django for a heavier framework (next chapters).</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — route with a dynamic part</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">/hello/<name>
+                                    </div>
+                                </div>
+                                <pre><code>from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/hello/<name>")
+def say_hello(name):
+    # name comes from URL
+    return f"Hello, {name}!"
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> <code>/hello/Asha</code> → <code>Hello, Asha!</code></p>
+
+                            <h3>4.2 Medium Example — JSON response (concept)</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">return dict as JSON</div>
+                                </div>
+                                <pre><code>from flask import Flask, jsonify
+
+app = Flask(__name__)
+
+@app.route("/api/version")
+def version():
+    payload = {"version": "1.0.0"}
+    return jsonify(payload)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> JSON like <code>{"version":"1.0.0"}</code></p>
+
+                            <h3>4.3 Advanced Example — reading query parameters (concept)</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">?name=...</div>
+                                </div>
+                                <pre><code>from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route("/welcome")
+def welcome():
+    name = request.args.get("name", "Guest")
+    return f"Welcome {name}!"
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> <code>/welcome?name=Ravi</code> → greeting.</p>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: Flask request</h3>
+                                <pre><code>[Browser opens URL]
+           |
+           v
+    [HTTP request arrives]
+           |
+           v
+ [Flask finds matching route]
+           |
+           v
+  [Run handler function]
+           |
+           v
+   [Return response string/json]
+           |
+           v
+      [HTTP response sent]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <p>
+                                When a request arrives, Flask holds request data while executing the handler.
+                                After response is returned, temporary objects are released.
+                            </p>
+                            <table class="table" aria-label="Flask memory">
+                                <thead>
+                                    <tr>
+                                        <th>Part</th>
+                                        <th>Purpose</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Request object</td>
+                                        <td>stores query/form data</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Handler function</td>
+                                        <td>computes response payload</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Response object</td>
+                                        <td>stores status + body</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Dry run</div>
+                                    <div class="meta">GET /welcome?name=Asha</div>
+                                </div>
+                            </div>
+                            <pre><code>Step 1: Flask receives request for /welcome
+Step 2: route matches /welcome ✅
+Step 3: request.args.get("name") gives "Asha"
+Step 4: handler returns "Welcome Asha!"
+Step 5: Flask sends response to browser
+</code></pre>
+                    </div>
+                    <p><strong>Time:</strong> O(1) • <strong>Space:</strong> O(1) for small strings.</p>
+                    </section>
+
+                    <section id="builtins">
+                        <h2>8) Built-in Functions</h2>
+                        <ul>
+                            <li><code>print()</code> to debug handler flow.</li>
+                        </ul>
+                    </section>
+
+                    <section id="methods">
+                        <h2>9) Methods</h2>
+                        <div class="callout note">
+                            <h3>Common Flask API calls</h3>
+                            <ul>
+                                <li><code>Flask(__name__)</code></li>
+                                <li><code>@app.route("/path")</code></li>
+                                <li><code>request.args.get(...)</code></li>
+                                <li><code>jsonify(payload)</code></li>
+                                <li><code>app.run(host, port, debug)</code></li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section id="interview">
+                        <h2>10) Interview Questions (Minimum 30)</h2>
+                        <ol>
+                            <li>What is Flask?</li>
+                            <li>What problem does Flask solve?</li>
+                            <li>What is a route?</li>
+                            <li>How does Flask map a URL to a function?</li>
+                            <li>What is <code>app = Flask(__name__)</code> doing?</li>
+                            <li>What does <code>@app.route("/")</code> mean?</li>
+                            <li>What does <code>request.args</code> represent?</li>
+                            <li>How do you read query parameters?</li>
+                            <li>How do you return plain text?</li>
+                            <li>How do you return JSON?</li>
+                            <li>What is <code>jsonify</code> used for?</li>
+                            <li>What is <code>__name__</code> in Flask?</li>
+                            <li>Why do we check <code>if __name__ == "__main__"</code>?</li>
+                            <li>What does <code>debug=True</code> do?</li>
+                            <li>Is debug mode safe for production?</li>
+                            <li>What is a handler function?</li>
+                            <li>What is the difference between client and server?</li>
+                            <li>Where should you put business logic in Flask (concept)?</li>
+                            <li>What is an HTTP method?</li>
+                            <li>How does Flask respond to different methods (concept)?</li>
+                            <li>What status codes can a Flask handler return?</li>
+                            <li>What is the return value type of a route?</li>
+                            <li>What happens if there is no matching route?</li>
+                            <li>What is 404?</li>
+                            <li>What is 500?</li>
+                            <li>What is idempotency (concept) in API routes?</li>
+                            <li>How do you validate input in Flask (concept)?</li>
+                            <li>Why should you avoid trusting user input?</li>
+                            <li>What is the difference between template rendering and JSON response?</li>
+                        </ol>
+                    </section>
+
+                    <section id="mcq">
+                        <h2>11) MCQs (Minimum 30)</h2>
+                        <ol>
+                            <li>Flask is a:
+                                <ul>
+                                    <li>A) database</li>
+                                    <li>B) web framework</li>
+                                    <li>C) regex tool</li>
+                                    <li>D) GUI library</li>
+                                </ul>
+                            </li>
+                            <li><code>@app.route</code> is used to:
+                                <ul>
+                                    <li>A) define routes</li>
+                                    <li>B) define CSS</li>
+                                    <li>C) read files</li>
+                                    <li>D) run tests</li>
+                                </ul>
+                            </li>
+                            <li>A route usually maps:
+                                <ul>
+                                    <li>A) URL to function</li>
+                                    <li>B) variable to string</li>
+                                    <li>C) table to schema</li>
+                                    <li>D) code to color</li>
+                                </ul>
+                            </li>
+                            <li><code>request.args</code> is for:
+                                <ul>
+                                    <li>A) headers</li>
+                                    <li>B) query string</li>
+                                    <li>C) cookies</li>
+                                    <li>D) file uploads</li>
+                                </ul>
+                            </li>
+                            <li><code>jsonify</code> returns:
+                                <ul>
+                                    <li>A) HTML</li>
+                                    <li>B) JSON response</li>
+                                    <li>C) SQL</li>
+                                    <li>D) CSS</li>
+                                </ul>
+                            </li>
+                            <li><code>app.run</code> starts:
+                                <ul>
+                                    <li>A) notebook</li>
+                                    <li>B) server</li>
+                                    <li>C) editor</li>
+                                    <li>D) compiler</li>
+                                </ul>
+                            </li>
+                            <li><code>debug=True</code> enables:
+                                <ul>
+                                    <li>A) hot reload</li>
+                                    <li>B) faster sleeps</li>
+                                    <li>C) dark theme</li>
+                                    <li>D) database migration</li>
+                                </ul>
+                            </li>
+                            <li>In Flask, handlers are:
+                                <ul>
+                                    <li>A) functions for routes</li>
+                                    <li>B) CSS classes</li>
+                                    <li>C) SQL queries</li>
+                                    <li>D) threads only</li>
+                                </ul>
+                            </li>
+                            <li><code>__name__</code> is used for:
+                                <ul>
+                                    <li>A) path finding</li>
+                                    <li>B) module identification</li>
+                                    <li>C) theme selection</li>
+                                    <li>D) encoding</li>
+                                </ul>
+                            </li>
+                            <li>If no route matches, you get:
+                                <ul>
+                                    <li>A) 200</li>
+                                    <li>B) 404</li>
+                                    <li>C) 500</li>
+                                    <li>D) 302</li>
+                                </ul>
+                            </li>
+                            <li>Returning string from Flask route gives:
+                                <ul>
+                                    <li>A) JSON always</li>
+                                    <li>B) text/HTML body</li>
+                                    <li>C) sqlite table</li>
+                                    <li>D) CSS file</li>
+                                </ul>
+                            </li>
+                            <li>Query parameters are in URL like:
+                                <ul>
+                                    <li>A) /path?x=1</li>
+                                    <li>B) /path/x</li>
+                                    <li>C) /path#x</li>
+                                    <li>D) /path.css</li>
+                                </ul>
+                            </li>
+                            <li><code>request.args.get("name")</code> returns value or:
+                                <ul>
+                                    <li>A) error always</li>
+                                    <li>B) None/default</li>
+                                    <li>C) list</li>
+                                    <li>D) bytes</li>
+                                </ul>
+                            </li>
+                            <li><code>jsonify</code> is best when:
+                                <ul>
+                                    <li>A) you need structured data</li>
+                                    <li>B) you need images</li>
+                                    <li>C) you need compilation</li>
+                                    <li>D) you need sockets</li>
+                                </ul>
+                            </li>
+                            <li>Flask is commonly used for:
+                                <ul>
+                                    <li>A) APIs</li>
+                                    <li>B) desktop GUI only</li>
+                                    <li>C) installing python</li>
+                                    <li>D) editing CSS</li>
+                                </ul>
+                            </li>
+                            <li>Which is a Flask package?
+                                <ul>
+                                    <li>A) flask</li>
+                                    <li>B) sqlite3</li>
+                                    <li>C) tkinter</li>
+                                    <li>D) re</li>
+                                </ul>
+                            </li>
+                            <li>In Flask, routes can include dynamic parts like:
+                                <ul>
+                                    <li>A) <code><name></code></li>
+                                    <li>B) <code>[name]</code></li>
+                                    <li>C) <code>name..</code></li>
+                                    <li>D) <code>{name}</code></li>
+                                </ul>
+                            </li>
+                            <li>When you call server URL, browser sends:
+                                <ul>
+                                    <li>A) database query</li>
+                                    <li>B) HTTP request</li>
+                                    <li>C) CSS rule</li>
+                                    <li>D) thread start</li>
+                                </ul>
+                            </li>
+                            <li>Flask reads request data through:
+                                <ul>
+                                    <li>A) request object</li>
+                                    <li>B) label.config</li>
+                                    <li>C) conn.cursor</li>
+                                    <li>D) list.append</li>
+                                </ul>
+                            </li>
+                            <li>Route decorator is a:
+                                <ul>
+                                    <li>A) Python decorator</li>
+                                    <li>B) HTML tag</li>
+                                    <li>C) SQL keyword</li>
+                                    <li>D) CSS variable</li>
+                                </ul>
+                            </li>
+                            <li>Best practice: validate input before using it.
+                                <ul>
+                                    <li>A) true</li>
+                                    <li>B) false</li>
+                                </ul>
+                            </li>
+                            <li>Returning stack traces to clients is:
+                                <ul>
+                                    <li>A) safe</li>
+                                    <li>B) risky</li>
+                                </ul>
+                            </li>
+                            <li>Debug server should not be used in production.
+                                <ul>
+                                    <li>A) true</li>
+                                    <li>B) false</li>
+                                </ul>
+                            </li>
+                            <li>A route handler should be small.
+                                <ul>
+                                    <li>A) yes</li>
+                                    <li>B) no</li>
+                                </ul>
+                            </li>
+                            <li>status 404 means:
+                                <ul>
+                                    <li>A) not found</li>
+                                    <li>B) created</li>
+                                    <li>C) forbidden</li>
+                                    <li>D) ok</li>
+                                </ul>
+                            </li>
+                            <li>status 400 means:
+                                <ul>
+                                    <li>A) bad request</li>
+                                    <li>B) server error</li>
+                                    <li>C) ok</li>
+                                    <li>D) created</li>
+                                </ul>
+                            </li>
+                            <li>status 500 means:
+                                <ul>
+                                    <li>A) client issue</li>
+                                    <li>B) server issue</li>
+                                    <li>C) database ok</li>
+                                    <li>D) theme ok</li>
+                                </ul>
+                            </li>
+                            <li>Flask route returns response. Which is allowed?
+                                <ul>
+                                    <li>A) string</li>
+                                    <li>B) dict (with jsonify)</li>
+                                    <li>C) response object</li>
+                                    <li>D) all of the above</li>
+                                </ul>
+                            </li>
+                            <li>In example, home route is:
+                                <ul>
+                                    <li>A) /</li>
+                                    <li>B) /home</li>
+                                    <li>C) /api</li>
+                                    <li>D) /start</li>
+                                </ul>
+                            </li>
+                            <li>Flask uses WSGI under the hood (concept).
+                                <ul>
+                                    <li>A) true</li>
+                                    <li>B) false</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </section>
+
+                    <section id="practice">
+                        <h2>12) Coding Practice</h2>
+                        <h3>Easy (20)</h3>
+                        <ol>
+                            <li>Create a Flask app file named <code>assignment27_easy.py</code>.</li>
+                            <li>Create route <code>/</code> returning “Welcome”.</li>
+                            <li>Create route <code>/hello/<name></code> returning greeting.</li>
+                            <li>Create route <code>/sum</code> that reads query params <code>a</code> and <code>b</code>
+                                (concept).</li>
+                            <li>Return a response string showing <code>a+b</code>.</li>
+                            <li>Return JSON from <code>/api/version</code>.</li>
+                            <li>Add simple input validation: if <code>a</code> or <code>b</code> missing, return 400
+                                (concept).</li>
+                            <li>Create a route <code>/ping</code> returning <code>{"ok": true}</code> (concept).</li>
+                            <li>Log requested path using <code>print(request.path)</code> (concept).</li>
+                            <li>Make <code>/welcome</code> read <code>?name=...</code> and default to Guest.</li>
+                            <li>Change port to 5006.</li>
+                            <li>Predict output for <code>/hello/Asha</code>.</li>
+                            <li>Predict what happens for <code>/not-existing</code> (404).</li>
+                            <li>Return a 404 response manually (concept).</li>
+                            <li>Write code that returns status code 200 for correct input.</li>
+                            <li>Write code that returns status code 400 for wrong types.</li>
+                            <li>Refactor route handler into helper function (design).</li>
+                            <li>Create route <code>/api/echo?msg=...</code> returning msg.</li>
+                            <li>Ensure JSON response has valid content type (concept with jsonify).</li>
+                            <li>Try running Flask in debug mode.</li>
+                        </ol>
+
+                        <h3>Medium (20)</h3>
+                        <ol>
+                            <li>Create routes: <code>/api/add</code> and <code>/api/mul</code> using shared helper.</li>
+                            <li>Implement input parsing with <code>try/except</code> for integers.</li>
+                            <li>Return error JSON: <code>{"error":"..."}</code> for invalid input.</li>
+                            <li>Implement route <code>/api/greet</code> requiring <code>name</code>.</li>
+                            <li>Return 400 if <code>name</code> is empty string.</li>
+                            <li>Implement route <code>/api/time</code> returning current server time (concept).</li>
+                            <li>Build a simple health endpoint <code>/health</code>.</li>
+                            <li>Implement a consistent response envelope: <code>{"data":..., "meta":...}</code>
+                                (design).</li>
+                            <li>Predict response shape for empty query params.</li>
+                            <li>Add CORS concept placeholder (no code required) for browser clients (concept).</li>
+                            <li>Separate file into <code>app.py</code> and <code>logic.py</code> (design).</li>
+                            <li>Introduce configuration variable <code>DEBUG</code> or <code>PORT</code>.</li>
+                            <li>Implement error handler for 404 (concept).</li>
+                            <li>Implement error handler for 400 (concept).</li>
+                            <li>Create a function <code>parse_int_param(request, key)</code> (design).</li>
+                            <li>Dry run invalid requests and explain returned status.</li>
+                            <li>Predict behavior for missing query parameters.</li>
+                            <li>Write tests mentally for route return types.</li>
+                            <li>Log request args for debugging.</li>
+                            <li>Add a route that returns a list in JSON.</li>
+                        </ol>
+
+                        <h3>Hard (20)</h3>
+                        <ol>
+                            <li>Implement a mini API router dict mapping path to functions (design).</li>
+                            <li>Use decorators to enforce input validation (concept).</li>
+                            <li>Implement authentication concept: check header <code>X-API-Key</code>.</li>
+                            <li>Return 401 Unauthorized if key missing (concept).</li>
+                            <li>Implement rate limit concept (design).</li>
+                            <li>Implement structured logging: include path, method, and time (concept).</li>
+                            <li>Implement endpoint <code>/api/notes</code> storing notes in memory (design).</li>
+                            <li>Support CRUD in Flask with separate routes (design).</li>
+                            <li>Return 201 for create endpoints (concept).</li>
+                            <li>Return correct status for update/delete (concept).</li>
+                            <li>Implement ETag concept (advanced, design).</li>
+                            <li>Return proper Content-Type for JSON responses.</li>
+                            <li>Write code to avoid repeating response building logic (refactor).</li>
+                            <li>Design URL structure with versioning: <code>/v1/... </code>.</li>
+                            <li>Implement a global error handler for ValueError (concept).</li>
+                            <li>Explain how to handle large request bodies (concept).</li>
+                            <li>Design response pagination for list endpoints.</li>
+                            <li>Explain time complexity per endpoint (concept).</li>
+                            <li>Implement parameter sanitation helper.</li>
+                            <li>Design a simple OpenAPI documentation plan (concept).</li>
+                        </ol>
+                    </section>
+
+                    <section id="assignments">
+                        <h2>13) Assignments</h2>
+                        <ol>
+                            <li>Create <code>assignment27_1.py</code>: route <code>/hello/<name></code>.</li>
+                            <li>Create <code>assignment27_2.py</code>: route <code>/api/add?a=&amp;b=</code> returning
+                                JSON.</li>
+                            <li>Create <code>assignment27_3.py</code>: route <code>/welcome</code> with validation for
+                                empty <code>name</code>.</li>
+                        </ol>
+                    </section>
+
+                    <section id="mini-project">
+                        <h2>14) Mini Project</h2>
+                        <div class="callout note">
+                            <h3>🧪 Mini Project: Notes API (Flask)</h3>
+                            <p>Build endpoints:</p>
+                            <ul>
+                                <li><code>GET /api/notes</code></li>
+                                <li><code>POST /api/notes</code> (body: <code>{"title":"..."}</code>)</li>
+                                <li><code>DELETE /api/notes/<id></code></li>
+                            </ul>
+                            <p>Store notes in memory (list/dict). Return predictable JSON responses.</p>
+                        </div>
+                    </section>
+
+                    <section id="debugging">
+                        <h2>15) Debugging Practice</h2>
+                        <div class="callout warning">
+                            <h3>Case 1: route not found (404)</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">bug</div>
+                                    <div class="meta">wrong URL</div>
+                                </div>
+                                <pre><code># app route is /hello/<name>
+# but you open /hell0/Asha (typo)
+</code></pre>
+                            </div>
+                            <p><strong>Fix:</strong> confirm exact route spelling, and check trailing slashes.</p>
+                        </div>
+
+                        <div class="callout warning">
+                            <h3>Case 2: JSON parsing error</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">bug</div>
+                                    <div class="meta">wrong response type</div>
+                                </div>
+                                <pre><code>return {"x": 1}
+# without jsonify
+</code></pre>
+                            </div>
+                            <p><strong>Fix:</strong> use <code>jsonify(payload)</code> or return JSON properly.</p>
+                        </div>
+
+                        <div class="callout warning">
+                            <h3>Case 3: crash on invalid query param</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">bug</div>
+                                    <div class="meta">int conversion</div>
+                                </div>
+                                <pre><code>a = int(request.args.get("a"))
+# a might be missing or not a number
+</code></pre>
+                            </div>
+                            <p><strong>Fix:</strong> wrap in <code>try/except</code>, return 400 with error JSON.</p>
+                        </div>
+                    </section>
+
+                    <section id="errors">
+                        <h2>16) Common Errors</h2>
+                        <ul>
+                            <li><strong>404:</strong> wrong path or missing route.</li>
+                            <li><strong>500:</strong> exception inside handler (ValueError, KeyError, etc.).</li>
+                            <li><strong>TypeError:</strong> wrong return type or wrong function usage.</li>
+                            <li><strong>JSON error:</strong> returning dict without <code>jsonify</code> (concept).</li>
+                        </ul>
+                    </section>
+
+                    <section id="best">
+                        <h2>17) Best Practices</h2>
+                        <ul>
+                            <li>Use small handlers and helper functions.</li>
+                            <li>Validate all user input.</li>
+                            <li>Use consistent JSON shapes for API responses.</li>
+                            <li>Return meaningful status codes (200/201/400/404/500).</li>
+                            <li>Don’t leak internal errors to clients.</li>
+                        </ul>
+                    </section>
+
+                    <section id="summary">
+                        <h2>18) Summary</h2>
+                        <p>
+                            You learned Flask basics: creating an app, defining routes, returning responses,
+                            and reading request query parameters conceptually.
+                        </p>
+                    </section>
+
+                    <section id="cheatsheet">
+                        <h2>19) Cheat Sheet</h2>
+                        <table class="table" aria-label="Flask cheat sheet">
+                            <thead>
+                                <tr>
+                                    <th>Need</th>
+                                    <th>Code</th>
+                                    <th>Meaning</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Create app</td>
+                                    <td><code>app = Flask(__name__)</code></td>
+                                    <td>flask server object</td>
+                                </tr>
+                                <tr>
+                                    <td>Route</td>
+                                    <td><code>@app.route("/path")</code></td>
+                                    <td>URL → function</td>
+                                </tr>
+                                <tr>
+                                    <td>Plain text</td>
+                                    <td><code>return "..."</code></td>
+                                    <td>response body</td>
+                                </tr>
+                                <tr>
+                                    <td>JSON</td>
+                                    <td><code>return jsonify(payload)</code></td>
+                                    <td>structured response</td>
+                                </tr>
+                                <tr>
+                                    <td>Query args</td>
+                                    <td><code>request.args.get("name")</code></td>
+                                    <td>read ?name=...</td>
+                                </tr>
+                                <tr>
+                                    <td>Run server</td>
+                                    <td><code>app.run(host, port)</code></td>
+                                    <td>start dev server</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section id="challenge">
+                        <h2>20) Coding Challenge</h2>
+                        <div class="callout note">
+                            <h3>🎯 Challenge: Mini URL Greeter</h3>
+                            <p>Create:</p>
+                            <ul>
+                                <li><code>/greet</code> reads <code>?name=...</code></li>
+                                <li>If name missing/empty → return 400 with error JSON</li>
+                                <li>Else return greeting JSON</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section id="revision">
+                        <h2>21) Revision Questions</h2>
+                        <ol>
+                            <li>What is Flask?</li>
+                            <li>What is a route?</li>
+                            <li>How do you return JSON in Flask?</li>
+                            <li>How do you read query params?</li>
+                            <li>What does <code>debug=True</code> do?</li>
+                            <li>What is the meaning of 404?</li>
+                            <li>Why validate inputs?</li>
+                        </ol>
+                    </section>
+
+                    <section id="answers">
+                        <h2>22) Answer Key (Explain every answer)</h2>
+                        <div class="callout tip">
+                            <h3>Key explanations</h3>
+                            <ul>
+                                <li><strong>Flask:</strong> web framework for building server responses.</li>
+                                <li><strong>Route:</strong> decorator that maps URL to handler function.</li>
+                                <li><strong>JSON:</strong> use <code>jsonify</code> so clients parse it correctly.</li>
+                                <li><strong>Query params:</strong> <code>request.args</code> contains
+                                    <code>?key=value</code>.</li>
+                                <li><strong>debug:</strong> shows helpful error info and auto reload (not for prod).
+                                </li>
+                                <li><strong>404:</strong> route/path not found.</li>
+                                <li><strong>Validate:</strong> prevents wrong types and improves safety.</li>
+                            </ul>
+                        </div>
+
+                        <div class="nav-buttons no-print" style="margin-top:18px;">
+                            <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                            <div><a class="btn primary" data-next href="chapter-28.html">Next Chapter</a></div>
+                        </div>
+                    </section>
+
+            </div>
+            </main>
+        </div>
+    </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

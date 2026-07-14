@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 13 — Dictionaries</title>
+    <meta name="description"
+        content="Chapter 13: Dictionaries. Learn key/value storage, accessing values by key, updating, looping, and dictionary methods." />
+    <link rel="canonical" href="./chapters/chapter-13.html" />
+
+    <meta property="og:title" content="Chapter 13 — Dictionaries" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description"
+        content="Learn dictionaries: key/value mapping, common operations, practice, and explained answers." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 13 — Dictionaries" />
+    <meta name="twitter:description" content="Python dictionaries chapter." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 13 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+                    <div class="callout tip" style="margin-top:12px;">
+                        <h3>💡 Tips Box</h3>
+                        <p>
+                            Dictionaries are like a phone book:
+                            <strong>key</strong> → <strong>value</strong>.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 13</div>
+                        <h1 class="chapter-title">Chapter 13 — Dictionaries</h1>
+                        <p class="subtle">Learn how to store data as key/value pairs, read and update values, and loop
+                            through dictionaries.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-12.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <p>By the end of this chapter, you will be able to:</p>
+                                <ul>
+                                    <li>Create dictionaries using <code>{}</code> with <code>key: value</code> pairs.
+                                    </li>
+                                    <li>Access values by key.</li>
+                                    <li>Update values and add new key/value pairs.</li>
+                                    <li>Loop through keys, values, and items.</li>
+                                    <li>Use common dictionary methods like <code>get()</code>.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                Sometimes you want to store information in a way that you can look it up quickly.
+                                For example:
+                            </p>
+                            <ul>
+                                <li>Name → age</li>
+                                <li>Student ID → marks</li>
+                                <li>Product → price</li>
+                            </ul>
+                            <p>
+                                Dictionaries store data using <strong>keys</strong> and <strong>values</strong>.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+                            <h3>2.1 Key/value pairs</h3>
+                            <p>
+                                A dictionary maps a <strong>key</strong> to a <strong>value</strong>.
+                            </p>
+
+                            <h3>2.2 Keys must be unique</h3>
+                            <p>
+                                If you assign a value to an existing key, it overwrites the old value.
+                            </p>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning: missing keys</h3>
+                                <p>
+                                    Accessing a dictionary with a key that doesn’t exist raises <code>KeyError</code>.
+                                    Use <code>get()</code> when you want safe access.
+                                </p>
+                            </div>
+
+                            <h3>2.3 Looping concept</h3>
+                            <ul>
+                                <li>Looping directly gives keys.</li>
+                                <li>Use <code>.values()</code> for values.</li>
+                                <li>Use <code>.items()</code> for key/value pairs.</li>
+                            </ul>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">create + access</div>
+                                </div>
+                                <pre><code>student = {"name": "Ravi", "age": 20}
+
+print(student["name"])
+print(student["age"])
+</code></pre>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">update + add</div>
+                                </div>
+                                <pre><code>student = {"name": "Ravi", "age": 20}
+
+student["age"] = 21     # update
+student["city"] = "Delhi"  # add new
+
+print(student)
+</code></pre>
+                            </div>
+
+                            <p><strong>Time complexity:</strong> lookups are fast on average • <strong>Space:</strong>
+                                proportional to number of items.</p>
+                            <p><strong>Alternative:</strong> use parallel lists or classes (advanced), but dict is
+                                simplest for mapping.</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — age book</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">lookup</div>
+                                </div>
+                                <pre><code>ages = {"Asha": 18, "Ravi": 20}
+
+print("Asha age:", ages["Asha"])
+</code></pre>
+                            </div>
+
+                            <h3>4.2 Medium Example — get() safe access</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">get()</div>
+                                </div>
+                                <pre><code>ages = {"Asha": 18, "Ravi": 20}
+
+print("Kiran age:", ages.get("Kiran", "Not found"))
+</code></pre>
+                            </div>
+
+                            <h3>4.3 Advanced Example — loop with items()</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">items loop</div>
+                                </div>
+                                <pre><code>student = {"name": "Maya", "age": 22, "city": "Pune"}
+
+for key, value in student.items():
+    print(key, "=", value)
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: create dict → lookup → update → output</h3>
+                                <pre><code>[Start]
+   |
+   v
+[Create dictionary]
+   |
+   v
+[Lookup by key]
+   |
+   v
+[Optional update/add]
+   |
+   v
+[Loop through items]
+   |
+   v
+[Print output]
+   |
+   v
+[End]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <p>
+                                Think of dictionary as a set of labeled entries:
+                                <code>key → value</code>.
+                            </p>
+                            <table class="table" aria-label="Dictionary memory">
+                                <thead>
+                                    <tr>
+                                        <th>Key</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>"name"</code></td>
+                                        <td><code>"Ravi"</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>"age"</code></td>
+                                        <td><code>20</code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="callout remember">
+                                <h3>🧠 Memory trick</h3>
+                                <p>
+                                    Dictionary reads like a sentence: <strong>key</strong> tells you which fact (value)
+                                    to get.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">update and output</div>
+                                </div>
+                                <pre><code>scores = {"math": 80, "science": 90}
+
+scores["math"] = 85
+scores["english"] = 88
+
+print(scores)
+</code></pre>
+                            </div>
+                            <table class="table" aria-label="Dry run dictionary">
+                                <thead>
+                                    <tr>
+                                        <th>Step</th>
+                                        <th>Statement</th>
+                                        <th>Dictionary after</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Create scores</td>
+                                        <td><code>{math:80, science:90}</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Update math</td>
+                                        <td><code>{math:85, science:90}</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Add english</td>
+                                        <td><code>{math:85, science:90, english:88}</code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>len(dict)</code>: number of key/value pairs.</li>
+                                <li><code>type(x)</code>: check dict type when debugging.</li>
+                            </ul>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <div class="callout note">
+                                <h3>Common dict methods</h3>
+                                <ul>
+                                    <li><code>get(key, default)</code>: safe lookup.</li>
+                                    <li><code>keys()</code>: list of keys.</li>
+                                    <li><code>values()</code>: list of values.</li>
+                                    <li><code>items()</code>: key/value pairs.</li>
+                                </ul>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">get keys items</div>
+                                </div>
+                                <pre><code>data = {"x": 10, "y": 20}
+
+print(data.get("z", "Missing"))
+print(data.keys())
+print(data.items())
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is a dictionary?</li>
+                                <li>What are keys and values?</li>
+                                <li>What does <code>d["key"]</code> do?</li>
+                                <li>What is <code>KeyError</code>?</li>
+                                <li>How do you safely access a key?</li>
+                                <li>What is the purpose of <code>get()</code>?</li>
+                                <li>Can keys repeat?</li>
+                                <li>What happens when you assign to an existing key?</li>
+                                <li>How do you add a new key?</li>
+                                <li>How do you loop through dictionary keys?</li>
+                                <li>How do you loop through values?</li>
+                                <li>How do you loop through key/value pairs?</li>
+                                <li>What is <code>items()</code>?</li>
+                                <li>What is <code>keys()</code>?</li>
+                                <li>What is <code>values()</code>?</li>
+                                <li>What is <code>len(dict)</code>?</li>
+                                <li>Why are dictionaries useful?</li>
+                                <li>What is a common beginner mistake with dict syntax?</li>
+                                <li>What symbols define a dict in Python?</li>
+                                <li>Are dictionaries ordered?</li>
+                                <li>What type are dict keys typically?</li>
+                                <li>Can a dict value be any Python type?</li>
+                                <li>Can dict keys be mutable like lists?</li>
+                                <li>How would you check if a key exists?</li>
+                                <li>How would you check if a value exists?</li>
+                                <li>What is the difference between key lookup and value search?</li>
+                                <li>Explain dict update in your own words.</li>
+                                <li>What is the output type of <code>data.keys()</code> conceptually?</li>
+                                <li>What is the output type of <code>data.items()</code> conceptually?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>A dictionary literal is made with:
+                                    <ul>
+                                        <li>A) <code>[]</code></li>
+                                        <li>B) <code>{}</code></li>
+                                        <li>C) <code>()</code></li>
+                                        <li>D) <code><></code></li>
+                                    </ul>
+                                </li>
+                                <li>Key/value pairs in dict look like:
+                                    <ul>
+                                        <li>A) <code>key=value</code></li>
+                                        <li>B) <code>key: value</code></li>
+                                        <li>C) <code>key, value</code></li>
+                                        <li>D) <code>key - value</code></li>
+                                    </ul>
+                                </li>
+                                <li>Access dict value with:
+                                    <ul>
+                                        <li>A) <code>d.key</code></li>
+                                        <li>B) <code>d[key]</code></li>
+                                        <li>C) <code>d(key)</code></li>
+                                        <li>D) <code>get d key</code></li>
+                                    </ul>
+                                </li>
+                                <li>Trying to access missing key gives:
+                                    <ul>
+                                        <li>A) None</li>
+                                        <li>B) KeyError</li>
+                                        <li>C) IndexError</li>
+                                        <li>D) TypeError</li>
+                                    </ul>
+                                </li>
+                                <li>Safe access method is:
+                                    <ul>
+                                        <li>A) <code>get()</code></li>
+                                        <li>B) <code>read()</code></li>
+                                        <li>C) <code>set()</code></li>
+                                        <li>D) <code>pop()</code></li>
+                                    </ul>
+                                </li>
+                                <li>Assigning to existing key updates value because:
+                                    <ul>
+                                        <li>A) keys are unique</li>
+                                        <li>B) keys are duplicated</li>
+                                        <li>C) dict is list</li>
+                                        <li>D) Python ignores updates</li>
+                                    </ul>
+                                </li>
+                                <li>Looping <code>for k in d</code> gives:
+                                    <ul>
+                                        <li>A) values</li>
+                                        <li>B) keys</li>
+                                        <li>C) items</li>
+                                        <li>D) indexes</li>
+                                    </ul>
+                                </li>
+                                <li><code>d.keys()</code> gives:
+                                    <ul>
+                                        <li>A) keys</li>
+                                        <li>B) values</li>
+                                        <li>C) key/value pairs</li>
+                                        <li>D) nothing</li>
+                                    </ul>
+                                </li>
+                                <li><code>d.values()</code> gives:
+                                    <ul>
+                                        <li>A) keys</li>
+                                        <li>B) values</li>
+                                        <li>C) indexes</li>
+                                        <li>D) methods</li>
+                                    </ul>
+                                </li>
+                                <li><code>d.items()</code> gives:
+                                    <ul>
+                                        <li>A) key/value pairs</li>
+                                        <li>B) values only</li>
+                                        <li>C) keys only</li>
+                                        <li>D) booleans</li>
+                                    </ul>
+                                </li>
+                                <li><code>len(d)</code> is:
+                                    <ul>
+                                        <li>A) number of keys</li>
+                                        <li>B) number of values</li>
+                                        <li>C) number of items</li>
+                                        <li>D) file size</li>
+                                    </ul>
+                                </li>
+                                <li>Best use of dict is:
+                                    <ul>
+                                        <li>A) ordered duplicates</li>
+                                        <li>B) mapping facts</li>
+                                        <li>C) sorting</li>
+                                        <li>D) printing only</li>
+                                    </ul>
+                                </li>
+                                <li>Dict keys must be:
+                                    <ul>
+                                        <li>A) any type always</li>
+                                        <li>B) unique and hashable</li>
+                                        <li>C) strings only</li>
+                                        <li>D) lists only</li>
+                                    </ul>
+                                </li>
+                                <li>Can dict keys be lists?
+                                    <ul>
+                                        <li>A) yes</li>
+                                        <li>B) no</li>
+                                        <li>C) only in tuples</li>
+                                        <li>D) only in sets</li>
+                                    </ul>
+                                </li>
+                                <li>To add new pair you do:
+                                    <ul>
+                                        <li>A) <code>d[new_key] = value</code></li>
+                                        <li>B) <code>d.append</code></li>
+                                        <li>C) <code>d.add</code></li>
+                                        <li>D) <code>d.insert</code></li>
+                                    </ul>
+                                </li>
+                                <li>Difference between dict lookup and value search is:
+                                    <ul>
+                                        <li>A) lookup uses keys</li>
+                                        <li>B) value search uses keys</li>
+                                        <li>C) both same</li>
+                                        <li>D) lookup uses indexes</li>
+                                    </ul>
+                                </li>
+                                <li><code>if "x" in d</code> checks:
+                                    <ul>
+                                        <li>A) key exists</li>
+                                        <li>B) value exists</li>
+                                        <li>C) dict type</li>
+                                        <li>D) length</li>
+                                    </ul>
+                                </li>
+                                <li>Value exists check needs:
+                                    <ul>
+                                        <li>A) loop</li>
+                                        <li>B) direct indexing</li>
+                                        <li>C) get only</li>
+                                        <li>D) no check needed</li>
+                                    </ul>
+                                </li>
+                                <li>Python dict uses:
+                                    <ul>
+                                        <li>A) key mapping</li>
+                                        <li>B) index mapping</li>
+                                        <li>C) only sets</li>
+                                        <li>D) only arrays</li>
+                                    </ul>
+                                </li>
+                                <li>Common syntax error is missing:
+                                    <ul>
+                                        <li>A) colon</li>
+                                        <li>B) braces</li>
+                                        <li>C) quotes</li>
+                                        <li>D) print</li>
+                                    </ul>
+                                </li>
+                                <li>Dictionary literal example:
+                                    <ul>
+                                        <li>A) <code>[1,2]</code></li>
+                                        <li>B) <code>{"a":1}</code></li>
+                                        <li>C) <code>(a,1)</code></li>
+                                        <li>D) <code>set(1)</code></li>
+                                    </ul>
+                                </li>
+                                <li><code>d.get("missing")</code> returns:
+                                    <ul>
+                                        <li>A) KeyError</li>
+                                        <li>B) None by default</li>
+                                        <li>C) False</li>
+                                        <li>D) empty string</li>
+                                    </ul>
+                                </li>
+                                <li>Using <code>d.get(k, "default")</code> returns default when:
+                                    <ul>
+                                        <li>A) key exists</li>
+                                        <li>B) key missing</li>
+                                        <li>C) key is list</li>
+                                        <li>D) always errors</li>
+                                    </ul>
+                                </li>
+                                <li>Mutability of dict values:
+                                    <ul>
+                                        <li>A) values cannot change</li>
+                                        <li>B) values can be updated</li>
+                                        <li>C) values are fixed</li>
+                                        <li>D) dict cannot update</li>
+                                    </ul>
+                                </li>
+                                <li>When you set dict[key]=value, you:
+                                    <ul>
+                                        <li>A) update or add</li>
+                                        <li>B) remove</li>
+                                        <li>C) sort</li>
+                                        <li>D) index</li>
+                                    </ul>
+                                </li>
+                                <li>Tuple is used as dict value? It is allowed.
+                                    <ul>
+                                        <li>A) True</li>
+                                        <li>B) False</li>
+                                        <li>C) Only lists</li>
+                                        <li>D) Only strings</li>
+                                    </ul>
+                                </li>
+                                <li>Set is used as dict key?
+                                    <ul>
+                                        <li>A) yes always</li>
+                                        <li>B) no if unhashable</li>
+                                        <li>C) only for values</li>
+                                        <li>D) never</li>
+                                    </ul>
+                                </li>
+                                <li>Best practice for missing keys is:
+                                    <ul>
+                                        <li>A) use get()</li>
+                                        <li>B) use direct indexing</li>
+                                        <li>C) ignore</li>
+                                        <li>D) cast to int</li>
+                                    </ul>
+                                </li>
+                                <li>Which returns dict key/value pairs?
+                                    <ul>
+                                        <li>A) items()</li>
+                                        <li>B) keys()</li>
+                                        <li>C) values()</li>
+                                        <li>D) len()</li>
+                                    </ul>
+                                </li>
+                                <li>Which is fastest way to get value?
+                                    <ul>
+                                        <li>A) loop</li>
+                                        <li>B) direct lookup by key</li>
+                                        <li>C) print only</li>
+                                        <li>D) slice</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Create a dict <code>d = {"name": "Ravi"}</code> and print it.</li>
+                                <li>Access <code>d["name"]</code>.</li>
+                                <li>Update <code>d["name"]</code> to a new value.</li>
+                                <li>Add <code>d["age"] = 20</code> and print.</li>
+                                <li>Use <code>len(d)</code>.</li>
+                                <li>Create dict with 3 items and print.</li>
+                                <li>Use <code>get()</code> for an existing key.</li>
+                                <li>Use <code>get()</code> for a missing key with default.</li>
+                                <li>Loop over keys and print each key.</li>
+                                <li>Loop over values and print each value.</li>
+                                <li>Loop over items() and print key + value.</li>
+                                <li>Check if a key exists with <code>in</code>.</li>
+                                <li>Access value for a key that exists.</li>
+                                <li>Try direct indexing for missing key (expect error conceptually).</li>
+                                <li>Replace multiple keys one by one.</li>
+                                <li>Build a dict of student marks.</li>
+                                <li>Compute total marks by looping through values.</li>
+                                <li>Find max mark by looping manually.</li>
+                                <li>Convert list of pairs to dict (concept).</li>
+                                <li>Dry run: what prints from dict lookup.</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Read keys list and values list (simulate) and build dict.</li>
+                                <li>Create dict for products with prices and print a report.</li>
+                                <li>Update a price and print updated report.</li>
+                                <li>Compute average price using values loop.</li>
+                                <li>Count occurrences using dict frequency (concept with loop).</li>
+                                <li>Given list of names, count each name using dict.</li>
+                                <li>Print only names with frequency > 1.</li>
+                                <li>Given dict of phone numbers, mask last 2 digits (loop).</li>
+                                <li>Create dict from two lists (keys and values) using index loop.</li>
+                                <li>Build dict of word length counts (concept).</li>
+                                <li>Remove a key using <code>del</code> (learn concept; attempt).</li>
+                                <li>Use <code>pop()</code> to remove and return a value (concept).</li>
+                                <li>Safely remove using <code>pop(key, default)</code> (concept).</li>
+                                <li>Given dict, create new dict with only even ages (if/values loop).</li>
+                                <li>Create dictionary mapping numbers to their squares.</li>
+                                <li>Sum values only for keys that match a condition (if key in).</li>
+                                <li>Build nested dict concept: category → list of items.</li>
+                                <li>Dry run: output when you call <code>get()</code> with default.</li>
+                                <li>Write debug logic: if key not exists, print message.</li>
+                                <li>Check if dict is empty using <code>len(d)==0</code>.</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Implement function <code>frequency(values)</code> returning frequency dict.</li>
+                                <li>Implement function <code>invert_dict(d)</code> that swaps keys and values (assume
+                                    unique).</li>
+                                <li>Implement safe lookup that never crashes on missing keys.</li>
+                                <li>Compute “top k” values from dict manually (concept).</li>
+                                <li>Merge two dictionaries with conflict resolution (attempt).</li>
+                                <li>Given list of tuples (key,value), build dict manually using loop.</li>
+                                <li>Detect duplicates by frequency and print duplicates only.</li>
+                                <li>Build a small “inventory” dict and update quantities based on operations.</li>
+                                <li>Mask sensitive information: for each key containing "pass", replace with "***".</li>
+                                <li>Design dict API: keys, update rules, return report string.</li>
+                                <li>Build a mapping from course names to number of lessons.</li>
+                                <li>Implement a “choose value by key list” function.</li>
+                                <li>Compute nested dict summary: sum all numbers in inner dicts (concept).</li>
+                                <li>Write tests mentally for frequency function.</li>
+                                <li>Output prediction for dict updates and overwritten values.</li>
+                                <li>Implement dictionary-based lookup for category labels.</li>
+                                <li>Explain why dict lookup is faster than list search (concept).</li>
+                                <li>Prevent KeyError by using get() everywhere appropriate.</li>
+                                <li>Use dict to store counts and compute a score based on weighted keys.</li>
+                                <li>Build mapping for day numbers to day names using if/elif (later) and compare
+                                    (attempt).</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment13_1.py</code>: dict for 3 students with marks, print total
+                                    marks.</li>
+                                <li>Create <code>assignment13_2.py</code>: count letters in a word using dict frequency.
+                                </li>
+                                <li>Create <code>assignment13_3.py</code>: given dict, print each key and value neatly.
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Country Capital Finder</h3>
+                                <p>Use a dict of 5 country→capital pairs.</p>
+                                <ul>
+                                    <li>Read a country name (input)</li>
+                                    <li>Print its capital using <code>get()</code> with default message.</li>
+                                </ul>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">starter</div>
+                                </div>
+                                <pre><code>capitals = {
+    "India": "New Delhi",
+    "Japan": "Tokyo",
+    "France": "Paris",
+    "Egypt": "Cairo",
+    "Canada": "Ottawa"
+}
+
+country = input("Enter a country: ").strip()
+capital = capitals.get(country, "Not found")
+print("Capital:", capital)
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+
+                            <div class="callout warning">
+                                <h3>Case 1: KeyError</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>d = {"a": 1}
+print(d["b"])
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> use <code>d.get("b", "default")</code> or check key existence.
+                                </p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: wrong syntax (missing colon)</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>d = {"a" 1}
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> dict uses <code>key: value</code>.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: overwriting values unintentionally</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>d = {"x": 1}
+d["x"] = 2
+print(d)
+</code></pre>
+                                </div>
+                                <p><strong>Reason:</strong> keys are unique. Update overwrites.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>KeyError:</strong> key doesn’t exist.</li>
+                                <li><strong>SyntaxError:</strong> missing colon or quotes.</li>
+                                <li><strong>TypeError:</strong> using wrong key type (concept).</li>
+                                <li><strong>Logic error:</strong> expecting ordering or wrong key name.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Use <code>get()</code> when key might be missing.</li>
+                                <li>Use descriptive keys (e.g., <code>"student_id"</code>).</li>
+                                <li>Validate input before using as key.</li>
+                                <li>Prefer loops over values/items for reports.</li>
+                                <li>Avoid relying on printed order.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                Dictionaries map keys to values.
+                                You create them with <code>{key: value}</code> pairs.
+                                You access with <code>d[key]</code>, update/add with assignment, and loop with
+                                <code>keys()</code>, <code>values()</code>, and <code>items()</code>.
+                                Use <code>get()</code> to avoid KeyError.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Dict cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Need</th>
+                                        <th>Code</th>
+                                        <th>Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Create</td>
+                                        <td><code>d={"a":1}</code></td>
+                                        <td>key/value map</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lookup</td>
+                                        <td><code>d["a"]</code></td>
+                                        <td>value for key</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Safe lookup</td>
+                                        <td><code>d.get("x",0)</code></td>
+                                        <td>default if missing</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Update</td>
+                                        <td><code>d["a"]=2</code></td>
+                                        <td>overwrite</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Loop items</td>
+                                        <td><code>for k,v in d.items()</code></td>
+                                        <td>key and value</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Word Score Map</h3>
+                                <p>Create a dict mapping word lengths to points:</p>
+                                <ul>
+                                    <li>len >= 6 → 10 points</li>
+                                    <li>len >= 4 and < 6 → 5 points</li>
+                                    <li>else → 1 point</li>
+                                </ul>
+                                <p>Given a word, print its points.</p>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What does a dictionary store?</li>
+                                <li>What is a key in a dict?</li>
+                                <li>What is the difference between keys and values?</li>
+                                <li>What causes KeyError?</li>
+                                <li>How does <code>get()</code> prevent errors?</li>
+                                <li>Which method gives key/value pairs?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>Dictionary:</strong> maps keys → values.</li>
+                                    <li><strong>KeyError:</strong> happens when you access a missing key with
+                                        <code>d[key]</code>.</li>
+                                    <li><strong>get():</strong> returns default instead of crashing.</li>
+                                    <li><strong>items():</strong> gives pairs you can loop as
+                                        <code>for k,v in d.items()</code>.</li>
+                                    <li><strong>Update/add:</strong> assignment to <code>d[key]</code> overwrites or
+                                        creates.</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-14.html">Next Chapter</a></div>
+                            </div>
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

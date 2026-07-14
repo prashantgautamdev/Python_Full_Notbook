@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Chapter 25 — API Development</title>
+  <meta name="description"
+    content="Chapter 25: API Development. Learn request/response concept, building simple APIs, routing basics, and using HTTP methods." />
+  <link rel="canonical" href="./chapters/chapter-25.html" />
+
+  <meta property="og:title" content="Chapter 25 — API Development" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description"
+    content="Learn building APIs in Python: request/response, HTTP methods, routes, and safe design." />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 25 — API Development" />
+  <meta name="twitter:description" content="APIs with Python: learn HTTP and build simple endpoints with practice." />
+
+  <meta name="theme-color" content="#f7f2e8" />
+
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="icon" href="data:," />
+  <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+  <div class="progress" aria-hidden="true">
+    <div></div>
+  </div>
+
+  <div class="notebook">
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="brand">
+          <strong>Python Notebook</strong>
+          <span>Chapter 25 • Offline • Search • Dark mode</span>
+        </div>
+        <div class="top-actions">
+          <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+          <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="layout">
+        <aside class="sidebar" aria-label="Sidebar navigation">
+          <h2>Chapters</h2>
+          <nav class="nav-list" aria-label="Chapter list">
+            <div class="subtle" style="padding:6px 0;">Loading…</div>
+          </nav>
+
+          <div class="callout remember" style="margin-top:12px;">
+            <h3>⭐ Remember</h3>
+            <p>
+              An API is just a contract.
+              Client sends a request → server returns a structured response.
+            </p>
+          </div>
+        </aside>
+
+        <main class="main" aria-label="Chapter content">
+          <div class="main-inner">
+            <div class="breadcrumbs">Home • Chapter 25</div>
+            <h1 class="chapter-title">Chapter 25 — API Development</h1>
+            <p class="subtle">Learn what APIs are, how HTTP requests work, and how to design simple endpoints safely.
+            </p>
+
+            <div class="nav-buttons no-print" aria-label="Chapter actions">
+              <div class="footer-actions">
+                <a class="btn" href="../chapters/chapter-24.html">Previous Chapter</a>
+                <a class="btn" href="../index.html">Back To Home</a>
+                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+              </div>
+            </div>
+
+            <div class="sticky-toc" aria-label="Table of contents">
+              <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+              <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                <a href="#objectives">Learning Objectives</a>
+                <a href="#intro">Introduction</a>
+                <a href="#theory">Theory</a>
+                <a href="#syntax">Syntax</a>
+                <a href="#examples">Examples</a>
+                <a href="#flow">Flow Diagram</a>
+                <a href="#memory">Memory Visualization</a>
+                <a href="#dryrun">Dry Run</a>
+                <a href="#builtins">Built-in Functions</a>
+                <a href="#methods">Methods</a>
+                <a href="#interview">Interview Questions</a>
+                <a href="#mcq">MCQs</a>
+                <a href="#practice">Coding Practice</a>
+                <a href="#assignments">Assignments</a>
+                <a href="#mini-project">Mini Project</a>
+                <a href="#debugging">Debugging Practice</a>
+                <a href="#errors">Common Errors</a>
+                <a href="#best">Best Practices</a>
+                <a href="#summary">Summary</a>
+                <a href="#cheatsheet">Cheat Sheet</a>
+                <a href="#challenge">Coding Challenge</a>
+                <a href="#revision">Revision Questions</a>
+                <a href="#answers">Answer Key</a>
+              </div>
+            </div>
+
+            <section id="objectives">
+              <div class="callout tip">
+                <h3>🎯 Learning Objectives</h3>
+                <ul>
+                  <li>Understand request/response basics and HTTP methods.</li>
+                  <li>Learn the structure of an API endpoint (path + method).</li>
+                  <li>Design JSON-like responses (concept).</li>
+                  <li>Validate inputs and return meaningful status codes (concept).</li>
+                  <li>Use Python tools to make a simple API (example uses stdlib for concept).</li>
+                </ul>
+              </div>
+            </section>
+
+            <section id="intro">
+              <h2>1) Introduction</h2>
+              <p>
+                When you use an app (maps, shopping, weather), the app does not compute everything itself.
+                It talks to a server using APIs.
+              </p>
+              <p>
+                In this chapter, you learn how APIs work at a beginner-friendly level.
+                Later chapters (Flask and Django) will help you build real APIs.
+              </p>
+            </section>
+
+            <section id="theory">
+              <h2>2) Theory</h2>
+
+              <h3>2.1 What is an API?</h3>
+              <p>
+                API = <strong>Application Programming Interface</strong>.
+                It defines how clients can request data and actions.
+              </p>
+
+              <h3>2.2 HTTP methods (the verbs)</h3>
+              <ul>
+                <li><strong>GET</strong>: read data</li>
+                <li><strong>POST</strong>: create data</li>
+                <li><strong>PUT</strong>: replace/update fully</li>
+                <li><strong>PATCH</strong>: partial update</li>
+                <li><strong>DELETE</strong>: delete data</li>
+              </ul>
+
+              <h3>2.3 Status codes (response meaning)</h3>
+              <table class="table" aria-label="HTTP status codes">
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Meaning</th>
+                    <th>When it happens</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>200</td>
+                    <td>OK</td>
+                    <td>Request succeeded</td>
+                  </tr>
+                  <tr>
+                    <td>201</td>
+                    <td>Created</td>
+                    <td>A POST created a resource</td>
+                  </tr>
+                  <tr>
+                    <td>400</td>
+                    <td>Bad Request</td>
+                    <td>Client sent wrong input</td>
+                  </tr>
+                  <tr>
+                    <td>404</td>
+                    <td>Not Found</td>
+                    <td>No matching endpoint/data</td>
+                  </tr>
+                  <tr>
+                    <td>500</td>
+                    <td>Server Error</td>
+                    <td>Bug on server side</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <h3>2.4 JSON and structured responses (concept)</h3>
+              <p>
+                APIs usually return JSON.
+                JSON is simple: key → value pairs.
+              </p>
+
+              <div class="callout warning">
+                <h3>⚠ Warning</h3>
+                <p>
+                  Never trust client input.
+                  Validate and sanitize everything.
+                </p>
+              </div>
+            </section>
+
+            <section id="syntax">
+              <h2>3) Syntax</h2>
+
+              <div class="code-card">
+                <div class="code-header">
+                  <div class="lang">Concept</div>
+                  <div class="meta">endpoint definition</div>
+                </div>
+                <pre><code>GET /api/hello
+→ returns {"message": "Hello"}
+
+POST /api/users
+(body: {"name": "Asha"})
+→ creates user and returns {"id": 1}
+</code></pre>
+              </div>
+
+              <div class="code-card">
+                <div class="code-header">
+                  <div class="lang">Python</div>
+                  <div class="meta">example using http.server (concept)</div>
+                </div>
+                <pre><code># This is a minimal concept example.
+# For production APIs you usually use Flask/Django/FastAPI.
+
+from http.server import BaseHTTPRequestHandler, HTTPServer
+import json
+
+class Handler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        # Decide route using the path
+        if self.path == "/api/hello":
+            payload = {"message": "Hello from API"}
+            body = json.dumps(payload).encode("utf-8")
+
+            self.send_response(200)  # status code
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+
+            # Output the response body
+            self.wfile.write(body)
+        else:
+            # Unknown endpoint
+            self.send_response(404)
+            self.end_headers()
+
+server = HTTPServer(("127.0.0.1", 5004), Handler)
+print("API running on http://127.0.0.1:5004")
+server.serve_forever()
+</code></pre>
+              </div>
+
+              <p><strong>Output:</strong> When you open <code>/api/hello</code>, you receive JSON like
+                <code>{"message":"Hello from API"}</code>.</p>
+              <p><strong>Time:</strong> O(1) per request (for this simple route) • <strong>Space:</strong>
+                O(response_size).</p>
+              <p><strong>Alternative:</strong> use <code>requests</code> for clients and Flask/Django for real servers.
+              </p>
+            </section>
+
+            <section id="examples">
+              <h2>4) Examples</h2>
+
+              <h3>4.1 Easy Example — GET /api/hello</h3>
+              <p>
+                The server returns a fixed message.
+              </p>
+              <div class="callout note">
+                <h3>Output prediction</h3>
+                <p>If the path is correct, status is 200 and body is JSON.</p>
+              </div>
+              <div class="code-card">
+                <div class="code-header">
+                  <div class="lang">API response</div>
+                  <div class="meta">example output</div>
+                </div>
+                <pre><code>HTTP/1.1 200 OK
+Content-Type: application/json
+
+{"message":"Hello from API"}
+</code></pre>
+              </div>
+
+              <h3>4.2 Medium Example — input validation (concept)</h3>
+              <p>
+                If a client sends invalid data, return 400.
+              </p>
+              <div class="code-card">
+                <div class="code-header">
+                  <div class="lang">Python</div>
+                  <div class="meta">validation idea</div>
+                </div>
+                <pre><code># concept: validate name is not empty
+
+def validate_user_payload(payload):
+    # payload is a dict
+    name = payload.get("name")
+    if not isinstance(name, str):
+        return False, "name must be a string"
+    if not name.strip():
+        return False, "name cannot be empty"
+
+    return True, "ok"
+</code></pre>
+              </div>
+
+              <h3>4.3 Advanced Example — consistent error format (concept)</h3>
+              <p>
+                Clients love predictable errors.
+                Example format: <code>{"error":"message","code":4001}</code>.
+              </p>
+              <div class="code-card">
+                <div class="code-header">
+                  <div class="lang">JSON shape</div>
+                  <div class="meta">error example</div>
+                </div>
+                <pre><code>{
+  "error": "Invalid input",
+  "code": 4001,
+  "details": "age must be >= 0"
+}
+</code></pre>
+              </div>
+            </section>
+
+            <section id="flow">
+              <h2>5) Flow Diagram</h2>
+              <div class="callout note">
+                <h3>Flowchart: API request</h3>
+                <pre><code>[Client sends HTTP request]
+             |
+             v
+      [Server reads path + method]
+             |
+             v
+      [Validate input (if any)]
+             |
+             v
+     [Choose correct endpoint handler]
+             |
+             v
+      [Build response payload]
+             |
+             v
+        [Send status + headers]
+             |
+             v
+        [Return response body]
+</code></pre>
+              </div>
+            </section>
+
+            <section id="memory">
+              <h2>6) Memory Visualization</h2>
+              <p>
+                A server usually:
+                1) receives request bytes
+                2) parses them
+                3) builds a response string
+              </p>
+              <table class="table" aria-label="API memory">
+                <thead>
+                  <tr>
+                    <th>Part</th>
+                    <th>Stored as</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Request body</td>
+                    <td>bytes → decoded string</td>
+                  </tr>
+                  <tr>
+                    <td>JSON payload</td>
+                    <td>Python dict</td>
+                  </tr>
+                  <tr>
+                    <td>Response</td>
+                    <td>JSON string → bytes</td>
+                  </tr>
+                </tbody>
+              </table>
+            </section>
+
+            <section id="dryrun">
+              <h2>7) Dry Run</h2>
+              <div class="code-card">
+                <div class="code-header">
+                  <div class="lang">Dry run</div>
+                  <div class="meta">GET /api/hello</div>
+                </div>
+                <pre><code>Request:
+GET /api/hello
+
+Server checks:
+self.path == "/api/hello"  ✅
+
+Payload built:
+{"message":"Hello from API"}
+
+Status:
+200 OK
+
+Response bytes written:
+{...}
+</code></pre>
+              </div>
+            </section>
+
+            <section id="builtins">
+              <h2>8) Built-in Functions</h2>
+              <ul>
+                <li><code>len()</code> to set <code>Content-Length</code>.</li>
+                <li><code>print()</code> for server logs.</li>
+              </ul>
+            </section>
+
+            <section id="methods">
+              <h2>9) Methods</h2>
+              <div class="callout note">
+                <h3>Common API server methods (concept)</h3>
+                <ul>
+                  <li><code>send_response(code)</code></li>
+                  <li><code>send_header(key, value)</code></li>
+                  <li><code>end_headers()</code></li>
+                  <li><code>wfile.write(body_bytes)</code></li>
+                </ul>
+              </div>
+            </section>
+
+            <section id="interview">
+              <h2>10) Interview Questions (Minimum 30)</h2>
+              <ol>
+                <li>What does API stand for?</li>
+                <li>What is an HTTP request?</li>
+                <li>What is an HTTP response?</li>
+                <li>What is an endpoint?</li>
+                <li>What is the difference between a path and a query string?</li>
+                <li>What does GET mean?</li>
+                <li>What does POST mean?</li>
+                <li>What does PUT mean?</li>
+                <li>What does PATCH mean?</li>
+                <li>What does DELETE mean?</li>
+                <li>What is a status code?</li>
+                <li>What does 200 mean?</li>
+                <li>What does 201 mean?</li>
+                <li>What does 400 mean?</li>
+                <li>What does 404 mean?</li>
+                <li>What does 500 mean?</li>
+                <li>What is JSON?</li>
+                <li>Why do APIs often return JSON?</li>
+                <li>What is input validation?</li>
+                <li>Why should you validate user input?</li>
+                <li>What is the Content-Type header?</li>
+                <li>What does Content-Length represent?</li>
+                <li>What is the purpose of headers?</li>
+                <li>How do clients call an API?</li>
+                <li>How do you design consistent error responses?</li>
+                <li>What is idempotency (concept)?</li>
+                <li>What is idempotent GET?</li>
+                <li>Why might POST not be idempotent?</li>
+                <li>What is a rate limit (concept)?</li>
+              </ol>
+            </section>
+
+            <section id="mcq">
+              <h2>11) MCQs (Minimum 30)</h2>
+              <ol>
+                <li>HTTP GET is used to:
+                  <ul>
+                    <li>A) create</li>
+                    <li>B) read</li>
+                    <li>C) delete</li>
+                    <li>D) format HTML</li>
+                  </ul>
+                </li>
+                <li>HTTP POST is used to:
+                  <ul>
+                    <li>A) read only</li>
+                    <li>B) create</li>
+                    <li>C) update schema</li>
+                    <li>D) compile code</li>
+                  </ul>
+                </li>
+                <li>HTTP 404 means:
+                  <ul>
+                    <li>A) bad request</li>
+                    <li>B) not found</li>
+                    <li>C) server error</li>
+                    <li>D) created</li>
+                  </ul>
+                </li>
+                <li>HTTP 400 means:
+                  <ul>
+                    <li>A) invalid input</li>
+                    <li>B) OK</li>
+                    <li>C) unauthorized</li>
+                    <li>D) gateway timeout</li>
+                  </ul>
+                </li>
+                <li>HTTP 500 means:
+                  <ul>
+                    <li>A) client error</li>
+                    <li>B) server error</li>
+                    <li>C) created</li>
+                    <li>D) no content</li>
+                  </ul>
+                </li>
+                <li>JSON primarily represents:
+                  <ul>
+                    <li>A) text only</li>
+                    <li>B) key-value data</li>
+                    <li>C) images</li>
+                    <li>D) CSS</li>
+                  </ul>
+                </li>
+                <li>Content-Type header tells:
+                  <ul>
+                    <li>A) server theme</li>
+                    <li>B) response type</li>
+                    <li>C) number of rows</li>
+                    <li>D) disk space</li>
+                  </ul>
+                </li>
+                <li>Content-Length tells:
+                  <ul>
+                    <li>A) request time</li>
+                    <li>B) response byte length</li>
+                    <li>C) language</li>
+                    <li>D) status message text</li>
+                  </ul>
+                </li>
+                <li>An endpoint is:
+                  <ul>
+                    <li>A) a URL route</li>
+                    <li>B) a CSS file</li>
+                    <li>C) a variable</li>
+                    <li>D) only a database table</li>
+                  </ul>
+                </li>
+                <li>Validation prevents:
+                  <ul>
+                    <li>A) crashes</li>
+                    <li>B) invalid data</li>
+                    <li>C) all attacks automatically</li>
+                    <li>D) compilation errors</li>
+                  </ul>
+                </li>
+                <li>In the example, /api/hello is a:
+                  <ul>
+                    <li>A) library name</li>
+                    <li>B) path</li>
+                    <li>C) status code</li>
+                    <li>D) method</li>
+                  </ul>
+                </li>
+                <li>In REST, GET usually should be:
+                  <ul>
+                    <li>A) safe and read-only (concept)</li>
+                    <li>B) destructive</li>
+                    <li>C) random</li>
+                    <li>D) slow always</li>
+                  </ul>
+                </li>
+                <li>POST is typically used when you want to:
+                  <ul>
+                    <li>A) update schema</li>
+                    <li>B) create resources</li>
+                    <li>C) only read</li>
+                    <li>D) only delete</li>
+                  </ul>
+                </li>
+                <li>Consistent errors help because:
+                  <ul>
+                    <li>A) clients can parse them</li>
+                    <li>B) servers are faster</li>
+                    <li>C) it removes need for logs</li>
+                    <li>D) it changes database</li>
+                  </ul>
+                </li>
+                <li>HTTP headers are used to:
+                  <ul>
+                    <li>A) describe message metadata</li>
+                    <li>B) style pages</li>
+                    <li>C) store images</li>
+                    <li>D) compile python</li>
+                  </ul>
+                </li>
+                <li>In the stdlib example, response status is set using:
+                  <ul>
+                    <li>A) send_code()</li>
+                    <li>B) send_response()</li>
+                    <li>C) set_theme()</li>
+                    <li>D) json.dumps()</li>
+                  </ul>
+                </li>
+                <li>In the example, we send JSON by:
+                  <ul>
+                    <li>A) sending bytes from json.dumps</li>
+                    <li>B) sending HTML</li>
+                    <li>C) sending CSS vars</li>
+                    <li>D) sending SQL</li>
+                  </ul>
+                </li>
+                <li>We encode JSON string using:
+                  <ul>
+                    <li>A) .decode()</li>
+                    <li>B) .encode("utf-8")</li>
+                    <li>C) .lower()</li>
+                    <li>D) .strip()</li>
+                  </ul>
+                </li>
+                <li>A 201 response usually means:
+                  <ul>
+                    <li>A) resource created</li>
+                    <li>B) not found</li>
+                    <li>C) bad request</li>
+                    <li>D) internal server error</li>
+                  </ul>
+                </li>
+                <li>Returning 404 indicates:
+                  <ul>
+                    <li>A) endpoint exists</li>
+                    <li>B) endpoint/data not found</li>
+                    <li>C) theme changed</li>
+                    <li>D) database connected</li>
+                  </ul>
+                </li>
+                <li>When do you return 400?
+                  <ul>
+                    <li>A) client input wrong</li>
+                    <li>B) success</li>
+                    <li>C) server bug</li>
+                    <li>D) network okay</li>
+                  </ul>
+                </li>
+                <li>When do you return 500?
+                  <ul>
+                    <li>A) server crash or bug</li>
+                    <li>B) input okay</li>
+                    <li>C) not found</li>
+                    <li>D) created</li>
+                  </ul>
+                </li>
+                <li>What does an endpoint handler do?
+                  <ul>
+                    <li>A) ignores requests</li>
+                    <li>B) builds a response</li>
+                    <li>C) compiles python</li>
+                    <li>D) changes CSS</li>
+                  </ul>
+                </li>
+                <li>JSON response body is typically:
+                  <ul>
+                    <li>A) bytes of encoded JSON</li>
+                    <li>B) random text</li>
+                    <li>C) only images</li>
+                    <li>D) SQL queries</li>
+                  </ul>
+                </li>
+                <li>APIs are used by:
+                  <ul>
+                    <li>A) clients to request data</li>
+                    <li>B) only browsers</li>
+                    <li>C) only databases</li>
+                    <li>D) only CSS</li>
+                  </ul>
+                </li>
+                <li>Client and server communicate using:
+                  <ul>
+                    <li>A) HTTP</li>
+                    <li>B) only UDP</li>
+                    <li>C) only files</li>
+                    <li>D) only threads</li>
+                  </ul>
+                </li>
+                <li>Designing endpoints includes:
+                  <ul>
+                    <li>A) choosing method + path</li>
+                    <li>B) choosing fonts</li>
+                    <li>C) choosing database schema only</li>
+                    <li>D) choosing CSS only</li>
+                  </ul>
+                </li>
+                <li>Content-Length is important because:
+                  <ul>
+                    <li>A) tells how many bytes to expect</li>
+                    <li>B) changes theme</li>
+                    <li>C) hides errors</li>
+                    <li>D) writes CSS</li>
+                  </ul>
+                </li>
+                <li>Good practice for APIs:
+                  <ul>
+                    <li>A) validate and return errors</li>
+                    <li>B) trust input always</li>
+                    <li>C) ignore status codes</li>
+                    <li>D) send plain HTML always</li>
+                  </ul>
+                </li>
+                <li>In the example, which path returns data?
+                  <ul>
+                    <li>A) /api/hello</li>
+                    <li>B) /api/world</li>
+                    <li>C) /home</li>
+                    <li>D) /chapters</li>
+                  </ul>
+                </li>
+              </ol>
+            </section>
+
+            <section id="practice">
+              <h2>12) Coding Practice</h2>
+              <h3>Easy (20)</h3>
+              <ol>
+                <li>Write a function that builds a JSON payload dict for <code>/api/hello</code>.</li>
+                <li>Create a small helper to encode a dict as JSON bytes (<code>.encode("utf-8")</code>).</li>
+                <li>Given a path string, return a status code (200 if <code>/api/hello</code> else 404).</li>
+                <li>Implement input validation for <code>{"name": ...}</code> (name must be non-empty string).</li>
+                <li>Create consistent error objects like <code>{"error": "..."}</code>.</li>
+                <li>Write code that computes <code>Content-Length</code> for a JSON bytes response.</li>
+                <li>Write a client concept: print what you expect from <code>GET /api/hello</code>.</li>
+                <li>Predict output for wrong path: what status and body?</li>
+                <li>Create endpoints map (path → handler name) as a dict.</li>
+                <li>For a payload, validate types and return messages.</li>
+                <li>Write a function <code>make_ok(payload)</code> returning <code>(200, payload)</code>.</li>
+                <li>Write a function <code>make_error(msg, code)</code> returning <code>(code, error_payload)</code>.
+                </li>
+                <li>Test your validation with: <code>name=123</code>, <code>name=""</code>, <code>name="Asha"</code>.
+                </li>
+                <li>Dry run: explain what happens when payload is missing.</li>
+                <li>Build a response formatting function: dict → JSON bytes.</li>
+                <li>Simulate server routing in code using if/elif.</li>
+                <li>Write small unit-test-like checks using asserts (concept).</li>
+                <li>Try adding <code>/api/version</code> returning version string (concept).</li>
+                <li>Explain why status codes matter for clients.</li>
+                <li>Write interview-style notes on GET vs POST.</li>
+              </ol>
+
+              <h3>Medium (20)</h3>
+              <ol>
+                <li>Design an endpoint <code>/api/echo</code> that returns the message you send (concept).</li>
+                <li>Implement validation that message length ≤ 100 characters.</li>
+                <li>Return 400 if message is too long (concept).</li>
+                <li>Implement a routing function <code>handle_request(method, path, payload)</code>.</li>
+                <li>Use a dict to map endpoints for GET and POST separately.</li>
+                <li>Write code that produces different payloads for different paths.</li>
+                <li>Simulate request method checks and correct status codes.</li>
+                <li>Design an error format including <code>details</code>.</li>
+                <li>Write a function to check whether a dict has required keys.</li>
+                <li>Dry run: missing key → which status and error?</li>
+                <li>Concept: add simple logging for endpoint hits.</li>
+                <li>Concept: create a rate limiter using timestamps (simple idea).</li>
+                <li>Design pagination response shape: <code>{"items": [...], "page": 1}</code>.</li>
+                <li>Create response for pagination with empty items.</li>
+                <li>Explain idempotency for GET vs POST (concept).</li>
+                <li>Build a thought exercise: which endpoints should be cached?</li>
+                <li>Predict JSON encoding for special characters like <code>"&amp;"</code>.</li>
+                <li>Concept: handle invalid JSON string input safely.</li>
+                <li>Create test inputs list and expected outputs list.</li>
+                <li>Write a short spec for your API endpoints (path + method + response).</li>
+              </ol>
+
+              <h3>Hard (20)</h3>
+              <ol>
+                <li>Implement a simple router class that registers endpoints.</li>
+                <li>Support two methods for same path (GET and POST) and route correctly.</li>
+                <li>Design a middleware idea: validate before handler runs (design).</li>
+                <li>Concept: implement a function that standardizes errors.</li>
+                <li>Implement pagination in a pure function (items list → page slice).</li>
+                <li>Build a pure “service layer” function separate from response formatting.</li>
+                <li>Concept: implement optimistic update vs validation errors.</li>
+                <li>Design consistent response envelopes: <code>{"data": ..., "meta": ...}</code>.</li>
+                <li>Write code to detect invalid method for a path and return 405 (concept).</li>
+                <li>Explain how clients should interpret error details.</li>
+                <li>Write tests mentally for edge cases: empty payload, wrong types.</li>
+                <li>Design a small API spec for a TODO app (endpoints + schemas).</li>
+                <li>Concept: implement authentication check placeholder.</li>
+                <li>Explain why you should never return stack traces to clients.</li>
+                <li>Build a function that masks sensitive fields in responses.</li>
+                <li>Design versioning strategy: <code>/v1/</code> prefix (concept).</li>
+                <li>Concept: implement content negotiation (json only for now).</li>
+                <li>Explain time complexity of routing (O(1) map vs O(n) scan).</li>
+                <li>Implement routing with a dict and benchmark conceptually (design).</li>
+                <li>Design a plan to document your API (OpenAPI concept).</li>
+              </ol>
+            </section>
+
+            <section id="assignments">
+              <h2>13) Assignments</h2>
+              <ol>
+                <li>Create <code>assignment25_1.py</code>: add endpoint <code>/api/version</code> returning version
+                  JSON.</li>
+                <li>Create <code>assignment25_2.py</code>: implement <code>/api/echo</code> that returns received text
+                  (concept).</li>
+                <li>Create <code>assignment25_3.py</code>: add validation: reject empty echo with status 400.</li>
+              </ol>
+            </section>
+
+            <section id="mini-project">
+              <h2>14) Mini Project</h2>
+              <div class="callout note">
+                <h3>🧪 Mini Project: Notes API (Concept)</h3>
+                <p>Design endpoints:</p>
+                <ul>
+                  <li><code>GET /api/notes</code> → list notes</li>
+                  <li><code>POST /api/notes</code> → create a note</li>
+                  <li><code>DELETE /api/notes/{id}</code> → delete note by id</li>
+                </ul>
+                <p>Practice building response envelopes and error objects.</p>
+              </div>
+            </section>
+
+            <section id="debugging">
+              <h2>15) Debugging Practice</h2>
+
+              <div class="callout warning">
+                <h3>Case 1: wrong path</h3>
+                <div class="code-card">
+                  <div class="code-header">
+                    <div class="lang">bug</div>
+                    <div class="meta">returns 404</div>
+                  </div>
+                  <pre><code>if self.path == "/api/hello":
+    ...
+else:
+    404
+</code></pre>
+                </div>
+                <p><strong>Fix:</strong> make sure the client calls exactly <code>/api/hello</code> (no trailing spaces,
+                  correct leading slash).</p>
+              </div>
+
+              <div class="callout warning">
+                <h3>Case 2: wrong Content-Type</h3>
+                <div class="code-card">
+                  <div class="code-header">
+                    <div class="lang">bug</div>
+                    <div class="meta">client can’t parse JSON</div>
+                  </div>
+                  <pre><code>self.send_header("Content-Type", "text/plain")
+</code></pre>
+                </div>
+                <p><strong>Fix:</strong> set <code>application/json</code> so clients understand the format.</p>
+              </div>
+
+              <div class="callout warning">
+                <h3>Case 3: missing Content-Length</h3>
+                <div class="code-card">
+                  <div class="code-header">
+                    <div class="lang">bug</div>
+                    <div class="meta">client may wait</div>
+                  </div>
+                  <pre><code># forgot Content-Length
+</code></pre>
+                </div>
+                <p><strong>Fix:</strong> compute and send <code>Content-Length</code> for proper response framing
+                  (especially with some clients).</p>
+              </div>
+            </section>
+
+            <section id="errors">
+              <h2>16) Common Errors</h2>
+              <ul>
+                <li><strong>400 Bad Request:</strong> invalid payload or missing keys.</li>
+                <li><strong>404 Not Found:</strong> wrong endpoint path.</li>
+                <li><strong>415 Unsupported Media Type (concept):</strong> wrong Content-Type sent by client.</li>
+                <li><strong>500 Internal Server Error:</strong> server crash due to bug.</li>
+              </ul>
+            </section>
+
+            <section id="best">
+              <h2>17) Best Practices</h2>
+              <ul>
+                <li>Design clear endpoint names and stable response formats.</li>
+                <li>Validate input and return correct status codes.</li>
+                <li>Use consistent error objects.</li>
+                <li>Set <code>Content-Type</code> and (when needed) <code>Content-Length</code>.</li>
+                <li>Keep handlers small: use helper functions for logic.</li>
+              </ul>
+            </section>
+
+            <section id="summary">
+              <h2>18) Summary</h2>
+              <p>
+                You learned what an API is, how HTTP methods and status codes work,
+                and how to design simple endpoints.
+                You also learned safety ideas: validate input and return predictable errors.
+              </p>
+            </section>
+
+            <section id="cheatsheet">
+              <h2>19) Cheat Sheet</h2>
+              <table class="table" aria-label="API cheat sheet">
+                <thead>
+                  <tr>
+                    <th>Need</th>
+                    <th>Idea</th>
+                    <th>Example</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Read</td>
+                    <td>GET</td>
+                    <td><code>GET /api/hello</code></td>
+                  </tr>
+                  <tr>
+                    <td>Create</td>
+                    <td>POST</td>
+                    <td><code>POST /api/users</code></td>
+                  </tr>
+                  <tr>
+                    <td>Status 200</td>
+                    <td>Success</td>
+                    <td>OK response</td>
+                  </tr>
+                  <tr>
+                    <td>Status 400</td>
+                    <td>Client error</td>
+                    <td>bad payload</td>
+                  </tr>
+                  <tr>
+                    <td>Status 404</td>
+                    <td>Missing route/data</td>
+                    <td>wrong path</td>
+                  </tr>
+                  <tr>
+                    <td>Response format</td>
+                    <td>JSON</td>
+                    <td><code>{"message":"..."}</code></td>
+                  </tr>
+                </tbody>
+              </table>
+            </section>
+
+            <section id="challenge">
+              <h2>20) Coding Challenge</h2>
+              <div class="callout note">
+                <h3>🎯 Challenge: Calculator API (Concept)</h3>
+                <p>Design endpoints:</p>
+                <ul>
+                  <li><code>GET /api/add?a=1&amp;b=2</code> → returns sum</li>
+                  <li>Return 400 if a or b is missing or not a number</li>
+                </ul>
+              </div>
+            </section>
+
+            <section id="revision">
+              <h2>21) Revision Questions</h2>
+              <ol>
+                <li>What is an API?</li>
+                <li>What is an endpoint?</li>
+                <li>When do you use GET?</li>
+                <li>When do you use POST?</li>
+                <li>What does status code 404 mean?</li>
+                <li>Why validate input?</li>
+                <li>What is JSON?</li>
+              </ol>
+            </section>
+
+            <section id="answers">
+              <h2>22) Answer Key (Explain every answer)</h2>
+              <div class="callout tip">
+                <h3>Key explanations</h3>
+                <ul>
+                  <li><strong>API:</strong> a contract between client and server for data/actions.</li>
+                  <li><strong>Endpoint:</strong> path + method where server handles requests.</li>
+                  <li><strong>GET:</strong> read data without creating/updating.</li>
+                  <li><strong>POST:</strong> create new resource or submit data.</li>
+                  <li><strong>404:</strong> the requested path (or data) was not found.</li>
+                  <li><strong>Validate:</strong> prevents wrong data and reduces security issues.</li>
+                  <li><strong>JSON:</strong> structured key-value format widely used for APIs.</li>
+                </ul>
+              </div>
+
+              <div class="nav-buttons no-print" style="margin-top:18px;">
+                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                <div><a class="btn primary" data-next href="chapter-26.html">Next Chapter</a></div>
+              </div>
+            </section>
+
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/darkmode.js"></script>
+  <script src="../assets/js/script.js"></script>
+  <script src="../assets/js/navigation.js"></script>
+  <script src="../assets/js/search.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const nav = document.querySelector('.nav-list');
+      if (!nav) return;
+      nav.innerHTML = '';
+      for (let i = 1; i <= 48; i++) {
+        const file = `chapter-${String(i).padStart(2, '0')}.html`;
+        const a = document.createElement('a');
+        a.className = 'nav-link';
+        a.href = `${file}`;
+        a.setAttribute('data-chapter-link', file);
+        a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+        const wrap = document.createElement('div');
+        wrap.className = 'nav-item';
+        const dot = document.createElement('span');
+        dot.className = 'nav-dot';
+        wrap.appendChild(dot);
+        wrap.appendChild(a);
+        nav.appendChild(wrap);
+      }
+    });
+  </script>
+</body>
+
+</html>

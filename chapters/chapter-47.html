@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 47 — Interview Preparation</title>
+    <meta name="description"
+        content="Chapter 47: Interview Preparation. Learn how to prepare for Python interviews: core concepts, coding patterns, debugging, and system thinking." />
+    <link rel="canonical" href="./chapters/chapter-47.html" />
+
+    <meta property="og:title" content="Chapter 47 — Interview Preparation" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="Interview preparation concepts with practice and explained answers." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 47 — Interview Preparation" />
+    <meta name="twitter:description" content="Python interview preparation." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 47 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout remember" style="margin-top:12px;">
+                        <h3>⭐ Remember</h3>
+                        <p>
+                            Interviews reward clarity.
+                            Explain your plan, then code, then test edge cases.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 47</div>
+                        <h1 class="chapter-title">Chapter 47 — Interview Preparation</h1>
+                        <p class="subtle">A structured approach to prepare for Python interviews: concepts, coding
+                            strategy, debugging thinking, and practice drills.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-46.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <ul>
+                                    <li>Learn an interview routine (plan → code → test).</li>
+                                    <li>Practice typical Python interview topics (data, strings, dicts, loops).</li>
+                                    <li>Learn how to explain time/space complexity clearly.</li>
+                                    <li>Practice debugging and edge-case thinking.</li>
+                                    <li>Build a mock interview checklist you can reuse.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                Interview questions are not random.
+                                They test how you think.
+                            </p>
+                            <p>
+                                This chapter helps you prepare with a repeatable approach and practice drills.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 The interview workflow</h3>
+                            <ol>
+                                <li><strong>Understand</strong> the problem and restate it.</li>
+                                <li><strong>Plan</strong> with a data structure and approach.</li>
+                                <li><strong>Code</strong> with clear variable names.</li>
+                                <li><strong>Test</strong> using examples + edge cases.</li>
+                                <li><strong>Analyze</strong> time and space complexity.</li>
+                            </ol>
+
+                            <h3>2.2 Complexity explanation</h3>
+                            <p>
+                                Many candidates can code.
+                                Fewer can explain complexity.
+                                You will learn to say: “I loop over n items once, so O(n).”
+                            </p>
+
+                            <h3>2.3 Debug mindset</h3>
+                            <ul>
+                                <li>Check off-by-one errors.</li>
+                                <li>Validate assumptions about input types.</li>
+                                <li>Print small intermediate values when stuck.</li>
+                            </ul>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    Don’t optimize prematurely.
+                                    First make it correct, then make it faster.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">example pattern: two-sum using dict</div>
+                                </div>
+                                <pre><code>def two_sum(nums, target):
+    """Return indices of two numbers that sum to target.
+
+    Time complexity: O(n) average.
+    Space complexity: O(n).
+    Alternative: brute force O(n^2).
+    """
+    # value -> index mapping for fast lookup
+    seen = {}
+
+    for i, x in enumerate(nums):
+        need = target - x
+
+        # If we have seen the needed value, return indices
+        if need in seen:
+            return [seen[need], i]
+
+        # Store current value
+        seen[x] = i
+
+    # If no solution, return None
+    return None
+
+print(two_sum([2,7,11,15], 9))  # Output: [0,1]
+</code></pre>
+                            </div>
+
+                            <p><strong>Output:</strong> indices list or <code>None</code>.</p>
+                            <p><strong>Time:</strong> O(n) • <strong>Space:</strong> O(n).</p>
+                            <p><strong>Alternative:</strong> nested loops (O(n²)).</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — reverse a string</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">string manipulation</div>
+                                </div>
+                                <pre><code>def reverse_words(s):
+    """Reverse each word in a sentence.
+
+    Time: O(n) • Space: O(n)
+    Alternative: manual loop building string.
+    """
+    parts = s.split()
+    reversed_parts = [p[::-1] for p in parts]
+    return " ".join(reversed_parts)
+
+print(reverse_words("hello world"))  # Output: "olleh dlrow"
+</code></pre>
+                            </div>
+
+                            <h3>4.2 Medium Example — frequency count</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">count + top element</div>
+                                </div>
+                                <pre><code>from collections import Counter
+
+def most_frequent(nums):
+    """Return the most frequent number.
+
+    Time: O(n) average for counting • Space: O(k)
+    Alternative: dict counts manually.
+    """
+    c = Counter(nums)
+    return c.most_common(1)[0][0]
+
+print(most_frequent([1,2,2,3,3,3]))  # Output: 3
+</code></pre>
+                            </div>
+
+                            <h3>4.3 Advanced Example — validating input and returning results</h3>
+                            <div class="callout note">
+                                <h3>Flow idea</h3>
+                                <ul>
+                                    <li>Validate inputs first (empty list, wrong types).</li>
+                                    <li>Then run core logic.</li>
+                                    <li>Then handle “no solution” cases gracefully.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: interview solution</h3>
+                                <pre><code>[Restate problem]
+      |
+      v
+[Choose approach + data structure]
+      |
+      v
+[Write code for main logic]
+      |
+      v
+[Test examples]
+      |
+      v
+[Edge cases]
+      |
+      v
+[Explain Big-O]
+      |
+      v
+[Finish with final output]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <table class="table" aria-label="Interview memory">
+                                <thead>
+                                    <tr>
+                                        <th>Concept</th>
+                                        <th>Why it matters</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Dict lookup</td>
+                                        <td>stores seen values for O(1) average</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lists</td>
+                                        <td>store results and iterate n items</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Counter</td>
+                                        <td>stores frequency map</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Dry run</div>
+                                    <div class="meta">two_sum</div>
+                                </div>
+                                <pre><code>nums=[2,7,11,15], target=9
+seen={}
+
+i=0, x=2
+need=7
+7 not in seen
+seen[2]=0
+
+i=1, x=7
+need=2
+2 in seen => return [seen[2],1] => [0,1]
+</code></pre>
+                            </div>
+                            <p><strong>Time:</strong> one pass O(n) • <strong>Space:</strong> seen dict O(n).</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>enumerate()</code> for index + value loops.</li>
+                                <li><code>print()</code> for debugging.</li>
+                                <li><code>len()</code> for sizes.</li>
+                            </ul>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <div class="callout note">
+                                <h3>Common interview helpers</h3>
+                                <ul>
+                                    <li><code>dict.get</code> / <code>in</code> checks.</li>
+                                    <li><code>Counter.most_common</code>.</li>
+                                    <li><code>split</code> and <code>join</code> for strings.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>How do you approach a new interview problem?</li>
+                                <li>What does it mean to restate a problem?</li>
+                                <li>How do you choose a data structure?</li>
+                                <li>Why do we test with examples?</li>
+                                <li>What are edge cases?</li>
+                                <li>How do you explain time complexity?</li>
+                                <li>How do you explain space complexity?</li>
+                                <li>What is Big-O?</li>
+                                <li>What is a dictionary lookup time?</li>
+                                <li>How do you debug off-by-one errors?</li>
+                                <li>What does “correctness first” mean?</li>
+                                <li>How do you handle missing outputs?</li>
+                                <li>When would you use a set instead of list?</li>
+                                <li>How do you count frequencies in Python?</li>
+                                <li>What is a common pattern for two-sum?</li>
+                                <li>How do you handle duplicates in arrays?</li>
+                                <li>What is memoization?</li>
+                                <li>What is sliding window concept?</li>
+                                <li>What is two pointers concept?</li>
+                                <li>What is BFS/DFS used for?</li>
+                                <li>How do you avoid infinite loops in graph problems?</li>
+                                <li>How do you handle recursion depth issues?</li>
+                                <li>How do you validate inputs in interview solutions?</li>
+                                <li>What are typical Python built-ins that help?</li>
+                                <li>How do you write clean code under pressure?</li>
+                                <li>How do you explain your plan during coding?</li>
+                                <li>What is dry run?</li>
+                                <li>Why should you check outputs step-by-step?</li>
+                                <li>How do you finish when stuck?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>Interview restating helps because:
+                                    <ul>
+                                        <li>A) clarifies requirements</li>
+                                        <li>B) changes theme</li>
+                                        <li>C) hides constraints</li>
+                                        <li>D) deletes tests</li>
+                                    </ul>
+                                </li>
+                                <li>Edge cases are:
+                                    <ul>
+                                        <li>A) unusual inputs</li>
+                                        <li>B) always large inputs</li>
+                                        <li>C) only positive numbers</li>
+                                        <li>D) only empty lists</li>
+                                    </ul>
+                                </li>
+                                <li>Big-O describes:
+                                    <ul>
+                                        <li>A) growth rate of time/space</li>
+                                        <li>B) exact runtime in ms</li>
+                                        <li>C) CSS colors</li>
+                                        <li>D) file size</li>
+                                    </ul>
+                                </li>
+                                <li>Time complexity O(n) means:
+                                    <ul>
+                                        <li>A) loop over n once</li>
+                                        <li>B) nested loops</li>
+                                        <li>C) constant time always</li>
+                                        <li>D) recursion only</li>
+                                    </ul>
+                                </li>
+                                <li>Space O(1) means:
+                                    <ul>
+                                        <li>A) constant extra memory</li>
+                                        <li>B) unlimited memory</li>
+                                        <li>C) grows with n</li>
+                                        <li>D) cache only</li>
+                                    </ul>
+                                </li>
+                                <li>Dictionary lookup average is:
+                                    <ul>
+                                        <li>A) O(1)</li>
+                                        <li>B) O(n)</li>
+                                        <li>C) O(n²)</li>
+                                        <li>D) O(log n)</li>
+                                    </ul>
+                                </li>
+                                <li>Set membership average is:
+                                    <ul>
+                                        <li>A) ~O(1)</li>
+                                        <li>B) O(n)</li>
+                                        <li>C) O(n log n)</li>
+                                        <li>D) O(1 always no hashing)</li>
+                                    </ul>
+                                </li>
+                                <li>Counter is used for:
+                                    <ul>
+                                        <li>A) frequency counts</li>
+                                        <li>B) plotting</li>
+                                        <li>C) database tables</li>
+                                        <li>D) HTML navigation</li>
+                                    </ul>
+                                </li>
+                                <li>Dry run means:
+                                    <ul>
+                                        <li>A) simulate steps on sample input</li>
+                                        <li>B) install packages</li>
+                                        <li>C) render HTML</li>
+                                        <li>D) deploy to server</li>
+                                    </ul>
+                                </li>
+                                <li>Two pointers concept uses:
+                                    <ul>
+                                        <li>A) move pointers from ends</li>
+                                        <li>B) recursion only</li>
+                                        <li>C) always nested loops</li>
+                                        <li>D) only dict</li>
+                                    </ul>
+                                </li>
+                                <li>Sliding window concept uses:
+                                    <ul>
+                                        <li>A) expand/shrink window</li>
+                                        <li>B) sort always</li>
+                                        <li>C) cache only</li>
+                                        <li>D) delete items</li>
+                                    </ul>
+                                </li>
+                                <li>Debugging off-by-one errors often means:
+                                    <ul>
+                                        <li>A) check index boundaries</li>
+                                        <li>B) change theme</li>
+                                        <li>C) remove loops</li>
+                                        <li>D) ignore tests</li>
+                                    </ul>
+                                </li>
+                                <li>Correctness first means:
+                                    <ul>
+                                        <li>A) ensure correct output before optimizing</li>
+                                        <li>B) optimize first</li>
+                                        <li>C) ignore edge cases</li>
+                                        <li>D) skip tests</li>
+                                    </ul>
+                                </li>
+                                <li>Memoization improves:
+                                    <ul>
+                                        <li>A) repeated subproblems</li>
+                                        <li>B) SEO</li>
+                                        <li>C) file size</li>
+                                        <li>D) CSS</li>
+                                    </ul>
+                                </li>
+                                <li>BFS uses a queue:
+                                    <ul>
+                                        <li>A) yes</li>
+                                        <li>B) no</li>
+                                    </ul>
+                                </li>
+                                <li>DFS typically uses recursion or a stack:
+                                    <ul>
+                                        <li>A) yes</li>
+                                        <li>B) no</li>
+                                    </ul>
+                                </li>
+                                <li>Restating problem should include:
+                                    <ul>
+                                        <li>A) inputs, outputs, constraints</li>
+                                        <li>B) only theme color</li>
+                                        <li>C) only loops</li>
+                                        <li>D) only SEO</li>
+                                    </ul>
+                                </li>
+                                <li>A set helps when you need:
+                                    <ul>
+                                        <li>A) fast membership checks</li>
+                                        <li>B) ordering always</li>
+                                        <li>C) duplicates</li>
+                                        <li>D) recursion</li>
+                                    </ul>
+                                </li>
+                                <li>Most common frequency function in interviews is:
+                                    <ul>
+                                        <li>A) Counter</li>
+                                        <li>B) plt.plot</li>
+                                        <li>C) sqlite</li>
+                                        <li>D) robots.txt</li>
+                                    </ul>
+                                </li>
+                                <li>Complexity explanation should mention:
+                                    <ul>
+                                        <li>A) loop counts and operations</li>
+                                        <li>B) colors</li>
+                                        <li>C) caching offline only</li>
+                                        <li>D) service worker</li>
+                                    </ul>
+                                </li>
+                                <li>Edge cases include empty input:
+                                    <ul>
+                                        <li>A) yes</li>
+                                        <li>B) no</li>
+                                    </ul>
+                                </li>
+                                <li>If stuck, best is:
+                                    <ul>
+                                        <li>A) print intermediate and simplify</li>
+                                        <li>B) delete everything</li>
+                                        <li>C) ignore inputs</li>
+                                        <li>D) change CSS</li>
+                                    </ul>
+                                </li>
+                                <li>Dry run helps because:
+                                    <ul>
+                                        <li>A) reveals logic mistakes</li>
+                                        <li>B) hides bugs</li>
+                                        <li>C) changes caching</li>
+                                        <li>D) no effect</li>
+                                    </ul>
+                                </li>
+                                <li>Under pressure, clean code means:
+                                    <ul>
+                                        <li>A) clear names and step-by-step flow</li>
+                                        <li>B) one-line code only</li>
+                                        <li>C) no comments</li>
+                                        <li>D) no tests</li>
+                                    </ul>
+                                </li>
+                                <li>Two-sum using dict is average:
+                                    <ul>
+                                        <li>A) O(n)</li>
+                                        <li>B) O(n²)</li>
+                                        <li>C) O(log n)</li>
+                                        <li>D) O(1)</li>
+                                    </ul>
+                                </li>
+                                <li>When analyzing complexity, you consider:
+                                    <ul>
+                                        <li>A) input size n</li>
+                                        <li>B) background color</li>
+                                        <li>C) cache name</li>
+                                        <li>D) HTML tag count</li>
+                                    </ul>
+                                </li>
+                                <li>Correctness includes returning proper value:
+                                    <ul>
+                                        <li>A) yes</li>
+                                        <li>B) no</li>
+                                    </ul>
+                                </li>
+                                <li>Testing with multiple examples helps:
+                                    <ul>
+                                        <li>A) verify logic</li>
+                                        <li>B) only looks</li>
+                                        <li>C) breaks algorithm</li>
+                                        <li>D) deletes results</li>
+                                    </ul>
+                                </li>
+                                <li>A good explanation includes:
+                                    <ul>
+                                        <li>A) why approach works</li>
+                                        <li>B) only code</li>
+                                        <li>C) no reasoning</li>
+                                        <li>D) random output</li>
+                                    </ul>
+                                </li>
+                                <li>Complexity should be explained after code:
+                                    <ul>
+                                        <li>A) usually yes</li>
+                                        <li>B) before always</li>
+                                        <li>C) never</li>
+                                        <li>D) only in comments</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Solve “reverse string” and explain complexity.</li>
+                                <li>Implement frequency count for a list using dict.</li>
+                                <li>Implement set-based deduplication while preserving order (design).</li>
+                                <li>Implement a simple anagram checker (concept).</li>
+                                <li>Dry run an anagram example with small strings.</li>
+                                <li>Implement two-sum using a dict and test on 2 cases.</li>
+                                <li>Debug: handle no-solution case properly.</li>
+                                <li>Implement “count vowels” in a string.</li>
+                                <li>Dry run count vowels for "hello".</li>
+                                <li>Implement “longest word length” in a sentence.</li>
+                                <li>Explain time complexity of each loop.</li>
+                                <li>Implement “remove duplicates from sorted list” (concept).</li>
+                                <li>Test empty string and single word.</li>
+                                <li>Write clear comments and print sample outputs.</li>
+                                <li>Implement “palindrome check” (concept).</li>
+                                <li>Debug: palindrome indexing off-by-one.</li>
+                                <li>Implement a function to validate input type.</li>
+                                <li>Write a small test harness using assert.</li>
+                                <li>Practice explaining why dict gives faster membership.</li>
+                                <li>Write final complexity statement for each.</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Solve “merge two sorted lists” conceptually.</li>
+                                <li>Solve “maximum subarray sum” using Kadane concept.</li>
+                                <li>Implement sliding window for “longest substring without repeats” concept.</li>
+                                <li>Debug: wrong window update when duplicates appear.</li>
+                                <li>Implement BFS on a grid conceptually (path length).</li>
+                                <li>Dry run BFS for 3 steps.</li>
+                                <li>Implement DFS traversal with visited set.</li>
+                                <li>Convert recursion to iterative stack (design).</li>
+                                <li>Implement “top K frequent words” using Counter.</li>
+                                <li>Explain why sorting changes complexity.</li>
+                                <li>Implement “group anagrams” (design using dict of sorted key).</li>
+                                <li>Debug: forgetting to append list for each key.</li>
+                                <li>Implement “valid parentheses” using stack (design).</li>
+                                <li>Dry run valid parentheses example "()[]".</li>
+                                <li>Explain time complexity for stack operations.</li>
+                                <li>Implement “two pointers” for sorted array target sums.</li>
+                                <li>Debug: pointer moves in wrong direction.</li>
+                                <li>Write an explanation template: plan + correctness.</li>
+                                <li>Create 5 unit tests for your functions.</li>
+                                <li>Practice complexity explanation sentences.</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Implement LRU cache (design: dict + doubly linked list idea).</li>
+                                <li>Explain how you prevent O(n) eviction (concept).</li>
+                                <li>Implement Dijkstra on a small graph concept.</li>
+                                <li>Explain why BFS fails on weighted graphs.</li>
+                                <li>Design an optimization: avoid repeated work in BFS.</li>
+                                <li>Solve “word ladder” using BFS (concept).</li>
+                                <li>Debug: visited marking too late causes cycles.</li>
+                                <li>Explain complexity: branching factor and depth.</li>
+                                <li>Implement dynamic programming for coin change (concept).</li>
+                                <li>Dry run coin change for small target.</li>
+                                <li>Debug: DP index off-by-one.</li>
+                                <li>Implement longest increasing subsequence (concept DP).</li>
+                                <li>Explain alternative: patience sorting concept.</li>
+                                <li>Design a solution explanation for interview talk track.</li>
+                                <li>Write a mock response to “what’s the trade-off?”</li>
+                                <li>Create a checklist for time/space complexity explanation.</li>
+                                <li>Implement robust input parsing (design).</li>
+                                <li>Practice writing tests before finalizing code.</li>
+                                <li>Design a retry/fail strategy for invalid input.</li>
+                                <li>Write a final “post-solution” step: reflect what you’d improve.</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment47_1.py</code>: implement two-sum with tests and complexity
+                                    comments.</li>
+                                <li>Create <code>assignment47_2.py</code>: implement frequency count with Counter and
+                                    dict comparison.</li>
+                                <li>Create <code>assignment47_3.py</code>: implement stack-based parentheses validation
+                                    and dry run.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Mock Interview Trainer</h3>
+                                <ul>
+                                    <li>Create a script that prints one question at a time from a list.</li>
+                                    <li>After the user writes a solution, they can paste output for validation.</li>
+                                    <li>Include a section to explain time/space complexity.</li>
+                                    <li>Record best answers in a JSON file.</li>
+                                    <li>Add “edge cases to test” templates for each question.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+                            <div class="callout warning">
+                                <h3>Case 1: index off-by-one</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">wrong loop range</div>
+                                    </div>
+                                    <pre><code>for i in range(len(nums)-1):
+    # misses last element
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> use correct boundaries like <code>range(len(nums))</code>.</p>
+                            </div>
+                            <div class="callout warning">
+                                <h3>Case 2: missing return for no solution</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">None handling</div>
+                                    </div>
+                                    <pre><code># forgot return None
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> return <code>None</code> explicitly.</p>
+                            </div>
+                            <div class="callout warning">
+                                <h3>Case 3: wrong update order</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">two-sum store timing</div>
+                                    </div>
+                                    <pre><code># storing x before checking need
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> check need first, then store current value (avoid reusing same
+                                    element).</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>Time limit:</strong> algorithm too slow (wrong Big-O).</li>
+                                <li><strong>Wrong answer:</strong> missed edge case or off-by-one.</li>
+                                <li><strong>Stack overflow:</strong> recursion without base case.</li>
+                                <li><strong>KeyError:</strong> using dict without checking existence.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Speak your plan out loud.</li>
+                                <li>Write tests mentally and with assert.</li>
+                                <li>Always handle “no solution” cases.</li>
+                                <li>Explain complexity clearly.</li>
+                                <li>Use clear names and comments.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                You learned a repeatable interview routine.
+                                You practiced common patterns like dict lookup and frequency counting.
+                                You also built debugging habits: edge cases, off-by-one checks, and correct return
+                                handling.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Interview cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Stage</th>
+                                        <th>What to do</th>
+                                        <th>Goal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Understand</td>
+                                        <td>restate inputs/outputs</td>
+                                        <td>clarity</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Plan</td>
+                                        <td>choose DS + approach</td>
+                                        <td>correctness</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Code</td>
+                                        <td>small functions</td>
+                                        <td>clean flow</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Test</td>
+                                        <td>examples + edge cases</td>
+                                        <td>avoid wrong answers</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Analyze</td>
+                                        <td>Big-O explanation</td>
+                                        <td>interview communication</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Interview Mode for Word Frequencies</h3>
+                                <ul>
+                                    <li>Take a paragraph input string.</li>
+                                    <li>Normalize to lowercase and split into words.</li>
+                                    <li>Print top 5 most frequent words with counts.</li>
+                                    <li>Explain time complexity.</li>
+                                    <li>Add a few unit tests.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What is the interview workflow?</li>
+                                <li>Why test edge cases?</li>
+                                <li>How do you explain Big-O?</li>
+                                <li>What are common interview bugs?</li>
+                                <li>Why correctness before optimization?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>Workflow:</strong> understand → plan → code → test → analyze complexity.
+                                    </li>
+                                    <li><strong>Edge tests:</strong> prevent wrong answers for unusual inputs.</li>
+                                    <li><strong>Big-O:</strong> describes growth of work as input size increases.</li>
+                                    <li><strong>Common bugs:</strong> off-by-one, missing returns, wrong update order.
+                                    </li>
+                                    <li><strong>Correctness first:</strong> optimization on wrong logic makes it still
+                                        wrong (just faster wrong).</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-48.html">Next Chapter</a></div>
+                            </div>
+
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

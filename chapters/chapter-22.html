@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Chapter 22 — Multithreading & Multiprocessing</title>
+  <meta name="description"
+    content="Chapter 22: Multithreading & Multiprocessing. Learn concurrency basics, threading vs processes, and how to avoid common bugs." />
+  <link rel="canonical" href="./chapters/chapter-22.html" />
+
+  <meta property="og:title" content="Chapter 22 — Multithreading & Multiprocessing" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description"
+    content="Concurrency in Python: threads vs processes, race conditions, and practice." />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 22 — Multithreading & Multiprocessing" />
+  <meta name="twitter:description" content="Threads vs processes with practice and explained answers." />
+
+  <meta name="theme-color" content="#f7f2e8" />
+
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="icon" href="data:," />
+  <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+  <div class="progress" aria-hidden="true">
+    <div></div>
+  </div>
+
+  <div class="notebook">
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="brand">
+          <strong>Python Notebook</strong>
+          <span>Chapter 22 • Offline • Search • Dark mode</span>
+        </div>
+        <div class="top-actions">
+          <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+          <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="layout">
+        <aside class="sidebar" aria-label="Sidebar navigation">
+          <h2>Chapters</h2>
+          <nav class="nav-list" aria-label="Chapter list">
+            <div class="subtle" style="padding:6px 0;">Loading…</div>
+          </nav>
+
+          <div class="callout remember" style="margin-top:12px;">
+            <h3>⭐ Remember</h3>
+            <p>Concurrency means multiple tasks overlap. Threads share memory; processes don’t.</p>
+          </div>
+        </aside>
+
+        <main class="main" aria-label="Chapter content">
+          <div class="main-inner">
+            <div class="breadcrumbs">Home • Chapter 22</div>
+            <h1 class="chapter-title">Chapter 22 — Multithreading &amp; Multiprocessing</h1>
+            <p class="subtle">Learn how to run work concurrently in Python using threads and processes. Understand
+              common issues like race conditions and how to avoid them with locks and safe data structures.</p>
+
+            <div class="nav-buttons no-print" aria-label="Chapter actions">
+              <div class="footer-actions">
+                <a class="btn" href="../chapters/chapter-21.html">Previous Chapter</a>
+                <a class="btn" href="../index.html">Back To Home</a>
+                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+              </div>
+            </div>
+
+            <div class="sticky-toc" aria-label="Table of contents">
+              <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+              <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                <a href="#objectives">Learning Objectives</a>
+                <a href="#intro">Introduction</a>
+                <a href="#theory">Theory</a>
+                <a href="#syntax">Syntax</a>
+                <a href="#examples">Examples</a>
+                <a href="#flow">Flow Diagram</a>
+                <a href="#memory">Memory Visualization</a>
+                <a href="#dryrun">Dry Run</a>
+                <a href="#builtins">Built-in Functions</a>
+                <a href="#methods">Methods</a>
+                <a href="#interview">Interview Questions</a>
+                <a href="#mcq">MCQs</a>
+                <a href="#practice">Coding Practice</a>
+                <a href="#assignments">Assignments</a>
+                <a href="#mini-project">Mini Project</a>
+                <a href="#debugging">Debugging Practice</a>
+                <a href="#errors">Common Errors</a>
+                <a href="#best">Best Practices</a>
+                <a href="#summary">Summary</a>
+                <a href="#cheatsheet">Cheat Sheet</a>
+                <a href="#challenge">Coding Challenge</a>
+                <a href="#revision">Revision Questions</a>
+                <a href="#answers">Answer Key</a>
+              </div>
+            </div>
+
+            <section id="objectives">
+              <div class="callout tip">
+                <h3>🎯 Learning Objectives</h3>
+                <ul>
+                  <li>Understand why we use concurrency.</li>
+                  <li>Use <code>threading</code> for I/O-bound tasks.</li>
+                  <li>Use <code>multiprocessing</code> for CPU-bound work.</li>
+                  <li>Learn what race conditions are.</li>
+                  <li>Use locks to protect shared state.</li>
+                </ul>
+              </div>
+            </section>
+
+            <section id="intro">
+              <h2>1) Introduction</h2>
+              <p>Sometimes your program waits: for network, disk, or user input.</p>
+              <p>Concurrency lets other work run while you wait.</p>
+              <p>Threads are lightweight; processes are heavier but avoid many memory-sharing bugs.</p>
+            </section>
+
+            <section id="theory">
+              <h2>2) Theory</h2>
+
+              <h3>2.1 Concurrency vs parallelism</h3>
+              <ul>
+                <li><strong>Concurrency</strong>: tasks overlap in time.</li>
+                <li><strong>Parallelism</strong>: tasks run at the same moment on different CPU cores.</li>
+              </ul>
+
+              <h3>2.2 Threads and the GIL (concept)</h3>
+              <p>
+                In CPython, the GIL (Global Interpreter Lock) can limit true parallel execution of Python bytecode.
+                Still, threads can be very effective for I/O-bound work.
+              </p>
+
+              <h3>2.3 Multiprocessing</h3>
+              <p>
+                Processes have their own Python interpreter and memory.
+                This helps for CPU-bound tasks (more true parallelism).
+              </p>
+
+              <h3>2.4 Race conditions</h3>
+              <p>A race condition happens when two workers change the same data at the same time and the outcome depends
+                on timing.</p>
+
+              <div class="callout warning">
+                <h3>⚠ Warning</h3>
+                <p>
+                  If threads share memory, you must protect shared variables with locks.
+                  Without locks, you may get wrong counts and rare bugs.
+                </p>
+              </div>
+            </section>
+
+            <section id="syntax">
+              <h2>3) Syntax</h2>
+
+              <div class="code-card">
+                <div class="code-header">
+                  <div class="lang">Python</div>
+                  <div class="meta">thread example</div>
+                </div>
+                <pre><code>import threading
+import time
+
+def worker(name):
+    # Simulate I/O wait
+    time.sleep(0.1)
+    print("Done:", name)
+
+threads = []
+for i in range(3):
+    t = threading.Thread(target=worker, args=(f"job-{i}",))
+    threads.append(t)
+    t.start()
+
+# Wait for all threads
+for t in threads:
+    t.join()
+</code></pre>
+              </div>
+
+              <div class="code-card">
+                <div class="code-header">
+                  <div class="lang">Python</div>
+                  <div class="meta">multiprocessing example</div>
+                </div>
+                <pre><code>import multiprocessing as mp
+
+def work(x):
+    # CPU-bound concept: square
+    return x * x
+
+if __name__ == "__main__":
+    with mp.Pool(processes=2) as pool:
+        results = pool.map(work, [1,2,3,4])
+        print(results)
+</code></pre>
+              </div>
+
+              <p><strong>Time:</strong> depends on task type • <strong>Space:</strong> depends on data copies.</p>
+              <p><strong>Alternative:</strong> use <code>concurrent.futures</code> (simple API for threads/process
+                pools).</p>
+            </section>
+
+            <section id="examples">
+              <h2>4) Examples</h2>
+
+              <h3>4.1 Easy Example — thread-safe counter (lock)</h3>
+              <div class="code-card">
+                <div class="code-header">
+                  <div class="lang">Python</div>
+                  <div class="meta">lock protects shared value</div>
+                </div>
+                <pre><code>import threading
+
+counter = 0
+counter_lock = threading.Lock()
+
+def inc(n):
+    global counter
+    for _ in range(n):
+        # Lock makes update atomic (concept)
+        with counter_lock:
+            counter += 1
+
+threads = [
+    threading.Thread(target=inc, args=(5000,)),
+    threading.Thread(target=inc, args=(5000,)),
+]
+
+for t in threads:
+    t.start()
+for t in threads:
+    t.join()
+
+print("counter =", counter)  # Expected: 10000
+</code></pre>
+              </div>
+              <p><strong>Output:</strong> counter should be exactly 10000.</p>
+              <p><strong>Time:</strong> O(n) increments • <strong>Space:</strong> O(1) extra.</p>
+
+              <h3>4.2 Medium Example — race condition demo (no lock)</h3>
+              <div class="callout note">
+                <h3>Why it fails</h3>
+                <p><code>counter += 1</code> is not atomic in Python. Two threads can interleave and lose updates.</p>
+              </div>
+              <div class="code-card">
+                <div class="code-header">
+                  <div class="lang">Python</div>
+                  <div class="meta">race condition risk</div>
+                </div>
+                <pre><code>import threading
+
+counter = 0
+
+def inc(n):
+    global counter
+    for _ in range(n):
+        counter += 1  # not protected
+
+threads = [
+    threading.Thread(target=inc, args=(50000,)),
+    threading.Thread(target=inc, args=(50000,)),
+]
+
+for t in threads:
+    t.start()
+for t in threads:
+    t.join()
+
+print("counter =", counter)
+</code></pre>
+              </div>
+              <p><strong>Output:</strong> may be less than 100000 (depends on timing).</p>
+
+              <h3>4.3 Advanced Example — thread pool for I/O tasks</h3>
+              <div class="code-card">
+                <div class="code-header">
+                  <div class="lang">Python</div>
+                  <div class="meta">concurrent futures concept</div>
+                </div>
+                <pre><code>from concurrent.futures import ThreadPoolExecutor
+import time
+
+def fetch_sim(url):
+    # I/O wait simulation
+    time.sleep(0.2)
+    return f"data for {url}"
+
+urls = ["a.com", "b.com", "c.com"]
+
+with ThreadPoolExecutor(max_workers=3) as ex:
+    results = list(ex.map(fetch_sim, urls))
+
+print(results)
+</code></pre>
+              </div>
+              <p><strong>Time:</strong> roughly O(total_wait / workers) for I/O simulation.</p>
+            </section>
+
+            <section id="flow">
+              <h2>5) Flow Diagram</h2>
+              <div class="callout note">
+                <h3>Flowchart: threads with join</h3>
+                <pre><code>[Create threads]
+   |
+   v
+ [Start each thread]
+   |
+   v
+ [Threads run worker()]
+   |
+   v
+ [Main calls join()]
+   |
+   v
+ [All threads finished → continue]
+</code></pre>
+              </div>
+            </section>
+
+            <section id="memory">
+              <h2>6) Memory Visualization</h2>
+              <table class="table" aria-label="Thread vs process memory">
+                <thead>
+                  <tr>
+                    <th>Model</th>
+                    <th>Memory sharing</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Threads</td>
+                    <td>Share same process memory (risk of race conditions)</td>
+                  </tr>
+                  <tr>
+                    <td>Processes</td>
+                    <td>Separate memory spaces (safer for data isolation)</td>
+                  </tr>
+                  <tr>
+                    <td>Passing data</td>
+                    <td>Copy/serialize when using multiprocessing</td>
+                  </tr>
+                </tbody>
+              </table>
+            </section>
+
+            <section id="dryrun">
+              <h2>7) Dry Run</h2>
+              <div class="code-card">
+                <div class="code-header">
+                  <div class="lang">Dry run</div>
+                  <div class="meta">race condition idea</div>
+                </div>
+                <pre><code>counter starts at 0
+Thread A reads counter -> 0
+Thread B reads counter -> 0
+Thread A writes counter -> 1
+Thread B writes counter -> 1
+
+One increment got lost.
+With lock, increments are serialized.
+</code></pre>
+              </div>
+            </section>
+
+            <section id="builtins">
+              <h2>8) Built-in Functions</h2>
+              <ul>
+                <li><code>print()</code> for logs.</li>
+                <li><code>sum()</code> (when aggregating results from workers conceptually).</li>
+              </ul>
+            </section>
+
+            <section id="methods">
+              <h2>9) Methods</h2>
+              <div class="callout note">
+                <h3>Important concurrency methods</h3>
+                <ul>
+                  <li><code>threading.Thread(...)</code></li>
+                  <li><code>start()</code> and <code>join()</code></li>
+                  <li><code>Lock()</code> and <code>with lock:</code></li>
+                  <li><code>multiprocessing.Pool().map()</code></li>
+                </ul>
+              </div>
+            </section>
+
+            <section id="interview">
+              <h2>10) Interview Questions (Minimum 30)</h2>
+              <ol>
+                <li>What is concurrency?</li>
+                <li>What is parallelism?</li>
+                <li>When do we use threads?</li>
+                <li>When do we use processes?</li>
+                <li>What is the GIL (concept)?</li>
+                <li>What is a race condition?</li>
+                <li>Why is <code>counter += 1</code> unsafe without locks?</li>
+                <li>What does <code>join()</code> do?</li>
+                <li>What does <code>start()</code> do?</li>
+                <li>What is a lock?</li>
+                <li>How does a lock prevent race conditions?</li>
+                <li>Is a lock always necessary?</li>
+                <li>What happens if you share a list between threads?</li>
+                <li>What is a thread-safe data structure?</li>
+                <li>What is <code>ThreadPoolExecutor</code>?</li>
+                <li>What is <code>ProcessPoolExecutor</code> (concept)?</li>
+                <li>Why do multiprocessing require <code>if __name__ == "__main__"</code>?</li>
+                <li>What is serialization in multiprocessing?</li>
+                <li>What is overhead in multiprocessing?</li>
+                <li>Which is better for I/O-bound tasks?</li>
+                <li>Which is better for CPU-bound tasks?</li>
+                <li>What is a deadlock?</li>
+                <li>What is starvation (concept)?</li>
+                <li>How do you avoid deadlocks?</li>
+                <li>How do you test concurrency code?</li>
+                <li>What are non-deterministic bugs?</li>
+                <li>How do you handle exceptions inside workers?</li>
+                <li>When should you avoid sharing mutable state?</li>
+                <li>How can you reduce lock contention?</li>
+              </ol>
+            </section>
+
+            <section id="mcq">
+              <h2>11) MCQs (Minimum 30)</h2>
+              <ol>
+                <li>Concurrency means:
+                  <ul>
+                    <li>A) tasks overlap</li>
+                    <li>B) tasks run exactly one at a time</li>
+                    <li>C) only UI work</li>
+                    <li>D) only SEO</li>
+                  </ul>
+                </li>
+                <li>Parallelism means:
+                  <ul>
+                    <li>A) overlapping in time</li>
+                    <li>B) running at the same moment on cores</li>
+                    <li>C) caching only</li>
+                    <li>D) printing only</li>
+                  </ul>
+                </li>
+                <li>Threads share:
+                  <ul>
+                    <li>A) memory</li>
+                    <li>B) separate memory always</li>
+                    <li>C) CSS files</li>
+                    <li>D) network only</li>
+                  </ul>
+                </li>
+                <li>Processes share:
+                  <ul>
+                    <li>A) memory directly</li>
+                    <li>B) separate memory spaces</li>
+                    <li>C) only themes</li>
+                    <li>D) nothing</li>
+                  </ul>
+                </li>
+                <li>A race condition happens when:
+                  <ul>
+                    <li>A) timing affects shared state</li>
+                    <li>B) inputs are validated</li>
+                    <li>C) you only use join</li>
+                    <li>D) code is empty</li>
+                  </ul>
+                </li>
+                <li><code>join()</code> is used to:
+                  <ul>
+                    <li>A) wait for threads</li>
+                    <li>B) start threads</li>
+                    <li>C) delete threads</li>
+                    <li>D) search files</li>
+                  </ul>
+                </li>
+                <li>A lock is used to:
+                  <ul>
+                    <li>A) protect shared data</li>
+                    <li>B) hide bugs</li>
+                    <li>C) change colors</li>
+                    <li>D) deploy code</li>
+                  </ul>
+                </li>
+                <li>Without locks, <code>counter += 1</code> can:
+                  <ul>
+                    <li>A) lose updates</li>
+                    <li>B) become atomic</li>
+                    <li>C) always correct</li>
+                    <li>D) throw SyntaxError only</li>
+                  </ul>
+                </li>
+                <li>Threads are good for:
+                  <ul>
+                    <li>A) I/O-bound tasks</li>
+                    <li>B) only CPU-bound tasks</li>
+                    <li>C) only CSS</li>
+                    <li>D) only offline caching</li>
+                  </ul>
+                </li>
+                <li>Processes are good for:
+                  <ul>
+                    <li>A) CPU-bound tasks</li>
+                    <li>B) only for HTML</li>
+                    <li>C) only for SEO</li>
+                    <li>D) only for strings</li>
+                  </ul>
+                </li>
+                <li>The GIL affects:
+                  <ul>
+                    <li>A) Python bytecode parallelism in CPython</li>
+                    <li>B) CSS gradients</li>
+                    <li>C) sitemap generation</li>
+                    <li>D) HTML anchors</li>
+                  </ul>
+                </li>
+                <li>In multiprocessing, data transfer uses:
+                  <ul>
+                    <li>A) serialization/copying</li>
+                    <li>B) direct shared pointers always</li>
+                    <li>C) only HTML</li>
+                    <li>D) only CSS</li>
+                  </ul>
+                </li>
+                <li><code>if __name__ == "__main__"</code> prevents:
+                  <ul>
+                    <li>A) recursive process spawning</li>
+                    <li>B) decoding errors</li>
+                    <li>C) lock contention</li>
+                    <li>D) mark highlighting</li>
+                  </ul>
+                </li>
+                <li>Deadlock means:
+                  <ul>
+                    <li>A) threads/processes wait forever</li>
+                    <li>B) cache is ready</li>
+                    <li>C) code prints</li>
+                    <li>D) SEO works</li>
+                  </ul>
+                </li>
+                <li>Starvation means:
+                  <ul>
+                    <li>A) some workers never get CPU time</li>
+                    <li>B) all workers finish immediately</li>
+                    <li>C) file not found</li>
+                    <li>D) theme changes</li>
+                  </ul>
+                </li>
+                <li>ThreadPoolExecutor is used to:
+                  <ul>
+                    <li>A) run tasks concurrently with threads</li>
+                    <li>B) run tasks serially always</li>
+                    <li>C) change CSS</li>
+                    <li>D) generate sitemap</li>
+                  </ul>
+                </li>
+                <li>ProcessPoolExecutor is conceptually:
+                  <ul>
+                    <li>A) runs tasks in processes</li>
+                    <li>B) runs tasks in threads only</li>
+                    <li>C) edits HTML</li>
+                    <li>D) caches JS</li>
+                  </ul>
+                </li>
+                <li>Lock contention means:
+                  <ul>
+                    <li>A) too many tasks waiting for same lock</li>
+                    <li>B) theme waiting</li>
+                    <li>C) network caching</li>
+                    <li>D) sitemap waiting</li>
+                  </ul>
+                </li>
+                <li>Race condition is often:
+                  <ul>
+                    <li>A) non-deterministic</li>
+                    <li>B) always deterministic</li>
+                    <li>C) always obvious</li>
+                    <li>D) only on startup</li>
+                  </ul>
+                </li>
+                <li>Best practice: minimize shared mutable state when:
+                  <ul>
+                    <li>A) threads are used</li>
+                    <li>B) only CSS is used</li>
+                    <li>C) no concurrency</li>
+                    <li>D) only print</li>
+                  </ul>
+                </li>
+                <li>In lock-protected code, <code>with lock</code> ensures:
+                  <ul>
+                    <li>A) safe critical section</li>
+                    <li>B) no code runs</li>
+                    <li>C) wrong output always</li>
+                    <li>D) caching only</li>
+                  </ul>
+                </li>
+                <li>Multiprocessing can improve:
+                  <ul>
+                    <li>A) CPU-bound performance via multiple cores</li>
+                    <li>B) only SEO</li>
+                    <li>C) only HTML formatting</li>
+                    <li>D) only theme toggles</li>
+                  </ul>
+                </li>
+                <li>True parallelism is more likely with:
+                  <ul>
+                    <li>A) multiprocessing</li>
+                    <li>B) only threads in CPython</li>
+                    <li>C) only strings</li>
+                    <li>D) only CSS</li>
+                  </ul>
+                </li>
+                <li>What is overhead?
+                  <ul>
+                    <li>A) extra work for starting/syncing workers</li>
+                    <li>B) code is shorter</li>
+                    <li>C) CSS improved</li>
+                    <li>D) no tasks</li>
+                  </ul>
+                </li>
+                <li>You should avoid:
+                  <ul>
+                    <li>A) updating shared variables without lock</li>
+                    <li>B) using print</li>
+                    <li>C) using join</li>
+                    <li>D) using decode</li>
+                  </ul>
+                </li>
+                <li>Time complexity in threading examples depends on:
+                  <ul>
+                    <li>A) work per task</li>
+                    <li>B) sidebar dots</li>
+                    <li>C) robots.txt</li>
+                    <li>D) mark tags</li>
+                  </ul>
+                </li>
+                <li>Space complexity depends on:
+                  <ul>
+                    <li>A) data you store/transfer</li>
+                    <li>B) theme color</li>
+                    <li>C) canonical tag</li>
+                    <li>D) nothing</li>
+                  </ul>
+                </li>
+                <li>Correct output requirement means:
+                  <ul>
+                    <li>A) must synchronize shared state</li>
+                    <li>B) can ignore locks</li>
+                    <li>C) can delete tests</li>
+                    <li>D) can change sitemap</li>
+                  </ul>
+                </li>
+                <li>To reduce race risks, you can:
+                  <ul>
+                    <li>A) use locks or worker-local data</li>
+                    <li>B) remove join</li>
+                    <li>C) remove tests</li>
+                    <li>D) change CSS only</li>
+                  </ul>
+                </li>
+                <li>Concurrency is useful when:
+                  <ul>
+                    <li>A) tasks wait for external resources</li>
+                    <li>B) tasks are always instantaneous</li>
+                    <li>C) no input needed</li>
+                    <li>D) only printing</li>
+                  </ul>
+                </li>
+              </ol>
+            </section>
+
+            <section id="practice">
+              <h2>12) Coding Practice</h2>
+              <h3>Easy (20)</h3>
+              <ol>
+                <li>Create 3 threads that print messages (join at end).</li>
+                <li>Make thread worker accept arguments with <code>args=...</code>.</li>
+                <li>Simulate I/O with <code>time.sleep</code> and run multiple threads.</li>
+                <li>Create a thread that updates a local variable (no shared state).</li>
+                <li>Write a function that returns a value; collect results using a list (concept).</li>
+                <li>Use a lock to protect a shared counter increment.</li>
+                <li>Run the counter with lock and verify exact result.</li>
+                <li>Run the same counter without a lock and observe wrong output sometimes.</li>
+                <li>Add exception handling inside worker threads (concept).</li>
+                <li>Create 2 threads and ensure main waits with <code>join()</code>.</li>
+                <li>Write a simple queue-based thread producer/consumer (concept).</li>
+                <li>Use <code>Queue</code> to avoid shared list race.</li>
+                <li>Explain why <code>join()</code> is required.</li>
+                <li>Compute time complexity of increment loop (O(n)).</li>
+                <li>Compute space complexity for your data structures.</li>
+                <li>Dry run: show how lock serializes increments.</li>
+                <li>Create a thread pool using <code>ThreadPoolExecutor</code> (concept).</li>
+                <li>Run thread pool for simulated fetch tasks.</li>
+                <li>Print the order differences between runs.</li>
+                <li>Write logs for thread start/end (concept).</li>
+              </ol>
+
+              <h3>Medium (20)</h3>
+              <ol>
+                <li>Convert your thread code into <code>ThreadPoolExecutor</code>.</li>
+                <li>Implement a producer thread that reads items and puts into <code>Queue</code>.</li>
+                <li>Implement multiple consumer threads reading from <code>Queue</code>.</li>
+                <li>Use a sentinel value to stop consumers (concept).</li>
+                <li>Write multiprocessing example: compute squares using <code>Pool.map</code>.</li>
+                <li>Compare threads vs processes for CPU simulation (concept).</li>
+                <li>Add result aggregation after workers finish.</li>
+                <li>Implement a safe shared counter in multiprocessing using a <code>Lock</code> (concept).</li>
+                <li>Handle “if __name__ == '__main__'” correctly in multiprocessing.</li>
+                <li>Dry run: show how separate processes avoid shared memory race.</li>
+                <li>Implement a shared dictionary update with lock (concept).</li>
+                <li>Create a workload function that is deterministic for testing.</li>
+                <li>Write tests mentally: ensure expected totals.</li>
+                <li>Predict output ordering when using threads.</li>
+                <li>Benchmark concept: measure total elapsed time for I/O simulation.</li>
+                <li>Explain why CPU-bound tasks may not speed up with threads (concept).</li>
+                <li>Explain serialization overhead for multiprocessing (concept).</li>
+                <li>Design a critical section scope smaller using lock (design).</li>
+                <li>Refactor worker into smaller helper functions.</li>
+                <li>Write a short report: which model you chose and why.</li>
+              </ol>
+
+              <h3>Hard (20)</h3>
+              <ol>
+                <li>Implement producer/consumer with bounded queue size (concept).</li>
+                <li>Detect deadlock scenario by designing lock order (concept).</li>
+                <li>Implement two shared counters with separate locks (design).</li>
+                <li>Use condition variables (concept).</li>
+                <li>Implement multiprocessing with chunking to reduce overhead (design).</li>
+                <li>Implement timeout on worker tasks (concept).</li>
+                <li>Build a pipeline: process input chunks → compute → aggregate.</li>
+                <li>Design for determinism: sorting results before output.</li>
+                <li>Implement graceful shutdown for workers (concept).</li>
+                <li>Modify the server to send a “Welcome” message immediately after accept.</li>
+                <li>Set <code>recv</code> buffer size to 16 and test short messages.</li>
+                <li>Decode received bytes and print text (UTF-8).</li>
+                <li>Add a <code>try/except</code> block around <code>recv</code>.</li>
+                <li>Implement a TCP client that sends two messages with a pause (concept).</li>
+                <li>Dry run: predict what happens when the client closes connection.</li>
+                <li>Write UDP client that sends one datagram and prints reply.</li>
+                <li>Write UDP server that prints received text and sender address.</li>
+                <li>Add timeout to a client and handle <code>socket.timeout</code>.</li>
+                <li>Explain how to choose TCP vs UDP for a chat app vs video streaming (concept).</li>
+                <li>Implement a simple “ping” UDP message loop (concept).</li>
+                <li>Print the raw bytes and the decoded string.</li>
+                <li>Change server port and confirm client still works (concept).</li>
+                <li>Write a function that encodes a message and returns bytes.</li>
+                <li>Dry run: what does <code>if not data:</code> mean in TCP?</li>
+                <li>Implement graceful close in client (finally block).</li>
+                <li>Write minimal exception messages for connect failures.</li>
+                <li>Add logging prints: “connected”, “sent”, “received”.</li>
+              </ol>
+
+              <h3>Medium (20)</h3>
+              <ol>
+                <li>Implement a TCP server that handles multiple messages in a loop per client.</li>
+                <li>Implement a “protocol” where client sends <code><len>:<payload></code>.</li>
+                <li>Build a parser for that protocol (design).</li>
+                <li>Write a client that sends payload longer than 1024 bytes and observe behavior (concept).</li>
+                <li>Add logic to collect until full payload is received based on length header (concept).</li>
+                <li>Implement UDP message counter on server (keep count per run).</li>
+                <li>Design a retry mechanism for UDP client (concept).</li>
+                <li>Dry run: explain why TCP may split payload but UDP usually arrives as one datagram.</li>
+                <li>Create a function <code>send_message(sock, text)</code> for encoding + send.</li>
+                <li>Create a function <code>recv_text(sock)</code> for decoding with a strategy (design).</li>
+                <li>Implement “echo” using UDP (sendto back to sender).</li>
+                <li>Use <code>socket.gethostbyname</code> to resolve a host (concept).</li>
+                <li>Implement input validation: reject empty messages before sending.</li>
+                <li>Handle Unicode decode errors by fallback strategy (concept).</li>
+                <li>Write a small test plan: connect, send, receive, close.</li>
+                <li>Compare complexity of reading N bytes for TCP vs UDP (concept: O(N)).</li>
+                <li>Write comments explaining each networking line (concept).</li>
+                <li>Implement a “chat room” concept: store last message (design).</li>
+                <li>Debug: fix wrong decode charset that causes garbled text.</li>
+                <li>Explain timeouts and how they affect reliability (concept).</li>
+              </ol>
+
+              <h3>Hard (20)</h3>
+              <ol>
+                <li>Implement message framing for TCP using length-prefix protocol.</li>
+                <li>Add support for multiple clients concurrently (concept: threads or async).</li>
+                <li>Debug race conditions in shared state (concept).</li>
+                <li>Implement graceful shutdown (close server loop when keyboard interrupt happens).</li>
+                <li>Design a heartbeat protocol to detect dead clients (concept).</li>
+                <li>Implement retry with exponential backoff (concept).</li>
+                <li>Write a mini file transfer over TCP (concept, chunking).</li>
+                <li>Dry run: predict what happens if sender closes early during file transfer.</li>
+                <li>Implement integrity check (hash) for transferred chunks (concept).</li>
+                <li>Design a safe JSON messaging protocol for request/response (concept).</li>
+                <li>Debug: handle partial JSON reads in TCP (concept).</li>
+                <li>Implement request IDs and match responses (design).</li>
+                <li>Write tests for your protocol parser (no real network, unit tests).</li>
+                <li>Explain why “recv once” is often wrong for TCP (concept).</li>

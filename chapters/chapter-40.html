@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 40 — NLP</title>
+    <meta name="description"
+        content="Chapter 40: NLP. Learn text preprocessing, tokens, bags of words concept, simple classifiers, and evaluation." />
+    <link rel="canonical" href="./chapters/chapter-40.html" />
+
+    <meta property="og:title" content="Chapter 40 — NLP" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description"
+        content="NLP concepts with practice: tokenization, preprocessing, vectorization, and simple modeling." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 40 — NLP" />
+    <meta name="twitter:description" content="Learn NLP fundamentals with practice and explained answers." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 40 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout remember" style="margin-top:12px;">
+                        <h3>⭐ Remember</h3>
+                        <p>
+                            NLP converts text into numbers.
+                            Then we can use ML methods to classify or predict.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 40</div>
+                        <h1 class="chapter-title">Chapter 40 — NLP (Natural Language Processing)</h1>
+                        <p class="subtle">Learn text preprocessing, tokenization, vectorization (bag-of-words concept),
+                            and building a tiny text classifier with practice.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-39.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <ul>
+                                    <li>Understand what NLP does.</li>
+                                    <li>Learn text preprocessing steps (lowercase, cleaning concept).</li>
+                                    <li>Understand tokenization into words (concept).</li>
+                                    <li>Convert text to vectors using bag-of-words idea.</li>
+                                    <li>Build and evaluate a tiny classifier conceptually.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                Text looks simple to humans.
+                                But computers need numbers.
+                            </p>
+                            <p>
+                                NLP is the field that turns text into numeric features so ML can learn from it.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 Tokenization</h3>
+                            <p>
+                                Tokenization means splitting text into pieces called tokens.
+                                Often tokens are words.
+                            </p>
+
+                            <h3>2.2 Preprocessing</h3>
+                            <p>
+                                Common preprocessing steps:
+                            </p>
+                            <ul>
+                                <li>Lowercase text</li>
+                                <li>Remove punctuation (concept)</li>
+                                <li>Split into tokens</li>
+                            </ul>
+
+                            <h3>2.3 Bag-of-Words (BoW) concept</h3>
+                            <p>
+                                BoW makes a vocabulary of all words.
+                                Then each sentence becomes a vector where each position is a word count.
+                            </p>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    BoW loses word order.
+                                    “I love dogs” and “dogs love I” can look similar.
+                                </p>
+                            </div>
+
+                            <h3>2.4 Simple classification concept</h3>
+                            <p>
+                                Once text is converted into vectors, you can use ML algorithms.
+                                We will build a tiny nearest-centroid / majority approach for explanation.
+                            </p>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">tokenize + bag-of-words vector</div>
+                                </div>
+                                <pre><code>import re
+from collections import Counter
+
+
+def preprocess(text):
+    # Lowercase for consistency
+    text = text.lower()
+    # Keep letters/numbers/spaces only (simple concept)
+    text = re.sub(r"[^a-z0-9\s]", " ", text)
+    # Split into tokens
+    tokens = text.split()
+    return tokens
+
+
+def bow_vector(tokens, vocab):
+    # vocab is a list of known words
+    counts = Counter(tokens)
+    # Create vector in vocab order
+    return [counts.get(word, 0) for word in vocab]
+
+
+text = "I love dogs!"
+print(preprocess(text))
+</code></pre>
+                            </div>
+
+                            <p><strong>Time:</strong> O(n) for tokenization + O(|vocab|) for vector •
+                                <strong>Space:</strong> O(|vocab|).</p>
+                            <p><strong>Alternative:</strong> use TF-IDF (later concept) for better weighting.</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — vocabulary + vectors</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">BoW for two sentences</div>
+                                </div>
+                                <pre><code>import re
+from collections import Counter
+
+
+def preprocess(text):
+    text = text.lower()
+    text = re.sub(r"[^a-z0-9\s]", " ", text)
+    return text.split()
+
+
+sent1 = "I love dogs"
+sent2 = "I hate cats"
+
+t1 = preprocess(sent1)
+t2 = preprocess(sent2)
+
+vocab = sorted(set(t1 + t2))
+
+v1 = [Counter(t1).get(w,0) for w in vocab]
+v2 = [Counter(t2).get(w,0) for w in vocab]
+
+print("vocab:", vocab)
+print("v1:", v1)
+print("v2:", v2)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> a vocab list and two integer count vectors.</p>
+
+                            <h3>4.2 Medium Example — tiny rule-based classifier</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">keyword counts (concept)</div>
+                                </div>
+                                <pre><code>import re
+
+
+def preprocess(text):
+    text = text.lower()
+    text = re.sub(r"[^a-z0-9\s]", " ", text)
+    return text.split()
+
+
+def predict_sentiment(text):
+    tokens = preprocess(text)
+
+    positive_words = {"love", "great", "awesome"}
+    negative_words = {"hate", "bad", "awful"}
+
+    pos = sum(1 for t in tokens if t in positive_words)
+    neg = sum(1 for t in tokens if t in negative_words)
+
+    if pos > neg:
+        return "positive"
+    if neg > pos:
+        return "negative"
+    return "neutral"
+
+
+print(predict_sentiment("I love this"))
+print(predict_sentiment("I hate that"))
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> positive/negative/neutral labels.</p>
+
+                            <h3>4.3 Advanced Example — nearest centroid concept</h3>
+                            <div class="callout note">
+                                <h3>Flow idea</h3>
+                                <ul>
+                                    <li>Compute average vector for each class (centroid).</li>
+                                    <li>For a new vector, choose the closest centroid.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: NLP pipeline</h3>
+                                <pre><code>[Raw text]
+     |
+     v
+[Preprocess]
+     |
+     v
+[Tokenize]
+     |
+     v
+[Vectorize (BoW)]
+     |
+     v
+[Train/Decision]
+     |
+     v
+[Predict label/value]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <table class="table" aria-label="NLP memory">
+                                <thead>
+                                    <tr>
+                                        <th>Part</th>
+                                        <th>Stored as</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Tokens</td>
+                                        <td>list of words</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Vocabulary</td>
+                                        <td>list of unique words</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Vector</td>
+                                        <td>counts per vocabulary word</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Model</td>
+                                        <td>class centroids or rules</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Dry run</div>
+                                    <div class="meta">BoW example</div>
+                                </div>
+                                <pre><code>Vocabulary: [cat, love, hate]
+Sentence: "I love cats"
+Tokens: [i, love, cats] (after cleanup maybe cats→cats)
+Counts:
+  love: 1
+  hate: 0
+  cat: 0 (depends on normalization)
+Vector: [0, 1, 0]
+
+Output depends on how you preprocess plural words.
+</code></pre>
+                            </div>
+                            <p><strong>Tip:</strong> token normalization (like stemming) improves matching (concept).
+                            </p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>re.sub()</code> for cleaning punctuation (concept).</li>
+                                <li><code>split()</code> to tokenize.</li>
+                                <li><code>sum()</code> for keyword counting.</li>
+                            </ul>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <div class="callout note">
+                                <h3>Common NLP helper methods</h3>
+                                <ul>
+                                    <li><code>tokens = text.split()</code></li>
+                                    <li><code>Counter(tokens)</code></li>
+                                    <li><code>dict.get(word, 0)</code></li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is NLP?</li>
+                                <li>Why do we need to convert text into numbers?</li>
+                                <li>What is tokenization?</li>
+                                <li>What is preprocessing in NLP?</li>
+                                <li>What is a vocabulary?</li>
+                                <li>What does BoW stand for?</li>
+                                <li>How does BoW represent text?</li>
+                                <li>Does BoW keep word order?</li>
+                                <li>What is the main disadvantage of BoW?</li>
+                                <li>What is TF-IDF (concept)?</li>
+                                <li>What is a feature vector?</li>
+                                <li>What is classification?</li>
+                                <li>What is sentiment analysis (example)?</li>
+                                <li>How does a classifier use vectors?</li>
+                                <li>What is a token?</li>
+                                <li>Why do we lowercase text?</li>
+                                <li>Why remove punctuation?</li>
+                                <li>What is stemming/lemmatization (concept)?</li>
+                                <li>What is a stop word (concept)?</li>
+                                <li>What is data leakage in NLP (concept)?</li>
+                                <li>Why train/test split matters?</li>
+                                <li>What is overfitting?</li>
+                                <li>What is embedding (concept)?</li>
+                                <li>What is the purpose of embeddings?</li>
+                                <li>How can you handle rare words?</li>
+                                <li>What is OOV (out of vocabulary)?</li>
+                                <li>How does vector size affect models?</li>
+                                <li>What is dimensionality?</li>
+                                <li>Why do we use evaluation metrics?</li>
+                                <li>Explain precision vs recall (concept).</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>NLP stands for:
+                                    <ul>
+                                        <li>A) Network Processing Language</li>
+                                        <li>B) Natural Language Processing</li>
+                                        <li>C) Numeric List Processing</li>
+                                        <li>D) Neural Logic Programming</li>
+                                    </ul>
+                                </li>
+                                <li>Tokenization means:
+                                    <ul>
+                                        <li>A) splitting text into tokens</li>
+                                        <li>B) caching CSS</li>
+                                        <li>C) writing SQL</li>
+                                        <li>D) converting HTML to PDF</li>
+                                    </ul>
+                                </li>
+                                <li>BoW represents text as:
+                                    <ul>
+                                        <li>A) a sequence of characters</li>
+                                        <li>B) a vector of word counts</li>
+                                        <li>C) an image</li>
+                                        <li>D) a database table</li>
+                                    </ul>
+                                </li>
+                                <li>BoW keeps word order:
+                                    <ul>
+                                        <li>A) yes</li>
+                                        <li>B) no</li>
+                                    </ul>
+                                </li>
+                                <li>Vocabulary is:
+                                    <ul>
+                                        <li>A) list of unique words</li>
+                                        <li>B) list of punctuation</li>
+                                        <li>C) list of CSS colors</li>
+                                        <li>D) none</li>
+                                    </ul>
+                                </li>
+                                <li>Lowercasing helps because:
+                                    <ul>
+                                        <li>A) reduces duplicates like Love vs love</li>
+                                        <li>B) changes numbers only</li>
+                                        <li>C) deletes tokens</li>
+                                        <li>D) makes regex invalid</li>
+                                    </ul>
+                                </li>
+                                <li>Removing punctuation is:
+                                    <ul>
+                                        <li>A) part of preprocessing</li>
+                                        <li>B) required by PWA</li>
+                                        <li>C) part of SQL</li>
+                                        <li>D) theme toggle</li>
+                                    </ul>
+                                </li>
+                                <li>A feature vector is:
+                                    <ul>
+                                        <li>A) numeric representation of input</li>
+                                        <li>B) HTML string</li>
+                                        <li>C) file path</li>
+                                        <li>D) CSS stylesheet</li>
+                                    </ul>
+                                </li>
+                                <li>Classification means:
+                                    <ul>
+                                        <li>A) predicting categories/labels</li>
+                                        <li>B) predicting colors</li>
+                                        <li>C) printing graphs</li>
+                                        <li>D) only saving files</li>
+                                    </ul>
+                                </li>
+                                <li>Sentiment analysis is:
+                                    <ul>
+                                        <li>A) predicting positive/negative sentiment</li>
+                                        <li>B) predicting CPU usage</li>
+                                        <li>C) listing tables</li>
+                                        <li>D) regex matching only</li>
+                                    </ul>
+                                </li>
+                                <li>OOV stands for:
+                                    <ul>
+                                        <li>A) Out of Vocabulary</li>
+                                        <li>B) Online Output Value</li>
+                                        <li>C) Open API Vendor</li>
+                                        <li>D) Only HTML Output</li>
+                                    </ul>
+                                </li>
+                                <li>BoW disadvantage is:
+                                    <ul>
+                                        <li>A) loses word order</li>
+                                        <li>B) keeps word order</li>
+                                        <li>C) uses images</li>
+                                        <li>D) cannot vectorize</li>
+                                    </ul>
+                                </li>
+                                <li>TF-IDF concept helps because:
+                                    <ul>
+                                        <li>A) weights rare words higher</li>
+                                        <li>B) always deletes words</li>
+                                        <li>C) changes theme</li>
+                                        <li>D) bypasses training</li>
+                                    </ul>
+                                </li>
+                                <li>Tokenization typically yields:
+                                    <ul>
+                                        <li>A) list of words</li>
+                                        <li>B) list of CSS variables</li>
+                                        <li>C) list of files</li>
+                                        <li>D) none</li>
+                                    </ul>
+                                </li>
+                                <li>Vectorization converts:
+                                    <ul>
+                                        <li>A) text → numbers</li>
+                                        <li>B) numbers → text</li>
+                                        <li>C) HTML → CSS</li>
+                                        <li>D) code → comments</li>
+                                    </ul>
+                                </li>
+                                <li>BoW vector size equals:
+                                    <ul>
+                                        <li>A) vocabulary size</li>
+                                        <li>B) sentence length only</li>
+                                        <li>C) file size</li>
+                                        <li>D) nothing</li>
+                                    </ul>
+                                </li>
+                                <li>Counting words with Counter uses:
+                                    <ul>
+                                        <li>A) frequencies</li>
+                                        <li>B) colors</li>
+                                        <li>C) databases</li>
+                                        <li>D) time complexity only</li>
+                                    </ul>
+                                </li>
+                                <li>Preprocessing usually includes:
+                                    <ul>
+                                        <li>A) lowercasing and cleaning</li>
+                                        <li>B) service worker caching</li>
+                                        <li>C) sitemap generation</li>
+                                        <li>D) only plotting</li>
+                                    </ul>
+                                </li>
+                                <li>Evaluation metrics help to:
+                                    <ul>
+                                        <li>A) measure quality</li>
+                                        <li>B) change fonts</li>
+                                        <li>C) create TOC</li>
+                                        <li>D) install PWA</li>
+                                    </ul>
+                                </li>
+                                <li>Overfitting in NLP means:
+                                    <ul>
+                                        <li>A) good on train, bad on new text</li>
+                                        <li>B) always accurate</li>
+                                        <li>C) no training</li>
+                                        <li>D) theme issues</li>
+                                    </ul>
+                                </li>
+                                <li>Feature scaling concept is mainly for:
+                                    <ul>
+                                        <li>A) numeric ML models</li>
+                                        <li>B) SEO</li>
+                                        <li>C) HTML</li>
+                                        <li>D) PWA</li>
+                                    </ul>
+                                </li>
+                                <li>Precision is (concept):
+                                    <ul>
+                                        <li>A) correct positive / all predicted positive</li>
+                                        <li>B) all correct / total</li>
+                                        <li>C) theme / background</li>
+                                        <li>D) file count</li>
+                                    </ul>
+                                </li>
+                                <li>Recall is (concept):
+                                    <ul>
+                                        <li>A) correct positive / all actual positives</li>
+                                        <li>B) random</li>
+                                        <li>C) CSS</li>
+                                        <li>D) SQL join</li>
+                                    </ul>
+                                </li>
+                                <li>Stop words are (concept):
+                                    <ul>
+                                        <li>A) common words with low meaning</li>
+                                        <li>B) rare words</li>
+                                        <li>C) CSS variables</li>
+                                        <li>D) DB tables</li>
+                                    </ul>
+                                </li>
+                                <li>Stemming groups words by:
+                                    <ul>
+                                        <li>A) word roots</li>
+                                        <li>B) random theme</li>
+                                        <li>C) file extension</li>
+                                        <li>D) CSS style</li>
+                                    </ul>
+                                </li>
+                                <li>Lemmatization differs by:
+                                    <ul>
+                                        <li>A) returning dictionary form</li>
+                                        <li>B) always removing tokens</li>
+                                        <li>C) changing OS</li>
+                                        <li>D) plotting</li>
+                                    </ul>
+                                </li>
+                                <li>Text order matters for:
+                                    <ul>
+                                        <li>A) meaning in many cases</li>
+                                        <li>B) PWA caching</li>
+                                        <li>C) robots.txt</li>
+                                        <li>D) style.css</li>
+                                    </ul>
+                                </li>
+                                <li>Embeddings are (concept):
+                                    <ul>
+                                        <li>A) learned dense vectors for words/sentences</li>
+                                        <li>B) list of stop words</li>
+                                        <li>C) CSS palette</li>
+                                        <li>D) only counts</li>
+                                    </ul>
+                                </li>
+                                <li>Nearest centroid classifier chooses closest:
+                                    <ul>
+                                        <li>A) class centroid vector</li>
+                                        <li>B) random class</li>
+                                        <li>C) CSS color</li>
+                                        <li>D) sitemap URL</li>
+                                    </ul>
+                                </li>
+                                <li>A good preprocessing helps because:
+                                    <ul>
+                                        <li>A) more consistent tokens</li>
+                                        <li>B) less accuracy always</li>
+                                        <li>C) more errors</li>
+                                        <li>D) theme toggles</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Write preprocess(text) to lowercase and split into tokens.</li>
+                                <li>Remove punctuation using a regex substitution concept.</li>
+                                <li>Tokenize "Python is great!" and print tokens.</li>
+                                <li>Create a vocabulary from two sentences (concept).</li>
+                                <li>Build BoW vectors for both sentences.</li>
+                                <li>Print vocabulary size and vector length.</li>
+                                <li>Test vector values for a word you know appears once.</li>
+                                <li>Predict which words are missing (count=0 concept).</li>
+                                <li>Write a function that returns BoW vector using Counter.</li>
+                                <li>Write tokenize without regex: split by whitespace and lowercase.</li>
+                                <li>Dry run: tokenize "I, love, cats" and explain punctuation handling.</li>
+                                <li>Dry run: create vector for vocab [love, cats] and sentence "cats".</li>
+                                <li>Implement a function to print the top 3 most frequent tokens.</li>
+                                <li>Modify preprocess to keep digits too.</li>
+                                <li>Modify preprocess to remove numbers (concept).</li>
+                                <li>Test on empty string and return empty tokens.</li>
+                                <li>Test on a sentence with only punctuation.</li>
+                                <li>Explain what happens when vocabulary doesn’t include a token.</li>
+                                <li>Implement OOV as "unknown" token concept.</li>
+                                <li>Write a small function to map tokens to indices in vocab.</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Implement TF-IDF concept using counts and document frequency.</li>
+                                <li>Build a dataset of 6 sentences and labels (positive/negative).</li>
+                                <li>Vectorize each sentence with BoW.</li>
+                                <li>Compute centroid vector for each class using averages.</li>
+                                <li>Predict label for a new sentence with nearest centroid.</li>
+                                <li>Compute accuracy on a small test set (concept).</li>
+                                <li>Dry run: compute centroid for one word in each class.</li>
+                                <li>Implement cosine similarity (concept) between vectors.</li>
+                                <li>Switch from Euclidean distance to cosine similarity.</li>
+                                <li>Debug: vector lengths mismatch due to different vocab ordering.</li>
+                                <li>Fix by enforcing consistent vocab order.</li>
+                                <li>Handle stop words concept by removing common words.</li>
+                                <li>Implement simple stop word filter.</li>
+                                <li>Add stemming concept: remove trailing 's' for plurals (simple rule).</li>
+                                <li>Compare predictions before/after stemming rule.</li>
+                                <li>Implement train/test split (concept) for text dataset.</li>
+                                <li>Explain why test data must not affect vocabulary creation.</li>
+                                <li>Implement evaluation that prints mistakes.</li>
+                                <li>Design a metric choice for imbalanced sentiment labels (concept).</li>
+                                <li>Explain effect of vocab size on speed and memory (concept).</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Implement a mini logistic regression using gradient descent (concept math).</li>
+                                <li>Implement L2 regularization in your toy model.</li>
+                                <li>Implement gradient check for correctness (concept).</li>
+                                <li>Build bigram features (concept) and compare with BoW.</li>
+                                <li>Dry run bigram vector for a short sentence.</li>
+                                <li>Implement a Naive Bayes classifier using token counts (concept).</li>
+                                <li>Debug zero-probability by using Laplace smoothing.</li>
+                                <li>Implement Laplace smoothing and compare.</li>
+                                <li>Design a preprocessing pipeline for noisy text.</li>
+                                <li>Implement URL/email removal concept.</li>
+                                <li>Handle unicode punctuation normalization (concept).</li>
+                                <li>Write a confusion matrix concept for binary classification.</li>
+                                <li>Compute precision/recall from confusion matrix (concept).</li>
+                                <li>Explain why accuracy alone can be misleading.</li>
+                                <li>Implement feature selection by keeping top frequent tokens.</li>
+                                <li>Explain trade-off: losing rare but important words.</li>
+                                <li>Design an experiment plan: different preprocessing and vocab sizes.</li>
+                                <li>Implement caching of tokenized text to speed up repeated runs.</li>
+                                <li>Write a short write-up of your model design choices.</li>
+                                <li>Debug: model always predicts one class; investigate class imbalance (concept).</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment40_1.py</code>: preprocess 3 sentences and print tokens.</li>
+                                <li>Create <code>assignment40_2.py</code>: build BoW vectors using a shared vocab and
+                                    print vectors.</li>
+                                <li>Create <code>assignment40_3.py</code>: implement a nearest-centroid predictor for
+                                    positive/negative labels and print accuracy.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Review Classifier (Toy)</h3>
+                                <ul>
+                                    <li>Create a small dataset of short reviews with labels: positive/negative.</li>
+                                    <li>Preprocess and build BoW vectors.</li>
+                                    <li>Train a nearest-centroid classifier.</li>
+                                    <li>Predict labels for a test set and print accuracy.</li>
+                                    <li>Show the most influential words (concept using centroids).</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+
+                            <div class="callout warning">
+                                <h3>Case 1: vocab ordering mismatch</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">different vocab order</div>
+                                    </div>
+                                    <pre><code># vector lengths ok but values wrong
+vocab_train = sorted(vocab_train)
+vocab_test = sorted(vocab_test)</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> use the same vocab order for all vectors.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: preprocessing inconsistent</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">not lowercasing</div>
+                                    </div>
+                                    <pre><code>train_tokens = preprocess(text)
+# but test uses: text.split() without lower()</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> apply the exact same preprocess function to train and test.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: OOV words not handled</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">unknown token ignored</div>
+                                    </div>
+                                    <pre><code># your classifier misses words not in vocab
+# so predictions become weak</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> add an <code><UNK></code> strategy (concept).</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>ValueError:</strong> vector length mismatch.</li>
+                                <li><strong>KeyError:</strong> missing word in vocab mapping.</li>
+                                <li><strong>Empty tokens:</strong> preprocessing removed everything.</li>
+                                <li><strong>TypeError:</strong> passing string where tokens list expected.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Keep preprocessing consistent across train/test.</li>
+                                <li>Build vocab on training data only (avoid leakage).</li>
+                                <li>Start with simple BoW to understand the pipeline.</li>
+                                <li>Use evaluation metrics appropriate for your dataset (concept).</li>
+                                <li>Track vocabulary size and performance.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                You learned NLP fundamentals: preprocessing, tokenization, and vectorization with the
+                                bag-of-words idea.
+                                You also practiced creating numeric vectors from text and understanding how classifiers
+                                can work with those vectors.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="NLP cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Need</th>
+                                        <th>Code idea</th>
+                                        <th>Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Clean</td>
+                                        <td><code>re.sub(...)</code></td>
+                                        <td>remove punctuation</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tokens</td>
+                                        <td><code>text.lower().split()</code></td>
+                                        <td>word list</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Vocab</td>
+                                        <td>unique words</td>
+                                        <td>feature names</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Vector</td>
+                                        <td><code>Counter(tokens)</code></td>
+                                        <td>word counts</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Classify</td>
+                                        <td>centroid/rules</td>
+                                        <td>predict label</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Tiny Spam Detector (Concept)</h3>
+                                <ul>
+                                    <li>Create a dataset of 8 messages and labels: spam/ham.</li>
+                                    <li>Build vocab and BoW vectors.</li>
+                                    <li>Predict with nearest-centroid or majority keywords.</li>
+                                    <li>Print accuracy and the most important words (concept).</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What is NLP?</li>
+                                <li>What is tokenization?</li>
+                                <li>What is preprocessing?</li>
+                                <li>What is BoW?</li>
+                                <li>Does BoW keep word order?</li>
+                                <li>How do you build a vocabulary?</li>
+                                <li>How do you convert text into a vector?</li>
+                                <li>Why do we need train/test split?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>NLP:</strong> makes computers understand/operate on human language.</li>
+                                    <li><strong>Tokenization:</strong> splits text into pieces (often words).</li>
+                                    <li><strong>Preprocessing:</strong> normalizes text so tokens are consistent.</li>
+                                    <li><strong>BoW:</strong> counts words into a fixed-length vector.</li>
+                                    <li><strong>Word order:</strong> BoW does not keep order (disadvantage).</li>
+                                    <li><strong>Vocabulary:</strong> list of known words used as vector positions.</li>
+                                    <li><strong>Vectors:</strong> numeric representations used by ML.</li>
+                                    <li><strong>Split:</strong> test data must stay unseen to estimate real quality.
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-41.html">Next Chapter</a></div>
+                            </div>
+
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 10 — Lists</title>
+    <meta name="description"
+        content="Chapter 10: Lists. Learn how to create, index, slice, and modify lists with examples and practice." />
+    <link rel="canonical" href="./chapters/chapter-10.html" />
+
+    <meta property="og:title" content="Chapter 10 — Lists" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="Learn Python lists: indexing, slicing, and common list methods." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 10 — Lists" />
+    <meta name="twitter:description" content="Python lists chapter." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 10 • Offline • Search • Dark mode</span>
+                </div>
+
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout remember" style="margin-top:12px;">
+                        <h3>⭐ Remember</h3>
+                        <p>Lists can change. Strings cannot. Lists are ordered collections of items.</p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 10</div>
+
+                        <h1 class="chapter-title">Chapter 10 — Lists</h1>
+                        <p class="subtle">Learn to store many values in one variable using Python lists: create, index,
+                            slice, update, and use common list methods.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-09.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <p>By the end of this chapter, you will be able to:</p>
+                                <ul>
+                                    <li>Create lists with <code>[ ]</code>.</li>
+                                    <li>Access items using indexing and slicing.</li>
+                                    <li>Modify items inside a list.</li>
+                                    <li>Use loops to work with list items.</li>
+                                    <li>Use common list methods like <code>append()</code>, <code>pop()</code>,
+                                        <code>sort()</code> (concept).</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                In earlier chapters, you stored one value in one variable.
+                                But real data often has many values.
+                            </p>
+                            <p>
+                                A <strong>list</strong> lets you store many items in one variable.
+                                You can access items by position.
+                            </p>
+                            <div class="callout note">
+                                <h3>📌 Real-life example</h3>
+                                <p>
+                                    Think of a shopping cart: many products inside one cart.
+                                    The cart is the list, and products are items.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 What is a list?</h3>
+                            <p>
+                                A list is an ordered collection.
+                                Items have an index starting at <code>0</code>.
+                            </p>
+
+                            <h3>2.2 Lists are mutable</h3>
+                            <p>
+                                “Mutable” means you can change the list after creation.
+                                For example, you can replace an item or add new items.
+                            </p>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    If you try to access an index that doesn’t exist, Python raises
+                                    <code>IndexError</code>.
+                                </p>
+                            </div>
+
+                            <h3>2.3 Lists vs strings</h3>
+                            <table class="table" aria-label="List vs string comparison">
+                                <thead>
+                                    <tr>
+                                        <th>Feature</th>
+                                        <th>List</th>
+                                        <th>String</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Editable?</td>
+                                        <td>Yes (mutable)</td>
+                                        <td>No (immutable)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Item type</td>
+                                        <td>Can be different types</td>
+                                        <td>Usually text characters</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Indexing</td>
+                                        <td>Yes</td>
+                                        <td>Yes</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">create and access</div>
+                                </div>
+                                <pre><code>numbers = [10, 20, 30]
+print(numbers[0])  # 10
+print(numbers[-1]) # 30
+</code></pre>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">slicing</div>
+                                </div>
+                                <pre><code>nums = [1, 2, 3, 4, 5]
+print(nums[1:4])  # [2,3,4]
+print(nums[:2])   # [1,2]
+print(nums[3:])   # [4,5]
+</code></pre>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">modify</div>
+                                </div>
+                                <pre><code>nums = [1, 2, 3]
+nums[1] = 99
+print(nums)
+</code></pre>
+                            </div>
+
+                            <p><strong>Time complexity:</strong> indexing is O(1), slicing is O(k) •
+                                <strong>Space:</strong> slicing creates a new list O(k).
+                            </p>
+                            <p><strong>Alternative:</strong> use loops to process lists without slicing if memory
+                                matters.</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — add items with append()</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">append</div>
+                                </div>
+                                <pre><code>colors = ["red", "green"]
+colors.append("blue")
+print(colors)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> <code>['red', 'green', 'blue']</code></p>
+
+                            <h3>4.2 Medium Example — replace and sum</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">update + compute</div>
+                                </div>
+                                <pre><code>prices = [5, 10, 15]
+prices[0] = 8
+
+total = 0
+for p in prices:
+    total += p
+
+print("Total:", total)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> Total: 33</p>
+                            <p><strong>Time:</strong> O(n) • <strong>Space:</strong> O(1) extra.</p>
+
+                            <h3>4.3 Advanced Example — list as mixed types</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">mixed list</div>
+                                </div>
+                                <pre><code>data = ["Alice", 21, True]
+print(data)
+print(data[0])
+print(data[2])
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> shows items, then first and boolean.</p>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: create list → access items → update → output</h3>
+                                <pre><code>[Start]
+   |
+   v
+[Create list]
+   |
+   v
+[Get item by index]
+   |
+   v
+[Optional update]
+   |
+   v
+[Process list (loop optional)]
+   |
+   v
+[Print result]
+   |
+   v
+[End]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <p>A list variable points to a list in memory. Each index points to an item.</p>
+                            <table class="table" aria-label="List memory">
+                                <thead>
+                                    <tr>
+                                        <th>Index</th>
+                                        <th>Item</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>0</td>
+                                        <td><code>1</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td><code>99</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td><code>3</code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="callout remember">
+                                <h3>🧠 Memory trick</h3>
+                                <p><strong>List index = position</strong>. Index 0 is the first item.</p>
+                            </div>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">replace + loop sum</div>
+                                </div>
+                                <pre><code>nums = [1, 2, 3]
+nums[1] = 10
+
+total = 0
+for n in nums:
+    total += n
+
+print(total)
+</code></pre>
+                            </div>
+                            <table class="table" aria-label="Dry run list">
+                                <thead>
+                                    <tr>
+                                        <th>Step</th>
+                                        <th>What happens</th>
+                                        <th>List/Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Create list</td>
+                                        <td><code>[1,2,3]</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Replace index 1</td>
+                                        <td><code>[1,10,3]</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Loop add values</td>
+                                        <td>Total becomes 14</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p><strong>Output:</strong> 14 • <strong>Time:</strong> O(n) • <strong>Space:</strong> O(1)
+                                extra.</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>len(list)</code>: number of items.</li>
+                                <li><code>range()</code>: useful for loops with indices.</li>
+                            </ul>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">len()</div>
+                                </div>
+                                <pre><code>nums = [1, 2, 3, 4]
+print(len(nums))
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <div class="callout note">
+                                <h3>Common list methods</h3>
+                                <ul>
+                                    <li><code>append(x)</code>: add one item at the end.</li>
+                                    <li><code>pop()</code>: remove and return the last item.</li>
+                                    <li><code>sort()</code>: sort list in place (concept here).</li>
+                                </ul>
+                            </div>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">append + pop</div>
+                                </div>
+                                <pre><code>stack = ["a", "b"]
+stack.append("c")
+print(stack)
+
+removed = stack.pop()
+print("Removed:", removed)
+print(stack)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> stack grows then shrinks.</p>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is a list in Python?</li>
+                                <li>How do you create a list?</li>
+                                <li>Is a list mutable or immutable?</li>
+                                <li>What does list indexing start at?</li>
+                                <li>What does a negative index mean?</li>
+                                <li>What is slicing for lists?</li>
+                                <li>Does list slicing include the end index?</li>
+                                <li>How do you change a list item?</li>
+                                <li>What happens if you use an index that is out of range?</li>
+                                <li>What is the difference between list and string?</li>
+                                <li>How do you add an item to the end of a list?</li>
+                                <li>How do you remove an item from a list?</li>
+                                <li>What does <code>pop()</code> do?</li>
+                                <li>What does <code>append()</code> do?</li>
+                                <li>How can you find number of items?</li>
+                                <li>How can you loop over list items?</li>
+                                <li>What is an accumulator variable?</li>
+                                <li>Why use a loop instead of manual addition?</li>
+                                <li>Can lists contain different data types?</li>
+                                <li>What is nested list (concept)?</li>
+                                <li>What is an IndexError?</li>
+                                <li>Explain time complexity of indexing vs slicing (concept).</li>
+                                <li>What is in-place modification?</li>
+                                <li>How do you make a new list from a slice?</li>
+                                <li>How do you copy a list (concept)?</li>
+                                <li>How do you avoid modifying while iterating (concept)?</li>
+                                <li>What is the safest way to process lists?</li>
+                                <li>How do you check if an item exists in a list? (concept)</li>
+                                <li>How do you remove an item by value? (concept)</li>
+                                <li>What is the purpose of readability in list code?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>A list is created with:
+                                    <ul>
+                                        <li>A) ()</li>
+                                        <li>B) {}</li>
+                                        <li>C) []</li>
+                                        <li>D) <>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>List indexing starts at:
+                                    <ul>
+                                        <li>A) 1</li>
+                                        <li>B) 0</li>
+                                        <li>C) -1</li>
+                                        <li>D) 2</li>
+                                    </ul>
+                                </li>
+                                <li>Negative index -1 refers to:
+                                    <ul>
+                                        <li>A) first</li>
+                                        <li>B) last</li>
+                                        <li>C) middle</li>
+                                        <li>D) none</li>
+                                    </ul>
+                                </li>
+                                <li>List slicing syntax is:
+                                    <ul>
+                                        <li>A) s(end,start)</li>
+                                        <li>B) s[start:end]</li>
+                                        <li>C) s{start:end}</li>
+                                        <li>D) s::start</li>
+                                    </ul>
+                                </li>
+                                <li>End index in slicing is:
+                                    <ul>
+                                        <li>A) included</li>
+                                        <li>B) excluded</li>
+                                        <li>C) always 0</li>
+                                        <li>D) random</li>
+                                    </ul>
+                                </li>
+                                <li>Lists are:
+                                    <ul>
+                                        <li>A) immutable</li>
+                                        <li>B) mutable</li>
+                                        <li>C) numbers only</li>
+                                        <li>D) strings only</li>
+                                    </ul>
+                                </li>
+                                <li>Strings are typically:
+                                    <ul>
+                                        <li>A) mutable</li>
+                                        <li>B) immutable</li>
+                                        <li>C) lists</li>
+                                        <li>D) dicts</li>
+                                    </ul>
+                                </li>
+                                <li><code>len(nums)</code> returns:
+                                    <ul>
+                                        <li>A) last item</li>
+                                        <li>B) count of items</li>
+                                        <li>C) index</li>
+                                        <li>D) type</li>
+                                    </ul>
+                                </li>
+                                <li><code>append(x)</code> adds:
+                                    <ul>
+                                        <li>A) x to end</li>
+                                        <li>B) x to start</li>
+                                        <li>C) nothing</li>
+                                        <li>D) deletes x</li>
+                                    </ul>
+                                </li>
+                                <li><code>pop()</code> removes:
+                                    <ul>
+                                        <li>A) first</li>
+                                        <li>B) last</li>
+                                        <li>C) all</li>
+                                        <li>D) none</li>
+                                    </ul>
+                                </li>
+                                <li>If you do <code>nums[100]</code> on short list, Python raises:
+                                    <ul>
+                                        <li>A) SyntaxError</li>
+                                        <li>B) IndexError</li>
+                                        <li>C) ValueError</li>
+                                        <li>D) KeyError</li>
+                                    </ul>
+                                </li>
+                                <li>Time complexity of indexing is usually:
+                                    <ul>
+                                        <li>A) O(1)</li>
+                                        <li>B) O(n)</li>
+                                        <li>C) O(n^2)</li>
+                                        <li>D) O(log n)</li>
+                                    </ul>
+                                </li>
+                                <li>Time complexity of slicing is usually:
+                                    <ul>
+                                        <li>A) O(1)</li>
+                                        <li>B) O(k)</li>
+                                        <li>C) O(n^2)</li>
+                                        <li>D) O(0)</li>
+                                    </ul>
+                                </li>
+                                <li>Which is best to sum list values?
+                                    <ul>
+                                        <li>A) loop with accumulator</li>
+                                        <li>B) string replace</li>
+                                        <li>C) networking</li>
+                                        <li>D) not possible</li>
+                                    </ul>
+                                </li>
+                                <li>A list can contain:
+                                    <ul>
+                                        <li>A) only numbers</li>
+                                        <li>B) only strings</li>
+                                        <li>C) mixed types</li>
+                                        <li>D) only bools</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Create a list of 3 numbers and print it.</li>
+                                <li>Print the first element using index 0.</li>
+                                <li>Print the last element using negative index -1.</li>
+                                <li>Slice and print elements at index 1 to 3 (end excluded).</li>
+                                <li>Slice and print first 2 elements.</li>
+                                <li>Replace an element at index 1.</li>
+                                <li>Add an element using <code>append()</code>.</li>
+                                <li>Remove last element using <code>pop()</code>.</li>
+                                <li>Compute sum of list values with a loop.</li>
+                                <li>Compute average with sum/len.</li>
+                                <li>Count how many elements are even (concept with %).</li>
+                                <li>Find maximum in a list using loop (no <code>max</code>).</li>
+                                <li>Find minimum in a list using loop (no <code>min</code>).</li>
+                                <li>Create a list of strings and print each in a loop.</li>
+                                <li>Make a list of names and slice the first 2.</li>
+                                <li>Create a list of mixed values and print types (concept).</li>
+                                <li>Use <code>len()</code> to print list length.</li>
+                                <li>Copy a slice to new list and modify it.</li>
+                                <li>Create a list from repeated values (concept).</li>
+                                <li>Dry run: predict output after replacing an element.</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Read 5 numbers (simulate with variables) into a list and print sum.</li>
+                                <li>Filter: print numbers greater than 10.</li>
+                                <li>Create a list of squares using a loop.</li>
+                                <li>Count vowels in each word (concept with loops).</li>
+                                <li>Reverse a list using slicing.</li>
+                                <li>Reverse a list using manual loop (attempt).</li>
+                                <li>Remove duplicates from a list while preserving order (attempt).</li>
+                                <li>Check if a value exists in the list (use <code>in</code> concept).</li>
+                                <li>Find the index of a value (linear search).</li>
+                                <li>Compute frequency of each item using dictionary (concept; later).</li>
+                                <li>Build a list of day names by index (use list mapping).</li>
+                                <li>Create a list of prices and apply discount to each (loop update).</li>
+                                <li>Split a string by space and store words into list (concept).</li>
+                                <li>Sort a list conceptually using bubble sort (attempt).</li>
+                                <li>Create a function to sum a list (return result).</li>
+                                <li>Create a function to find max in a list.</li>
+                                <li>Find common items between two lists (concept).</li>
+                                <li>Build a two-dimensional list (matrix) concept.</li>
+                                <li>Compute row sums in a matrix (concept).</li>
+                                <li>Output prediction for nested list slicing (small example).</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Implement a stable selection sort (attempt).</li>
+                                <li>Implement insertion sort (attempt).</li>
+                                <li>Flatten a nested list by one level (attempt).</li>
+                                <li>Flatten a nested list fully (advanced; attempt).</li>
+                                <li>Remove duplicates using a set, then compare behavior (concept).</li>
+                                <li>Write code that rotates a list by k positions (attempt).</li>
+                                <li>Find the longest string in a list using loops only.</li>
+                                <li>Compute intersection count between two lists.</li>
+                                <li>Given a list of transactions, compute net balance.</li>
+                                <li>Implement a function that validates list length and content.</li>
+                                <li>Check if list is sorted (ascending) using comparisons.</li>
+                                <li>Check if list is sorted (descending) using comparisons.</li>
+                                <li>Implement merge of two sorted lists (attempt).</li>
+                                <li>Partition a list around a pivot (concept quicksort step).</li>
+                                <li>Simulate “top 3 scores” logic (attempt).</li>
+                                <li>Find second largest unique value (attempt).</li>
+                                <li>Build a small recommendation list using simple rules (toy).</li>
+                                <li>Write code to chunk a list into groups of size k.</li>
+                                <li>Given nested list, count total elements (recursively attempt).</li>
+                                <li>Output prediction for list slicing combinations.</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment10_1.py</code>: make list of 5 numbers and print sum.</li>
+                                <li>Create <code>assignment10_2.py</code>: make list of names, print first and last.
+                                </li>
+                                <li>Create <code>assignment10_3.py</code>: create list, replace middle element, print
+                                    list.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Grocery Planner</h3>
+                                <p>Create a list of grocery items and print a message for each item.</p>
+                            </div>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">starter</div>
+                                </div>
+                                <pre><code>items = ["milk", "bread", "eggs"]
+
+for item in items:
+    print("Buy:", item)
+
+# add one more item
+items.append("butter")
+print("After adding:", items)
+</code></pre>
+                            </div>
+                            <p><strong>Expected output:</strong> lines for each item, then updated list.</p>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+                            <div class="callout warning">
+                                <h3>Case 1: IndexError</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>nums = [1, 2]
+print(nums[2])
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> valid indices are 0..1. Use <code>nums[1]</code> or check
+                                    length.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: trying to edit string</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>s = "cat"
+s[0] = "b"
+print(s)
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> strings are immutable; use lists if you need modification.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: wrong loop indentation</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>nums = [1,2,3]
+for n in nums:
+print(n)
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> indent <code>print(n)</code> under the loop.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>IndexError:</strong> using an index that doesn’t exist.</li>
+                                <li><strong>TypeError:</strong> mixing list and non-list operations.</li>
+                                <li><strong>SyntaxError:</strong> missing brackets or commas.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Use clear variable names: <code>items</code>, <codeprices< /code>, <codenames<
+                                            /code>.</li>
+                                <li>Check <code>len(list)</code> before indexing near the end.</li>
+                                <li>Prefer loops for processing many items.</li>
+                                <li>Use slicing for safe sub-parts.</li>
+                                <li>Keep code formatting and indentation clean.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                Lists store multiple ordered items. You can access items using indexing and slicing.
+                                Lists are mutable so you can update elements and use methods like <code>append()</code>
+                                and <code>pop()</code>.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="List cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Task</th>
+                                        <th>Code</th>
+                                        <th>Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Create</td>
+                                        <td><code>nums=[1,2,3]</code></td>
+                                        <td>List of items</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Index</td>
+                                        <td><code>nums[0]</code></td>
+                                        <td>First item</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Slice</td>
+                                        <td><code>nums[1:3]</code></td>
+                                        <td>Indices 1 and 2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Modify</td>
+                                        <td><code>nums[1]=99</code></td>
+                                        <td>Replace item</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Add</td>
+                                        <td><code>nums.append(5)</code></td>
+                                        <td>Add to end</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Find the Max</h3>
+                                <p>Given <code>nums = [3, 9, 2, 10, 1]</code>, find the maximum value using a loop (no
+                                    <code>max()</code>).</p>
+                            </div>
+                            <p><strong>Expected output:</strong> 10</p>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What is a list?</li>
+                                <li>Is a list mutable?</li>
+                                <li>What does <code>nums[0]</code> mean?</li>
+                                <li>What is slicing?</li>
+                                <li>What error happens when index is out of range?</li>
+                                <li>What does <code>append()</code> do?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>List created with:</strong> <code>[ ]</code>.</li>
+                                    <li><strong>Indexing starts at 0:</strong> first item is position 0.</li>
+                                    <li><strong>Negative -1:</strong> last item.</li>
+                                    <li><strong>Slicing excludes end:</strong> <code>[start:end]</code> includes start
+                                        but excludes end.</li>
+                                    <li><strong>append adds at end:</strong> increases list size by 1.</li>
+                                    <li><strong>pop removes last:</strong> returns removed item.</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-11.html">Next Chapter</a></div>
+                            </div>
+
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

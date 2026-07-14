@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 23 — Database Programming</title>
+    <meta name="description"
+        content="Chapter 23: Database Programming. Learn SQLite basics, creating tables, inserting, selecting, updating, and deleting data." />
+    <link rel="canonical" href="./chapters/chapter-23.html" />
+
+    <meta property="og:title" content="Chapter 23 — Database Programming" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description"
+        content="Learn SQLite with Python: tables, CRUD operations, and safe parameterized queries." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 23 — Database Programming" />
+    <meta name="twitter:description" content="SQLite basics with practice and explained answers." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 23 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout remember" style="margin-top:12px;">
+                        <h3>⭐ Remember</h3>
+                        <p>
+                            Databases store information permanently.
+                            Use SQL for queries, and use parameterized queries to avoid SQL injection.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 23</div>
+                        <h1 class="chapter-title">Chapter 23 — Database Programming</h1>
+                        <p class="subtle">Learn how Python connects to a database (SQLite), create tables, and do CRUD
+                            operations safely.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-22.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <ul>
+                                    <li>Understand what a database is and why we use it.</li>
+                                    <li>Use Python’s <code>sqlite3</code> module to connect to SQLite.</li>
+                                    <li>Create tables using <code>CREATE TABLE</code>.</li>
+                                    <li>Do CRUD: insert, select, update, delete.</li>
+                                    <li>Use parameterized queries (<code>?</code>) for safety.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                Programs need to remember data even after the program closes.
+                                A database is designed for this.
+                            </p>
+                            <p>
+                                In this chapter, we use <strong>SQLite</strong> because it is built into Python.
+                                It is perfect for learning.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 Database basics</h3>
+                            <p>
+                                A database contains <strong>tables</strong>.
+                                A table has rows (records) and columns (fields).
+                            </p>
+
+                            <h3>2.2 CRUD operations</h3>
+                            <ul>
+                                <li><strong>Create</strong> → insert rows</li>
+                                <li><strong>Read</strong> → select rows</li>
+                                <li><strong>Update</strong> → modify rows</li>
+                                <li><strong>Delete</strong> → remove rows</li>
+                            </ul>
+
+                            <h3>2.3 SQL injection concept</h3>
+                            <p>
+                                If you build SQL queries by string concatenation, attackers can inject extra SQL.
+                                Parameterized queries prevent this.
+                            </p>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    Always use parameters (<code>?</code>) instead of directly inserting user input into
+                                    SQL strings.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">connect + cursor</div>
+                                </div>
+                                <pre><code>import sqlite3
+
+conn = sqlite3.connect("app.db")
+cur = conn.cursor()
+
+cur.execute("SELECT 1")
+print(cur.fetchone())
+
+conn.close()
+</code></pre>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">SQL</div>
+                                    <div class="meta">create table</div>
+                                </div>
+                                <pre><code>CREATE TABLE users(
+  id INTEGER PRIMARY KEY,
+  name TEXT NOT NULL,
+  age INTEGER
+);
+</code></pre>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">parameterized insert</div>
+                                </div>
+                                <pre><code>cur.execute(
+    "INSERT INTO users(name, age) VALUES(?, ?)",
+    ("Ravi", 20)
+)
+conn.commit()
+</code></pre>
+                            </div>
+
+                            <p><strong>Time:</strong> depends on query • <strong>Space:</strong> depends on result size.
+                            </p>
+                            <p><strong>Alternative:</strong> use ORM libraries (advanced), but SQLite + SQL is best for
+                                learning.</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — create a table + insert</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">setup db</div>
+                                </div>
+                                <pre><code>import sqlite3
+
+conn = sqlite3.connect("app.db")
+cur = conn.cursor()
+
+cur.execute("""
+CREATE TABLE IF NOT EXISTS users(
+  id INTEGER PRIMARY KEY,
+  name TEXT NOT NULL,
+  age INTEGER
+)
+""")
+
+cur.execute(
+  "INSERT INTO users(name, age) VALUES(?, ?)",
+  ("Asha", 18)
+)
+conn.commit()
+
+conn.close()
+print("User inserted")
+</code></pre>
+                            </div>
+
+                            <p><strong>Output:</strong> User inserted</p>
+
+                            <h3>4.2 Medium Example — read/select rows</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">select</div>
+                                </div>
+                                <pre><code>import sqlite3
+
+conn = sqlite3.connect("app.db")
+cur = conn.cursor()
+
+cur.execute("SELECT id, name, age FROM users")
+rows = cur.fetchall()
+
+for r in rows:
+    print(r)
+
+conn.close()
+</code></pre>
+                            </div>
+
+                            <p><strong>Output:</strong> prints tuples like <code>(1, 'Asha', 18)</code> (depends on your
+                                data).</p>
+
+                            <h3>4.3 Advanced Example — update + delete</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">update/delete</div>
+                                </div>
+                                <pre><code>import sqlite3
+
+conn = sqlite3.connect("app.db")
+cur = conn.cursor()
+
+# Update age for a specific name
+cur.execute("UPDATE users SET age=? WHERE name=?", (21, "Asha"))
+
+# Delete user by name
+cur.execute("DELETE FROM users WHERE name=?", ("Asha",))
+
+conn.commit()
+conn.close()
+print("Updated and deleted")
+</code></pre>
+                            </div>
+
+                            <p><strong>Output:</strong> Updated and deleted</p>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: SQLite workflow</h3>
+                                <pre><code>[Start]
+  |
+  v
+[connect to db]
+  |
+  v
+[create cursor]
+  |
+  v
+[execute SQL]
+  |
+  v
+[commit if write]
+  |
+  v
+[fetch results if read]
+  |
+  v
+[close connection]
+  |
+  v
+[End]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <p>
+                                When you do <code>fetchall()</code>, Python loads all matching rows into memory.
+                                For large tables, you should fetch in smaller pieces (concept).
+                            </p>
+                            <table class="table" aria-label="DB memory">
+                                <thead>
+                                    <tr>
+                                        <th>Method</th>
+                                        <th>Memory behavior</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>fetchone()</code></td>
+                                        <td>one row at a time</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>fetchall()</code></td>
+                                        <td>loads all rows into a list</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>execute()</code></td>
+                                        <td>runs query and prepares results</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">insert dry run</div>
+                                </div>
+                                <pre><code>users table before:
+(id, name, age)
+(1, Ravi, 20)
+
+Execute:
+INSERT INTO users(name, age) VALUES(?, ?)
+Values: ("Asha", 18)
+
+users table after:
+(1, Ravi, 20)
+(2, Asha, 18)
+</code></pre>
+                            </div>
+                            <p><strong>Time:</strong> roughly proportional to index size and query •
+                                <strong>Space:</strong> small.</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>print()</code> for output</li>
+                                <li><code>len()</code> for counting list rows (concept)</li>
+                            </ul>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <div class="callout note">
+                                <h3>Common SQLite API calls</h3>
+                                <ul>
+                                    <li><code>conn.cursor()</code></li>
+                                    <li><code>cur.execute(sql, params)</code></li>
+                                    <li><code>conn.commit()</code></li>
+                                    <li><code>cur.fetchall()</code> / <code>cur.fetchone()</code></li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is a database?</li>
+                                <li>What is SQLite?</li>
+                                <li>Which Python module is used for SQLite?</li>
+                                <li>What is a table in a database?</li>
+                                <li>What is a row in a table?</li>
+                                <li>What is a column in a table?</li>
+                                <li>What does CRUD stand for?</li>
+                                <li>What SQL command creates a table?</li>
+                                <li>What SQL command inserts a row?</li>
+                                <li>What SQL command selects rows?</li>
+                                <li>What SQL command updates rows?</li>
+                                <li>What SQL command deletes rows?</li>
+                                <li>What is a primary key?</li>
+                                <li>Why use <code>INTEGER PRIMARY KEY</code> in SQLite?</li>
+                                <li>What is <code>cursor</code> in database programming?</li>
+                                <li>What does <code>execute()</code> do?</li>
+                                <li>What does <code>fetchall()</code> do?</li>
+                                <li>What does <code>fetchone()</code> do?</li>
+                                <li>When should you call <code>commit()</code>?</li>
+                                <li>Why do we close the connection?</li>
+                                <li>What is SQL injection?</li>
+                                <li>How do parameterized queries prevent SQL injection?</li>
+                                <li>What does <code>?</code> mean in SQLite parameter placeholders?</li>
+                                <li>What happens if you forget <code>commit()</code> after an insert?</li>
+                                <li>What does <code>IF NOT EXISTS</code> in <code>CREATE TABLE</code> do?</li>
+                                <li>How do you check how many rows were updated?</li>
+                                <li>What is the difference between <code>WHERE</code> and no <code>WHERE</code>?</li>
+                                <li>How do you filter results in a SELECT query?</li>
+                                <li>Why is storing large result sets with <code>fetchall()</code> risky?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>SQLite is a:
+                                    <ul>
+                                        <li>A) browser</li>
+                                        <li>B) file-based database</li>
+                                        <li>C) CSS framework</li>
+                                        <li>D) regex engine</li>
+                                    </ul>
+                                </li>
+                                <li>Python uses module:
+                                    <ul>
+                                        <li>A) sqlite3</li>
+                                        <li>B) sqlite</li>
+                                        <li>C) datetimes</li>
+                                        <li>D) osdb</li>
+                                    </ul>
+                                </li>
+                                <li>Table structure has:
+                                    <ul>
+                                        <li>A) only rows</li>
+                                        <li>B) rows and columns</li>
+                                        <li>C) only columns</li>
+                                        <li>D) only comments</li>
+                                    </ul>
+                                </li>
+                                <li><code>CREATE TABLE</code> is for:
+                                    <ul>
+                                        <li>A) delete</li>
+                                        <li>B) create</li>
+                                        <li>C) select</li>
+                                        <li>D) update</li>
+                                    </ul>
+                                </li>
+                                <li><code>INSERT INTO</code> is for:
+                                    <ul>
+                                        <li>A) insert</li>
+                                        <li>B) update</li>
+                                        <li>C) delete</li>
+                                        <li>D) join</li>
+                                    </ul>
+                                </li>
+                                <li><code>SELECT</code> is for:
+                                    <ul>
+                                        <li>A) reading data</li>
+                                        <li>B) writing data</li>
+                                        <li>C) styling</li>
+                                        <li>D) regex matching</li>
+                                    </ul>
+                                </li>
+                                <li><code>UPDATE</code> changes:
+                                    <ul>
+                                        <li>A) schema</li>
+                                        <li>B) existing rows</li>
+                                        <li>C) prints only</li>
+                                        <li>D) deletes table</li>
+                                    </ul>
+                                </li>
+                                <li><code>DELETE</code> removes:
+                                    <ul>
+                                        <li>A) rows</li>
+                                        <li>B) columns</li>
+                                        <li>C) tables only</li>
+                                        <li>D) html</li>
+                                    </ul>
+                                </li>
+                                <li><code>cursor</code> is used to:
+                                    <ul>
+                                        <li>A) run queries</li>
+                                        <li>B) format html</li>
+                                        <li>C) cache css</li>
+                                        <li>D) handle regex</li>
+                                    </ul>
+                                </li>
+                                <li><code>fetchall()</code> returns:
+                                    <ul>
+                                        <li>A) iterator</li>
+                                        <li>B) list of rows</li>
+                                        <li>C) one row only</li>
+                                        <li>D) nothing</li>
+                                    </ul>
+                                </li>
+                                <li><code>fetchone()</code> returns:
+                                    <ul>
+                                        <li>A) one row</li>
+                                        <li>B) all rows</li>
+                                        <li>C) table name</li>
+                                        <li>D) SQL string</li>
+                                    </ul>
+                                </li>
+                                <li>After insert/update/delete you should call:
+                                    <ul>
+                                        <li>A) rollback only</li>
+                                        <li>B) commit</li>
+                                        <li>C) print</li>
+                                        <li>D) mark</li>
+                                    </ul>
+                                </li>
+                                <li>SQL injection happens when:
+                                    <ul>
+                                        <li>A) parameters used</li>
+                                        <li>B) user input is concatenated into SQL</li>
+                                        <li>C) SELECT used</li>
+                                        <li>D) commit called</li>
+                                    </ul>
+                                </li>
+                                <li>Parameterized queries use placeholders like:
+                                    <ul>
+                                        <li>A) *</li>
+                                        <li>B) ?</li>
+                                        <li>C) %</li>
+                                        <li>D) #</li>
+                                    </ul>
+                                </li>
+                                <li>In SQLite parameter placeholders are filled with:
+                                    <ul>
+                                        <li>A) dict keys</li>
+                                        <li>B) a tuple/list of values</li>
+                                        <li>C) HTML attributes</li>
+                                        <li>D) CSS vars</li>
+                                    </ul>
+                                </li>
+                                <li><code>IF NOT EXISTS</code> helps because:
+                                    <ul>
+                                        <li>A) it overwrites data</li>
+                                        <li>B) it avoids error if table already exists</li>
+                                        <li>C) it deletes table</li>
+                                        <li>D) it updates schema</li>
+                                    </ul>
+                                </li>
+                                <li>Primary key usually is:
+                                    <ul>
+                                        <li>A) unique identifier</li>
+                                        <li>B) random string</li>
+                                        <li>C) CSS class</li>
+                                        <li>D) regex group</li>
+                                    </ul>
+                                </li>
+                                <li>Best practice: use parameters instead of:
+                                    <ul>
+                                        <li>A) python strings</li>
+                                        <li>B) string concatenation into SQL</li>
+                                        <li>C) fetchone</li>
+                                        <li>D) print</li>
+                                    </ul>
+                                </li>
+                                <li><code>conn.commit()</code> is required to:
+                                    <ul>
+                                        <li>A) save changes</li>
+                                        <li>B) load queries</li>
+                                        <li>C) print tables</li>
+                                        <li>D) compile python</li>
+                                    </ul>
+                                </li>
+                                <li>For big reads, <code>fetchall()</code> may be:
+                                    <ul>
+                                        <li>A) safe always</li>
+                                        <li>B) memory heavy</li>
+                                        <li>C) faster always</li>
+                                        <li>D) not useful</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Create a SQLite database file <code>test.db</code> and connect.</li>
+                                <li>Create a table <code>people(id, name, age)</code>.</li>
+                                <li>Insert one row safely using parameters.</li>
+                                <li>Select all rows and print them.</li>
+                                <li>Select rows where <code>age >= 18</code>.</li>
+                                <li>Update a person’s age using <code>UPDATE ... WHERE ...</code>.</li>
+                                <li>Delete one row using <code>DELETE ... WHERE ...</code>.</li>
+                                <li>Run <code>SELECT</code> again to confirm delete.</li>
+                                <li>Try creating the table again with <code>IF NOT EXISTS</code>.</li>
+                                <li>Write a script that commits and closes correctly.</li>
+                                <li>Insert 3 rows and fetch one row with <code>fetchone()</code>.</li>
+                                <li>Insert with different names and ages.</li>
+                                <li>Filter with <code>WHERE name=?</code>.</li>
+                                <li>Print only names using a SELECT that selects one column.</li>
+                                <li>Count rows by using SQL <code>COUNT(*)</code> (concept).</li>
+                                <li>Use <code>LIMIT 2</code> in SELECT (concept).</li>
+                                <li>Read back sorted rows using <code>ORDER BY</code> (concept).</li>
+                                <li>Ensure you do not forget <code>conn.commit()</code> for writes.</li>
+                                <li>Use parameter placeholders <code>?</code> every time you use user data.</li>
+                                <li>Dry run: predict what happens if you forget commit.</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Insert 10 people and select all with <code>fetchall()</code>.</li>
+                                <li>Create a table <code>courses(course_id, title)</code>.</li>
+                                <li>Insert courses and print them.</li>
+                                <li>Create <code>enrollments(person_id, course_id)</code>.</li>
+                                <li>Insert enrollments and query join (concept).</li>
+                                <li>Write a function <code>add_person(name, age)</code>.</li>
+                                <li>Write a function <code>get_people(min_age)</code>.</li>
+                                <li>Write a function <code>delete_person(name)</code> (concept).</li>
+                                <li>Update age only if name exists (concept with row check).</li>
+                                <li>Use <code>try/except</code> around database operations.</li>
+                                <li>Dry run: what does <code>fetchone()</code> return when no rows exist?</li>
+                                <li>Implement a safe “upsert-like” idea using logic (concept).</li>
+                                <li>Store multiple rows and show results in a loop.</li>
+                                <li>Compute average age using SQL <code>AVG(age)</code> (concept).</li>
+                                <li>Fetch results and convert them into a dictionary (attempt).</li>
+                                <li>Sort by age descending and print.</li>
+                                <li>Prevent duplicates by checking before insert (concept).</li>
+                                <li>Dry run: explain what happens with wrong column name.</li>
+                                <li>Handle empty table selection (concept).</li>
+                                <li>Use parameterized query even for LIMIT values.</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Implement a repository-like class for DB operations.</li>
+                                <li>Add a unique constraint on <code>name</code> (concept) and handle errors.</li>
+                                <li>Implement retry logic for temporary DB errors (concept).</li>
+                                <li>Write a function that inserts many rows with <code>executemany</code> (concept).
+                                </li>
+                                <li>Implement pagination: SELECT with <code>LIMIT</code> and <code>OFFSET</code>.</li>
+                                <li>Build a simple migration: create new table and copy data.</li>
+                                <li>Write a safe “search by partial name” query using LIKE (concept).</li>
+                                <li>Implement filtering by age range (concept).</li>
+                                <li>Design schema for products and orders (attempt).</li>
+                                <li>Create orders table and query total items per order (concept).</li>
+                                <li>Write code that validates types before insertion (attempt).</li>
+                                <li>Output prediction: join query result shape (concept).</li>
+                                <li>Build a small CLI interface (concept) to manage rows.</li>
+                                <li>Handle SQL exceptions and print friendly messages.</li>
+                                <li>Optimize by selecting only needed columns (concept).</li>
+                                <li>Explain why selecting too many columns slows down (concept).</li>
+                                <li>Prevent N+1 query issue by using join (concept).</li>
+                                <li>Write tests mentally: insert → select → update → delete flow.</li>
+                                <li>Implement transaction idea: commit only at end (concept).</li>
+                                <li>Explain how <code>rollback</code> works (concept).</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment23_1.py</code>: create <code>students</code> table and insert
+                                    5 students.</li>
+                                <li>Create <code>assignment23_2.py</code>: select students older than 18 and print names
+                                    + ages.</li>
+                                <li>Create <code>assignment23_3.py</code>: update one student age, then delete another
+                                    student.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Student Markbook</h3>
+                                <p>Using SQLite, create tables for:</p>
+                                <ul>
+                                    <li><code>students(id, name)</code></li>
+                                    <li><code>marks(student_id, subject, score)</code></li>
+                                </ul>
+                                <p>Then implement functions:</p>
+                                <ul>
+                                    <li>Add a student</li>
+                                    <li>Add a mark</li>
+                                    <li>Print marks for a student</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+
+                            <div class="callout warning">
+                                <h3>Case 1: wrong SQL syntax</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>cur.execute("SELECT name age FROM users")
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> SQL needs commas: <code>SELECT name, age ...</code></p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: forgetting commit</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>cur.execute("INSERT INTO users(name, age) VALUES(?, ?)", ("Ravi", 20))
+# missing conn.commit()
+conn.close()
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> call <code>conn.commit()</code> after writes.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: string concatenation SQL injection risk</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>name = "Ravi'; DROP TABLE users; --"
+cur.execute("SELECT * FROM users WHERE name='" + name + "'")
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> use <code>WHERE name=?</code> and pass <code>(name,)</code>.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>sqlite3.OperationalError:</strong> SQL syntax or table/column missing.</li>
+                                <li><strong>sqlite3.IntegrityError:</strong> constraint failures (concept).</li>
+                                <li><strong>ProgrammingError:</strong> using cursor/connection incorrectly.</li>
+                                <li><strong>Data mismatch:</strong> inserting wrong types (concept).</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Use parameterized queries (<code>?</code>) always with user input.</li>
+                                <li>Create tables with <code>IF NOT EXISTS</code> for learning scripts.</li>
+                                <li>Call <code>commit()</code> after insert/update/delete.</li>
+                                <li>Select only needed columns.</li>
+                                <li>Fetch carefully: avoid <code>fetchall()</code> for huge result sets (concept).</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                You learned database programming with Python and SQLite.
+                                You connected to a database, created tables, and did CRUD operations.
+                                You also learned why parameterized queries are important for safety.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Database cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Need</th>
+                                        <th>Code</th>
+                                        <th>Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Connect</td>
+                                        <td><code>sqlite3.connect("app.db")</code></td>
+                                        <td>open db</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Execute</td>
+                                        <td><code>cur.execute(sql, params)</code></td>
+                                        <td>run query</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Create table</td>
+                                        <td><code>CREATE TABLE IF NOT EXISTS ...</code></td>
+                                        <td>schema</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Insert</td>
+                                        <td><code>INSERT ... VALUES(?, ?)</code></td>
+                                        <td>create row</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Select</td>
+                                        <td><code>SELECT ...</code></td>
+                                        <td>read rows</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Commit</td>
+                                        <td><code>conn.commit()</code></td>
+                                        <td>save changes</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Scoreboard</h3>
+                                <p>Create a <code>scores</code> table with:</p>
+                                <ul>
+                                    <li><code>player(name)</code></li>
+                                    <li><code>score(value)</code></li>
+                                </ul>
+                                <p>Insert 5 players, then print:</p>
+                                <ul>
+                                    <li>Highest score</li>
+                                    <li>All players who have that score</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What is the purpose of a database?</li>
+                                <li>What are CRUD operations?</li>
+                                <li>Which module is used for SQLite in Python?</li>
+                                <li>Why should you use parameterized queries?</li>
+                                <li>What is <code>fetchall()</code>?</li>
+                                <li>When do you call <code>commit()</code>?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>Database:</strong> stores data persistently.</li>
+                                    <li><strong>CRUD:</strong> create, read, update, delete.</li>
+                                    <li><strong>sqlite3:</strong> built-in module for SQLite.</li>
+                                    <li><strong>Parameterized queries:</strong> prevent SQL injection by separating code
+                                        from data.</li>
+                                    <li><strong>fetchall:</strong> returns all matching rows as a list.</li>
+                                    <li><strong>commit:</strong> saves changes to the database.</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-24.html">Next Chapter</a></div>
+                            </div>
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

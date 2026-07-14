@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 19 — Regular Expressions (Regex)</title>
+    <meta name="description"
+        content="Chapter 19: Regular Expressions (Regex). Learn patterns, character classes, groups, matching/searching, and practical examples." />
+    <link rel="canonical" href="./chapters/chapter-19.html" />
+
+    <meta property="og:title" content="Chapter 19 — Regular Expressions (Regex)" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description"
+        content="Learn regex: patterns, classes, groups, findall, match/search, and debugging." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 19 — Regex" />
+    <meta name="twitter:description" content="Regex basics with examples, practice, and explained answers." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 19 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout note" style="margin-top:12px;">
+                        <h3>🔍 Search idea</h3>
+                        <p>
+                            Regex is a “search language” for text.
+                            It finds patterns inside bigger strings.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 19</div>
+                        <h1 class="chapter-title">Chapter 19 — Regular Expressions (Regex)</h1>
+                        <p class="subtle">Learn regex patterns in Python: <code>re.match</code>, <code>re.search</code>,
+                            <code>re.findall</code>, groups, and practical text tasks.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-18.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <ul>
+                                    <li>Explain what regex patterns are for.</li>
+                                    <li>Use <code>re.search</code> and <code>re.findall</code>.</li>
+                                    <li>Use character classes like <code>[0-9]</code>.</li>
+                                    <li>Use groups <code>(...)</code> and references conceptually.</li>
+                                    <li>Write practical regex for email/phone-like text tasks.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                Text data often contains patterns.
+                                Example: emails, phone numbers, dates, IDs.
+                            </p>
+                            <p>
+                                Regex lets you search and extract those patterns using rules.
+                                Instead of writing many loops, you write a pattern.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 Regex = pattern language</h3>
+                            <p>
+                                A regex pattern is like a mini-rule describing what you want.
+                                For example, <code>\d</code> means “a digit”.
+                            </p>
+
+                            <h3>2.2 Match vs Search</h3>
+                            <ul>
+                                <li><code>re.match</code>: checks at the start of the string.</li>
+                                <li><code>re.search</code>: finds the pattern anywhere.</li>
+                            </ul>
+
+                            <h3>2.3 findall extracts all matches</h3>
+                            <p>
+                                <code>re.findall</code> returns a list of all matching parts.
+                            </p>
+
+                            <div class="callout remember">
+                                <h3>⭐ Remember Box</h3>
+                                <p>
+                                    Think: <strong>match = start</strong>, <strong>search = anywhere</strong>,
+                                    <strong>findall = extract all</strong>.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">import re + search</div>
+                                </div>
+                                <pre><code>import re
+
+text = "Order ID: 12345"
+
+m = re.search(r"ID: (\\d+)", text)
+if m:
+    print("Found number:", m.group(1))
+</code></pre>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">findall digits</div>
+                                </div>
+                                <pre><code>text = "A1 B20 C300"
+nums = re.findall(r"\\d+", text)
+print(nums)
+</code></pre>
+                            </div>
+
+                            <p><strong>Time:</strong> depends on pattern complexity and text length •
+                                <strong>Space:</strong> depends on matches you store.</p>
+                            <p><strong>Alternative:</strong> use plain string operations for simple tasks, but regex is
+                                powerful for patterns.</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — find digits</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">digits extraction</div>
+                                </div>
+                                <pre><code>import re
+
+text = "Room 401, Floor 4"
+
+digits = re.findall(r"\\d+", text)
+print(digits)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> ['401', '4']</p>
+
+                            <h3>4.2 Medium Example — simple email pattern</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">email-like extraction</div>
+                                </div>
+                                <pre><code>import re
+
+text = "Contact: ravi@example.com or asha@test.org"
+
+emails = re.findall(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}", text)
+print(emails)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> two emails (order depends on text).</p>
+
+                            <h3>4.3 Advanced Example — group and validate parts</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">group() for pieces</div>
+                                </div>
+                                <pre><code>import re
+
+text = "Date: 2026-07-13"
+pattern = r"Date: (\\d{4})-(\\d{2})-(\\d{2})"
+
+m = re.search(pattern, text)
+if m:
+    year = m.group(1)
+    month = m.group(2)
+    day = m.group(3)
+    print("Y/M/D:", year, month, day)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> 2026 07 13</p>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: regex search</h3>
+                                <pre><code>[Start]
+  |
+  v
+[Write regex pattern]
+  |
+  v
+[Choose method: match/search/findall]
+  |
+  v
+[Regex engine scans text]
+  |
+  v
+[Return match / list]
+  |
+  v
+[Use extracted groups]
+  |
+  v
+[End]</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <p>
+                                The regex engine scans text and builds match results.
+                                Groups capture parts of the text.
+                            </p>
+                            <table class="table" aria-label="Regex memory">
+                                <thead>
+                                    <tr>
+                                        <th>Concept</th>
+                                        <th>What it stores</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Match object</td>
+                                        <td>full match + groups</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Groups</td>
+                                        <td>captured substring parts</td>
+                                    </tr>
+                                    <tr>
+                                        <td>findall</td>
+                                        <td>a list of all matches</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">dry run groups</div>
+                                </div>
+                                <pre><code>import re
+
+text = "ID: 9876"
+pattern = r"ID: (\\d+)"
+
+m = re.search(pattern, text)
+print(m.group(1))
+</code></pre>
+                            </div>
+                            <table class="table" aria-label="Dry run table">
+                                <thead>
+                                    <tr>
+                                        <th>Step</th>
+                                        <th>Engine action</th>
+                                        <th>Result</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Find literal "ID: "</td>
+                                        <td>matches start part</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Capture digits group <code>(\d+)</code></td>
+                                        <td>group1 = 9876</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td><code>group(1)</code></td>
+                                        <td>prints 9876</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>len()</code> to check string length.</li>
+                            </ul>
+                            <p>Regex functions come from the <code>re</code> module, not Python built-ins.</p>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <div class="callout note">
+                                <h3>Common regex methods (Python re)</h3>
+                                <ul>
+                                    <li><code>re.match(pattern, text)</code></li>
+                                    <li><code>re.search(pattern, text)</code></li>
+                                    <li><code>re.findall(pattern, text)</code></li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is regex?</li>
+                                <li>Why do we use regex?</li>
+                                <li>What is the purpose of <code>re.search</code>?</li>
+                                <li>What is the purpose of <code>re.match</code>?</li>
+                                <li>What is the purpose of <code>re.findall</code>?</li>
+                                <li>What does <code>r"..."</code> mean in Python?</li>
+                                <li>What is <code>\d</code> in regex?</li>
+                                <li>What is <code>\w</code> in regex?</li>
+                                <li>What is <code>.</code> (dot) in regex?</li>
+                                <li>What is <code>+</code> in regex?</li>
+                                <li>What is <code>*</code> in regex?</li>
+                                <li>What is <code>?</code> in regex?</li>
+                                <li>What does <code>{n}</code> mean?</li>
+                                <li>What is a character class like <code>[0-9]</code>?</li>
+                                <li>What does <code>^</code> mean in regex?</li>
+                                <li>What does <code>$</code> mean in regex?</li>
+                                <li>What is a capturing group <code>(...)</code>?</li>
+                                <li>How do you get a group using <code>group(1)</code>?</li>
+                                <li>What is the difference between greedy and non-greedy matching (concept)?</li>
+                                <li>Why might a regex pattern fail to match?</li>
+                                <li>How do you debug a regex pattern (concept)?</li>
+                                <li>How do you find all digits in text?</li>
+                                <li>How do you extract an email from a sentence?</li>
+                                <li>How do you replace matched parts (concept: <code>sub</code>)?</li>
+                                <li>When should you avoid complex regex?</li>
+                                <li>What is a common beginner mistake with backslashes?</li>
+                                <li>What does escaping mean in regex strings?</li>
+                                <li>How can you match a literal dot <code>.</code>?</li>
+                                <li>What is the role of regex flags like <code>re.I</code> (concept)?</li>
+                                <li>Why can regex be slower for huge inputs?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li><code>re.match</code> checks:
+                                    <ul>
+                                        <li>A) anywhere</li>
+                                        <li>B) at start</li>
+                                        <li>C) at end only</li>
+                                        <li>D) never</li>
+                                    </ul>
+                                </li>
+                                <li><code>re.search</code> checks:
+                                    <ul>
+                                        <li>A) only start</li>
+                                        <li>B) anywhere</li>
+                                        <li>C) only digits</li>
+                                        <li>D) only spaces</li>
+                                    </ul>
+                                </li>
+                                <li><code>re.findall</code> returns:
+                                    <ul>
+                                        <li>A) one match</li>
+                                        <li>B) list of matches</li>
+                                        <li>C) boolean only</li>
+                                        <li>D) nothing</li>
+                                    </ul>
+                                </li>
+                                <li><code>r"..."</code> is:
+                                    <ul>
+                                        <li>A) raw string</li>
+                                        <li>B) regex string always</li>
+                                        <li>C) comment</li>
+                                        <li>D) python variable</li>
+                                    </ul>
+                                </li>
+                                <li><code>\d</code> matches:
+                                    <ul>
+                                        <li>A) digits</li>
+                                        <li>B) letters</li>
+                                        <li>C) whitespace</li>
+                                        <li>D) punctuation</li>
+                                    </ul>
+                                </li>
+                                <li><code>\w</code> matches:
+                                    <ul>
+                                        <li>A) digits only</li>
+                                        <li>B) word characters</li>
+                                        <li>C) whitespace only</li>
+                                        <li>D) vowels only</li>
+                                    </ul>
+                                </li>
+                                <li><code>+</code> means:
+                                    <ul>
+                                        <li>A) zero or more</li>
+                                        <li>B) one or more</li>
+                                        <li>C) exactly one</li>
+                                        <li>D) optional only</li>
+                                    </ul>
+                                </li>
+                                <li><code>*</code> means:
+                                    <ul>
+                                        <li>A) one or more</li>
+                                        <li>B) zero or more</li>
+                                        <li>C) exactly one</li>
+                                        <li>D) never</li>
+                                    </ul>
+                                </li>
+                                <li><code>?</code> means:
+                                    <ul>
+                                        <li>A) zero or one</li>
+                                        <li>B) one or more</li>
+                                        <li>C) greedy</li>
+                                        <li>D) infinite</li>
+                                    </ul>
+                                </li>
+                                <li>Dot <code>.</code> matches:
+                                    <ul>
+                                        <li>A) any character (except newline by default)</li>
+                                        <li>B) nothing</li>
+                                        <li>C) only digits</li>
+                                        <li>D) only spaces</li>
+                                    </ul>
+                                </li>
+                                <li>Character class <code>[0-9]</code> matches:
+                                    <ul>
+                                        <li>A) digits 0-9</li>
+                                        <li>B) letter range</li>
+                                        <li>C) any char</li>
+                                        <li>D) only zero</li>
+                                    </ul>
+                                </li>
+                                <li><code>^</code> means:
+                                    <ul>
+                                        <li>A) match start</li>
+                                        <li>B) match end</li>
+                                        <li>C) match digit</li>
+                                        <li>D) escape</li>
+                                    </ul>
+                                </li>
+                                <li><code>$</code> means:
+                                    <ul>
+                                        <li>A) match start</li>
+                                        <li>B) match end</li>
+                                        <li>C) match middle</li>
+                                        <li>D) repeat</li>
+                                    </ul>
+                                </li>
+                                <li>Capturing group is:
+                                    <ul>
+                                        <li>A) <code>(...)</code></li>
+                                        <li>B) <code>{...}</code></li>
+                                        <li>C) <code>[...]</code></li>
+                                        <li>D) <code><...></code></li>
+                                    </ul>
+                                </li>
+                                <li><code>group(1)</code> returns:
+                                    <ul>
+                                        <li>A) first group match text</li>
+                                        <li>B) boolean</li>
+                                        <li>C) entire list</li>
+                                        <li>D) pattern string</li>
+                                    </ul>
+                                </li>
+                                <li>If pattern doesn’t match, <code>re.search</code> returns:
+                                    <ul>
+                                        <li>A) None</li>
+                                        <li>B) True</li>
+                                        <li>C) empty list</li>
+                                        <li>D) error</li>
+                                    </ul>
+                                </li>
+                                <li>Regex escaping is needed when:
+                                    <ul>
+                                        <li>A) pattern has special characters like dot</li>
+                                        <li>B) pattern has letters only</li>
+                                        <li>C) always not needed</li>
+                                        <li>D) only in HTML</li>
+                                    </ul>
+                                </li>
+                                <li>Backslash <code>\\</code> in Python string often means:
+                                    <ul>
+                                        <li>A) regex escape backslash</li>
+                                        <li>B) newline</li>
+                                        <li>C) tab</li>
+                                        <li>D) comment</li>
+                                    </ul>
+                                </li>
+                                <li>Regex is good for:
+                                    <ul>
+                                        <li>A) pattern matching and extraction</li>
+                                        <li>B) printing UI</li>
+                                        <li>C) CSS styling</li>
+                                        <li>D) file copy only</li>
+                                    </ul>
+                                </li>
+                                <li>When regex becomes hard, prefer:
+                                    <ul>
+                                        <li>A) simpler code or loops</li>
+                                        <li>B) more complexity</li>
+                                        <li>C) no tests</li>
+                                        <li>D) ignore</li>
+                                    </ul>
+                                </li>
+                                <li><code>re.I</code> flag means:
+                                    <ul>
+                                        <li>A) case-insensitive (concept)</li>
+                                        <li>B) only digits</li>
+                                        <li>C) offline mode</li>
+                                        <li>D) slow mode</li>
+                                    </ul>
+                                </li>
+                                <li>To match a literal dot you use:
+                                    <ul>
+                                        <li>A) <code>\.</code></li>
+                                        <li>B) <code>.</code> alone</li>
+                                        <li>C) <code>*</code></li>
+                                        <li>D) <code>..</code></li>
+                                    </ul>
+                                </li>
+                                <li>Greedy behavior means:
+                                    <ul>
+                                        <li>A) tries to match as much as possible</li>
+                                        <li>B) matches as little as possible always</li>
+                                        <li>C) no matching</li>
+                                        <li>D) random</li>
+                                    </ul>
+                                </li>
+                                <li>Regex can use parentheses to:
+                                    <ul>
+                                        <li>A) capture groups</li>
+                                        <li>B) change theme</li>
+                                        <li>C) create HTML</li>
+                                        <li>D) delete files</li>
+                                    </ul>
+                                </li>
+                                <li><code>re.findall</code> with groups can return tuples (concept)?
+                                    <ul>
+                                        <li>A) sometimes yes</li>
+                                        <li>B) never</li>
+                                        <li>C) always boolean</li>
+                                        <li>D) only None</li>
+                                    </ul>
+                                </li>
+                                <li>One reason to use regex is:
+                                    <ul>
+                                        <li>A) avoid writing many loops for patterns</li>
+                                        <li>B) avoid reading strings</li>
+                                        <li>C) avoid tests</li>
+                                        <li>D) avoid errors</li>
+                                    </ul>
+                                </li>
+                                <li>A common beginner bug is:
+                                    <ul>
+                                        <li>A) incorrect escaping/backslashes</li>
+                                        <li>B) using print</li>
+                                        <li>C) using lists</li>
+                                        <li>D) using indentation</li>
+                                    </ul>
+                                </li>
+                                <li>Regex engine scans text:
+                                    <ul>
+                                        <li>A) left to right (concept)</li>
+                                        <li>B) right to left always</li>
+                                        <li>C) random</li>
+                                        <li>D) never</li>
+                                    </ul>
+                                </li>
+                                <li>Regex matching is pattern-based:
+                                    <ul>
+                                        <li>A) yes</li>
+                                        <li>B) no</li>
+                                        <li>C) color-based</li>
+                                        <li>D) file-based</li>
+                                    </ul>
+                                </li>
+                                <li>In Python regex, functions come from:
+                                    <ul>
+                                        <li>A) re module</li>
+                                        <li>B) css</li>
+                                        <li>C) html</li>
+                                        <li>D) js</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Use <code>re.findall(r"\\d+", text)</code> to extract digits from
+                                    <code>"A1 B20"</code>.</li>
+                                <li>Use <code>re.search</code> to find the word <code>"Python"</code> inside a sentence.
+                                </li>
+                                <li>Match a string that starts with <code>Hello</code> using <code>^Hello</code>
+                                    (concept).</li>
+                                <li>Extract all lowercase letters using a character class.</li>
+                                <li>Find all words ending with <code>ing</code> (concept).</li>
+                                <li>Find a pattern <code>ID: 123</code> and extract digits using groups.</li>
+                                <li>Extract date parts from <code>Date: 2026-07-13</code>.</li>
+                                <li>Count how many times a substring appears using regex count (concept:
+                                    <code>findall</code> length).</li>
+                                <li>Write a regex that matches only digits <code>0-9</code> anywhere.</li>
+                                <li>Try <code>re.match</code> vs <code>re.search</code> on the same pattern and explain
+                                    difference.</li>
+                                <li>Use <code>re.findall</code> to get all numbers from <code>"x=10 y=20"</code>.</li>
+                                <li>Extract <code>abc</code> occurrences using <code>re.findall</code>.</li>
+                                <li>Use parentheses to capture a repeated part <code>(...)</code>.</li>
+                                <li>Match a phone-like string <code>123-456-7890</code> (simplified pattern).</li>
+                                <li>Escape a dot <code>.</code> to match a literal period in text.</li>
+                                <li>Use <code>re.search</code> to detect if an email exists in a sentence.</li>
+                                <li>Extract domain part after <code>@</code> (concept).</li>
+                                <li>Find all words with length 3 (concept).</li>
+                                <li>Match sequences of letters using <code>[A-Za-z]+</code>.</li>
+                                <li>Predict output for <code>re.findall(r"\\d", "a1b2")</code> then run.</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Extract all numbers with optional sign (concept).</li>
+                                <li>Extract all words before an <code>@</code> symbol using groups.</li>
+                                <li>Find and extract multiple dates from a paragraph (concept with findall).</li>
+                                <li>Write regex to validate that a string has exactly 5 digits.</li>
+                                <li>Extract product codes like <code>SKU-AB12</code> (simplified).</li>
+                                <li>Find all occurrences of <code>www.</code> URLs (simplified).</li>
+                                <li>Use groups to capture year/month/day from different date examples.</li>
+                                <li>Extract all words and filter only those starting with <code>p</code> (concept).</li>
+                                <li>Compare two patterns: <code>\d+</code> vs <code>\d</code> and explain result size.
+                                </li>
+                                <li>Use <code>^</code> and <code>$</code> to validate full string match.</li>
+                                <li>Extract emails, then print them in a loop.</li>
+                                <li>Implement a function that returns matches or empty list if none found.</li>
+                                <li>Use non-greedy concept <code>+?</code> to capture minimal text (concept).</li>
+                                <li>Find content inside parentheses using groups (concept).</li>
+                                <li>Split a string by regex pattern of spaces and commas (concept).</li>
+                                <li>Extract IDs with prefix <code>USR-</code> followed by digits.</li>
+                                <li>Write regex to capture a keyword and the value after colon.</li>
+                                <li>Extract hashtags like <code>#python</code> from text.</li>
+                                <li>Regex replace concept: replace digits with <code>*</code>.</li>
+                                <li>Debug a regex syntax error you made (concept).</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Create a robust parser for key-value pairs like <code>a=10,b=20</code> (concept).
+                                </li>
+                                <li>Extract all quoted strings from a text (simplified).</li>
+                                <li>Implement a regex-based tokenizer for words/numbers (concept).</li>
+                                <li>Validate a simplified credit-card pattern (concept).</li>
+                                <li>Extract log fields: level, message, timestamp (simplified).</li>
+                                <li>Write a pattern to match nested-looking structures (concept: often hard).</li>
+                                <li>Use regex flags (concept) to make matching case-insensitive.</li>
+                                <li>Build a function that normalizes whitespace using regex replace.</li>
+                                <li>Find repeated patterns and count them (concept with findall length).</li>
+                                <li>Create multiple patterns and decide which one matches based on results.</li>
+                                <li>Optimize: compile regex pattern (concept with <code>re.compile</code>).</li>
+                                <li>Explain why complex regex can be slow for large texts (concept).</li>
+                                <li>Write a regex for IPv4 addresses (simplified but structured).</li>
+                                <li>Extract version numbers like <code>1.2.3</code> from text.</li>
+                                <li>Extract file extensions using regex (concept).</li>
+                                <li>Regex to find markdown links <code>[text](url)</code> (simplified).</li>
+                                <li>Debug group index mismatch and fix it (concept).</li>
+                                <li>Write regex to detect repeated whitespace patterns.</li>
+                                <li>Make a pattern for currency like <code>$12.50</code> (simplified).</li>
+                                <li>Write a small “regex playground” script (concept).</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment19_1.py</code>: extract all numbers from a string and print
+                                    list + count.</li>
+                                <li>Create <code>assignment19_2.py</code>: extract emails from a paragraph.</li>
+                                <li>Create <code>assignment19_3.py</code>: parse dates in <code>YYYY-MM-DD</code> and
+                                    print year/month/day.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Text Cleaner</h3>
+                                <p>Given a text string, do two regex tasks:</p>
+                                <ul>
+                                    <li>Replace all digits with <code>*</code>.</li>
+                                    <li>Extract all remaining words and print them.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+                            <div class="callout warning">
+                                <h3>Case 1: forgetting raw string</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>import re
+pattern = "\d+"
+print(re.findall(pattern, "a1b2"))
+</code></pre>
+                                </div>
+                                <p><strong>Explanation:</strong> Python interprets <code>\d</code> inside a normal
+                                    string. Use <code>r"\d+"</code> or escape properly.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: match returns None</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>import re
+text = "hello Python"
+print(re.match(r"Python", text))
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> use <code>re.search</code> or add <code>^</code> correctly.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: wrong group index</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>import re
+text = "2026-07-13"
+pattern = r"(\\d{4})-(\\d{2})-(\\d{2})"
+
+m = re.search(pattern, text)
+print(m.group(3))
+print(m.group(1))
+</code></pre>
+                                </div>
+                                <p><strong>Explanation:</strong> <code>group(1)</code> is year, <code>group(2)</code>
+                                    month, <code>group(3)</code> day. Confirm indexes.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>TypeError/ValueError:</strong> if you pass non-string text (concept).</li>
+                                <li><strong>NoneType:</strong> calling <code>group()</code> when search returned
+                                    <code>None</code>.</li>
+                                <li><strong>Regex syntax error:</strong> invalid pattern characters.</li>
+                                <li><strong>Wrong escaping:</strong> backslashes not handled correctly.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Start with small patterns; test with a short example string.</li>
+                                <li>Use raw strings <code>r"..."</code> for regex patterns.</li>
+                                <li>Prefer readable patterns; avoid extremely complex one-liners.</li>
+                                <li>Always check <code>if m:</code> before using <code>m.group()</code>.</li>
+                                <li>Compile patterns for repeated use (advanced).</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                Regex is a powerful text pattern tool in Python.
+                                You learned <code>re.search</code> (find anywhere), <code>re.match</code> (start), and
+                                <code>re.findall</code> (extract all).
+                                You practiced with digits, groups, and practical extraction tasks.
+                                You also learned debugging and common mistakes with escaping and <code>None</code>
+                                results.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Regex cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Need</th>
+                                        <th>Regex</th>
+                                        <th>Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Digits</td>
+                                        <td><code>\d+</code></td>
+                                        <td>one or more digits</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Word chars</td>
+                                        <td><code>\w+</code></td>
+                                        <td>letters/digits/_</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Any char</td>
+                                        <td><code>.</code></td>
+                                        <td>any character</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Filter</td>
+                                        <td><code>[0-9]</code></td>
+                                        <td>one digit</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Group</td>
+                                        <td><code>(...)</code></td>
+                                        <td>capture part</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Start</td>
+                                        <td><code>^...</code></td>
+                                        <td>match at start</td>
+                                    </tr>
+                                    <tr>
+                                        <td>End</td>
+                                        <td><code>...$</code></td>
+                                        <td>match at end</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Extract IDs</h3>
+                                <p>Given text like <code>"IDs: A12, B34, C56"</code>, extract:</p>
+                                <ul>
+                                    <li>All letters A/B/C</li>
+                                    <li>All numbers 12/34/56</li>
+                                </ul>
+                                <p>Use one regex pattern with two groups.</p>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What is regex used for?</li>
+                                <li>When do you use <code>re.search</code>?</li>
+                                <li>When do you use <code>re.match</code>?</li>
+                                <li>What does <code>re.findall</code> return?</li>
+                                <li>What does <code>\d</code> match?</li>
+                                <li>What are capturing groups?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations (short)</h3>
+                                <ul>
+                                    <li><strong>match</strong> checks start of string.</li>
+                                    <li><strong>search</strong> scans anywhere.</li>
+                                    <li><strong>findall</strong> extracts every match into a list.</li>
+                                    <li><strong>groups</strong> capture parts so you can use <code>group(1)</code>,
+                                        <code>group(2)</code>, etc.</li>
+                                    <li><strong>raw strings</strong> help avoid backslash escaping mistakes.</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-20.html">Next Chapter</a></div>
+                            </div>
+
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

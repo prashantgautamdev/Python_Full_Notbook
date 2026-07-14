@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 11 — Tuples</title>
+    <meta name="description"
+        content="Chapter 11: Tuples. Learn tuple creation, indexing, slicing, immutability, and when to use tuples." />
+    <link rel="canonical" href="./chapters/chapter-11.html" />
+
+    <meta property="og:title" content="Chapter 11 — Tuples" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description"
+        content="Learn tuples: syntax, indexing, slicing, immutability, examples, practice, and explained answers." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 11 — Tuples" />
+    <meta name="twitter:description" content="Python tuples chapter." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 11 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+                    <div class="callout remember" style="margin-top:12px;">
+                        <h3>⭐ Remember</h3>
+                        <p>
+                            Tuples look like lists, but they are <strong>immutable</strong>.
+                            You can read items, but you don’t change them.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 11</div>
+                        <h1 class="chapter-title">Chapter 11 — Tuples</h1>
+                        <p class="subtle">Learn tuples: create them, index/slice them, and understand why immutability
+                            is useful.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-10.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <p>By the end of this chapter, you will be able to:</p>
+                                <ul>
+                                    <li>Create tuples with <code>( )</code>.</li>
+                                    <li>Access tuple items using indexing and slicing.</li>
+                                    <li>Explain immutability and its benefits.</li>
+                                    <li>Compare tuples vs lists.</li>
+                                    <li>Use tuples in small real tasks.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                Earlier you learned <strong>lists</strong>, which are flexible.
+                                Sometimes you want a collection that you <em>don’t</em> change.
+                            </p>
+                            <p>
+                                That’s where <strong>tuples</strong> help.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 What is a tuple?</h3>
+                            <p>
+                                A tuple is an ordered collection like a list.
+                                The difference: tuples are <strong>immutable</strong>.
+                            </p>
+
+                            <h3>2.2 Immutability = cannot change items</h3>
+                            <p>
+                                Immutable means you cannot update an item like <code>t[0] = ...</code>.
+                                But you can still read and slice.
+                            </p>
+
+                            <h3>2.3 Tuples vs lists (comparison table)</h3>
+                            <table class="table" aria-label="Tuples vs lists">
+                                <thead>
+                                    <tr>
+                                        <th>Feature</th>
+                                        <th>List</th>
+                                        <th>Tuple</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Mutable?</td>
+                                        <td>Yes</td>
+                                        <td>No</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Created with</td>
+                                        <td><code>[ ]</code></td>
+                                        <td><code>( )</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Typical use</td>
+                                        <td>Data you update</td>
+                                        <td>Fixed data</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Safety</td>
+                                        <td>Can change by accident</td>
+                                        <td>More protected from mistakes</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    If a tuple contains a mutable object (like a list inside a tuple), that inner object
+                                    can still change.
+                                    This chapter focuses on immutability of the tuple container itself.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">create + access</div>
+                                </div>
+                                <pre><code>t = (10, 20, 30)
+print(t[0])
+print(t[-1])
+</code></pre>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">slicing</div>
+                                </div>
+                                <pre><code>t = (1, 2, 3, 4, 5)
+print(t[1:4]) # (2,3,4)
+print(t[:2])  # (1,2)
+print(t[3:])  # (4,5)
+</code></pre>
+                            </div>
+
+                            <p><strong>Time complexity:</strong> indexing O(1), slicing O(k) • <strong>Space:</strong>
+                                slicing new tuple/list depends; concept O(k).</p>
+                            <p><strong>Alternative approach:</strong> if you need updates, use list.</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — coordinates</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">fixed point</div>
+                                </div>
+                                <pre><code>point = (5, 7)
+
+x = point[0]
+y = point[1]
+
+print("x:", x)
+print("y:", y)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> x: 5 and y: 7</p>
+
+                            <h3>4.2 Medium Example — tuple vs list update</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">immutability</div>
+                                </div>
+                                <pre><code>t = (1, 2, 3)
+# t[0] = 99  # ❌ error: tuples are immutable
+
+print(t)
+</code></pre>
+                            </div>
+
+                            <h3>4.3 Advanced Example — tuple unpacking</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">unpack</div>
+                                </div>
+                                <pre><code>name_age = ("Ravi", 20)
+name, age = name_age
+print(name)
+print(age)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> Ravi then 20</p>
+                            <p><strong>Time:</strong> O(1) • <strong>Space:</strong> O(1) extra (ignoring strings).</p>
+                            <p><strong>Alternative:</strong> access by index (less readable).</p>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: tuple creation → access → (no updates)</h3>
+                                <pre><code>[Start]
+   |
+   v
+[Create tuple]
+   |
+   v
+[Read items using index/slice]
+   |
+   v
+[Process / print]
+   |
+   v
+[End]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <p>
+                                A tuple is stored as a fixed sequence.
+                                The variable points to it. Items inside do not change.
+                            </p>
+                            <table class="table" aria-label="Tuple memory">
+                                <thead>
+                                    <tr>
+                                        <th>Index</th>
+                                        <th>Item</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>0</td>
+                                        <td><code>10</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td><code>20</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td><code>30</code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="callout remember">
+                                <h3>🧠 Memory trick</h3>
+                                <p><strong>Tuple</strong> sounds like <strong>“two”</strong> (pairs) or
+                                    <strong>“bundle”</strong> that stays the same.</p>
+                            </div>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">unpacking dry run</div>
+                                </div>
+                                <pre><code>pair = ("A", "B")
+a, b = pair
+print(a)
+print(b)
+</code></pre>
+                            </div>
+                            <table class="table" aria-label="Dry run unpack">
+                                <thead>
+                                    <tr>
+                                        <th>Step</th>
+                                        <th>What happens</th>
+                                        <th>Values</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Create tuple <code>pair</code></td>
+                                        <td><code>("A","B")</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Unpack into <code>a</code> and <code>b</code></td>
+                                        <td><code>a="A", b="B"</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Print variables</td>
+                                        <td>A then B</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p><strong>Time:</strong> O(1) • <strong>Space:</strong> O(1).</p>
+                            <p><strong>Alternative:</strong> read with <code>pair[0]</code> and <code>pair[1]</code>.
+                            </p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>len(t)</code>: number of items in tuple.</li>
+                            </ul>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">len()</div>
+                                </div>
+                                <pre><code>t = (10, 20, 30)
+print(len(t))
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> 3</p>
+                            <p><strong>Time:</strong> O(1) • <strong>Space:</strong> O(1).</p>
+                            <p><strong>Alternative:</strong> manual counting (not recommended).</p>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <p>
+                                Tuples have fewer methods than lists because tuples are immutable.
+                                But you can still use methods like <code>count()</code> and <code>index()</code>.
+                            </p>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">count + index</div>
+                                </div>
+                                <pre><code>t = (1, 2, 2, 3)
+
+print(t.count(2))
+print(t.index(3))
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> 2 then 3</p>
+                            <p><strong>Time:</strong> O(n) • <strong>Space:</strong> O(1).</p>
+                            <p><strong>Alternative:</strong> loop and count manually.</p>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is a tuple in Python?</li>
+                                <li>How do you create a tuple?</li>
+                                <li>What makes tuples different from lists?</li>
+                                <li>Can you change tuple items?</li>
+                                <li>What error do you get if you try to modify a tuple?</li>
+                                <li>How do you read the first item in a tuple?</li>
+                                <li>What does negative indexing mean for tuples?</li>
+                                <li>How do you slice a tuple?</li>
+                                <li>Is the end index included in slicing?</li>
+                                <li>What is tuple unpacking?</li>
+                                <li>Why is tuple unpacking useful?</li>
+                                <li>When should you use a tuple instead of a list?</li>
+                                <li>Are tuples immutable deeply or shallow?</li>
+                                <li>Can tuples contain different data types?</li>
+                                <li>What is <code>t.count(x)</code> used for?</li>
+                                <li>What is <code>t.index(x)</code> used for?</li>
+                                <li>How do you get tuple length?</li>
+                                <li>What does ordered mean for tuples?</li>
+                                <li>Can you add items to a tuple?</li>
+                                <li>How do you create an “empty tuple”?</li>
+                                <li>What is a single-element tuple syntax?</li>
+                                <li>Does tuple unpacking require equal sizes?</li>
+                                <li>How do you avoid modifying a tuple?</li>
+                                <li>How do you convert tuple to list?</li>
+                                <li>How do you convert list to tuple?</li>
+                                <li>What is a common bug with tuple immutability?</li>
+                                <li>How do you debug tuple-related errors?</li>
+                                <li>What is the time complexity of indexing a tuple?</li>
+                                <li>What is the time complexity of counting an element?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>A tuple is created with:
+                                    <ul>
+                                        <li>A) { }</li>
+                                        <li>B) [ ]</li>
+                                        <li>C) ( )</li>
+                                        <li>D) <>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>Tuples are:
+                                    <ul>
+                                        <li>A) mutable</li>
+                                        <li>B) immutable</li>
+                                        <li>C) only strings</li>
+                                        <li>D) always empty</li>
+                                    </ul>
+                                </li>
+                                <li>List items can be updated with:
+                                    <ul>
+                                        <li>A) <code>l[0]=x</code></li>
+                                        <li>B) <code>l.append()</code></li>
+                                        <li>C) A and B</li>
+                                        <li>D) Neither</li>
+                                    </ul>
+                                </li>
+                                <li>If you try <code>t[0]=x</code> on tuple, you get:
+                                    <ul>
+                                        <li>A) TypeError</li>
+                                        <li>B) SyntaxError</li>
+                                        <li>C) TypeError/assignment error (concept)</li>
+                                        <li>D) ValueError</li>
+                                    </ul>
+                                </li>
+                                <li>Tuple indexing starts at:
+                                    <ul>
+                                        <li>A) 1</li>
+                                        <li>B) 0</li>
+                                        <li>C) -1</li>
+                                        <li>D) none</li>
+                                    </ul>
+                                </li>
+                                <li>Negative index -1 means:
+                                    <ul>
+                                        <li>A) first</li>
+                                        <li>B) last</li>
+                                        <li>C) second</li>
+                                        <li>D) error</li>
+                                    </ul>
+                                </li>
+                                <li>Slicing syntax for tuples is:
+                                    <ul>
+                                        <li>A) <code>t[end,start]</code></li>
+                                        <li>B) <code>t[start:end]</code></li>
+                                        <li>C) <code>t(start,end)</code></li>
+                                        <li>D) <code>t::end</code></li>
+                                    </ul>
+                                </li>
+                                <li>In slicing, the end index is:
+                                    <ul>
+                                        <li>A) included</li>
+                                        <li>B) excluded</li>
+                                        <li>C) random</li>
+                                        <li>D) always 0</li>
+                                    </ul>
+                                </li>
+                                <li>Tuple unpacking means:
+                                    <ul>
+                                        <li>A) sorting</li>
+                                        <li>B) assigning elements to variables</li>
+                                        <li>C) deleting elements</li>
+                                        <li>D) converting to dict</li>
+                                    </ul>
+                                </li>
+                                <li><code>t.count(x)</code> returns:
+                                    <ul>
+                                        <li>A) index</li>
+                                        <li>B) occurrences</li>
+                                        <li>C) max value</li>
+                                        <li>D) boolean</li>
+                                    </ul>
+                                </li>
+                                <li><code>t.index(x)</code> returns:
+                                    <ul>
+                                        <li>A) first index of x</li>
+                                        <li>B) last index of x</li>
+                                        <li>C) list of indexes</li>
+                                        <li>D) length</li>
+                                    </ul>
+                                </li>
+                                <li>Which is better for fixed data:
+                                    <ul>
+                                        <li>A) tuple</li>
+                                        <li>B) list</li>
+                                        <li>C) set</li>
+                                        <li>D) dict</li>
+                                    </ul>
+                                </li>
+                                <li>Tuples are ordered because:
+                                    <ul>
+                                        <li>A) they are sorted automatically</li>
+                                        <li>B) items have positions</li>
+                                        <li>C) they are not strings</li>
+                                        <li>D) they are immutable</li>
+                                    </ul>
+                                </li>
+                                <li>A tuple can contain:
+                                    <ul>
+                                        <li>A) only numbers</li>
+                                        <li>B) only strings</li>
+                                        <li>C) mixed types</li>
+                                        <li>D) no booleans</li>
+                                    </ul>
+                                </li>
+                                <li>To get length of tuple, you use:
+                                    <ul>
+                                        <li>A) len()</li>
+                                        <li>B) size()</li>
+                                        <li>C) count()</li>
+                                        <li>D) length()</li>
+                                    </ul>
+                                </li>
+                                <li>Tuple slicing creates:
+                                    <ul>
+                                        <li>A) a tuple</li>
+                                        <li>B) always a list</li>
+                                        <li>C) integer</li>
+                                        <li>D) dict</li>
+                                    </ul>
+                                </li>
+                                <li>To convert tuple to list, use:
+                                    <ul>
+                                        <li>A) list(t)</li>
+                                        <li>B) tuple(t)</li>
+                                        <li>C) t.list()</li>
+                                        <li>D) convert(t)</li>
+                                    </ul>
+                                </li>
+                                <li>To convert list to tuple, use:
+                                    <ul>
+                                        <li>A) list(t)</li>
+                                        <li>B) tuple(l)</li>
+                                        <li>C) l.tuple()</li>
+                                        <li>D) makeTuple(l)</li>
+                                    </ul>
+                                </li>
+                                <li>Single-element tuple syntax includes:
+                                    <ul>
+                                        <li>A) commas required</li>
+                                        <li>B) parentheses only</li>
+                                        <li>C) semicolons</li>
+                                        <li>D) quotes</li>
+                                    </ul>
+                                </li>
+                                <li>Which is empty tuple?
+                                    <ul>
+                                        <li>A) ()</li>
+                                        <li>B) []</li>
+                                        <li>C) {}</li>
+                                        <li>D) empty</li>
+                                    </ul>
+                                </li>
+                                <li>Tuples can be read with:
+                                    <ul>
+                                        <li>A) index</li>
+                                        <li>B) key only</li>
+                                        <li>C) method only</li>
+                                        <li>D) none</li>
+                                    </ul>
+                                </li>
+                                <li>Immutability helps:
+                                    <ul>
+                                        <li>A) safety from accidental changes</li>
+                                        <li>B) faster editing</li>
+                                        <li>C) removing indentation</li>
+                                        <li>D) network use</li>
+                                    </ul>
+                                </li>
+                                <li>Tuples support <code>count()</code> method because:
+                                    <ul>
+                                        <li>A) they are strings</li>
+                                        <li>B) they can search elements</li>
+                                        <li>C) they are lists</li>
+                                        <li>D) they are dicts</li>
+                                    </ul>
+                                </li>
+                                <li>Tuple index() returns:
+                                    <ul>
+                                        <li>A) all positions</li>
+                                        <li>B) first position</li>
+                                        <li>C) last position only</li>
+                                        <li>D) boolean</li>
+                                    </ul>
+                                </li>
+                                <li>A common tuple bug is:
+                                    <ul>
+                                        <li>A) trying to update items</li>
+                                        <li>B) using print</li>
+                                        <li>C) using parentheses</li>
+                                        <li>D) importing</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Create tuple <code>t=(1,2,3)</code> and print it.</li>
+                                <li>Print <code>t[0]</code>.</li>
+                                <li>Print <code>t[-1]</code>.</li>
+                                <li>Print <code>t[1:3]</code>.</li>
+                                <li>Slice <code>t[:2]</code> and print.</li>
+                                <li>Try to change <code>t[0]</code> (expect error mentally).</li>
+                                <li>Create tuple of names: <code>("A","B")</code> and print.</li>
+                                <li>Compute <code>len(t)</code> and print.</li>
+                                <li>Use <code>t.count(2)</code>.</li>
+                                <li>Use <code>t.index(3)</code>.</li>
+                                <li>Create a tuple with mixed types and print.</li>
+                                <li>Unpack <code>("Ravi",20)</code> into <code>name, age</code> and print.</li>
+                                <li>Create empty tuple <code>()</code> and print type (concept).</li>
+                                <li>Create single-element tuple <code>(5,)</code> and print.</li>
+                                <li>Slice tuple and store in new variable.</li>
+                                <li>Compare two tuples for equality.</li>
+                                <li>Check if a value exists in tuple (concept with <code>in</code>).</li>
+                                <li>Extract first element via unpacking.</li>
+                                <li>Extract last element via indexing.</li>
+                                <li>Dry run: predict output of <code>t[1:2]</code>.</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Given tuple of numbers, compute sum using loop.</li>
+                                <li>Create tuple of squares using loop and append to list then convert (concept).</li>
+                                <li>Find max in tuple using loop only.</li>
+                                <li>Find min in tuple using loop only.</li>
+                                <li>Count occurrences of a value using loop (alternative to count()).</li>
+                                <li>Unpack 3 values from tuple and print them.</li>
+                                <li>Convert tuple to list, update one item, convert back.</li>
+                                <li>Unpack a tuple inside an if statement (concept).</li>
+                                <li>Given tuple of strings, print those longer than 3 using loop.</li>
+                                <li>Check if tuple is sorted ascending using comparisons.</li>
+                                <li>Create coordinate tuples and compute distance in simple form (concept).</li>
+                                <li>Build a list of tuples and print each.</li>
+                                <li>Given tuple (name, age), print greeting message.</li>
+                                <li>Use slicing to get middle part of tuple.</li>
+                                <li>Find index of value using loop (alternative to index()).</li>
+                                <li>Replace tuple with a new tuple (not modifying old one).</li>
+                                <li>Create tuple from range using <code>tuple(range(5))</code>.</li>
+                                <li>Convert list to tuple and check immutability mentally.</li>
+                                <li>Dry run: predict output of tuple unpacking.</li>
+                                <li>Sort a tuple (needs conversion to list; concept).</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Implement a function that returns a tuple (min,max).</li>
+                                <li>Implement a function that swaps values and returns a tuple.</li>
+                                <li>Validate a tuple has exactly 2 elements and types are correct (concept).</li>
+                                <li>Create a tuple-based point validator (x,y within range).</li>
+                                <li>Compute average of numbers in tuple using loop and return value.</li>
+                                <li>Flatten a list of tuples one level into a single list (concept).</li>
+                                <li>Build a tuple frequency mapping using dictionary and tuple keys.</li>
+                                <li>Given a tuple, remove duplicates by converting to set then back (explain trade-off).
+                                </li>
+                                <li>Implement running totals returning tuple list (concept).</li>
+                                <li>Try to modify tuple containing inner list and explain what changes.</li>
+                                <li>Design an API: <code>make_user(name, age)</code> returns a tuple.</li>
+                                <li>Output prediction for slicing with negative indices.</li>
+                                <li>Implement a function that returns multiple values using tuple.</li>
+                                <li>Write code that zips two lists into tuples using loop (concept).</li>
+                                <li>Implement custom <code>tuple_to_str</code> formatting function.</li>
+                                <li>Write tests mentally for tuple functions.</li>
+                                <li>Complex unpack: <code>(a,(b,c))</code> concept if nested tuple.</li>
+                                <li>Tuple comparisons: evaluate <code>(1,2)<(1,3)</code> (concept).</li>
+                                <li>Check if all elements in tuple meet a condition using loop.</li>
+                                <li>Implement a function that returns (even_count, odd_count).</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment11_1.py</code>: tuple of 3 numbers. Print sum using loop.
+                                </li>
+                                <li>Create <code>assignment11_2.py</code>: tuple (name, age). Unpack and print greeting.
+                                </li>
+                                <li>Create <code>assignment11_3.py</code>: tuple with duplicates. Use
+                                    <code>count()</code> and <code>index()</code>.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Pair Inventory</h3>
+                                <p>Create tuples for items and store them in a list:</p>
+                                <ul>
+                                    <li>Each tuple: <code>(item_name, quantity)</code></li>
+                                    <li>Print only items where quantity is > 0.</li>
+                                </ul>
+                            </div>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">starter</div>
+                                </div>
+                                <pre><code>inventory = [
+    ("pen", 3),
+    ("notebook", 0),
+    ("book", 5)
+]
+
+for name, qty in inventory:
+    if qty > 0:
+        print(name, "available:", qty)
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+                            <div class="callout warning">
+                                <h3>Case 1: trying to modify tuple</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>t = (1,2,3)
+t[0] = 9
+print(t)
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> create a new tuple, or use a list if you need changes.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: missing comma for single element</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>t = (5)
+print(type(t))
+</code></pre>
+                                </div>
+                                <p><strong>Issue:</strong> <code>(5)</code> is just an integer in Python.</p>
+                                <p><strong>Fix:</strong> <code>t = (5,)</code></p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: wrong unpack size</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>t = (1,2,3)
+a,b = t
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> match number of variables: <code>a,b,c = t</code></p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>TypeError:</strong> trying to change a tuple element.</li>
+                                <li><strong>ValueError:</strong> wrong unpack count.</li>
+                                <li><strong>IndexError:</strong> index out of range.</li>
+                                <li><strong>SyntaxError:</strong> wrong comma/brackets in tuple creation.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Use tuples for fixed data.</li>
+                                <li>Use lists when you need to update items.</li>
+                                <li>Use unpacking to improve readability when sizes match.</li>
+                                <li>When you must “change” a tuple, create a new one.</li>
+                                <li>Prefer <code>t.count()</code> and <code>t.index()</code> for simple queries.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                Tuples are ordered collections like lists, but they are immutable.
+                                You can read items and slice, but you cannot modify tuple elements.
+                                Tuples are useful for fixed data such as coordinates or pairs.
+                                You also learned tuple unpacking and tuple methods <code>count()</code> and
+                                <code>index()</code>.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Tuple cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Task</th>
+                                        <th>Syntax</th>
+                                        <th>Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Create</td>
+                                        <td><code>(1,2,3)</code></td>
+                                        <td>Tuple of values</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Index</td>
+                                        <td><code>t[0]</code></td>
+                                        <td>First element</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Slice</td>
+                                        <td><code>t[1:3]</code></td>
+                                        <td>Indices 1 and 2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Unpack</td>
+                                        <td><code>a,b = t</code></td>
+                                        <td>Assign elements to variables</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Count</td>
+                                        <td><code>t.count(x)</code></td>
+                                        <td>Occurrences of x</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Name Pair Printer</h3>
+                                <p>Create <code>pair = ("Alex", "Kim")</code> and:</p>
+                                <ul>
+                                    <li>Unpack into <code>first, last</code></li>
+                                    <li>Print: <code>first + " " + last</code></li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What is immutability?</li>
+                                <li>Can tuples be updated like lists?</li>
+                                <li>What is tuple unpacking?</li>
+                                <li>What is <code>t.count(x)</code>?</li>
+                                <li>What is the mistake with <code>(5)</code>?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>Tuples are immutable</strong>, so direct item assignment fails.</li>
+                                    <li><strong>Single-element tuple needs a comma</strong>: <code>(5,)</code>.</li>
+                                    <li><strong>Unpacking requires matching variable count</strong>.</li>
+                                    <li><strong>count()</strong> returns occurrences, not indexes.</li>
+                                    <li><strong>index()</strong> returns first position of the value.</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-12.html">Next Chapter</a></div>
+                            </div>
+
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

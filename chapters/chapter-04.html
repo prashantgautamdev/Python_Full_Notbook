@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 04 — Input & Output</title>
+    <meta name="description"
+        content="Chapter 4: Input & Output. Learn how to read from the keyboard and print results clearly." />
+    <link rel="canonical" href="./chapters/chapter-04.html" />
+
+    <meta property="og:title" content="Chapter 04 — Input & Output" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="Learn keyboard input and printing output with Python." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 04 — Input & Output" />
+    <meta name="twitter:description" content="Python input output chapter." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 04 • Offline • Search • Dark mode</span>
+                </div>
+
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout tip" style="margin-top:12px;">
+                        <h3>💡 Tips Box</h3>
+                        <p>When you use <code>input()</code>, the result is always text (a <code>str</code>). Convert it
+                            before math.</p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 04</div>
+
+                        <h1 class="chapter-title">Chapter 04 — Input &amp; Output</h1>
+                        <p class="subtle">Learn how to get information from the user and show results using
+                            <code>input()</code> and <code>print()</code>.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-03.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <p>By the end of this chapter, you will be able to:</p>
+                                <ul>
+                                    <li>Use <code>print()</code> to show output.</li>
+                                    <li>Use <code>input()</code> to read user data.</li>
+                                    <li>Convert <code>str</code> input into numbers safely.</li>
+                                    <li>Format output so it is easy to understand.</li>
+                                    <li>Predict output for small input/output programs.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                In a real program, you often need to <strong>read input</strong>
+                                (like a number from the keyboard) and then <strong>print output</strong>
+                                (like the computed result).
+                            </p>
+                            <div class="callout remember">
+                                <h3>⭐ Remember</h3>
+                                <p>
+                                    <code>print()</code> shows things.
+                                    <br />
+                                    <code>input()</code> reads things.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <div class="callout note">
+                                <h3>📚 Output vs Input</h3>
+                                <p>
+                                    <strong>Input</strong> is data you get from the user (keyboard) or from a file.
+                                    <br />
+                                    <strong>Output</strong> is what you show or save (screen, file, etc.).
+                                </p>
+                            </div>
+
+                            <h3>2.1 <code>print()</code> basics</h3>
+                            <p>
+                                <code>print()</code> outputs values to the screen.
+                                You can print variables and expressions.
+                            </p>
+
+                            <h3>2.2 <code>input()</code> basics</h3>
+                            <p>
+                                <code>input(prompt)</code> shows a prompt, waits for the user to type,
+                                and returns what the user typed.
+                            </p>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning: input is always text</h3>
+                                <p>
+                                    Even if the user types <code>25</code>, <code>input()</code> returns
+                                    <code>"25"</code>
+                                    (a string). Convert it with <code>int()</code> or <code>float()</code> before doing
+                                    math.
+                                </p>
+                            </div>
+
+                            <h3>2.3 Formatting output</h3>
+                            <p>
+                                When output is clear, learning is easier.
+                                Use labels like <code>"Age:"</code> and <code>"Total:"</code>.
+                            </p>
+
+                            <p>
+                                You can combine strings and values using conversions.
+                                Later you will learn f-strings in detail, but for now you can use <code>str()</code> and
+                                concatenation.
+                            </p>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">print() syntax</div>
+                                </div>
+                                <pre><code># prints values to the screen
+print("Hello")
+print(x)
+print(2 + 3)
+</code></pre>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">input() syntax</div>
+                                </div>
+                                <pre><code># reads a line from keyboard
+name = input("Enter your name: ")
+print("Hi, " + name)
+</code></pre>
+                            </div>
+
+                            <p><strong>Time complexity:</strong> O(1) for formatting and showing text •
+                                <strong>Space:</strong> O(1) extra (ignoring input size).
+                            </p>
+                            <p><strong>Alternative approach:</strong> store input then process it; don’t call
+                                <code>input()</code> many times in one expression.</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — greeting from input</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">input → output</div>
+                                </div>
+                                <pre><code>name = input("Enter your name: ")
+print("Hello, " + name)
+</code></pre>
+                            </div>
+                            <p><strong>Output (example):</strong> If you type <code>Ravi</code>, output is
+                                <code>Hello, Ravi</code>.</p>
+                            <p><strong>Time:</strong> O(1) • <strong>Space:</strong> O(n) for storing name.</p>
+                            <p><strong>Alternative:</strong> if you already have name in a variable, just call
+                                <code>print()</code>.</p>
+
+                            <h3>4.2 Medium Example — convert age to int</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">string → number</div>
+                                </div>
+                                <pre><code>age_text = input("Enter your age: ")
+age = int(age_text)
+
+age_next_year = age + 1
+print("Next year you will be " + str(age_next_year))
+</code></pre>
+                            </div>
+                            <p><strong>Output (example):</strong> If input is <code>20</code>, print
+                                <code>Next year you will be 21</code>.</p>
+                            <p><strong>Time:</strong> O(n) parsing digits • <strong>Space:</strong> O(1) extra.</p>
+                            <p><strong>Alternative:</strong> validate input before converting (later chapters add robust
+                                validation).</p>
+
+                            <h3>4.3 Advanced Example — simple calculator</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">two inputs, one result</div>
+                                </div>
+                                <pre><code>a_text = input("Enter first number: ")
+b_text = input("Enter second number: ")
+
+# convert text to integers
+a = int(a_text)
+b = int(b_text)
+
+print("Sum = " + str(a + b))
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> depends on user numbers.</p>
+                            <p><strong>Time:</strong> O(n) • <strong>Space:</strong> O(1) extra.</p>
+                            <p><strong>Alternative:</strong> use <code>float()</code> if you expect decimals.</p>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: input → process → output</h3>
+                                <pre><code>[Start]
+   |
+   v
+[Prompt user]
+   |
+   v
+[Read input (as text)]
+   |
+   v
+[Convert types if needed]
+   |
+   v
+[Compute result]
+   |
+   v
+[print output]
+   |
+   v
+[End]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <p>
+                                <code>input()</code> stores the typed text into a variable.
+                                If you convert it, Python creates a new numeric value.
+                            </p>
+                            <table class="table" aria-label="Input conversion memory">
+                                <thead>
+                                    <tr>
+                                        <th>Variable</th>
+                                        <th>Example value</th>
+                                        <th>Type</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>age_text</code></td>
+                                        <td><code>"20"</code></td>
+                                        <td><code>str</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>age</code></td>
+                                        <td><code>20</code></td>
+                                        <td><code>int</code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="callout remember">
+                                <h3>🧠 Memory trick</h3>
+                                <p><strong>“input” is “into text”</strong>. Convert it before math.</p>
+                            </div>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">dry run</div>
+                                </div>
+                                <pre><code>score_text = "8"
+score = int(score_text)
+bonus = 2
+print("Total: " + str(score + bonus))
+</code></pre>
+                            </div>
+                            <table class="table" aria-label="Dry run table">
+                                <thead>
+                                    <tr>
+                                        <th>Step</th>
+                                        <th>Action</th>
+                                        <th>Memory after</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Store text</td>
+                                        <td><code>score_text → "8" (str)</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Convert</td>
+                                        <td><code>score → 8 (int)</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Add</td>
+                                        <td><code>score + bonus → 10</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Print</td>
+                                        <td><code>Total: 10</code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p><strong>Time:</strong> O(n) parsing • <strong>Space:</strong> O(1) extra.</p>
+                            <p><strong>Alternative:</strong> build the output using string conversion only once.</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <div class="callout note">
+                                <h3>In this chapter you mainly use:</h3>
+                                <ul>
+                                    <li><code>print()</code></li>
+                                    <li><code>input()</code></li>
+                                    <li><code>int()</code>, <code>float()</code> for conversion</li>
+                                    <li><code>str()</code> for formatting output</li>
+                                </ul>
+                            </div>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">conversion + print</div>
+                                </div>
+                                <pre><code>n_text = "12"
+n = int(n_text)
+print("Double = " + str(2 * n))
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> <code>Double = 24</code></p>
+                            <p><strong>Time:</strong> O(n) • <strong>Space:</strong> O(1) extra.</p>
+                            <p><strong>Alternative approach:</strong> avoid repeated conversions by converting once.</p>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <p>
+                                Strings have methods. Since <code>input()</code> returns a string,
+                                you can use string methods to clean the text.
+                            </p>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">strip() method</div>
+                                </div>
+                                <pre><code>email = input("Enter email: ")
+email = email.strip()
+print("Saved: " + email)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> same email but without leading/trailing spaces.</p>
+                            <p><strong>Time:</strong> O(n) • <strong>Space:</strong> O(n) for new string.</p>
+                            <p><strong>Alternative:</strong> handle spaces using <code>split()</code> and joining
+                                (later).</p>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is <code>print()</code> used for?</li>
+                                <li>What is <code>input()</code> used for?</li>
+                                <li>Does <code>input()</code> return a number or text?</li>
+                                <li>How do you convert input text to int?</li>
+                                <li>How do you convert input text to float?</li>
+                                <li>Why does <code>"5" + 2</code> fail?</li>
+                                <li>Why do we use <code>str()</code> when printing numbers with labels?</li>
+                                <li>What does a prompt mean in <code>input()</code>?</li>
+                                <li>What happens if the user enters non-numeric text for <code>int()</code>?</li>
+                                <li>What is casting?</li>
+                                <li>Explain input/output flow in a short sentence.</li>
+                                <li>How can you clean spaces around user input?</li>
+                                <li>What does <code>strip()</code> do?</li>
+                                <li>What does <code>print(a, b)</code> do with spacing?</li>
+                                <li>What is the difference between concatenation and multiple arguments to print?</li>
+                                <li>How can you build readable output?</li>
+                                <li>What is an example of labeled output?</li>
+                                <li>Why is converting near the input boundary a good practice?</li>
+                                <li>When should you use <code>float()</code> instead of <code>int()</code>?</li>
+                                <li>What is a common beginner mistake with input conversion?</li>
+                                <li>How would you debug a TypeError related to input?</li>
+                                <li>How would you debug a ValueError related to int conversion?</li>
+                                <li>What does Python do if you forget to convert and try math?</li>
+                                <li>Can <code>input()</code> be used in expressions?</li>
+                                <li>How do you store input in a variable?</li>
+                                <li>What is “output prediction” in input/output problems?</li>
+                                <li>How would you compute a total using input values?</li>
+                                <li>What is time complexity of printing?</li>
+                                <li>What is time complexity of converting strings to numbers?</li>
+                                <li>Explain the memory difference between string input and converted int.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li><code>input()</code> returns:
+                                    <ul>
+                                        <li>A) int</li>
+                                        <li>B) float</li>
+                                        <li>C) str</li>
+                                        <li>D) list</li>
+                                    </ul>
+                                </li>
+                                <li><code>print()</code> is used to:
+                                    <ul>
+                                        <li>A) read from keyboard</li>
+                                        <li>B) display output</li>
+                                        <li>C) install packages</li>
+                                        <li>D) edit files</li>
+                                    </ul>
+                                </li>
+                                <li>To convert <code>"10"</code> to int, you use:
+                                    <ul>
+                                        <li>A) float()</li>
+                                        <li>B) int()</li>
+                                        <li>C) str()</li>
+                                        <li>D) input()</li>
+                                    </ul>
+                                </li>
+                                <li>To convert <code>"3.14"</code> to float, you use:
+                                    <ul>
+                                        <li>A) int()</li>
+                                        <li>B) str()</li>
+                                        <li>C) float()</li>
+                                        <li>D) print()</li>
+                                    </ul>
+                                </li>
+                                <li><code>int("abc")</code> usually causes:
+                                    <ul>
+                                        <li>A) SyntaxError</li>
+                                        <li>B) ValueError</li>
+                                        <li>C) NameError</li>
+                                        <li>D) AttributeError</li>
+                                    </ul>
+                                </li>
+                                <li>Output labels help because:
+                                    <ul>
+                                        <li>A) they confuse</li>
+                                        <li>B) they make meaning clear</li>
+                                        <li>C) they hide data</li>
+                                        <li>D) they remove types</li>
+                                    </ul>
+                                </li>
+                                <li><code>"Hello" + "World"</code> is:
+                                    <ul>
+                                        <li>A) multiplication</li>
+                                        <li>B) concatenation</li>
+                                        <li>C) subtraction</li>
+                                        <li>D) error</li>
+                                    </ul>
+                                </li>
+                                <li><code>"5" + 2</code> typically results in:
+                                    <ul>
+                                        <li>A) 7</li>
+                                        <li>B) "52"</li>
+                                        <li>C) TypeError</li>
+                                        <li>D) None</li>
+                                    </ul>
+                                </li>
+                                <li><code>str(10)</code> produces:
+                                    <ul>
+                                        <li>A) 10</li>
+                                        <li>B) "10" as text</li>
+                                        <li>C) True/False</li>
+                                        <li>D) list</li>
+                                    </ul>
+                                </li>
+                                <li><code>input("Enter: ")</code> shows a prompt and waits for:
+                                    <ul>
+                                        <li>A) a file</li>
+                                        <li>B) keyboard text</li>
+                                        <li>C) nothing</li>
+                                        <li>D) a module</li>
+                                    </ul>
+                                </li>
+                                <li><code>strip()</code> on a string removes:
+                                    <ul>
+                                        <li>A) first character only</li>
+                                        <li>B) leading/trailing spaces</li>
+                                        <li>C) all characters</li>
+                                        <li>D) numbers only</li>
+                                    </ul>
+                                </li>
+                                <li>You should convert input to numbers before math because:
+                                    <ul>
+                                        <li>A) input is already numeric</li>
+                                        <li>B) input is text</li>
+                                        <li>C) math needs no types</li>
+                                        <li>D) print converts automatically</li>
+                                    </ul>
+                                </li>
+                                <li>When printing a label with a number, you often use:
+                                    <ul>
+                                        <li>A) <code>print("Label" + number)</code></li>
+                                        <li>B) <code>print("Label" + str(number))</code></li>
+                                        <li>C) <code>print("Label" + input())</code></li>
+                                        <li>D) <code>print("Label" - number)</code></li>
+                                    </ul>
+                                </li>
+                                <li><code>print(a, b)</code> separates values with:
+                                    <ul>
+                                        <li>A) nothing</li>
+                                        <li>B) space</li>
+                                        <li>C) newline</li>
+                                        <li>D) comma always</li>
+                                    </ul>
+                                </li>
+                                <li><code>print()</code> always returns:
+                                    <ul>
+                                        <li>A) the printed value</li>
+                                        <li>B) None</li>
+                                        <li>C) True</li>
+                                        <li>D) 0</li>
+                                    </ul>
+                                </li>
+                                <li>ValueError in this chapter is commonly caused by:
+                                    <ul>
+                                        <li>A) wrong indentation</li>
+                                        <li>B) invalid conversion string</li>
+                                        <li>C) missing quotes</li>
+                                        <li>D) missing imports</li>
+                                    </ul>
+                                </li>
+                                <li>TypeError in this chapter is commonly caused by:
+                                    <ul>
+                                        <li>A) string + string + int</li>
+                                        <li>B) mixing incompatible types in operations</li>
+                                        <li>C) missing prompt</li>
+                                        <li>D) extra spaces</li>
+                                    </ul>
+                                </li>
+                                <li>In input/output flow, output usually happens after:
+                                    <ul>
+                                        <li>A) user enters data</li>
+                                        <li>B) conversion and computation</li>
+                                        <li>C) downloading packages</li>
+                                        <li>D) editing files</li>
+                                    </ul>
+                                </li>
+                                <li><code>input()</code> always returns:
+                                    <ul>
+                                        <li>A) int</li>
+                                        <li>B) float</li>
+                                        <li>C) str</li>
+                                        <li>D) bytes</li>
+                                    </ul>
+                                </li>
+                                <li>A good practice is to:
+                                    <ul>
+                                        <li>A) convert immediately after input</li>
+                                        <li>B) delay conversion forever</li>
+                                        <li>C) do math on text</li>
+                                        <li>D) print without labels</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Create <code>practice04_1.py</code> and print <code>"Welcome"</code>.</li>
+                                <li>Ask for name using <code>input()</code> and print greeting.</li>
+                                <li>Ask for age and print it back.</li>
+                                <li>Convert age to int and print age+1.</li>
+                                <li>Convert a numeric text string <code>"7"</code> to int and print it.</li>
+                                <li>Convert <code>"3.5"</code> to float and multiply by 2.</li>
+                                <li>Print <code>"Total: "</code> + number using <code>str()</code>.</li>
+                                <li>Use <code>strip()</code> on input to remove extra spaces.</li>
+                                <li>Read two numbers as input and print their sum.</li>
+                                <li>Read two numbers and print subtraction.</li>
+                                <li>Read a sentence and print its length using <code>len()</code>.</li>
+                                <li>Read a name and print uppercase using <code>upper()</code>.</li>
+                                <li>Print 3 lines using multiple <code>print()</code>.</li>
+                                <li>Use <code>print(a, b)</code> to show label and value.</li>
+                                <li>Try output prediction: what is printed if name is <code>Sam</code>?</li>
+                                <li>Ask for weight in kg and print weight in kg (echo).</li>
+                                <li>Ask for temperature as string and convert to float (no math yet).</li>
+                                <li>Print type of raw <code>input()</code> result.</li>
+                                <li>Convert to int and print type again.</li>
+                                <li>Print a message: <code>"Done"</code> after reading input.</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Create a program that reads two numbers and prints product.</li>
+                                <li>Read radius as float and compute area of circle (use formula).</li>
+                                <li>Read marks as three floats and compute total and average.</li>
+                                <li>Read a single word and print it reversed (using indexing).</li>
+                                <li>Read an age and print discount percentage (simple logic).</li>
+                                <li>Make a unit conversion: inches to cm (read int, output float).</li>
+                                <li>Read a year and print whether it is a leap year (basic logic).</li>
+                                <li>Read two strings and print which is longer.</li>
+                                <li>Read a string, trim spaces, and print trimmed string.</li>
+                                <li>Read balance and compute new balance after deposit (no loops).</li>
+                                <li>Read salary and compute annual salary (multiply).</li>
+                                <li>Build a labeled output: <code>Name:</code>, <code>Age:</code>.</li>
+                                <li>Predict output for <code>print("A" + str(2+3))</code>.</li>
+                                <li>Write code that reads two inputs, converts, then prints both.</li>
+                                <li>Print using concatenation and then again using <code>print()</code> multiple args;
+                                    compare readability.</li>
+                                <li>Read a decimal string and convert to float; round to 2 decimals using
+                                    <code>round()</code>.</li>
+                                <li>Read two integers and print integer division and remainder.</li>
+                                <li>Create a small “BMI calculator” using input (height, weight).</li>
+                                <li>Read a phrase and print only first letter and length.</li>
+                                <li>Read a number and print square and cube.</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Create a safe converter function (conceptually) that handles invalid input (no
+                                    exceptions yet).</li>
+                                <li>Build a tiny CLI: user chooses add/sub/mul by reading a symbol, then read numbers.
+                                </li>
+                                <li>Read comma-separated numbers as one string, then attempt parsing into ints (basic
+                                    split).</li>
+                                <li>Write a program to compute change given amount in cents (read as int).</li>
+                                <li>Create a “tip calculator” (bill amount and tip percent) and output total.</li>
+                                <li>Read strings for two integers, convert, then print detailed explanation.</li>
+                                <li>Implement input validation: check if age is non-negative (logic only).</li>
+                                <li>Implement a menu that repeats until user enters exit (needs loops; attempt).</li>
+                                <li>Read a date (day, month, year) as ints and print formatted date.</li>
+                                <li>Read a password input and print masked length only (security awareness).</li>
+                                <li>Write a program that estimates reading time: words/200 wpm (inputs).</li>
+                                <li>Read numbers and compute geometric mean (no loops; minimal).</li>
+                                <li>Build a simple “point scorer” (runs and wickets) and compute score.</li>
+                                <li>Create a calculator using functions (later topic, but attempt with a single
+                                    function).</li>
+                                <li>Write code that uses <code>strip()</code> then checks empty string.</li>
+                                <li>Implement a currency converter: local to USD (hardcode rate).</li>
+                                <li>Read temperature and convert Celsius to Fahrenheit (formula).</li>
+                                <li>Write code that prints a table header and then rows (use print formatting).</li>
+                                <li>Predict output for multi-line prints and verify.</li>
+                                <li>Build a small input/output “survey” with 5 answers and one summary.</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment04.py</code>: read name and marks, print grade label.</li>
+                                <li>Create <code>assignment04_2.py</code>: read two numbers and print their sum and
+                                    average.</li>
+                                <li>Create <code>assignment04_3.py</code>: read a sentence, print word count and
+                                    character count (use <code>split()</code> and <code>len()</code>).</li>
+                                <li>Write a short comment section explaining what inputs are expected.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Personal Budget Snapshot</h3>
+                                <p>Read:</p>
+                                <ul>
+                                    <li>Monthly income</li>
+                                    <li>Monthly rent</li>
+                                    <li>Monthly food expense</li>
+                                </ul>
+                                <p>Convert to numbers and print remaining balance.</p>
+                            </div>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">starter</div>
+                                </div>
+                                <pre><code>income_text = input("Income: ")
+rent_text = input("Rent: ")
+food_text = input("Food: ")
+
+income = float(income_text)
+rent = float(rent_text)
+food = float(food_text)
+
+remaining = income - (rent + food)
+print("Remaining balance = " + str(remaining))
+</code></pre>
+                            </div>
+                            <p><strong>Expected output:</strong> a line showing remaining balance based on typed inputs.
+                            </p>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+
+                            <div class="callout warning">
+                                <h3>Case 1: math on text</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">buggy</div>
+                                    </div>
+                                    <pre><code>a = input("Enter a number: ")
+b = input("Enter a second number: ")
+print(a + b)
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> convert before adding: <code>print(int(a) + int(b))</code> (or
+                                    <code>float</code>).</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: label + number TypeError</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">buggy</div>
+                                    </div>
+                                    <pre><code>age = input("Age: ")
+print("Next year will be " + age + 1)
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> convert and convert to string for printing:
+                                    <code>print("Next year will be " + str(int(age)+1))</code>.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: invalid int conversion</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">buggy</div>
+                                    </div>
+                                    <pre><code>height = int(input("Enter height: "))
+print(height)
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> if user types decimal, use <code>float()</code> instead.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>TypeError:</strong> doing math with strings (forgot conversion).</li>
+                                <li><strong>ValueError:</strong> converting non-numeric text to int/float.</li>
+                                <li><strong>SyntaxError:</strong> missing quotes around prompt strings or labels.</li>
+                                <li><strong>NameError:</strong> using variable before assignment.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Convert input immediately after reading.</li>
+                                <li>Use labels in print output.</li>
+                                <li>Use <code>str()</code> when concatenating with strings.</li>
+                                <li>Prefer storing input in variables before math.</li>
+                                <li>Use <code>strip()</code> to remove extra spaces.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                In this chapter you learned that <code>input()</code> returns text and
+                                <code>print()</code> outputs to the screen.
+                                You also learned to convert text to numbers using <code>int()</code> and
+                                <code>float()</code>,
+                                and how to format readable output with labels.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Input output cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Task</th>
+                                        <th>Code</th>
+                                        <th>Notes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Print</td>
+                                        <td><code>print(x)</code></td>
+                                        <td>shows output</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Read input</td>
+                                        <td><code>x = input("Prompt")</code></td>
+                                        <td>always returns str</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Convert to int</td>
+                                        <td><code>n = int(x)</code></td>
+                                        <td>fails for non-numeric</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Convert to float</td>
+                                        <td><code>f = float(x)</code></td>
+                                        <td>supports decimals</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Format label</td>
+                                        <td><code>print("Total:" + str(t))</code></td>
+                                        <td>use str()</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Age in 5 Years</h3>
+                                <p>Read your current age using <code>input()</code>, convert to <code>int</code>,
+                                    then print age in 5 years with a label.</p>
+                            </div>
+                            <p><strong>Expected output format:</strong></p>
+                            <p><code>In 5 years, you will be: 25</code></p>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What does <code>input()</code> return?</li>
+                                <li>Why do we use <code>int()</code> after <code>input()</code>?</li>
+                                <li>How do you convert <code>"3.14"</code> using float?</li>
+                                <li>How do you print a number with a label?</li>
+                                <li>What does <code>strip()</code> do?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Answer explanations (MCQ examples)</h3>
+                                <ul>
+                                    <li><strong>1:</strong> <code>input()</code> returns <strong>C (str)</strong>
+                                        because keyboard input is text.</li>
+                                    <li><strong>3:</strong> <strong>B (int)</strong> converts numeric text into an
+                                        integer.</li>
+                                    <li><strong>5:</strong> <strong>B (ValueError)</strong> happens when conversion
+                                        cannot parse the text.</li>
+                                    <li><strong>7:</strong> <strong>B (concatenation)</strong> joins strings together.
+                                    </li>
+                                    <li><strong>8:</strong> <strong>C (TypeError)</strong> because Python cannot add
+                                        text and number.</li>
+                                </ul>
+                            </div>
+
+                            <div class="callout remember" style="margin-top:12px;">
+                                <h3>Debugging recap</h3>
+                                <ul>
+                                    <li><strong>Bug:</strong> <code>print(a + b)</code> where a and b are from
+                                        <code>input()</code>.
+                                        <br /><strong>Reason:</strong> both are strings.
+                                        <br /><strong>Fix:</strong> convert to numbers before adding.
+                                    </li>
+                                    <li><strong>Bug:</strong> label + age + 1.
+                                        <br /><strong>Reason:</strong> mixing string concatenation and number +.
+                                        <br /><strong>Fix:</strong> convert age to int, compute, then <code>str()</code>
+                                        for printing.
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div>
+                                    <a class="btn" style="visibility:hidden;" data-prev>Previous</a>
+                                </div>
+                                <div>
+                                    <a class="btn primary" data-next href="chapter-05.html">Next Chapter</a>
+                                </div>
+                            </div>
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

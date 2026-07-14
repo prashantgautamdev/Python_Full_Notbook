@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 33 — Git & GitHub</title>
+    <meta name="description"
+        content="Chapter 33: Git & GitHub. Learn version control basics, commits, branches, and how GitHub helps collaboration." />
+    <link rel="canonical" href="./chapters/chapter-33.html" />
+
+    <meta property="og:title" content="Chapter 33 — Git & GitHub" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description"
+        content="Learn Git basics: commit, branch, merge, and use GitHub for collaboration." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 33 — Git & GitHub" />
+    <meta name="twitter:description" content="Git basics with practice and explained answers." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 33 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout remember" style="margin-top:12px;">
+                        <h3>⭐ Remember</h3>
+                        <p>
+                            Git keeps history.
+                            GitHub hosts your code in the cloud.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 33</div>
+                        <h1 class="chapter-title">Chapter 33 — Git & GitHub</h1>
+                        <p class="subtle">Learn version control basics: commits, branches, merges, pull requests, and
+                            how GitHub enables collaboration.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-32.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <ul>
+                                    <li>Understand what version control is and why it matters.</li>
+                                    <li>Learn basic Git commands: init, add, commit, status.</li>
+                                    <li>Learn branches and merges conceptually.</li>
+                                    <li>Understand GitHub collaboration: push, pull request concept.</li>
+                                    <li>Use safe habits: small commits and clear messages.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                When you change code, you want a history.
+                                Git records changes as snapshots.
+                            </p>
+                            <p>
+                                GitHub stores Git repositories online and supports collaboration.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 Version control</h3>
+                            <p>
+                                Version control is a system that tracks changes over time.
+                                You can go back to earlier versions when something breaks.
+                            </p>
+
+                            <h3>2.2 Commits as snapshots</h3>
+                            <p>
+                                A commit stores a snapshot of your project.
+                                It includes a message like “Fix bug in parser”.
+                            </p>
+
+                            <h3>2.3 Branches</h3>
+                            <p>
+                                A branch is a separate line of development.
+                                You can work on a feature without breaking the main line.
+                            </p>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    Avoid committing secrets (API keys, passwords).
+                                    Use <code>.gitignore</code> to hide temporary files.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Git</div>
+                                    <div class="meta">basic flow</div>
+                                </div>
+                                <pre><code># initialize repository
+git init
+
+# check status
+git status
+
+# stage files
+git add .
+
+# commit snapshot
+git commit -m "First commit"
+</code></pre>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Git</div>
+                                    <div class="meta">branch and merge</div>
+                                </div>
+                                <pre><code># create a new branch
+git checkout -b feature-login
+
+# after work is done
+git add .
+git commit -m "Add login feature"
+
+# switch back and merge
+git checkout main
+git merge feature-login
+</code></pre>
+                            </div>
+
+                            <p><strong>Time:</strong> most operations depend on changed files • <strong>Space:</strong>
+                                repository history storage.</p>
+                            <p><strong>Alternative:</strong> use GUI Git clients, but understanding commands helps
+                                debugging.</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — track changes</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Git</div>
+                                    <div class="meta">status → add → commit</div>
+                                </div>
+                                <pre><code>git status
+# shows modified files
+
+git add README.md
+git commit -m "Update README"
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> “nothing to commit” after a successful commit.</p>
+
+                            <h3>4.2 Medium Example — push to GitHub</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Git</div>
+                                    <div class="meta">connect remote</div>
+                                </div>
+                                <pre><code>git remote add origin https://github.com/USERNAME/REPOSITORY.git
+
+git branch -M main
+
+git push -u origin main
+</code></pre>
+                            </div>
+
+                            <h3>4.3 Advanced Example — pull request concept</h3>
+                            <p>
+                                A pull request is a request to merge a branch into main.
+                                It enables code review.
+                            </p>
+                            <div class="callout note">
+                                <h3>Flow idea</h3>
+                                <pre><code>feature branch → push → open PR → review → merge
+</code></pre>
+                            </div>
+
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: commit workflow</h3>
+                                <pre><code>[Edit files]
+     |
+     v
+[git status]
+     |
+     v
+[git add]
+     |
+     v
+[git commit -m "message"]
+     |
+     v
+[optional: push to GitHub]
+     |
+     v
+[repeat]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <table class="table" aria-label="Git memory">
+                                <thead>
+                                    <tr>
+                                        <th>Git concept</th>
+                                        <th>Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Working directory</td>
+                                        <td>your current files</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Staging area</td>
+                                        <td>files chosen for next commit</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Commit history</td>
+                                        <td>saved snapshots over time</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Dry run</div>
+                                    <div class="meta">predict git status</div>
+                                </div>
+                                <pre><code>Start: repo clean
+1) Edit README.md
+2) Run git status → shows README.md as modified
+3) Run git add README.md
+4) Run git status → shows staged changes (not committed yet)
+5) Run git commit -m "msg"
+6) Run git status → clean (nothing to commit)
+</code></pre>
+                            </div>
+                            <p><strong>Time:</strong> depends on git diff size.</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>print()</code> is irrelevant; Git commands are the tools here.</li>
+                            </ul>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <div class="callout note">
+                                <h3>Common Git commands</h3>
+                                <ul>
+                                    <li><code>git init</code></li>
+                                    <li><code>git status</code></li>
+                                    <li><code>git add</code></li>
+                                    <li><code>git commit</code></li>
+                                    <li><code>git checkout</code> / <code>git switch</code> (concept)</li>
+                                    <li><code>git merge</code></li>
+                                    <li><code>git push</code> / <code>git pull</code></li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is Git?</li>
+                                <li>What problem does Git solve?</li>
+                                <li>What is a repository?</li>
+                                <li>What is a commit?</li>
+                                <li>What is the staging area?</li>
+                                <li>What does <code>git status</code> show?</li>
+                                <li>What does <code>git add</code> do?</li>
+                                <li>What does <code>git commit</code> do?</li>
+                                <li>What is a branch?</li>
+                                <li>Why use branches?</li>
+                                <li>What is merging?</li>
+                                <li>What is a conflict?</li>
+                                <li>How do you resolve a conflict (concept)?</li>
+                                <li>What is GitHub?</li>
+                                <li>How do you push to GitHub?</li>
+                                <li>What is a remote?</li>
+                                <li>What is origin?</li>
+                                <li>What is a pull request?</li>
+                                <li>Why use pull requests?</li>
+                                <li>What should commit messages describe?</li>
+                                <li>Why do small commits help?</li>
+                                <li>What is <code>.gitignore</code>?</li>
+                                <li>How does <code>.gitignore</code> help security?</li>
+                                <li>What is the difference between commit and push?</li>
+                                <li>What happens if you forget to commit?</li>
+                                <li>What is the main branch?</li>
+                                <li>Can you commit without Git add (concept)?</li>
+                                <li>What is <code>git log</code> used for (concept)?</li>
+                                <li>What is rebase (concept)?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li><code>git init</code> does:
+                                    <ul>
+                                        <li>A) starts server</li>
+                                        <li>B) creates a git repository</li>
+                                        <li>C) installs packages</li>
+                                        <li>D) trains model</li>
+                                    </ul>
+                                </li>
+                                <li><code>git status</code> is for:
+                                    <ul>
+                                        <li>A) showing changes</li>
+                                        <li>B) formatting code</li>
+                                        <li>C) deleting files</li>
+                                        <li>D) network calls</li>
+                                    </ul>
+                                </li>
+                                <li><code>git add</code> stages:
+                                    <ul>
+                                        <li>A) for commit</li>
+                                        <li>B) for running</li>
+                                        <li>C) for printing</li>
+                                        <li>D) for styling</li>
+                                    </ul>
+                                </li>
+                                <li><code>git commit</code> creates:
+                                    <ul>
+                                        <li>A) snapshot history</li>
+                                        <li>B) CSS file</li>
+                                        <li>C) log record</li>
+                                        <li>D) nothing</li>
+                                    </ul>
+                                </li>
+                                <li>A branch is:
+                                    <ul>
+                                        <li>A) separate line of work</li>
+                                        <li>B) only a file</li>
+                                        <li>C) a server</li>
+                                        <li>D) database table</li>
+                                    </ul>
+                                </li>
+                                <li><code>git merge</code> is:
+                                    <ul>
+                                        <li>A) combining branches</li>
+                                        <li>B) deleting branch</li>
+                                        <li>C) installing Python</li>
+                                        <li>D) setting theme</li>
+                                    </ul>
+                                </li>
+                                <li>Merge conflict happens when:
+                                    <ul>
+                                        <li>A) files changed in both branches</li>
+                                        <li>B) CSS colors match</li>
+                                        <li>C) network is off</li>
+                                        <li>D) no changes exist</li>
+                                    </ul>
+                                </li>
+                                <li><code>git push</code> sends to:
+                                    <ul>
+                                        <li>A) remote repository</li>
+                                        <li>B) local printer</li>
+                                        <li>C) IDE cache</li>
+                                        <li>D) browser</li>
+                                    </ul>
+                                </li>
+                                <li><code>git pull</code> combines:
+                                    <ul>
+                                        <li>A) fetch + merge</li>
+                                        <li>B) only fetch</li>
+                                        <li>C) only merge</li>
+                                        <li>D) only commit</li>
+                                    </ul>
+                                </li>
+                                <li><code>.gitignore</code> prevents tracking of:
+                                    <ul>
+                                        <li>A) unwanted files</li>
+                                        <li>B) all files</li>
+                                        <li>C) HTML</li>
+                                        <li>D) Python code only</li>
+                                    </ul>
+                                </li>
+                                <li>GitHub is mainly for:
+                                    <ul>
+                                        <li>A) hosting repos and collaboration</li>
+                                        <li>B) compiling Python</li>
+                                        <li>C) editing CSS</li>
+                                        <li>D) running ML</li>
+                                    </ul>
+                                </li>
+                                <li>Pull request is used for:
+                                    <ul>
+                                        <li>A) proposing merge for review</li>
+                                        <li>B) deleting repos</li>
+                                        <li>C) changing theme</li>
+                                        <li>D) renaming files</li>
+                                    </ul>
+                                </li>
+                                <li>Commit message should be:
+                                    <ul>
+                                        <li>A) clear and specific</li>
+                                        <li>B) empty</li>
+                                        <li>C) “test” always</li>
+                                        <li>D) random words</li>
+                                    </ul>
+                                </li>
+                                <li>Small commits help because:
+                                    <ul>
+                                        <li>A) easier to review and revert</li>
+                                        <li>B) always faster</li>
+                                        <li>C) no need tests</li>
+                                        <li>D) change nothing</li>
+                                    </ul>
+                                </li>
+                                <li>Main branch is typically:
+                                    <ul>
+                                        <li>A) default stable line</li>
+                                        <li>B) temporary branch</li>
+                                        <li>C) always broken</li>
+                                        <li>D) a server</li>
+                                    </ul>
+                                </li>
+                                <li>Staging area holds:
+                                    <ul>
+                                        <li>A) next commit changes</li>
+                                        <li>B) final history only</li>
+                                        <li>C) remote configs</li>
+                                        <li>D) UI theme</li>
+                                    </ul>
+                                </li>
+                                <li>Git commit does not require:
+                                    <ul>
+                                        <li>A) network</li>
+                                        <li>B) local changes</li>
+                                        <li>C) message</li>
+                                        <li>D) staging</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Create a new folder for a repo.</li>
+                                <li>Run <code>git init</code>.</li>
+                                <li>Create a file <code>notes.txt</code> and edit it.</li>
+                                <li>Run <code>git status</code> and note changed files.</li>
+                                <li>Run <code>git add notes.txt</code>.</li>
+                                <li>Run <code>git commit -m</code> with a clear message.</li>
+                                <li>Edit the file and run <code>git status</code> again.</li>
+                                <li>Stage only one file and commit.</li>
+                                <li>Create a new branch <code>feature-1</code>.</li>
+                                <li>Make a change on <code>feature-1</code> and commit.</li>
+                                <li>Switch back to main and check changes.</li>
+                                <li>Merge <code>feature-1</code> into main.</li>
+                                <li>Try to merge again without changes (understand fast-forward concept).</li>
+                                <li>Update a file and create a second commit.</li>
+                                <li>Use <code>git log</code> (concept) to inspect history.</li>
+                                <li>Create a <code>.gitignore</code> and ignore <code>__pycache__/</code>.</li>
+                                <li>Predict whether ignored files will be staged (concept).</li>
+                                <li>Delete a file and observe <code>git status</code>.</li>
+                                <li>Stage deletion and commit.</li>
+                                <li>Verify history by reading last commit message (concept).</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Create two branches <code>feature-a</code> and <code>feature-b</code>.</li>
+                                <li>Change different files in each branch.</li>
+                                <li>Merge both branches into main.</li>
+                                <li>Create a conflict intentionally by editing the same line in both branches.</li>
+                                <li>Resolve the conflict and commit merge resolution.</li>
+                                <li>Add a remote <code>origin</code> conceptually.</li>
+                                <li>Push to remote after first commit (concept).</li>
+                                <li>Create another branch and push it.</li>
+                                <li>Open a pull request (concept) and describe review steps.</li>
+                                <li>Dry run: what happens if you push without committing? (concept)</li>
+                                <li>Explain the difference between merge commit and rebase (concept).</li>
+                                <li>Create commits with meaningful messages describing changes.</li>
+                                <li>Use <code>git diff</code> (concept) to review changes before committing.</li>
+                                <li>Write a short guide: “How to contribute using PR”.</li>
+                                <li>Practice reverting a commit conceptually (design).</li>
+                                <li>Design commit strategy: commit per feature step.</li>
+                                <li>Explain what <code>main</code> vs <code>master</code> means (concept).</li>
+                                <li>Write a checklist before pushing: status, tests, message.</li>
+                                <li>Dry run: predict merge conflict files and fix approach.</li>
+                                <li>Explain why secrets must not be committed.</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Implement a branching workflow: feature → staging → main (concept design).</li>
+                                <li>Design a release tagging strategy with version tags (concept).</li>
+                                <li>Write a plan for hotfix branch when main has a critical bug (design).</li>
+                                <li>Explain what happens when remote history diverges (concept).</li>
+                                <li>Design a conflict resolution checklist for teamwork.</li>
+                                <li>Set up pre-commit checks (concept) and explain purpose.</li>
+                                <li>Explain how to use GitHub Actions conceptually for CI.</li>
+                                <li>Design commit messages format: type(scope): message (design).</li>
+                                <li>Write a contribution guide steps for PRs.</li>
+                                <li>Explain shallow clone and deep clone conceptually.</li>
+                                <li>Design a strategy to keep <code>main</code> always stable.</li>
+                                <li>Explain rebase benefits and risks (concept).</li>
+                                <li>Explain fast-forward merge concept (concept).</li>
+                                <li>Explain why you should avoid force push in most cases (concept).</li>
+                                <li>Design how to manage multiple contributors updating docs and code.</li>
+                                <li>Explain how to recover from wrong commit pushed (concept).</li>
+                                <li>Design a workflow for code reviews and approvals.</li>
+                                <li>Explain how to create and manage GitHub issues (concept).</li>
+                                <li>Explain how to link PR to issues (concept).</li>
+                                <li>Write a one-page Git cheat sheet for interviews (design).</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment33_1.md</code>: add a file, commit changes with message.</li>
+                                <li>Create <code>assignment33_2.md</code>: create a branch, make edits, merge.</li>
+                                <li>Create <code>assignment33_3.md</code>: add .gitignore and ignore __pycache__.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Course Website Repo Workflow</h3>
+                                <p>Using any folder:</p>
+                                <ul>
+                                    <li>Initialize Git.</li>
+                                    <li>Create README and commit.</li>
+                                    <li>Create a feature branch to add a new chapter file.</li>
+                                    <li>Merge into main.</li>
+                                    <li>Write notes on how you would open a PR for collaboration.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+
+                            <div class="callout warning">
+                                <h3>Case 1: nothing to commit</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">already committed</div>
+                                    </div>
+                                    <pre><code>git status
+# says nothing to commit
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> make changes first, then stage and commit.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: conflict on merge</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">same line changed</div>
+                                    </div>
+                                    <pre><code>CONFLICT (content): Merge conflict in file.txt
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> open conflict file, choose correct content, then commit.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: forgot to add file</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">not staged</div>
+                                    </div>
+                                    <pre><code># file is modified but not staged
+git commit -m "msg"
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> run <code>git add</code> for that file.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>non-fast-forward:</strong> remote has new commits.</li>
+                                <li><strong>merge conflict:</strong> overlapping changes.</li>
+                                <li><strong>authentication error:</strong> wrong credentials/token.</li>
+                                <li><strong>pathspec error:</strong> wrong filename when staging.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Commit often with clear messages.</li>
+                                <li>Keep commits focused (one logical change).</li>
+                                <li>Use branches for features.</li>
+                                <li>Review diffs before committing.</li>
+                                <li>Use <code>.gitignore</code> for temporary files and caches.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                You learned version control with Git: commits, staging, branches, merges.
+                                You also learned how GitHub supports collaboration with pushing and pull requests.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Git cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Task</th>
+                                        <th>Command</th>
+                                        <th>Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Init</td>
+                                        <td><code>git init</code></td>
+                                        <td>create repo</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Status</td>
+                                        <td><code>git status</code></td>
+                                        <td>see changes</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Stage</td>
+                                        <td><code>git add .</code></td>
+                                        <td>choose files</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Commit</td>
+                                        <td><code>git commit -m "msg"</code></td>
+                                        <td>snapshot history</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Branch</td>
+                                        <td><code>git checkout -b name</code></td>
+                                        <td>new line</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Merge</td>
+                                        <td><code>git merge name</code></td>
+                                        <td>combine</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Push</td>
+                                        <td><code>git push origin main</code></td>
+                                        <td>upload</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Commit Trainer</h3>
+                                <p>Do this mini sequence:</p>
+                                <ul>
+                                    <li>Create a file.</li>
+                                    <li>Edit it in 3 steps.</li>
+                                    <li>Make 3 commits with messages describing each step.</li>
+                                    <li>Create a branch and merge back.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What is Git?</li>
+                                <li>What is a commit?</li>
+                                <li>What is staging?</li>
+                                <li>What is a branch?</li>
+                                <li>What is a pull request?</li>
+                                <li>What is the purpose of .gitignore?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>Git:</strong> version control that tracks changes.</li>
+                                    <li><strong>Commit:</strong> a snapshot with message.</li>
+                                    <li><strong>Staging:</strong> choosing files for the next commit.</li>
+                                    <li><strong>Branch:</strong> separate work line for features.</li>
+                                    <li><strong>Pull request:</strong> propose merging and enable review.</li>
+                                    <li><strong>.gitignore:</strong> prevents tracking of temporary/unwanted files.</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-34.html">Next Chapter</a></div>
+                            </div>
+
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 35 — Pandas</title>
+    <meta name="description"
+        content="Chapter 35: Pandas. Learn DataFrame, reading CSV, filtering, grouping, and basic analysis with explained examples and practice." />
+    <link rel="canonical" href="./chapters/chapter-35.html" />
+
+    <meta property="og:title" content="Chapter 35 — Pandas" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description"
+        content="Learn Pandas: DataFrame basics, CSV reading, filtering, grouping, and analysis practice." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 35 — Pandas" />
+    <meta name="twitter:description" content="Pandas fundamentals with examples and practice." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 35 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout tip" style="margin-top:12px;">
+                        <h3>💡 Tips</h3>
+                        <p>
+                            In Pandas, most work happens in a <strong>DataFrame</strong>.
+                            Learn filters + grouping and you can solve many data tasks.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 35</div>
+                        <h1 class="chapter-title">Chapter 35 — Pandas</h1>
+                        <p class="subtle">Learn Pandas DataFrame basics: reading data, selecting rows/columns,
+                            filtering, sorting, and grouping with practice.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-34.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <ul>
+                                    <li>Understand what a Pandas DataFrame is.</li>
+                                    <li>Read CSV data into a DataFrame.</li>
+                                    <li>Select columns and rows using indexing.</li>
+                                    <li>Filter data using boolean conditions.</li>
+                                    <li>Group data and compute summaries (mean/count).</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                NumPy is great for arrays.
+                                Pandas is great for <strong>tables</strong>.
+                            </p>
+                            <p>
+                                In real work you often receive CSV files or data dumps.
+                                Pandas helps you load and analyze them quickly.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 DataFrame = table in memory</h3>
+                            <p>
+                                A DataFrame has:
+                                <strong>rows</strong> (records) and <strong>columns</strong> (fields).
+                            </p>
+
+                            <h3>2.2 Selection: columns vs rows</h3>
+                            <ul>
+                                <li><strong>Columns</strong>: pick by name.</li>
+                                <li><strong>Rows</strong>: pick by conditions or slicing.</li>
+                            </ul>
+
+                            <h3>2.3 Filtering with boolean masks</h3>
+                            <p>
+                                Filtering often looks like: <code>df[df["age"] >= 18]</code>.
+                            </p>
+
+                            <h3>2.4 Grouping (split-apply-combine)</h3>
+                            <p>
+                                Grouping means:
+                                split the data into groups → apply a function → combine results.
+                            </p>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    Remember that boolean comparisons create a mask.
+                                    You must use it inside <code>df[mask]</code>.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">read CSV + basic select</div>
+                                </div>
+                                <pre><code>import pandas as pd
+
+# Load CSV into a DataFrame
+# Example file: people.csv with columns: name, age
+# df = pd.read_csv("people.csv")
+
+# For demo without file, we'll create a DataFrame
+
+df = pd.DataFrame({
+    "name": ["Asha", "Ravi", "Neha"],
+    "age":  [20, 16, 22]
+})
+
+# Select one column
+print(df["name"])
+
+# Select rows by boolean mask
+adults = df[df["age"] >= 18]
+print(adults)
+</code></pre>
+                            </div>
+
+                            <p><strong>Time:</strong> depends on rows • <strong>Space:</strong> DataFrame stores the
+                                whole table.</p>
+                            <p><strong>Alternative:</strong> use pure CSV + lists, but Pandas is much easier for real
+                                tasks.</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — column selection + describe (concept)</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">DataFrame basics</div>
+                                </div>
+                                <pre><code>import pandas as pd
+
+df = pd.DataFrame({
+    "student": ["S1", "S2", "S3", "S4"],
+    "score": [80, 55, 92, 67]
+})
+
+print("Scores column:")
+print(df["score"])
+
+print("Mean score:")
+print(df["score"].mean())
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> prints the score series and mean.</p>
+
+                            <h3>4.2 Medium Example — filter + sorting</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">filter and sort</div>
+                                </div>
+                                <pre><code>import pandas as pd
+
+df = pd.DataFrame({
+    "name": ["Asha", "Ravi", "Neha", "Sid"],
+    "age":  [20, 16, 22, 18]
+})
+
+# Keep age >= 18
+filtered = df[df["age"] >= 18]
+
+# Sort by age descending
+sorted_df = filtered.sort_values(by="age", ascending=False)
+
+print(sorted_df)
+</code></pre>
+                            </div>
+
+                            <p><strong>Output:</strong> rows with age 18+ in descending age order.</p>
+
+                            <h3>4.3 Advanced Example — groupby summaries</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">groupby mean</div>
+                                </div>
+                                <pre><code>import pandas as pd
+
+df = pd.DataFrame({
+    "class": ["A", "A", "B", "B"],
+    "score": [70, 90, 60, 80]
+})
+
+# Split by class, then compute mean score per class
+summary = df.groupby("class")["score"].mean()
+
+print(summary)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> mean score for each class.</p>
+                            <p><strong>Time:</strong> O(n log n) for many group/sort cases • <strong>Space:</strong>
+                                depends on groups.</p>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: DataFrame analysis</h3>
+                                <pre><code>[Load data]
+     |
+     v
+[Select columns]
+     |
+     v
+[Filter rows]
+     |
+     v
+[Group & summarize]
+     |
+     v
+[Output / print results]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <table class="table" aria-label="DataFrame memory">
+                                <thead>
+                                    <tr>
+                                        <th>Component</th>
+                                        <th>Memory meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>DataFrame</td>
+                                        <td>stores the whole table (rows × columns)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Columns</td>
+                                        <td>often stored as separate arrays per column</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Boolean mask</td>
+                                        <td>extra array of True/False with length = rows</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Groupby result</td>
+                                        <td>stores aggregated rows</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Dry run</div>
+                                    <div class="meta">filter age >= 18</div>
+                                </div>
+                                <pre><code>df ages: [20, 16, 22, 18]
+
+Condition: age >= 18
+Mask:     [ T,  F,  T,  T]
+
+df[mask] keeps rows where mask is True
+Result ages: [20, 22, 18]
+</code></pre>
+                            </div>
+                            <p><strong>Time:</strong> O(n) • <strong>Space:</strong> mask is O(n).</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>len()</code> to count results (concept).</li>
+                                <li><code>print()</code> for quick inspection.</li>
+                            </ul>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <div class="callout note">
+                                <h3>Common Pandas methods</h3>
+                                <ul>
+                                    <li><code>pd.DataFrame({...})</code></li>
+                                    <li><code>df["col"]</code></li>
+                                    <li><code>df[df["age"] >= 18]</code></li>
+                                    <li><code>df.sort_values(...)</code></li>
+                                    <li><code>df.groupby("col").mean()</code> (concept via chaining)</li>
+                                    <li><code>df.head()</code> (concept)</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is Pandas?</li>
+                                <li>What is a DataFrame?</li>
+                                <li>What is a Series?</li>
+                                <li>How do you select a column from a DataFrame?</li>
+                                <li>How do you select multiple columns?</li>
+                                <li>What is a boolean mask?</li>
+                                <li>How do you filter rows using a condition?</li>
+                                <li>What does <code>df[df["age"] >= 18]</code> do?</li>
+                                <li>What is <code>sort_values</code> used for?</li>
+                                <li>How do you sort ascending vs descending?</li>
+                                <li>What is <code>groupby</code>?</li>
+                                <li>Explain split-apply-combine (concept).</li>
+                                <li>How do you compute mean per group?</li>
+                                <li>How do you compute count per group (concept)?</li>
+                                <li>What is <code>isna()</code> (concept)?</li>
+                                <li>How do you handle missing values (concept)?</li>
+                                <li>What is the difference between <code>loc</code> and <code>iloc</code> (concept)?
+                                </li>
+                                <li>How do you access rows by position?</li>
+                                <li>How do you access rows by label?</li>
+                                <li>What is indexing in Pandas?</li>
+                                <li>Why is vectorized operation important?</li>
+                                <li>What happens when you compare a column to a number?</li>
+                                <li>What is a copy vs view (concept)?</li>
+                                <li>Why should you avoid chained indexing?</li>
+                                <li>What is data type inference (concept)?</li>
+                                <li>What is <code>dtype</code> in DataFrame?</li>
+                                <li>How do you change a column type (concept)?</li>
+                                <li>What is <code>reset_index()</code> (concept)?</li>
+                                <li>Where do groupby results appear?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>A DataFrame is:
+                                    <ul>
+                                        <li>A) a single value</li>
+                                        <li>B) a table with rows/columns</li>
+                                        <li>C) only a string</li>
+                                        <li>D) a function</li>
+                                    </ul>
+                                </li>
+                                <li><code>df["col"]</code> returns:
+                                    <ul>
+                                        <li>A) a DataFrame always</li>
+                                        <li>B) a Series</li>
+                                        <li>C) HTML</li>
+                                        <li>D) None</li>
+                                    </ul>
+                                </li>
+                                <li>Filtering rows needs:
+                                    <ul>
+                                        <li>A) a boolean mask</li>
+                                        <li>B) an integer index only</li>
+                                        <li>C) CSS</li>
+                                        <li>D) SQL</li>
+                                    </ul>
+                                </li>
+                                <li><code>df[df["age"] >= 18]</code> keeps ages:
+                                    <ul>
+                                        <li>A) < 18</li>
+                                        <li>B) ≥ 18</li>
+                                        <li>C) = 18 only</li>
+                                        <li>D) all ages</li>
+                                    </ul>
+                                </li>
+                                <li><code>sort_values</code> sorts by:
+                                    <ul>
+                                        <li>A) columns specified in <code>by</code></li>
+                                        <li>B) row numbers only</li>
+                                        <li>C) HTML tags</li>
+                                        <li>D) random</li>
+                                    </ul>
+                                </li>
+                                <li><code>ascending=False</code> means:
+                                    <ul>
+                                        <li>A) descending order</li>
+                                        <li>B) ascending</li>
+                                        <li>C) none</li>
+                                        <li>D) error</li>
+                                    </ul>
+                                </li>
+                                <li><code>groupby</code> groups data by:
+                                    <ul>
+                                        <li>A) column values</li>
+                                        <li>B) row count</li>
+                                        <li>C) CSS colors</li>
+                                        <li>D) nothing</li>
+                                    </ul>
+                                </li>
+                                <li><code>mean()</code> computes:
+                                    <ul>
+                                        <li>A) average</li>
+                                        <li>B) sum</li>
+                                        <li>C) max</li>
+                                        <li>D) median only</li>
+                                    </ul>
+                                </li>
+                                <li>Split-apply-combine means:
+                                    <ul>
+                                        <li>A) edit UI</li>
+                                        <li>B) group → apply function → combine</li>
+                                        <li>C) compile code</li>
+                                        <li>D) delete rows</li>
+                                    </ul>
+                                </li>
+                                <li><code>df.head()</code> shows:
+                                    <ul>
+                                        <li>A) last rows</li>
+                                        <li>B) first rows</li>
+                                        <li>C) random rows</li>
+                                        <li>D) no rows</li>
+                                    </ul>
+                                </li>
+                                <li>Boolean comparisons create:
+                                    <ul>
+                                        <li>A) mask of True/False</li>
+                                        <li>B) strings</li>
+                                        <li>C) CSS rules</li>
+                                        <li>D) database tables</li>
+                                    </ul>
+                                </li>
+                                <li><code>groupby("class")["score"].mean()</code> computes mean:
+                                    <ul>
+                                        <li>A) overall only</li>
+                                        <li>B) per class group</li>
+                                        <li>C) per row</li>
+                                        <li>D) per column only</li>
+                                    </ul>
+                                </li>
+                                <li><code>sort_values</code> is conceptually:
+                                    <ul>
+                                        <li>A) a filter</li>
+                                        <li>B) an ordering operation</li>
+                                        <li>C) a join</li>
+                                        <li>D) a network call</li>
+                                    </ul>
+                                </li>
+                                <li>Boolean mask length equals:
+                                    <ul>
+                                        <li>A) number of columns</li>
+                                        <li>B) number of rows</li>
+                                        <li>C) number of files</li>
+                                        <li>D) 0 always</li>
+                                    </ul>
+                                </li>
+                                <li>Missing values are:
+                                    <ul>
+                                        <li>A) special markers like NaN</li>
+                                        <li>B) always zeros</li>
+                                        <li>C) CSS</li>
+                                        <li>D) only strings</li>
+                                    </ul>
+                                </li>
+                                <li><code>reset_index()</code> is used for:
+                                    <ul>
+                                        <li>A) rebuilding index (concept)</li>
+                                        <li>B) changing theme</li>
+                                        <li>C) splitting strings</li>
+                                        <li>D) training model</li>
+                                    </ul>
+                                </li>
+                                <li><code>loc</code> is for:
+                                    <ul>
+                                        <li>A) label-based selection (concept)</li>
+                                        <li>B) random selection</li>
+                                        <li>C) CSS selection</li>
+                                        <li>D) file selection</li>
+                                    </ul>
+                                </li>
+                                <li><code>iloc</code> is for:
+                                    <ul>
+                                        <li>A) position-based selection (concept)</li>
+                                        <li>B) label-based only</li>
+                                        <li>C) network</li>
+                                        <li>D) none</li>
+                                    </ul>
+                                </li>
+                                <li>Vectorized operations are:
+                                    <ul>
+                                        <li>A) faster than loops (concept)</li>
+                                        <li>B) always slower</li>
+                                        <li>C) irrelevant</li>
+                                        <li>D) only for SQL</li>
+                                    </ul>
+                                </li>
+                                <li>DataFrame columns store:
+                                    <ul>
+                                        <li>A) arrays of values</li>
+                                        <li>B) HTML</li>
+                                        <li>C) sockets</li>
+                                        <li>D) images only</li>
+                                    </ul>
+                                </li>
+                                <li>Groupby output is usually:
+                                    <ul>
+                                        <li>A) smaller aggregated table</li>
+                                        <li>B) always larger</li>
+                                        <li>C) only plots</li>
+                                        <li>D) always empty</li>
+                                    </ul>
+                                </li>
+                                <li>Comparing a column to a scalar returns:
+                                    <ul>
+                                        <li>A) boolean mask</li>
+                                        <li>B) sum</li>
+                                        <li>C) plot</li>
+                                        <li>D) exception</li>
+                                    </ul>
+                                </li>
+                                <li>Filtering creates a new DataFrame (often):
+                                    <ul>
+                                        <li>A) yes (concept)</li>
+                                        <li>B) no</li>
+                                        <li>C) always error</li>
+                                        <li>D) only for rows</li>
+                                    </ul>
+                                </li>
+                                <li>One use of Pandas is:
+                                    <ul>
+                                        <li>A) data analysis</li>
+                                        <li>B) only GUI</li>
+                                        <li>C) only networking</li>
+                                        <li>D) only regex</li>
+                                    </ul>
+                                </li>
+                                <li>Sorting changes the order of:
+                                    <ul>
+                                        <li>A) rows</li>
+                                        <li>B) columns</li>
+                                        <li>C) theme</li>
+                                        <li>D) code</li>
+                                    </ul>
+                                </li>
+                                <li><code>mean()</code> is computed per group when using groupby:
+                                    <ul>
+                                        <li>A) true</li>
+                                        <li>B) false</li>
+                                    </ul>
+                                </li>
+                                <li>Boolean mask helps avoid:
+                                    <ul>
+                                        <li>A) manual loops</li>
+                                        <li>B) writing functions</li>
+                                        <li>C) printing results</li>
+                                        <li>D) importing pandas</li>
+                                    </ul>
+                                </li>
+                                <li>Choosing correct dtype helps:
+                                    <ul>
+                                        <li>A) correct calculations (concept)</li>
+                                        <li>B) only display</li>
+                                        <li>C) only speed theme</li>
+                                        <li>D) no effect</li>
+                                    </ul>
+                                </li>
+                                <li>Chained indexing can cause:
+                                    <ul>
+                                        <li>A) confusion about views/copies</li>
+                                        <li>B) better performance always</li>
+                                        <li>C) no risk</li>
+                                        <li>D) theme problems</li>
+                                    </ul>
+                                </li>
+                                <li>Groupby works with:
+                                    <ul>
+                                        <li>A) aggregations like mean/sum</li>
+                                        <li>B) only HTML</li>
+                                        <li>C) only sockets</li>
+                                        <li>D) only CSS</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Create a DataFrame with columns name and age.</li>
+                                <li>Select the name column and print it.</li>
+                                <li>Select rows where age >= 18.</li>
+                                <li>Compute the mean age.</li>
+                                <li>Sort the DataFrame by age descending.</li>
+                                <li>Create a DataFrame with class and score.</li>
+                                <li>Group by class and compute mean score.</li>
+                                <li>Group by class and compute count of students (concept).</li>
+                                <li>Filter scores ≥ 80 and print only those rows.</li>
+                                <li>Change score column type to float (concept using astype).</li>
+                                <li>Create a boolean mask for score > 60.</li>
+                                <li>Use the mask to filter.</li>
+                                <li>Select a subset of columns (like name and score) (concept).</li>
+                                <li>Use <code>head()</code> to view first 2 rows (concept).</li>
+                                <li>Predict output shape (rows count) after filtering.</li>
+                                <li>Dry run: explain what mask looks like for ages [10,20,30].</li>
+                                <li>Compute min and max score (concept).</li>
+                                <li>Compute total score sum (concept).</li>
+                                <li>Write a function that takes df and returns adult rows.</li>
+                                <li>Add a new column (concept: pass/fail) using conditions.</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Read a CSV file into df (concept with <code>pd.read_csv</code>).</li>
+                                <li>Trim whitespace in a string column (concept using <code>.str.strip()</code>).</li>
+                                <li>Convert a numeric column that might be strings (concept using astype/ to_numeric).
+                                </li>
+                                <li>Filter rows with multiple conditions (AND/OR concepts).</li>
+                                <li>Use <code>sort_values</code> with multiple columns (concept).</li>
+                                <li>Find the row with the maximum score (concept).</li>
+                                <li>Replace missing values (concept with fillna).</li>
+                                <li>Create a pivot-like summary using groupby (concept).</li>
+                                <li>Compute mean score per class per subject (concept).</li>
+                                <li>Normalize scores by dividing by max per class (design).</li>
+                                <li>Write a function to compute summary table for any metric column.</li>
+                                <li>Dry run: compute expected group mean manually for small data.</li>
+                                <li>Join two DataFrames by a key (concept: merge).</li>
+                                <li>Predict merge output size if keys overlap partially.</li>
+                                <li>Compute grouped median (concept) and compare with mean (concept).</li>
+                                <li>Filter by regex on a text column (concept using str.contains).</li>
+                                <li>Build a “top 3” per class (concept using sorting + head per group).</li>
+                                <li>Implement a cleaning pipeline: rename columns, drop duplicates (concept).</li>
+                                <li>Debug: wrong comparison uses <code>and</code> instead of <code>&amp;</code>
+                                    (concept).</li>
+                                <li>Fix the filter using correct boolean operators.</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Implement an analysis function that reads CSV, cleans, and returns a report dict.
+                                </li>
+                                <li>Write a function to detect outliers using z-score (concept using NumPy).</li>
+                                <li>Handle missing values differently per column (design).</li>
+                                <li>Compute rolling mean (concept with rolling window).</li>
+                                <li>Resample time series (concept with datetime index).</li>
+                                <li>Perform multi-step transformations and avoid SettingWithCopy issues (concept).</li>
+                                <li>Build an end-to-end ETL pipeline: Extract → Transform → Load (concept).</li>
+                                <li>Optimize memory by converting dtypes (concept).</li>
+                                <li>Explain vectorized speed advantage using a mental example (concept).</li>
+                                <li>Implement a function that groups and returns multiple aggregations (design).</li>
+                                <li>Dry run expected output for groupby with multiple columns.</li>
+                                <li>Debug: using <code>df["col"].mean()</code> after filtering incorrectly (concept).
+                                </li>
+                                <li>Explain why filtering then assigning may create copies (concept).</li>
+                                <li>Write a function to safely update a column without chained indexing (design).</li>
+                                <li>Create a complex summary: groupby + custom apply (concept).</li>
+                                <li>Implement a custom aggregation that returns a dict (design).</li>
+                                <li>Explain and prevent performance issues from <code>apply</code> on large data
+                                    (concept).</li>
+                                <li>Design a strategy to validate data types before analysis.</li>
+                                <li>Write tests mentally for your cleaning pipeline with small sample data.</li>
+                                <li>Explain complexity: groupby roughly O(n) + overhead (concept).</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment35_1.py</code>: build df from sample data, filter age ≥ 18,
+                                    print adults.</li>
+                                <li>Create <code>assignment35_2.py</code>: compute mean score per class.</li>
+                                <li>Create <code>assignment35_3.py</code>: add a grade column A/B/C using score
+                                    thresholds (concept).</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Student Performance Report</h3>
+                                <p>Use a DataFrame to:</p>
+                                <ul>
+                                    <li>Filter students with score ≥ 60.</li>
+                                    <li>Group by class and compute mean score.</li>
+                                    <li>Create a grade column based on score.</li>
+                                    <li>Print a final summary table.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+
+                            <div class="callout warning">
+                                <h3>Case 1: wrong boolean operator</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">use and/or</div>
+                                    </div>
+                                    <pre><code># wrong
+filtered = df[df["age"] > 18 and df["score"] > 80]
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> use <code>&amp;</code> and <code>|</code> with parentheses.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: chained indexing confusion</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">SettingWithCopy concept</div>
+                                    </div>
+                                    <pre><code>adults = df[df["age"] >= 18]
+adults["grade"] = "A"
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> use <code>df.loc[mask, "grade"] = ...</code> conceptually.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: missing column name</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">typo column</div>
+                                    </div>
+                                    <pre><code>df["agge"]  # typo
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> check <code>df.columns</code> and correct spelling.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>KeyError:</strong> column name not found.</li>
+                                <li><strong>TypeError:</strong> comparing string to number.</li>
+                                <li><strong>ValueError:</strong> boolean mask not same length.</li>
+                                <li><strong>SettingWithCopyWarning:</strong> assignment on a slice (concept).</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Inspect columns early (<code>df.columns</code> concept).</li>
+                                <li>Use masks with parentheses and <code>&amp;</code>/<code>|</code>.</li>
+                                <li>Avoid chained indexing.</li>
+                                <li>Convert dtypes before calculations.</li>
+                                <li>Write small helper functions for repeated analysis steps.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                You learned the core Pandas workflow: DataFrame creation/loading, selecting data,
+                                filtering rows with boolean masks, sorting, and grouping with summary statistics.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Pandas cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Need</th>
+                                        <th>Code</th>
+                                        <th>Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Create/Load</td>
+                                        <td><code>pd.read_csv(...)</code></td>
+                                        <td>CSV → DataFrame</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Column</td>
+                                        <td><code>df["col"]</code></td>
+                                        <td>get a column (Series)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Filter</td>
+                                        <td><code>df[df["x"] >= 18]</code></td>
+                                        <td>keep rows using mask</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sort</td>
+                                        <td><code>df.sort_values(by="age")</code></td>
+                                        <td>order rows</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Group</td>
+                                        <td><code>df.groupby("class")["score"].mean()</code></td>
+                                        <td>mean per group</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Class Grade Analyzer</h3>
+                                <ul>
+                                    <li>Given df with columns <code>class</code> and <code>score</code>.</li>
+                                    <li>Create grade column: A (≥90), B (≥80), C otherwise.</li>
+                                    <li>Print: count of A/B/C per class.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What is a DataFrame?</li>
+                                <li>How do you select a column?</li>
+                                <li>What is boolean masking?</li>
+                                <li>How do you filter rows?</li>
+                                <li>How do you sort rows?</li>
+                                <li>What is groupby?</li>
+                                <li>How do you compute mean per group?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>DataFrame:</strong> a table structure with rows and columns.</li>
+                                    <li><strong>Series:</strong> a single column in Pandas.</li>
+                                    <li><strong>Boolean mask:</strong> a list/array of True/False used to filter rows.
+                                    </li>
+                                    <li><strong>Filtering:</strong> <code>df[mask]</code> keeps rows where mask is True.
+                                    </li>
+                                    <li><strong>Groupby:</strong> split data into groups, apply an aggregation, combine
+                                        results.</li>
+                                    <li><strong>Sorting:</strong> reorders rows based on values in column(s).</li>
+                                    <li><strong>Why parentheses:</strong> boolean operations must be grouped correctly.
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-36.html">Next Chapter</a></div>
+                            </div>
+
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

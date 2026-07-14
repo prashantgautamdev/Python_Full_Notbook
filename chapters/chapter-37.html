@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Chapter 37 — Machine Learning</title>
+  <meta name="description"
+    content="Chapter 37: Machine Learning. Learn supervised vs unsupervised, training, prediction, and evaluation concepts." />
+  <link rel="canonical" href="./chapters/chapter-37.html" />
+
+  <meta property="og:title" content="Chapter 37 — Machine Learning" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description"
+    content="Machine Learning concepts with practice: training, prediction, evaluation." />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 37 — Machine Learning" />
+  <meta name="twitter:description" content="Machine Learning fundamentals with practice and explained answers." />
+
+  <meta name="theme-color" content="#f7f2e8" />
+
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="icon" href="data:," />
+  <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+  <div class="progress" aria-hidden="true">
+    <div></div>
+  </div>
+
+  <div class="notebook">
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="brand">
+          <strong>Python Notebook</strong>
+          <span>Chapter 37 • Offline • Search • Dark mode</span>
+        </div>
+        <div class="top-actions">
+          <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+          <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="layout">
+        <aside class="sidebar" aria-label="Sidebar navigation">
+          <h2>Chapters</h2>
+          <nav class="nav-list" aria-label="Chapter list">
+            <div class="subtle" style="padding:6px 0;">Loading…</div>
+          </nav>
+
+          <div class="callout remember" style="margin-top:12px;">
+            <h3>⭐ Remember</h3>
+            <p>
+              Machine learning means learning patterns from examples.
+              Train on data → predict on new data.
+            </p>
+          </div>
+        </aside>
+
+        <main class="main" aria-label="Chapter content">
+          <div class="main-inner">
+            <div class="breadcrumbs">Home • Chapter 37</div>
+            <h1 class="chapter-title">Chapter 37 — Machine Learning</h1>
+            <p class="subtle">Learn the fundamentals of machine learning: supervised learning, training, prediction, and
+              evaluation concepts with practice.</p>
+
+            <div class="nav-buttons no-print" aria-label="Chapter actions">
+              <div class="footer-actions">
+                <a class="btn" href="../chapters/chapter-36.html">Previous Chapter</a>
+                <a class="btn" href="../index.html">Back To Home</a>
+                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+              </div>
+            </div>
+
+            <div class="sticky-toc" aria-label="Table of contents">
+              <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+              <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                <a href="#objectives">Learning Objectives</a>
+                <a href="#intro">Introduction</a>
+                <a href="#theory">Theory</a>
+                <a href="#syntax">Syntax</a>
+                <a href="#examples">Examples</a>
+                <a href="#flow">Flow Diagram</a>
+                <a href="#memory">Memory Visualization</a>
+                <a href="#dryrun">Dry Run</a>
+                <a href="#builtins">Built-in Functions</a>
+                <a href="#methods">Methods</a>
+                <a href="#interview">Interview Questions</a>
+                <a href="#mcq">MCQs</a>
+                <a href="#practice">Coding Practice</a>
+                <a href="#assignments">Assignments</a>
+                <a href="#mini-project">Mini Project</a>
+                <a href="#debugging">Debugging Practice</a>
+                <a href="#errors">Common Errors</a>
+                <a href="#best">Best Practices</a>
+                <a href="#summary">Summary</a>
+                <a href="#cheatsheet">Cheat Sheet</a>
+                <a href="#challenge">Coding Challenge</a>
+                <a href="#revision">Revision Questions</a>
+                <a href="#answers">Answer Key</a>
+              </div>
+            </div>
+
+            <section id="objectives">
+              <div class="callout tip">
+                <h3>🎯 Learning Objectives</h3>
+                <ul>
+                  <li>Understand what “machine learning” means.</li>
+                  <li>Learn supervised learning vs unsupervised learning (concept).</li>
+                  <li>Understand training/validation/test concept (concept).</li>
+                  <li>Use a simple model example (k-NN concept or linear regression concept).</li>
+                  <li>Learn evaluation metrics concept: accuracy, mean error (concept).</li>
+                </ul>
+              </div>
+            </section>
+
+            <section id="intro">
+              <h2>1) Introduction</h2>
+              <p>
+                Instead of writing rules like “if this then that”, machine learning finds patterns from data.
+              </p>
+              <p>
+                A model is trained on examples.
+                After training, it predicts the outcome for new inputs.
+              </p>
+            </section>
+
+            <section id="theory">
+              <h2>2) Theory</h2>
+
+              <h3>2.1 Model, features, target</h3>
+              <p>
+                In ML we usually have:
+              </p>
+              <ul>
+                <li><strong>Features</strong>: inputs you measure (x values).</li>
+                <li><strong>Target</strong>: what you want to predict (y value).</li>
+                <li><strong>Model</strong>: the function that maps features → prediction.</li>
+              </ul>
+
+              <h3>2.2 Supervised vs unsupervised</h3>
+              <ul>
+                <li><strong>Supervised learning</strong>: target is known in training data.</li>
+                <li><strong>Unsupervised learning</strong>: target is not given; model finds structure.</li>
+              </ul>
+
+              <h3>2.3 Training and evaluation (concept)</h3>
+              <p>
+                If you evaluate on the same data you trained on, results can look too good.
+                That’s why we use separate test/validation data.
+              </p>
+
+              <div class="callout warning">
+                <h3>⚠ Warning</h3>
+                <p>
+                  Overfitting means the model memorizes training data but fails on new data.
+                  Underfitting means the model is too simple.
+                </p>
+              </div>
+            </section>
+
+            <section id="syntax">
+              <h2>3) Syntax</h2>
+
+              <div class="code-card">
+                <div class="code-header">
+                  <div class="lang">Concept</div>
+                  <div class="meta">k-NN idea</div>
+                </div>
+                <pre><code># Pseudocode (concept)
+# 1) store training points
+# 2) for a new point:
+#    - compute distance to all training points
+#    - take k nearest labels
+#    - predict most common label (classification)
+</code></pre>
+              </div>
+
+              <div class="code-card">
+                <div class="code-header">
+                  <div class="lang">Python</div>
+                  <div class="meta">toy prediction with k-NN (no libraries)</div>
+                </div>
+                <pre><code>import math
+from collections import Counter
+
+
+def knn_predict(train_points, train_labels, query, k=3):
+    """
+    train_points: list of (x, y)
+    train_labels: list of labels (same length as train_points)
+    query: (x, y)
+    k: number of neighbors
+
+    Time complexity: O(n) distances + O(n log n) if sorting.
+    We’ll use sorting for simplicity.
+    Space complexity: O(n) for distance list.
+    """
+    distances = []
+
+    for point, label in zip(train_points, train_labels):
+        # Euclidean distance
+        dx = point[0] - query[0]
+        dy = point[1] - query[1]
+        dist = math.sqrt(dx * dx + dy * dy)
+        distances.append((dist, label))
+
+    # sort by distance (smallest first)
+    distances.sort(key=lambda x: x[0])
+
+    # take k closest labels
+    k_labels = [label for _, label in distances[:k]]
+
+    # choose most common label
+    most_common = Counter(k_labels).most_common(1)[0][0]
+    return most_common
+
+
+train_points = [(0, 0), (1, 1), (2, 2), (1, 0)]
+train_labels = ["cat", "cat", "dog", "cat"]
+
+query = (1.2, 1.0)
+pred = knn_predict(train_points, train_labels, query, k=3)
+
+print("Prediction:", pred)
+</code></pre>
+              </div>
+
+              <p><strong>Output:</strong> “Prediction: …” depends on which label is most common among the k nearest
+                points.</p>
+              <p><strong>Time:</strong> roughly O(n log n) because we sort all distances • <strong>Space:</strong> O(n).
+              </p>
+              <p><strong>Alternative:</strong> use libraries like scikit-learn for real projects.</p>
+            </section>
+
+            <section id="examples">
+              <h2>4) Examples</h2>
+
+              <h3>4.1 Easy Example — classification with majority vote</h3>
+              <div class="code-card">
+                <div class="code-header">
+                  <div class="lang">Explanation</div>
+                  <div class="meta">what k controls</div>
+                </div>
+                <pre><code>k = 1 → predict the closest point’s label
+k = 3 → predict the majority label among 3 closest points
+k too small: noisy predictions
+k too large: may ignore local patterns
+</code></pre>
+              </div>
+
+              <h3>4.2 Medium Example — regression concept</h3>
+              <div class="code-card">
+                <div class="code-header">
+                  <div class="lang">Concept</div>
+                  <div class="meta">predict average</div>
+                </div>
+                <pre><code>For regression, neighbors’ y values are numeric.
+Prediction can be the average of y for k nearest points.
+</code></pre>
+              </div>
+
+              <h3>4.3 Advanced Example — evaluation idea</h3>
+              <div class="callout note">
+                <h3>Flow idea</h3>
+                <p>Train → predict on test → compare predictions with true targets.</p>
+              </div>
+
+              <div class="code-card">
+                <div class="code-header">
+                  <div class="lang">Concept</div>
+                  <div class="meta">accuracy formula</div>
+                </div>
+                <pre><code>accuracy = correct_predictions / total_predictions
+</code></pre>
+              </div>
+            </section>
+
+            <section id="flow">
+              <h2>5) Flow Diagram</h2>
+              <div class="callout note">
+                <h3>Flowchart: ML pipeline</h3>
+                <pre><code>[Collect data]
+   |
+   v
+[Split: train/val/test]
+   |
+   v
+[Train model]
+   |
+   v
+[Predict]
+   |
+   v
+[Evaluate metrics]
+   |
+   v
+[Improve model]
+</code></pre>
+              </div>
+            </section>
+
+            <section id="memory">
+              <h2>6) Memory Visualization</h2>
+              <table class="table" aria-label="ML memory">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th>Stored in memory</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Training data</td>
+                    <td>features + targets</td>
+                  </tr>
+                  <tr>
+                    <td>Model parameters</td>
+                    <td>numbers learned from data</td>
+                  </tr>
+                  <tr>
+                    <td>Prediction results</td>
+                    <td>array/list of outputs</td>
+                  </tr>
+                  <tr>
+                    <td>Metric values</td>
+                    <td>small numbers for evaluation</td>
+                  </tr>
+                </tbody>
+              </table>
+            </section>
+
+            <section id="dryrun">
+              <h2>7) Dry Run</h2>
+              <div class="code-card">
+                <div class="code-header">
+                  <div class="lang">Dry run</div>
+                  <div class="meta">k-NN voting</div>
+                </div>
+                <pre><code>Given nearest 3 neighbors labels: ["cat", "dog", "cat"]
+Most common label is "cat" (2 votes vs 1)
+Prediction returns "cat".
+</code></pre>
+              </div>
+              <p><strong>Time:</strong> O(n log n) if sorting distances • <strong>Space:</strong> O(n).</p>
+            </section>
+
+            <section id="builtins">
+              <h2>8) Built-in Functions</h2>
+              <ul>
+                <li><code>zip()</code> to iterate points + labels together.</li>
+                <li><code>sorted()</code> conceptually for ordering by distance.</li>
+                <li><code>print()</code> for final result.</li>
+              </ul>
+            </section>
+
+            <section id="methods">
+              <h2>9) Methods</h2>
+              <div class="callout note">
+                <h3>Common ML terms (concept)</h3>
+                <ul>
+                  <li><strong>fit</strong>: training step.</li>
+                  <li><strong>predict</strong>: make predictions.</li>
+                  <li><strong>evaluate</strong>: compute metrics.</li>
+                </ul>
+              </div>
+            </section>
+
+            <section id="interview">
+              <h2>10) Interview Questions (Minimum 30)</h2>
+              <ol>
+                <li>What is machine learning?</li>
+                <li>What is a model?</li>
+                <li>What are features?</li>
+                <li>What is a target variable?</li>
+                <li>What is supervised learning?</li>
+                <li>What is unsupervised learning?</li>
+                <li>What is training data?</li>
+                <li>What is test data?</li>
+                <li>Why split data into train/test?</li>
+                <li>What is validation data (concept)?</li>
+                <li>What is overfitting?</li>
+                <li>What is underfitting?</li>
+                <li>What is a prediction?</li>
+                <li>What is an algorithm?</li>
+                <li>What is k in k-NN?</li>
+                <li>What is distance in k-NN?</li>
+                <li>How does k affect k-NN performance?</li>
+                <li>What is accuracy?</li>
+                <li>What is mean squared error (concept)?</li>
+                <li>What is a metric?</li>
+                <li>What is classification?</li>
+                <li>What is regression?</li>
+                <li>What is a hyperparameter (concept)?</li>
+                <li>Why normalization might matter (concept)?</li>
+                <li>What is feature scaling?</li>
+                <li>What is data leakage (concept)?</li>
+                <li>What is a baseline model?</li>
+                <li>What is cross-validation (concept)?</li>
+                <li>How do you improve a model (concept)?</li>
+              </ol>
+            </section>
+
+            <section id="mcq">
+              <h2>11) MCQs (Minimum 30)</h2>
+              <ol>
+                <li>Machine learning is about:
+                  <ul>
+                    <li>A) writing fixed rules only</li>
+                    <li>B) learning patterns from data</li>
+                    <li>C) styling pages</li>
+                    <li>D) regex matching</li>
+                  </ul>
+                </li>
+                <li>Features are:
+                  <ul>
+                    <li>A) inputs</li>
+                    <li>B) labels always</li>
+                    <li>C) CSS rules</li>
+                    <li>D) file paths</li>
+                  </ul>
+                </li>
+                <li>Target is:
+                  <ul>
+                    <li>A) what we predict</li>
+                    <li>B) what we ignore</li>
+                    <li>C) theme color</li>
+                    <li>D) cache name</li>
+                  </ul>
+                </li>
+                <li>Supervised learning needs:
+                  <ul>
+                    <li>A) labels</li>
+                    <li>B) no labels</li>
+                    <li>C) only CSS</li>
+                    <li>D) no data</li>
+                  </ul>
+                </li>
+                <li>Unsupervised learning is for:
+                  <ul>
+                    <li>A) labeled data only</li>
+                    <li>B) discovering structure</li>
+                    <li>C) compiling code</li>
+                    <li>D) writing HTML</li>
+                  </ul>
+                </li>
+                <li>Training means:
+                  <ul>
+                    <li>A) learning from data</li>
+                    <li>B) testing on test set</li>
+                    <li>C) printing charts</li>
+                    <li>D) deploying PWA</li>
+                  </ul>
+                </li>
+                <li>Prediction means:
+                  <ul>
+                    <li>A) compute model output for new input</li>
+                    <li>B) change theme</li>
+                    <li>C) save files</li>
+                    <li>D) install dependencies</li>
+                  </ul>
+                </li>
+                <li>Overfitting means:
+                  <ul>
+                    <li>A) memorizing training data</li>
+                    <li>B) good generalization always</li>
+                    <li>C) no training needed</li>
+                    <li>D) always accurate</li>
+                  </ul>
+                </li>
+                <li>k-NN uses:
+                  <ul>
+                    <li>A) k nearest neighbors</li>
+                    <li>B) k far neighbors</li>
+                    <li>C) k random points</li>
+                    <li>D) k CSS colors</li>
+                  </ul>
+                </li>
+                <li>In classification k-NN predicts:
+                  <ul>
+                    <li>A) average y</li>
+                    <li>B) most common label</li>
+                    <li>C) random label</li>
+                    <li>D) always None</li>
+                  </ul>
+                </li>
+                <li>Distance helps k-NN by:
+                  <ul>
+                    <li>A) deciding nearest points</li>
+                    <li>B) changing fonts</li>
+                    <li>C) storing logs</li>
+                    <li>D) sorting HTML</li>
+                  </ul>
+                </li>
+                <li>Accuracy is computed as:
+                  <ul>
+                    <li>A) correct/total</li>
+                    <li>B) total/correct</li>
+                    <li>C) random/total</li>
+                    <li>D) none</li>
+                  </ul>
+                </li>
+                <li>Regression predicts:
+                  <ul>
+                    <li>A) numeric values</li>
+                    <li>B) only categories</li>
+                    <li>C) only booleans</li>
+                    <li>D) CSS colors</li>
+                  </ul>
+                </li>
+                <li>Classification predicts:
+                  <ul>
+                    <li>A) categories/labels</li>
+                    <li>B) only numbers</li>
+                    <li>C) only files</li>
+                    <li>D) only HTML</li>
+                  </ul>
+                </li>
+                <li>Data leakage means:
+                  <ul>
+                    <li>A) test info used in training</li>
+                    <li>B) correct split</li>
+                    <li>C) no data</li>
+                    <li>D) caching disabled</li>
+                  </ul>
+                </li>
+                <li>A hyperparameter is:
+                  <ul>
+                    <li>A) set before training</li>
+                    <li>B) learned during training always</li>
+                    <li>C) CSS value</li>
+                    <li>D) file extension</li>
+                  </ul>
+                </li>
+                <li>Feature scaling is used to:
+                  <ul>
+                    <li>A) normalize numeric ranges</li>
+                    <li>B) change HTML</li>
+                    <li>C) delete data</li>
+                    <li>D) ignore units</li>
+                  </ul>
+                </li>
+                <li>A baseline model means:
+                  <ul>
+                    <li>A) simple first model for comparison</li>
+                    <li>B) best model always</li>
+                    <li>C) no model</li>
+                    <li>D) theme model</li>
+                  </ul>
+                </li>
+                <li>Cross-validation is conceptually:
+                  <ul>
+                    <li>A) multiple train/test splits</li>
+                    <li>B) only one split</li>
+                    <li>C) no evaluation</li>
+                    <li>D) random CSS</li>
+                  </ul>
+                </li>
+                <li>A metric is:
+                  <ul>
+                    <li>A) measure of performance</li>
+                    <li>B) a chart type</li>
+                    <li>C) a HTML tag</li>
+                    <li>D) a server port</li>
+                  </ul>
+                </li>
+                <li>Training set is used to:
+                  <ul>
+                    <li>A) learn parameters</li>
+                    <li>B) evaluate only</li>
+                    <li>C) style charts</li>
+                    <li>D) ignore data</li>
+                  </ul>
+                </li>
+                <li>Test set is used to:
+                  <ul>
+                    <li>A) measure generalization</li>
+                    <li>B) train the model</li>
+                    <li>C) change theme</li>
+                    <li>D) compile python</li>
+                  </ul>
+                </li>
+                <li>In k-NN, k=1 means:
+                  <ul>
+                    <li>A) closest neighbor label</li>
+                    <li>B) far neighbor label</li>
+                    <li>C) random label</li>
+                    <li>D) always same</li>
+                  </ul>
+                </li>
+                <li>Large k can:
+                  <ul>
+                    <li>A) smooth noise but may blur local patterns</li>
+                    <li>B) always improve</li>
+                    <li>C) break code</li>
+                    <li>D) remove data</li>
+                  </ul>
+                </li>
+                <li>Small k can:
+                  <ul>
+                    <li>A) be noisy</li>
+                    <li>B) always perfect</li>
+                    <li>C) ignore distance</li>
+                    <li>D) change theme</li>
+                  </ul>
+                </li>
+                <li>Which affects k-NN?
+                  <ul>
+                    <li>A) distance metric and feature scaling</li>
+                    <li>B) sidebar color</li>
+                    <li>C) robots.txt</li>
+                    <li>D) manifest.json</li>
+                  </ul>
+                </li>
+                <li>A good model should:
+                  <ul>
+                    <li>A) perform well on unseen data</li>
+                    <li>B) only on training data</li>
+                    <li>C) only in charts</li>
+                    <li>D) only on localhost</li>
+                  </ul>
+                </li>
+                <li>Evaluation helps to:
+                  <ul>
+                    <li>A) know if model generalizes</li>
+                    <li>B) change code into HTML</li>
+                    <li>C) install packages</li>
+                    <li>D) delete caches</li>
+                  </ul>
+                </li>
+              </ol>
+            </section>
+
+            <section id="practice">
+              <h2>12) Coding Practice</h2>
+              <h3>Easy (20)</h3>
+              <ol>
+                <li>Create a list of points and labels and run the provided <code>knn_predict</code> function.</li>
+                <li>Try k=1, k=3, k=5 and compare predictions (concept).</li>
+                <li>Predict a query point that is very close to a known “cat” point.</li>
+                <li>Predict a query that is between “cat” and “dog” points (observe outcome).</li>
+                <li>Compute distances manually for 3 nearest neighbors (concept).</li>
+                <li>Modify the distance formula to use squared distance (concept) and confirm prediction doesn’t change.
+                </li>
+                <li>Write a function that returns the k nearest labels list.</li>
+                <li>Use <code>Counter</code> to get the majority label (concept).</li>
+                <li>Create another toy dataset for two classes.</li>
+                <li>Add print statements to show distances and labels.</li>
+                <li>Dry run: if the nearest labels are [A,B,A], what is predicted?</li>
+                <li>Write tests (assert) for a few predictable outcomes.</li>
+                <li>Handle k larger than dataset size: clamp k (design).</li>
+                <li>Write a function to compute Euclidean distance between two 2D points.</li>
+                <li>Use that function inside knn_predict.</li>
+                <li>Predict for a query far away from all points and interpret result.</li>
+                <li>Experiment: change one label and see how prediction changes.</li>
+                <li>Dry run: what if there is a tie (two labels same votes)? Decide a rule (concept).</li>
+                <li>Implement tie-break as alphabetical order (design).</li>
+                <li>Explain time complexity of your k-NN function (concept).</li>
+              </ol>
+
+              <h3>Medium (20)</h3>
+              <ol>
+                <li>Split dataset into train and test lists (concept).</li>
+                <li>Implement an <code>evaluate_accuracy</code> function.</li>
+                <li>Run evaluation for k=1,3,5 and compare accuracies.</li>
+                <li>Write a function to choose the best k by evaluation (design).</li>
+                <li>Add feature scaling idea: divide x and y by max values (concept).</li>
+                <li>Compare results before and after scaling (concept).</li>
+                <li>Implement leave-one-out evaluation (concept).</li>
+                <li>Dry run: leave one point out, then predict it.</li>
+                <li>Implement k-NN for 1D points (design).</li>
+                <li>Write a regression version that predicts average y (design).</li>
+                <li>Evaluate regression with mean absolute error (concept).</li>
+                <li>Create a numeric dataset and test regression prediction.</li>
+                <li>Explain how noise affects k-NN predictions (concept).</li>
+                <li>Implement a simple “baseline” prediction always returns most common label (design).</li>
+                <li>Compare k-NN vs baseline accuracy (concept).</li>
+                <li>Debug: use wrong pairing between points and labels, notice wrong predictions (design).</li>
+                <li>Fix pairing and add a regression test (design).</li>
+                <li>Design an experiment plan to choose distance metric (concept).</li>
+                <li>Explain why k-NN is slow for large datasets (concept).</li>
+                <li>Design a strategy to speed up k-NN (concept, like indexing).</li>
+              </ol>
+
+              <h3>Hard (20)</h3>
+              <ol>
+                <li>Implement k-NN distance using Manhattan distance (L1) and compare predictions (concept).</li>
+                <li>Implement k-NN for variable k input and validate k types (design).</li>
+                <li>Implement tie-handling based on average distance to tied labels (design).</li>
+                <li>Build a small pipeline: prepare data → train (store) → predict → evaluate.</li>
+                <li>Add logging statements to trace prediction decisions (design).</li>
+                <li>Write property-based tests mentally (concept): prediction should be one of labels.</li>
+                <li>Implement robust input validation: points must be 2D tuples (design).</li>
+                <li>Debug common bug: forgetting to reset distances per query (design).</li>
+                <li>Design a class wrapper <code>KNNClassifier</code> with <code>fit</code> and <code>predict</code>
+                  methods (design).</li>
+                <li>Implement caching of computed distances for repeated queries (design).</li>

@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 43 — Design Patterns</title>
+    <meta name="description"
+        content="Chapter 43: Design Patterns. Learn creational, structural, and behavioral patterns with examples, practice, and explained answers." />
+    <link rel="canonical" href="./chapters/chapter-43.html" />
+
+    <meta property="og:title" content="Chapter 43 — Design Patterns" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="Design patterns fundamentals with practice and explained answers." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 43 — Design Patterns" />
+    <meta name="twitter:description" content="Design patterns fundamentals with practice." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 43 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout remember" style="margin-top:12px;">
+                        <h3>⭐ Remember</h3>
+                        <p>
+                            Design patterns are reusable solution ideas.
+                            They help you organize code so it stays flexible and maintainable.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 43</div>
+                        <h1 class="chapter-title">Chapter 43 — Design Patterns</h1>
+                        <p class="subtle">Learn common object-oriented design patterns: Singleton, Factory, Strategy,
+                            Observer, Adapter, Decorator, and more with practice and explained answers.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-42.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <ul>
+                                    <li>Understand what design patterns are (and why we use them).</li>
+                                    <li>Learn the key categories: creational, structural, behavioral.</li>
+                                    <li>Implement common patterns in Python (concept + code).</li>
+                                    <li>Choose a pattern based on a problem description.</li>
+                                    <li>Practice with small exercises and solved examples.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                When you build software, you repeat similar design tasks.
+                                Examples: creating objects, switching algorithms, notifying many objects.
+                            </p>
+                            <p>
+                                Design patterns capture proven solutions so you can reuse them.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 Three pattern categories</h3>
+                            <ul>
+                                <li><strong>Creational</strong>: how objects are created.</li>
+                                <li><strong>Structural</strong>: how classes/objects are composed.</li>
+                                <li><strong>Behavioral</strong>: how objects communicate and behave.</li>
+                            </ul>
+
+                            <h3>2.2 Common patterns (what they solve)</h3>
+                            <ul>
+                                <li><strong>Singleton</strong>: one instance globally (careful usage).</li>
+                                <li><strong>Factory</strong>: create objects without calling concrete classes directly.
+                                </li>
+                                <li><strong>Strategy</strong>: swap algorithms at runtime.</li>
+                                <li><strong>Observer</strong>: notify subscribers when something changes.</li>
+                                <li><strong>Adapter</strong>: make one interface work with another.</li>
+                                <li><strong>Decorator</strong>: add features without changing core code.</li>
+                            </ul>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    Patterns are tools, not rules.
+                                    If the problem is small, overusing patterns makes code harder to read.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">Strategy pattern (interface + swapping)</div>
+                                </div>
+                                <pre><code>from abc import ABC, abstractmethod
+
+class PaymentStrategy(ABC):
+    @abstractmethod
+    def pay(self, amount):
+        pass
+
+class CreditCard(PaymentStrategy):
+    def pay(self, amount):
+        return f"Paid {amount} using credit card"
+
+class Upi(PaymentStrategy):
+    def pay(self, amount):
+        return f"Paid {amount} using UPI"
+
+class Checkout:
+    def __init__(self, strategy: PaymentStrategy):
+        self.strategy = strategy
+
+    def checkout(self, amount):
+        # Behavior changes depending on strategy
+        return self.strategy.pay(amount)
+
+cc = CreditCard()
+upi = Upi()
+
+print(Checkout(cc).checkout(200))
+print(Checkout(upi).checkout(200))
+</code></pre>
+                            </div>
+
+                            <p><strong>Time:</strong> O(1) for selecting strategy + depends on pay •
+                                <strong>Space:</strong> O(1).</p>
+                            <p><strong>Alternative:</strong> use functions as strategies (simpler in Python).</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — Factory pattern (create by type)</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">factory without direct class usage</div>
+                                </div>
+                                <pre><code>class Dog:
+    def speak(self):
+        return "Bark"
+
+class Cat:
+    def speak(self):
+        return "Meow"
+
+def animal_factory(kind: str):
+    # Time: O(1) selection
+    if kind == "dog":
+        return Dog()
+    if kind == "cat":
+        return Cat()
+    raise ValueError("Unknown kind")
+
+animal = animal_factory("cat")
+print(animal.speak())  # Output: Meow
+</code></pre>
+                            </div>
+
+                            <h3>4.2 Medium Example — Decorator pattern</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">add logging feature</div>
+                                </div>
+                                <pre><code>def log_calls(func):
+    # Decorator adds behavior around func
+    def wrapper(*args, **kwargs):
+        print("Calling:", func.__name__)
+        result = func(*args, **kwargs)
+        print("Returned:", result)
+        return result
+    return wrapper
+
+@log_calls
+def add(a, b):
+    # Example core logic
+    return a + b
+
+print(add(3, 4))
+# Output prints logs and then 7
+</code></pre>
+                            </div>
+
+                            <h3>4.3 Advanced Example — Observer pattern (subscribe/notify)</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">simple event system</div>
+                                </div>
+                                <pre><code>class Observable:
+    def __init__(self):
+        self.subscribers = []
+
+    def subscribe(self, callback):
+        self.subscribers.append(callback)
+
+    def notify(self, message):
+        # Call all subscribers
+        for cb in self.subscribers:
+            cb(message)
+
+obs = Observable()
+
+def listener1(msg):
+    print("Listener1 got:", msg)
+
+def listener2(msg):
+    print("Listener2 got:", msg)
+
+obs.subscribe(listener1)
+obs.subscribe(listener2)
+
+obs.notify("Update!")
+</code></pre>
+                            </div>
+
+                            <p><strong>Output:</strong> both listeners print the message.</p>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: selecting a pattern</h3>
+                                <pre><code>[Describe problem]
+        |
+        v
+[Is it about creating objects?]--Yes--> [Creational]
+        |
+        No
+        v
+[Is it about combining interfaces?]--Yes--> [Structural]
+        |
+        No
+        v
+[Is it about communication/behavior?]--Yes--> [Behavioral]
+        |
+        v
+[Pick matching pattern]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <table class="table" aria-label="Pattern memory">
+                                <thead>
+                                    <tr>
+                                        <th>Pattern</th>
+                                        <th>What extra objects exist</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Strategy</td>
+                                        <td>a strategy object stored in context</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Factory</td>
+                                        <td>created concrete object</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Decorator</td>
+                                        <td>wrapper function closure</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Observer</td>
+                                        <td>list of subscriber callbacks</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Dry run</div>
+                                    <div class="meta">Decorator call order</div>
+                                </div>
+                                <pre><code>@log_calls
+def add(a,b): return a+b
+
+When calling add(3,4):
+1) wrapper runs
+2) wrapper prints "Calling: add"
+3) wrapper calls original add(3,4)
+4) wrapper prints "Returned: 7"
+5) wrapper returns 7
+</code></pre>
+                            </div>
+                            <p><strong>Time:</strong> wrapper adds constant overhead per call.</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>@decorator</code> syntax (language feature in Python).</li>
+                                <li><code>len()</code> to count subscribers (concept).</li>
+                                <li><code>print()</code> for debugging in examples.</li>
+                            </ul>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <div class="callout note">
+                                <h3>Common pattern-related methods</h3>
+                                <ul>
+                                    <li><strong>subscribe/notify</strong> (Observer)</li>
+                                    <li><strong>pay</strong> (Strategy interface)</li>
+                                    <li><strong>wrapper</strong> (Decorator internal function)</li>
+                                    <li><strong>factory function</strong> (Factory selection)</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is a design pattern?</li>
+                                <li>Why do we use design patterns?</li>
+                                <li>Name the 3 categories of design patterns.</li>
+                                <li>What is a creational pattern?</li>
+                                <li>What is a structural pattern?</li>
+                                <li>What is a behavioral pattern?</li>
+                                <li>What problem does Singleton solve?</li>
+                                <li>What problem does Factory solve?</li>
+                                <li>What problem does Strategy solve?</li>
+                                <li>What problem does Observer solve?</li>
+                                <li>What problem does Adapter solve?</li>
+                                <li>What problem does Decorator solve?</li>
+                                <li>When should you avoid using patterns?</li>
+                                <li>What is the difference between Factory and Strategy?</li>
+                                <li>Difference between Decorator and inheritance (concept)?</li>
+                                <li>What is an interface?</li>
+                                <li>What is polymorphism?</li>
+                                <li>How does Strategy enable polymorphism?</li>
+                                <li>What is dependency inversion (concept)?</li>
+                                <li>What is open/closed principle (concept)?</li>
+                                <li>How can patterns improve testability?</li>
+                                <li>What is dependency injection (concept)?</li>
+                                <li>Where is Observer commonly used?</li>
+                                <li>What is a subscriber in Observer pattern?</li>
+                                <li>What is a callback?</li>
+                                <li>What is a wrapper in Decorator?</li>
+                                <li>What is composition?</li>
+                                <li>What is delegation?</li>
+                                <li>What does “encapsulation” mean?</li>
+                                <li>How do patterns help in large codebases?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>Design patterns are:
+                                    <ul>
+                                        <li>A) random hacks</li>
+                                        <li>B) reusable solution ideas</li>
+                                        <li>C) database schemas</li>
+                                        <li>D) CSS colors</li>
+                                    </ul>
+                                </li>
+                                <li>Singleton pattern is creational:
+                                    <ul>
+                                        <li>A) correct</li>
+                                        <li>B) wrong</li>
+                                    </ul>
+                                </li>
+                                <li>Factory pattern is usually:
+                                    <ul>
+                                        <li>A) creational</li>
+                                        <li>B) structural only</li>
+                                        <li>C) behavioral only</li>
+                                        <li>D) UI pattern</li>
+                                    </ul>
+                                </li>
+                                <li>Strategy pattern is about:
+                                    <ul>
+                                        <li>A) swapping algorithms</li>
+                                        <li>B) drawing charts</li>
+                                        <li>C) caching files</li>
+                                        <li>D) encryption</li>
+                                    </ul>
+                                </li>
+                                <li>Observer pattern is about:
+                                    <ul>
+                                        <li>A) notifications</li>
+                                        <li>B) sorting only</li>
+                                        <li>C) theme toggling</li>
+                                        <li>D) JSON parsing</li>
+                                    </ul>
+                                </li>
+                                <li>Decorator pattern adds behavior by:
+                                    <ul>
+                                        <li>A) wrapping</li>
+                                        <li>B) removing code</li>
+                                        <li>C) overwriting CSS</li>
+                                        <li>D) SQL join</li>
+                                    </ul>
+                                </li>
+                                <li>Adapter pattern converts interface:
+                                    <ul>
+                                        <li>A) correct</li>
+                                        <li>B) false</li>
+                                    </ul>
+                                </li>
+                                <li>Open/Closed principle means:
+                                    <ul>
+                                        <li>A) modify existing code freely</li>
+                                        <li>B) open for extension, closed for modification</li>
+                                        <li>C) closed for extension</li>
+                                        <li>D) only for CSS</li>
+                                    </ul>
+                                </li>
+                                <li>Composition means:
+                                    <ul>
+                                        <li>A) build objects from other objects</li>
+                                        <li>B) inheritance only</li>
+                                        <li>C) delete objects</li>
+                                        <li>D) rename variables</li>
+                                    </ul>
+                                </li>
+                                <li>Delegation means:
+                                    <ul>
+                                        <li>A) pass work to another object/function</li>
+                                        <li>B) copy CSS</li>
+                                        <li>C) ignore calls</li>
+                                        <li>D) delete methods</li>
+                                    </ul>
+                                </li>
+                                <li>Strategy pattern uses:
+                                    <ul>
+                                        <li>A) an interface/contract for algorithms</li>
+                                        <li>B) a database</li>
+                                        <li>C) no objects</li>
+                                        <li>D) one algorithm only</li>
+                                    </ul>
+                                </li>
+                                <li>Observer subscribers receive:
+                                    <ul>
+                                        <li>A) messages from notify()</li>
+                                        <li>B) only CSS</li>
+                                        <li>C) no data</li>
+                                        <li>D) random numbers</li>
+                                    </ul>
+                                </li>
+                                <li>Decorator wrapper runs:
+                                    <ul>
+                                        <li>A) before and after core function</li>
+                                        <li>B) only after</li>
+                                        <li>C) only before</li>
+                                        <li>D) never</li>
+                                    </ul>
+                                </li>
+                                <li>Factory returns:
+                                    <ul>
+                                        <li>A) new objects based on input</li>
+                                        <li>B) HTML pages</li>
+                                        <li>C) caches</li>
+                                        <li>D) ports</li>
+                                    </ul>
+                                </li>
+                                <li>Overusing patterns can:
+                                    <ul>
+                                        <li>A) complicate code</li>
+                                        <li>B) simplify always</li>
+                                        <li>C) remove bugs always</li>
+                                        <li>D) improve SEO</li>
+                                    </ul>
+                                </li>
+                                <li>In Python, decorators are implemented using:
+                                    <ul>
+                                        <li>A) wrapper functions/closures</li>
+                                        <li>B) SQL queries</li>
+                                        <li>C) robots.txt</li>
+                                        <li>D) CSS files</li>
+                                    </ul>
+                                </li>
+                                <li>Strategy enables runtime algorithm changes:
+                                    <ul>
+                                        <li>A) true</li>
+                                        <li>B) false</li>
+                                    </ul>
+                                </li>
+                                <li>Singleton means:
+                                    <ul>
+                                        <li>A) one instance</li>
+                                        <li>B) many instances</li>
+                                        <li>C) zero instances</li>
+                                        <li>D) infinite instances</li>
+                                    </ul>
+                                </li>
+                                <li>Adapter is helpful when:
+                                    <ul>
+                                        <li>A) interfaces don’t match</li>
+                                        <li>B) theme matches</li>
+                                        <li>C) no data exists</li>
+                                        <li>D) recursion only</li>
+                                    </ul>
+                                </li>
+                                <li>Which is structural pattern:
+                                    <ul>
+                                        <li>A) Decorator/Adapter</li>
+                                        <li>B) k-NN</li>
+                                        <li>C) linear search</li>
+                                        <li>D) BFS</li>
+                                    </ul>
+                                </li>
+                                <li>Which is behavioral pattern:
+                                    <ul>
+                                        <li>A) Observer/Strategy</li>
+                                        <li>B) Factory only</li>
+                                        <li>C) CSS grid</li>
+                                        <li>D) sitemap</li>
+                                    </ul>
+                                </li>
+                                <li>Dependency injection means:
+                                    <ul>
+                                        <li>A) pass dependencies into objects</li>
+                                        <li>B) hardcode all objects</li>
+                                        <li>C) ignore testing</li>
+                                        <li>D) disable JS</li>
+                                    </ul>
+                                </li>
+                                <li>Tests are easier when:
+                                    <ul>
+                                        <li>A) you can swap implementations (Strategy)</li>
+                                        <li>B) you hardcode everything</li>
+                                        <li>C) you remove interfaces</li>
+                                        <li>D) you avoid functions</li>
+                                    </ul>
+                                </li>
+                                <li>Decorator can be stacked:
+                                    <ul>
+                                        <li>A) true</li>
+                                        <li>B) false</li>
+                                    </ul>
+                                </li>
+                                <li>Observer is good for:
+                                    <ul>
+                                        <li>A) event-driven updates</li>
+                                        <li>B) sorting only</li>
+                                        <li>C) theme toggles</li>
+                                        <li>D) caches</li>
+                                    </ul>
+                                </li>
+                                <li>Factory reduces:
+                                    <ul>
+                                        <li>A) direct dependency on concrete classes</li>
+                                        <li>B) all code</li>
+                                        <li>C) SEO</li>
+                                        <li>D) CSS</li>
+                                    </ul>
+                                </li>
+                                <li>Adapter pattern uses:
+                                    <ul>
+                                        <li>A) translation layer</li>
+                                        <li>B) deletion layer</li>
+                                        <li>C) theme layer</li>
+                                        <li>D) database layer only</li>
+                                    </ul>
+                                </li>
+                                <li>Decorator pattern principle:
+                                    <ul>
+                                        <li>A) extend behavior without modifying original</li>
+                                        <li>B) delete original</li>
+                                        <li>C) rewrite CSS</li>
+                                        <li>D) change manifest</li>
+                                    </ul>
+                                </li>
+                                <li>Strategy pattern principle:
+                                    <ul>
+                                        <li>A) choose algorithm by passing strategy</li>
+                                        <li>B) choose algorithm by editing core</li>
+                                        <li>C) choose algorithm by caching</li>
+                                        <li>D) choose algorithm by robots</li>
+                                    </ul>
+                                </li>
+                                <li>Best time to use patterns:
+                                    <ul>
+                                        <li>A) when repeated design problems appear</li>
+                                        <li>B) always for every small function</li>
+                                        <li>C) when you dislike testing</li>
+                                        <li>D) never</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Create a Factory that returns 3 different shapes (circle/square/triangle concept).
+                                </li>
+                                <li>Implement a simple Strategy where algorithms are “add tax” vs “no tax”.</li>
+                                <li>Write a decorator that logs function name and arguments.</li>
+                                <li>Write a decorator that measures execution time (concept).</li>
+                                <li>Implement an Observer with two listeners and one notify call.</li>
+                                <li>Implement adapter concept: convert “inches” to “meters” output (design).</li>
+                                <li>Dry run: show decorator execution order for one function.</li>
+                                <li>Dry run: show Observer notifying each subscriber in sequence.</li>
+                                <li>Predict output when strategy changes.</li>
+                                <li>Create an interface class (abstract base) for strategies (design).</li>
+                                <li>Implement a simple dependency injection by passing strategy into a context.</li>
+                                <li>Implement stack/decorator stacking (concept: two decorators on one function).</li>
+                                <li>Debug: wrapper forgets to return result (fix).</li>
+                                <li>Debug: Observer subscriber list overwritten accidentally (fix).</li>
+                                <li>Debug: Factory missing case for one kind (raise ValueError).</li>
+                                <li>Explain which category each pattern belongs to (concept).</li>
+                                <li>Write a short README-like explanation for one pattern (design).</li>
+                                <li>Use prints to trace control flow for one example.</li>
+                                <li>Refactor repeated code into a decorator.</li>
+                                <li>Write unit tests conceptually for Strategy swap.</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Implement a “Payment” system using Strategy for multiple methods.</li>
+                                <li>Add a Factory to create the correct Strategy based on user input.</li>
+                                <li>Implement an Observer that notifies on “new comment” events (design).</li>
+                                <li>Implement Decorator to add caching to an expensive function (concept).</li>
+                                <li>Write Adapter to make a legacy function match a new interface.</li>
+                                <li>Build a small plugin system where strategies are registered (design).</li>
+                                <li>Implement registry dictionary mapping names to callables (design).</li>
+                                <li>Dry run: sequence of calls with Factory → Strategy → Decorators.</li>
+                                <li>Debug: wrong closure variable captured in decorator loop (design fix).</li>
+                                <li>Implement multiple Observer events with different message types.</li>
+                                <li>Design an “EmailNotifier” Observer subscriber system (concept).</li>
+                                <li>Design a scenario: user preferences switching pricing algorithm (design).</li>
+                                <li>Explain trade-offs: Decorator vs inheritance (concept).</li>
+                                <li>Explain trade-offs: Factory vs if/else everywhere (concept).</li>
+                                <li>Design class diagram concept in text for one pattern.</li>
+                                <li>Refactor a hard-coded algorithm into Strategy.</li>
+                                <li>Refactor if/else object creation into Factory.</li>
+                                <li>Write a “pattern selection checklist” and apply it to 3 problems.</li>
+                                <li>Implement a simple metrics collector using Decorator.</li>
+                                <li>Ensure decorators preserve function metadata (concept: functools.wraps).</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Implement a full mini “event bus” with subscribe/unsubscribe (design).</li>
+                                <li>Implement thread-safe Singleton concept (design, not required code).</li>
+                                <li>Implement a generic plugin registry with type hints (design).</li>
+                                <li>Implement a Command pattern concept: encapsulate operations as objects.</li>
+                                <li>Implement State pattern concept for a vending machine (design).</li>
+                                <li>Design a Template Method pattern example (design).</li>
+                                <li>Explain why some patterns can be replaced with functions in Python.</li>
+                                <li>Implement composite-like behavior for nested operations (design).</li>
+                                <li>Design a refactor plan for an unmaintainable code snippet (design).</li>
+                                <li>Debug: observer subscriber removed but still called (fix).</li>
+                                <li>Debug: caching decorator returns wrong value due to missing keys (fix).</li>
+                                <li>Design and explain a testing strategy for each pattern.</li>
+                                <li>Prove/argue which pattern improves open/closed compliance (concept).</li>
+                                <li>Implement a “policy” system where policies are swapable at runtime.</li>
+                                <li>Integrate multiple patterns: Factory + Strategy + Observer (design).</li>
+                                <li>Explain complexity overhead introduced by patterns (concept).</li>
+                                <li>Write documentation comments for pattern interfaces.</li>
+                                <li>Design a pattern usage style guide for a team (design).</li>
+                                <li>Explain how to migrate from inheritance to Decorator (concept).</li>
+                                <li>Design a “pattern to problem” mapping table (design).</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment43_1.py</code>: implement Factory for shapes and print
+                                    speak/area concept outputs.</li>
+                                <li>Create <code>assignment43_2.py</code>: implement Strategy for pricing and switch
+                                    based on input.</li>
+                                <li>Create <code>assignment43_3.py</code>: implement Observer with two listeners and an
+                                    event message.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Notification Center</h3>
+                                <ul>
+                                    <li>Use Observer to notify when an event happens.</li>
+                                    <li>Use Strategy for different delivery channels (email/SMS/push).</li>
+                                    <li>Use Factory to build the correct Strategy from a user selection.</li>
+                                    <li>Use Decorator to add logging to delivery calls.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+
+                            <div class="callout warning">
+                                <h3>Case 1: decorator forgets to return</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">missing return</div>
+                                    </div>
+                                    <pre><code>def wrapper(*args, **kwargs):
+    func(*args, **kwargs)
+    # forgot: return result
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> store result and <code>return result</code>.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: Observer modifies list while iterating</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">subscriber list change</div>
+                                    </div>
+                                    <pre><code>for cb in self.subscribers:
+    self.subscribers.remove(cb)
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> iterate over a copy:
+                                    <code>for cb in self.subscribers[:]</code>.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: Strategy passed wrong type</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">runtime mismatch</div>
+                                    </div>
+                                    <pre><code>checkout = Checkout("not a strategy")
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> validate strategy implements required method (concept).</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>TypeError:</strong> passing wrong strategy or callback type.</li>
+                                <li><strong>AttributeError:</strong> calling method that does not exist on a swapped
+                                    object.</li>
+                                <li><strong>Logic bug:</strong> factory returning wrong class for a given kind.</li>
+                                <li><strong>Unexpected behavior:</strong> decorator closure uses wrong variables.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Use patterns when there is a real repeated design need.</li>
+                                <li>Prefer composition over inheritance in many cases.</li>
+                                <li>Keep interfaces small (one main method) to reduce coupling.</li>
+                                <li>Document why a pattern is chosen.</li>
+                                <li>Write small tests for each pattern implementation.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                You learned design pattern categories and practical examples in Python.
+                                You saw how Strategy swaps algorithms, Factory creates objects, Decorator adds behavior,
+                                and Observer sends notifications to subscribers.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Design patterns cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Pattern</th>
+                                        <th>Category</th>
+                                        <th>Key idea</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Singleton</td>
+                                        <td>Creational</td>
+                                        <td>one shared instance</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Factory</td>
+                                        <td>Creational</td>
+                                        <td>create based on input</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Strategy</td>
+                                        <td>Behavioral</td>
+                                        <td>swap algorithms</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Observer</td>
+                                        <td>Behavioral</td>
+                                        <td>notify subscribers</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Adapter</td>
+                                        <td>Structural</td>
+                                        <td>translate interfaces</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Decorator</td>
+                                        <td>Structural</td>
+                                        <td>wrap to extend behavior</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Switchable Text Formatter</h3>
+                                <ul>
+                                    <li>Implement a Strategy for formatting: uppercase, lowercase, title case.</li>
+                                    <li>Create a Factory that picks a formatter based on a string.</li>
+                                    <li>Add a Decorator for logging each format call.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What is a design pattern?</li>
+                                <li>Name the three categories.</li>
+                                <li>What does Strategy do?</li>
+                                <li>What does Factory do?</li>
+                                <li>What does Decorator do?</li>
+                                <li>What does Observer do?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>Design pattern:</strong> a proven solution structure for recurring
+                                        design problems.</li>
+                                    <li><strong>Categories:</strong> creational, structural, behavioral.</li>
+                                    <li><strong>Strategy:</strong> keeps core context same while swapping algorithm
+                                        behavior.</li>
+                                    <li><strong>Factory:</strong> chooses which concrete object to create based on
+                                        inputs.</li>
+                                    <li><strong>Decorator:</strong> wraps functions/objects to add extra behavior.</li>
+                                    <li><strong>Observer:</strong> lets many subscribers respond when an event occurs.
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-44.html">Next Chapter</a></div>
+                            </div>
+
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

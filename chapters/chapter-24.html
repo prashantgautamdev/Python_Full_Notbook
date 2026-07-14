@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 24 — Networking</title>
+    <meta name="description"
+        content="Chapter 24: Networking. Learn sockets, client/server basics, safe send/receive, message framing, and common networking errors." />
+    <link rel="canonical" href="./chapters/chapter-24.html" />
+
+    <meta property="og:title" content="Chapter 24 — Networking" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description"
+        content="Learn Python networking fundamentals: sockets, framing, and robust client/server patterns." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 24 — Networking" />
+    <meta name="twitter:description" content="Networking fundamentals with practice and explained answers." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 24 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout remember" style="margin-top:12px;">
+                        <h3>⭐ Remember</h3>
+                        <p>
+                            Sockets send <strong>bytes</strong>.
+                            If you send text, you must <strong>encode</strong> and <strong>decode</strong>.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 24</div>
+                        <h1 class="chapter-title">Chapter 24 — Networking</h1>
+                        <p class="subtle">
+                            Learn how computers talk using Python sockets.
+                            You’ll build a simple client/server, understand ports, handle bytes safely, and learn
+                            message framing ideas.
+                        </p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-23.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <ul>
+                                    <li>Understand client/server networking in simple words.</li>
+                                    <li>Use Python <code>socket</code> to send and receive bytes.</li>
+                                    <li>Learn the basics of creating a server: <code>bind</code>, <code>listen</code>,
+                                        <code>accept</code>.</li>
+                                    <li>Learn the basics of creating a client: <code>connect</code>,
+                                        <code>sendall</code>, <code>recv</code>.</li>
+                                    <li>Understand why message boundaries need framing (delimiter/length prefix idea).
+                                    </li>
+                                    <li>Spot common errors: connection refused, timeouts, decode issues.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                When you open a website, your browser must talk to a server.
+                                That “talk” happens over a network.
+                            </p>
+                            <p>
+                                In this chapter, we learn a low-level tool: Python’s sockets.
+                                You will build a tiny client and a tiny server and watch messages move.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 Client vs Server (mental model)</h3>
+                            <p>
+                                A <strong>server</strong> waits for connections.
+                                A <strong>client</strong> connects and sends a request.
+                                The server sends a response.
+                            </p>
+
+                            <h3>2.2 IP address + port</h3>
+                            <p>
+                                Computers on a network are identified by an <strong>IP address</strong>.
+                                Inside a computer, each program can listen on a <strong>port</strong>.
+                            </p>
+                            <p>
+                                For learning, we usually use <code>127.0.0.1</code> (meaning “my own computer”).
+                            </p>
+
+                            <h3>2.3 Bytes vs text</h3>
+                            <p>
+                                Sockets send <strong>bytes</strong>, not Python strings.
+                                So if you send text, you must convert:
+                            </p>
+                            <ul>
+                                <li><strong>encode</strong>: string → bytes (usually UTF-8)</li>
+                                <li><strong>decode</strong>: bytes → string (UTF-8)</li>
+                            </ul>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    Message boundaries are tricky.
+                                    TCP is a byte stream.
+                                    Your <code>recv()</code> call might return part of a message.
+                                </p>
+                            </div>
+
+                            <h3>2.4 Message framing (delimiter or length prefix)</h3>
+                            <p>
+                                To know where one message ends and the next begins, you need a simple protocol rule.
+                                Two common ideas are:
+                            </p>
+                            <ul>
+                                <li><strong>Delimiter</strong>: end each message with a newline <code>\n</code></li>
+                                <li><strong>Length prefix</strong>: first send the length, then send that many bytes
+                                </li>
+                            </ul>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">basic TCP server skeleton</div>
+                                </div>
+                                <pre><code>import socket
+
+HOST = "127.0.0.1"
+PORT = 5001
+
+# Create an IPv4 TCP socket
+server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Tell the OS: listen on this host/port
+server_sock.bind((HOST, PORT))
+
+# Allow up to 1 queued connection (learning example)
+server_sock.listen(1)
+
+print("Server waiting for a connection...")
+
+# accept() returns a connected socket + the client address
+conn, client_addr = server_sock.accept()
+print("Connected to:", client_addr)
+
+# Receive some bytes (up to 1024 bytes)
+data = conn.recv(1024)
+print("Received bytes:", data)
+
+# Reply (must be bytes)
+conn.sendall(b"Hello from server")
+
+# Always close sockets
+conn.close()
+server_sock.close()
+</code></pre>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">basic TCP client skeleton</div>
+                                </div>
+                                <pre><code>import socket
+
+HOST = "127.0.0.1"
+PORT = 5001
+
+client_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# connect to server (client initiates)
+client_sock.connect((HOST, PORT))
+
+# send bytes
+client_sock.sendall(b"Hello server")
+
+# receive bytes reply
+reply = client_sock.recv(1024)
+print("Reply bytes:", reply)
+
+client_sock.close()
+</code></pre>
+                            </div>
+
+                            <p><strong>Time:</strong> network/IO bound • <strong>Space:</strong> proportional to message
+                                size.</p>
+                            <p><strong>Alternative:</strong> use <code>requests</code> for HTTP APIs (higher-level).</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — Echo server (send back same bytes)</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">echo server</div>
+                                </div>
+                                <pre><code>import socket
+
+HOST = "127.0.0.1"
+PORT = 5002
+
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.bind((HOST, PORT))
+server.listen(1)
+
+conn, addr = server.accept()
+print("Connected:", addr)
+
+data = conn.recv(1024)
+print("Got:", data)
+
+# Echo back the same bytes
+conn.sendall(data)
+
+conn.close()
+server.close()
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> client receives exactly the same bytes it sent.</p>
+
+                            <h3>4.2 Medium Example — text encode/decode</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">server decodes text and replies</div>
+                                </div>
+                                <pre><code>import socket
+
+HOST = "127.0.0.1"
+PORT = 5003
+
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.bind((HOST, PORT))
+server.listen(1)
+
+conn, _ = server.accept()
+raw = conn.recv(1024)
+
+# Convert bytes → string
+text = raw.decode("utf-8")
+
+reply_text = f"Server got: {text}"
+reply_bytes = reply_text.encode("utf-8")
+
+conn.sendall(reply_bytes)
+
+conn.close()
+server.close()
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> string reply like <code>Server got: ...</code>.</p>
+
+                            <h3>4.3 Advanced Example — framing idea with newline delimiter</h3>
+                            <p>
+                                Conceptually, if every message ends with a newline (<code>\n</code>), you can read until
+                                you see that delimiter.
+                            </p>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">framing concept snippet</div>
+                                </div>
+                                <pre><code># Concept only (not complete server):
+# 1) client sends: b"Hello\n"
+# 2) server reads chunks and accumulates until it sees b"\n"
+# 3) then you process exactly one complete message
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: client/server</h3>
+                                <pre><code>[Server starts]
+     |
+     v
+[bind + listen]
+     |
+     v
+[accept connection]
+     |
+     v
+[recv bytes]
+     |
+     v
+[send response]
+     |
+     v
+[close]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <p>
+                                Each <code>recv()</code> reads some bytes into a buffer.
+                                Then decoding creates a new string object.
+                            </p>
+                            <table class="table" aria-label="Socket memory">
+                                <thead>
+                                    <tr>
+                                        <th>Step</th>
+                                        <th>What’s stored</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>recv()</code></td>
+                                        <td>byte buffer (up to N bytes)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>decode()</code></td>
+                                        <td>string copy in Python memory</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>sendall()</code></td>
+                                        <td>network transmit buffer</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Dry run</div>
+                                    <div class="meta">bytes round-trip</div>
+                                </div>
+                                <pre><code>Client sends bytes: b"Hi"
+
+Server recv(1024) returns: b"Hi"
+Server sendall(b"Hello from server")
+
+Client recv(1024) returns: b"Hello from server"
+</code></pre>
+                            </div>
+                            <p><strong>Time:</strong> O(message_size) • <strong>Space:</strong> O(message_size).</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>print()</code> for observing connection and received data.</li>
+                                <li><code>len()</code> (concept) if you later build a length-prefixed protocol.</li>
+                            </ul>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <div class="callout note">
+                                <h3>Common socket methods</h3>
+                                <ul>
+                                    <li><code>socket.socket()</code></li>
+                                    <li><code>bind((host, port))</code></li>
+                                    <li><code>listen(backlog)</code></li>
+                                    <li><code>accept()</code></li>
+                                    <li><code>connect((host, port))</code></li>
+                                    <li><code>sendall(bytes)</code></li>
+                                    <li><code>recv(n)</code></li>
+                                    <li><code>close()</code></li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is networking in programming?</li>
+                                <li>What is a client?</li>
+                                <li>What is a server?</li>
+                                <li>What is a socket?</li>
+                                <li>What is a port?</li>
+                                <li>What is <code>127.0.0.1</code> used for?</li>
+                                <li>What does <code>bind()</code> do?</li>
+                                <li>What does <code>listen()</code> do?</li>
+                                <li>What does <code>accept()</code> return?</li>
+                                <li>What does <code>connect()</code> do?</li>
+                                <li>What is <code>recv()</code> used for?</li>
+                                <li>Why does <code>recv()</code> need buffer size?</li>
+                                <li>What is <code>sendall()</code>?</li>
+                                <li>Why do sockets work with bytes?</li>
+                                <li>How do you convert text to bytes?</li>
+                                <li>How do you convert bytes to text?</li>
+                                <li>What is a timeout?</li>
+                                <li>What is a connection refused error?</li>
+                                <li>Why can one message be split across multiple <code>recv()</code> calls?</li>
+                                <li>What is message framing?</li>
+                                <li>Name two framing strategies.</li>
+                                <li>When should you close sockets?</li>
+                                <li>What is TCP vs UDP (concept)?</li>
+                                <li>Why is <code>localhost</code> easier for learning?</li>
+                                <li>How do you test a socket program on one machine?</li>
+                                <li>What is the difference between a listening socket and a connected socket?</li>
+                                <li>What does the backlog parameter affect (concept)?</li>
+                                <li>What is blocking vs non-blocking (concept)?</li>
+                                <li>How do you avoid hanging forever (concept)?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>A socket can be described as:
+                                    <ul>
+                                        <li>A) a CSS file</li>
+                                        <li>B) a network communication endpoint</li>
+                                        <li>C) a database table</li>
+                                        <li>D) a Python keyword</li>
+                                    </ul>
+                                </li>
+                                <li><code>bind()</code> is used to:
+                                    <ul>
+                                        <li>A) start listening for connections</li>
+                                        <li>B) attach socket to host/port</li>
+                                        <li>C) encode strings</li>
+                                        <li>D) print output</li>
+                                    </ul>
+                                </li>
+                                <li><code>listen()</code> is used to:
+                                    <ul>
+                                        <li>A) accept data immediately</li>
+                                        <li>B) start waiting for incoming connections</li>
+                                        <li>C) decode bytes</li>
+                                        <li>D) sort messages</li>
+                                    </ul>
+                                </li>
+                                <li><code>accept()</code> returns:
+                                    <ul>
+                                        <li>A) only bytes</li>
+                                        <li>B) a connected socket and address</li>
+                                        <li>C) only IP address</li>
+                                        <li>D) None always</li>
+                                    </ul>
+                                </li>
+                                <li><code>connect()</code> is used by:
+                                    <ul>
+                                        <li>A) servers only</li>
+                                        <li>B) clients</li>
+                                        <li>C) browsers only</li>
+                                        <li>D) CSS frameworks</li>
+                                    </ul>
+                                </li>
+                                <li><code>recv(n)</code> receives:
+                                    <ul>
+                                        <li>A) integers only</li>
+                                        <li>B) bytes</li>
+                                        <li>C) HTML</li>
+                                        <li>D) CSS</li>
+                                    </ul>
+                                </li>
+                                <li><code>sendall()</code> sends:
+                                    <ul>
+                                        <li>A) bytes reliably (for the given buffer)</li>
+                                        <li>B) nothing</li>
+                                        <li>C) HTML</li>
+                                        <li>D) random data</li>
+                                    </ul>
+                                </li>
+                                <li>TCP is typically:
+                                    <ul>
+                                        <li>A) connection-oriented</li>
+                                        <li>B) connectionless</li>
+                                        <li>C) file-based</li>
+                                        <li>D) theme-based</li>
+                                    </ul>
+                                </li>
+                                <li>Message boundaries are tricky because:
+                                    <ul>
+                                        <li>A) TCP is a byte stream</li>
+                                        <li>B) ports are unique</li>
+                                        <li>C) encode always fails</li>
+                                        <li>D) decode is instant</li>
+                                    </ul>
+                                </li>
+                                <li>To send text over sockets you should:
+                                    <ul>
+                                        <li>A) send it as plain string</li>
+                                        <li>B) encode to bytes then send</li>
+                                        <li>C) never use encoding</li>
+                                        <li>D) use JSON only</li>
+                                    </ul>
+                                </li>
+                                <li>For UTF-8 text decoding you use:
+                                    <ul>
+                                        <li>A) <code>.decode("ascii")</code></li>
+                                        <li>B) <code>.decode("utf-8")</code></li>
+                                        <li>C) <code>.encode("utf-8")</code></li>
+                                        <li>D) <code>.json()</code></li>
+                                    </ul>
+                                </li>
+                                <li>For UTF-8 encoding you use:
+                                    <ul>
+                                        <li>A) <code>.encode("utf-8")</code></li>
+                                        <li>B) <code>.decode("utf-8")</code></li>
+                                        <li>C) <code>.sendall("utf-8")</code></li>
+                                        <li>D) <code>.split()</code></li>
+                                    </ul>
+                                </li>
+                                <li><code>recv(1024)</code> means:
+                                    <ul>
+                                        <li>A) exactly 1024 bytes always</li>
+                                        <li>B) up to 1024 bytes</li>
+                                        <li>C) exactly 1024 characters</li>
+                                        <li>D) never bytes</li>
+                                    </ul>
+                                </li>
+                                <li>Connection refused usually means:
+                                    <ul>
+                                        <li>A) server is not listening on that port</li>
+                                        <li>B) CSS failed to load</li>
+                                        <li>C) wrong theme color</li>
+                                        <li>D) JSON invalid</li>
+                                    </ul>
+                                </li>
+                                <li>Best address for local learning is:
+                                    <ul>
+                                        <li>A) 0.0.0.0</li>
+                                        <li>B) 127.0.0.1</li>
+                                        <li>C) 255.255.255.0</li>
+                                        <li>D) ::/0</li>
+                                    </ul>
+                                </li>
+                                <li>If your decoding crashes with UnicodeDecodeError, the fix is usually:
+                                    <ul>
+                                        <li>A) send more CSS</li>
+                                        <li>B) ensure correct encoding or use <code>errors="replace"</code></li>
+                                        <li>C) delete the socket</li>
+                                        <li>D) change fonts</li>
+                                    </ul>
+                                </li>
+                                <li>Message framing is used to:
+                                    <ul>
+                                        <li>A) decide where a message ends</li>
+                                        <li>B) change ports automatically</li>
+                                        <li>C) improve SEO</li>
+                                        <li>D) cache offline pages</li>
+                                    </ul>
+                                </li>
+                                <li>Delimiter framing uses:
+                                    <ul>
+                                        <li>A) a special marker like newline</li>
+                                        <li>B) only file paths</li>
+                                        <li>C) a SQL query</li>
+                                        <li>D) a color code</li>
+                                    </ul>
+                                </li>
+                                <li>Length-prefix framing uses:
+                                    <ul>
+                                        <li>A) first sending length then payload</li>
+                                        <li>B) sending CSS length</li>
+                                        <li>C) sending nothing</li>
+                                        <li>D) skipping reading</li>
+                                    </ul>
+                                </li>
+                                <li>A listening socket is different from a connected socket because:
+                                    <ul>
+                                        <li>A) one is for accepting new connections</li>
+                                        <li>B) both send bytes in same way always</li>
+                                        <li>C) they are identical</li>
+                                        <li>D) one is for CSS</li>
+                                    </ul>
+                                </li>
+                                <li>Which function blocks until a client arrives?
+                                    <ul>
+                                        <li>A) accept()</li>
+                                        <li>B) recv()</li>
+                                        <li>C) sendall()</li>
+                                        <li>D) decode()</li>
+                                    </ul>
+                                </li>
+                                <li>When should you call <code>close()</code>?
+                                    <ul>
+                                        <li>A) only at program end</li>
+                                        <li>B) after you finish using a socket</li>
+                                        <li>C) never</li>
+                                        <li>D) only before decode</li>
+                                    </ul>
+                                </li>
+                                <li>If you want “reliable full send”, choose:
+                                    <ul>
+                                        <li>A) sendall</li>
+                                        <li>B) bind</li>
+                                        <li>C) decode</li>
+                                        <li>D) join</li>
+                                    </ul>
+                                </li>
+                                <li>Socket operations are usually limited by:
+                                    <ul>
+                                        <li>A) network/IO speed</li>
+                                        <li>B) HTML tag count</li>
+                                        <li>C) robots.txt</li>
+                                        <li>D) CSS colors</li>
+                                    </ul>
+                                </li>
+                                <li>What is the main unit of data in sockets?
+                                    <ul>
+                                        <li>A) bytes</li>
+                                        <li>B) tweets</li>
+                                        <li>C) lines</li>
+                                        <li>D) DOM nodes</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Write a TCP server that accepts one connection and prints received bytes.</li>
+                                <li>Write a client that connects to <code>127.0.0.1</code> and sends <code>b"Hi"</code>.
+                                </li>
+                                <li>Update server to decode received bytes as UTF-8 and print the text.</li>
+                                <li>Update server to reply with an encoded string.</li>
+                                <li>Change ports in both client/server and confirm they must match.</li>
+                                <li>Send <code>b"A"</code> and confirm the server prints it.</li>
+                                <li>Send a longer message and observe that <code>recv(1024)</code> may not capture
+                                    everything.</li>
+                                <li>Try sending non-ASCII text like <code>"café"</code> encoded in UTF-8.</li>
+                                <li>Add <code>try/except</code> around <code>connect()</code> to handle connection
+                                    refused.</li>
+                                <li>Add <code>try/except</code> around <code>recv()</code> to handle disconnects.</li>
+                                <li>Send two messages on the same connection and see how the server reacts (concept).
+                                </li>
+                                <li>Close the client immediately after sending and observe server behavior (concept).
+                                </li>
+                                <li>Print client address from <code>accept()</code>.</li>
+                                <li>Reply with the uppercase version of the received text.</li>
+                                <li>Reply with the reversed string.</li>
+                                <li>Use <code>errors="replace"</code> while decoding and explain why it avoids crashes
+                                    (concept).</li>
+                                <li>Implement a small “ping” message exchange: PING → PONG.</li>
+                                <li>Log each step: connected, received, sent, closed.</li>
+                                <li>Explain what <code>1024</code> means in <code>recv(1024)</code>.</li>
+                                <li>Dry run: predict outputs when server isn’t running (connection refused).</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Create an echo server that loops to receive multiple messages per connection
+                                    (concept).</li>
+                                <li>Create a server that returns JSON-like text like <code>{"text": "..."}</code>
+                                    (concept).</li>
+                                <li>Design a tiny command protocol: <code>UPPER: hello</code> → reply
+                                    <code>HELLO</code>.</li>
+                                <li>Parse the command safely and handle unknown commands.</li>
+                                <li>Add a simple newline delimiter framing rule (concept).</li>
+                                <li>Implement <code>send_text(sock, text)</code> that encodes UTF-8.</li>
+                                <li>Implement <code>recv_text(sock)</code> that decodes bytes to UTF-8.</li>
+                                <li>Build a “calculator” server: client sends <code>ADD: 2 3</code> (concept).</li>
+                                <li>Validate input before computing (concept) and send error replies.</li>
+                                <li>Close sockets using <code>finally</code> so cleanup always happens (concept).</li>
+                                <li>Implement client retry once if connect fails (concept).</li>
+                                <li>Explain why framing matters for long texts (concept).</li>
+                                <li>Implement receive loop that accumulates until delimiter <code>\n</code> (concept).
+                                </li>
+                                <li>Make server log client address + command type.</li>
+                                <li>Send a message containing spaces and confirm parsing works.</li>
+                                <li>Reply with the message length (concept).</li>
+                                <li>Return an error message for invalid commands.</li>
+                                <li>Explain time complexity for reading a message: proportional to message size.</li>
+                                <li>Write a short README explaining how to run client and server.</li>
+                                <li>Dry run: what happens if delimiter is missing (concept)?</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Implement a length-prefixed protocol (concept) and then code it.</li>
+                                <li>Implement both client and server for length-prefix framing.</li>
+                                <li>Write a helper that reads exactly N bytes before processing (concept).</li>
+                                <li>Add concurrency to the server with threads (concept).</li>
+                                <li>Handle multiple clients simultaneously using <code>threading.Thread</code>.</li>
+                                <li>Detect disconnects and stop processing that client (concept).</li>
+                                <li>Build a chat server that broadcasts messages to all clients (concept).</li>
+                                <li>Explain concurrency safety when shared lists are modified (concept).</li>
+                                <li>Design where to place logic (server class vs functions) (design).</li>
+                                <li>Implement safe decoding with <code>errors="replace"</code> (concept).</li>
+                                <li>Add rate limiting concept: limit messages per second (design).</li>
+                                <li>Implement graceful shutdown on Ctrl+C (concept).</li>
+                                <li>Write a small stress test: send many short messages (concept).</li>
+                                <li>Implement timeouts for both connect and recv (concept).</li>
+                                <li>Add retry with exponential backoff in client (concept).</li>
+                                <li>Prevent server crash by validating protocol format.</li>
+                                <li>Explain how TCP stream affects boundaries (concept).</li>
+                                <li>Design a message format: <code><type>|<length>|<payload></code> (design).</li>
+                                <li>Implement a “health check” command returning OK.</li>
+                                <li>Explain trade-offs between delimiter vs length prefix (concept).</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment24_1.py</code>: server receives text and replies with
+                                    <code>Got: ...</code>.</li>
+                                <li>Create <code>assignment24_2.py</code>: client sends <code>Hello</code> and prints
+                                    the server response.</li>
+                                <li>Create <code>assignment24_3.py</code>: add commands like <code>REVERSE: text</code>
+                                    and return reversed text.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Tiny Text Transform Server</h3>
+                                <p>
+                                    Server supports commands:
+                                </p>
+                                <ul>
+                                    <li><code>UPPER: text</code> → uppercase</li>
+                                    <li><code>LOWER: text</code> → lowercase</li>
+                                    <li><code>REVERSE: text</code> → reversed text</li>
+                                </ul>
+                                <p>
+                                    Add simple framing (newline delimiter or length prefix idea) so multiple commands
+                                    work.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+
+                            <div class="callout warning">
+                                <h3>Case 1: Connection refused</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">symptom</div>
+                                    </div>
+                                    <pre><code># client attempts to connect but nothing listens
+client_sock.connect(("127.0.0.1", 5001))
+# ConnectionRefusedError
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> start the server first and ensure client/server ports match.
+                                </p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: UnicodeDecodeError</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>text = raw.decode("utf-8")
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> ensure sender encoded with UTF-8. For learning, use
+                                    <code>errors="replace"</code>.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: Server reads only part of message</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>data = conn.recv(1024)
+# long message may arrive in multiple chunks
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> implement framing (delimiter or length prefix) and read until
+                                    complete.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>ConnectionRefusedError:</strong> server isn’t listening on that host/port.
+                                </li>
+                                <li><strong>TimeoutError:</strong> server didn’t respond within timeout.</li>
+                                <li><strong>UnicodeDecodeError:</strong> bytes aren’t valid UTF-8 for your decode.</li>
+                                <li><strong>BrokenPipeError:</strong> client disconnected while sending/receiving.</li>
+                                <li><strong>OSError:</strong> port already in use or wrong address family.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Use <code>127.0.0.1</code> for safe local learning.</li>
+                                <li>Always <strong>encode</strong>/<strong>decode</strong> text around sockets.</li>
+                                <li>Use a framing strategy (delimiter or length prefix) once messages can be multi-part.
+                                </li>
+                                <li>Close sockets with <code>try/finally</code> or safe cleanup.</li>
+                                <li>Handle exceptions and send friendly error messages where possible.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                You learned the client/server networking model using Python sockets.
+                                You saw how to send and receive bytes, how to encode/decode text, and why message
+                                boundaries are tricky.
+                                You also practiced debugging for the most common socket problems.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Networking cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Role</th>
+                                        <th>Code</th>
+                                        <th>Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Server</td>
+                                        <td><code>bind + listen</code></td>
+                                        <td>wait for incoming connections</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Server</td>
+                                        <td><code>accept()</code></td>
+                                        <td>get connected socket + client address</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Server</td>
+                                        <td><code>recv()</code></td>
+                                        <td>receive bytes</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Client</td>
+                                        <td><code>connect()</code></td>
+                                        <td>connect to server</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Client</td>
+                                        <td><code>sendall()</code></td>
+                                        <td>send bytes</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Both</td>
+                                        <td><code>encode/decode</code></td>
+                                        <td>text ↔ bytes</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Word Length Service</h3>
+                                <ul>
+                                    <li>The client sends a sentence.</li>
+                                    <li>The server replies with the total number of words.</li>
+                                    <li>Explain time complexity in terms of sentence length.</li>
+                                    <li>Make sure your text handling uses UTF-8 encoding.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What is a socket?</li>
+                                <li>What is the difference between a server and a client?</li>
+                                <li>What does <code>bind()</code> do?</li>
+                                <li>What does <code>accept()</code> return?</li>
+                                <li>Why do we encode and decode?</li>
+                                <li>What is message framing?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>Client/server:</strong> clients connect and send data; servers accept
+                                        connections and respond.</li>
+                                    <li><strong>Bytes:</strong> sockets transfer raw bytes; text must be
+                                        encoded/decoded.</li>
+                                    <li><strong>Message framing:</strong> because TCP can split/merge bytes, you need a
+                                        rule to detect message boundaries.</li>
+                                    <li><strong>Connection refused:</strong> typically means nothing is listening on
+                                        that host/port.</li>
+                                    <li><strong>Encoding:</strong> UTF-8 ensures consistent text representation across
+                                        machines.</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-25.html">Next Chapter</a></div>
+                            </div>
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

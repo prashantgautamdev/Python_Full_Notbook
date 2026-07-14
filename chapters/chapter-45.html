@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 45 — Deployment & DevOps</title>
+    <meta name="description"
+        content="Chapter 45: Deployment & DevOps. Learn how to package, version, and ship Python apps safely." />
+    <link rel="canonical" href="./chapters/chapter-45.html" />
+
+    <meta property="og:title" content="Chapter 45 — Deployment & DevOps" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="Learn deployment and DevOps basics for Python apps." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 45 — Deployment & DevOps" />
+    <meta name="twitter:description" content="Deployment basics, CI/CD, and safe releases." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 45 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout remember" style="margin-top:12px;">
+                        <h3>⭐ Remember</h3>
+                        <p>Deployment = shipping code. DevOps = automating shipping + monitoring + improving releases.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 45</div>
+                        <h1 class="chapter-title">Chapter 45 — Deployment &amp; DevOps</h1>
+                        <p class="subtle">Learn the steps to deploy Python apps, use CI/CD thinking, and make releases
+                            safer.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-44.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <ul>
+                                    <li>Understand deployment pipeline concepts.</li>
+                                    <li>Learn environment setup and dependency pinning ideas.</li>
+                                    <li>Use Python packaging basics: modules, entry points (concept).</li>
+                                    <li>Apply CI/CD checklist: test → build → release.</li>
+                                    <li>Learn safe release strategies: versioning and rollback ideas.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                Writing code is only half the job.
+                                The other half is shipping it so real users can run it.
+                            </p>
+                            <p>
+                                Deployment is the process of turning your code into something that runs reliably.
+                                DevOps adds automation and monitoring so releases are consistent.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 What is deployment?</h3>
+                            <p>
+                                Deployment means copying your app to a place where users can access it.
+                                The place could be a server, a container, a cloud service, or even a static host.
+                            </p>
+
+                            <h3>2.2 What is DevOps?</h3>
+                            <p>
+                                DevOps is a culture + process.
+                                It focuses on fast feedback and reliable shipping.
+                            </p>
+
+                            <h3>2.3 CI/CD (concept)</h3>
+                            <ul>
+                                <li><strong>CI</strong> = Continuous Integration: run tests on every change.</li>
+                                <li><strong>CD</strong> = Continuous Delivery/Deployment: automate releases.</li>
+                            </ul>
+
+                            <h3>2.4 Environments and dependencies</h3>
+                            <p>
+                                A big source of bugs is “works on my machine”.
+                                DevOps aims to make environments predictable.
+                            </p>
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    Never deploy with unpinned dependencies unless you fully understand the risk.
+                                    Updates can break your app.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">read version from a file (concept)</div>
+                                </div>
+                                <pre><code>from pathlib import Path
+
+# Read app version from a text file
+# (This keeps one source of truth.)
+version = Path("VERSION.txt").read_text(encoding="utf-8").strip()
+
+print("App version:", version)
+</code></pre>
+                            </div>
+                            <p><strong>Time:</strong> O(size of file) • <strong>Space:</strong> O(size of file).</p>
+                            <p><strong>Alternative:</strong> store version in a Python variable inside a package.</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — a deployment checklist</h3>
+                            <div class="callout note">
+                                <h3>Example checklist</h3>
+                                <ul>
+                                    <li>Run tests (unit + integration)</li>
+                                    <li>Build artifacts (if any)</li>
+                                    <li>Lint and format (optional but recommended)</li>
+                                    <li>Confirm environment variables (production vs dev)</li>
+                                    <li>Deploy and verify logs</li>
+                                </ul>
+                            </div>
+
+                            <h3>4.2 Medium Example — “health check” function</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">simple runtime check</div>
+                                </div>
+                                <pre><code>import time
+
+def health_check():
+    """Return True if the service seems healthy."""
+    start = time.time()
+
+    # Concept: replace with real checks (DB ping, API dependency ping)
+    ok = True
+
+    elapsed = time.time() - start
+    print(f"Health check took {elapsed:.6f}s")
+    return ok
+
+print("Healthy?", health_check())
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> Prints time and True/False.</p>
+
+                            <h3>4.3 Advanced Example — versioned release idea</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">generate a release tag (concept)</div>
+                                </div>
+                                <pre><code>from datetime import datetime
+
+# In real projects, your CI would create release tags.
+# Here we build a tag string.
+
+def make_release_tag(version):
+    now = datetime.utcnow().strftime("%Y%m%d")
+    return f"v{version}-{now}"
+
+print(make_release_tag("1.4.0"))
+</code></pre>
+                            </div>
+                            <p><strong>Time:</strong> O(1) • <strong>Space:</strong> O(1).</p>
+                            <p><strong>Alternative:</strong> use Git commit SHA in tags.</p>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: CI/CD mindset</h3>
+                                <pre><code>[Developer pushes code]
+            |
+            v
+   [CI runs tests + lint]
+            |
+            v
+  [Build artifact / package]
+            |
+            v
+ [CD deploy to staging]
+            |
+            v
+   [Verify + smoke tests]
+            |
+            v
+     [Deploy to prod]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <p>
+                                Deployment scripts don’t usually use much “runtime memory”.
+                                The main “memory” problem is keeping state: configurations, secrets, and cached
+                                dependencies.
+                            </p>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Artifact</th>
+                                        <th>Where it “lives”</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Build output</td>
+                                        <td>CI workspace / artifact storage</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Dependencies</td>
+                                        <td>Package index + local cache</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Secrets</td>
+                                        <td>Secure secret manager (never in code)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Dry run</div>
+                                    <div class="meta">release tag generation</div>
+                                </div>
+                                <pre><code>Input:
+version = "1.4.0"
+
+Step 1: compute UTC date, e.g. 2026-07-14
+Step 2: build tag: v1.4.0-20260714
+
+Output:
+v1.4.0-20260714
+</code></pre>
+                            </div>
+                            <p><strong>Time:</strong> constant • <strong>Space:</strong> constant.</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>print()</code> for logs (concept).</li>
+                                <li><code>open()</code> (via <code>Path.read_text</code>) for file reads.</li>
+                                <li><code>len()</code> to validate sizes (concept).</li>
+                            </ul>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <div class="callout note">
+                                <h3>Key APIs (from examples)</h3>
+                                <ul>
+                                    <li><code>Path.read_text()</code> reads a whole text file.</li>
+                                    <li><code>strip()</code> removes extra whitespace.</li>
+                                    <li><code>strftime()</code> formats datetime as a string.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is deployment?</li>
+                                <li>What is DevOps?</li>
+                                <li>What does CI mean?</li>
+                                <li>What does CD mean?</li>
+                                <li>Why is “works on my machine” a problem?</li>
+                                <li>What is the purpose of running tests in CI?</li>
+                                <li>What is a health check?</li>
+                                <li>Why should you smoke test after deployment?</li>
+                                <li>What are environment variables?</li>
+                                <li>Why should secrets never be stored in code?</li>
+                                <li>What is versioning?</li>
+                                <li>What is a rollback?</li>
+                                <li>What is a staging environment?</li>
+                                <li>What is production environment?</li>
+                                <li>Why pin dependencies?</li>
+                                <li>What is a lock file?</li>
+                                <li>What is an artifact in CI?</li>
+                                <li>Why is linting helpful?</li>
+                                <li>What is idempotency in deployment (concept)?</li>
+                                <li>What is blue/green deployment (concept)?</li>
+                                <li>What is canary release (concept)?</li>
+                                <li>What is a deployment pipeline?</li>
+                                <li>How do logs help after release?</li>
+                                <li>What is monitoring?</li>
+                                <li>What is alerting?</li>
+                                <li>How do you reduce release risk?</li>
+                                <li>What is a CI failure?</li>
+                                <li>What is meant by “fast feedback”?</li>
+                                <li>Why keep deployment steps automated?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>Deployment means:
+                                    <ul>
+                                        <li>A) writing code only</li>
+                                        <li>B) shipping code to users</li>
+                                        <li>C) styling CSS</li>
+                                        <li>D) training ML</li>
+                                    </ul>
+                                </li>
+                                <li>DevOps is mainly about:
+                                    <ul>
+                                        <li>A) automating delivery and feedback</li>
+                                        <li>B) changing fonts</li>
+                                        <li>C) deleting tests</li>
+                                        <li>D) removing logs</li>
+                                    </ul>
+                                </li>
+                                <li>CI focuses on:
+                                    <ul>
+                                        <li>A) running tests automatically</li>
+                                        <li>B) turning off computers</li>
+                                        <li>C) ignoring errors</li>
+                                        <li>D) only Git commands</li>
+                                    </ul>
+                                </li>
+                                <li>CD usually means:
+                                    <ul>
+                                        <li>A) continuous delivery/deployment</li>
+                                        <li>B) cache disabling</li>
+                                        <li>C) color dark mode</li>
+                                        <li>D) clipboard saving</li>
+                                    </ul>
+                                </li>
+                                <li>“Works on my machine” happens because:
+                                    <ul>
+                                        <li>A) same environment always</li>
+                                        <li>B) environments differ</li>
+                                        <li>C) tests don’t run</li>
+                                        <li>D) robots.txt breaks</li>
+                                    </ul>
+                                </li>
+                                <li>Lock files help by:
+                                    <ul>
+                                        <li>A) allowing random versions</li>
+                                        <li>B) pinning exact versions</li>
+                                        <li>C) skipping dependencies</li>
+                                        <li>D) hiding errors</li>
+                                    </ul>
+                                </li>
+                                <li>Secrets should be stored:
+                                    <ul>
+                                        <li>A) in public Git</li>
+                                        <li>B) in a secret manager</li>
+                                        <li>C) in HTML</li>
+                                        <li>D) in comments</li>
+                                    </ul>
+                                </li>
+                                <li>Rollback means:
+                                    <ul>
+                                        <li>A) upgrading to latest</li>
+                                        <li>B) reverting to previous stable release</li>
+                                        <li>C) removing logs</li>
+                                        <li>D) changing theme</li>
+                                    </ul>
+                                </li>
+                                <li>Staging is:
+                                    <ul>
+                                        <li>A) where you test before prod</li>
+                                        <li>B) your production server</li>
+                                        <li>C) offline cache</li>
+                                        <li>D) only home page</li>
+                                    </ul>
+                                </li>
+                                <li>Health check is:
+                                    <ul>
+                                        <li>A) a runtime verification</li>
+                                        <li>B) a notebook line</li>
+                                        <li>C) SEO keyword</li>
+                                        <li>D) CSS rule</li>
+                                    </ul>
+                                </li>
+                                <li>Smoke tests are:
+                                    <ul>
+                                        <li>A) quick post-deploy checks</li>
+                                        <li>B) long full regression suites only</li>
+                                        <li>C) theme tests</li>
+                                        <li>D) image uploads</li>
+                                    </ul>
+                                </li>
+                                <li>Monitoring means:
+                                    <ul>
+                                        <li>A) collecting signals about system health</li>
+                                        <li>B) hiding metrics</li>
+                                        <li>C) disabling alerts</li>
+                                        <li>D) turning off networking</li>
+                                    </ul>
+                                </li>
+                                <li>Alerting means:
+                                    <ul>
+                                        <li>A) notifying when something breaks</li>
+                                        <li>B) deleting logs</li>
+                                        <li>C) turning off CPU</li>
+                                        <li>D) changing version file</li>
+                                    </ul>
+                                </li>
+                                <li>An artifact is:
+                                    <ul>
+                                        <li>A) build output for release</li>
+                                        <li>B) SEO sitemap only</li>
+                                        <li>C) CSS color</li>
+                                        <li>D) empty string</li>
+                                    </ul>
+                                </li>
+                                <li>Idempotent deployment means:
+                                    <ul>
+                                        <li>A) running twice gives same outcome</li>
+                                        <li>B) running twice breaks</li>
+                                        <li>C) it only works once</li>
+                                        <li>D) it changes SEO</li>
+                                    </ul>
+                                </li>
+                                <li>Canary release means:
+                                    <ul>
+                                        <li>A) releasing to a small subset first</li>
+                                        <li>B) releasing to none</li>
+                                        <li>C) switching theme</li>
+                                        <li>D) deleting tests</li>
+                                    </ul>
+                                </li>
+                                <li>Blue/green deployment means:
+                                    <ul>
+                                        <li>A) running two versions and switching traffic</li>
+                                        <li>B) only one server always</li>
+                                        <li>C) disabling updates</li>
+                                        <li>D) ignoring rollback</li>
+                                    </ul>
+                                </li>
+                                <li>Why run tests in CI?
+                                    <ul>
+                                        <li>A) to reduce risk</li>
+                                        <li>B) to increase bugs</li>
+                                        <li>C) to skip feedback</li>
+                                        <li>D) to avoid automation</li>
+                                    </ul>
+                                </li>
+                                <li>Pinning dependencies reduces:
+                                    <ul>
+                                        <li>A) random breaking changes</li>
+                                        <li>B) better performance</li>
+                                        <li>C) dark mode</li>
+                                        <li>D) only file paths</li>
+                                    </ul>
+                                </li>
+                                <li>Logs help because:
+                                    <ul>
+                                        <li>A) they show what happened</li>
+                                        <li>B) they hide errors</li>
+                                        <li>C) they stop execution</li>
+                                        <li>D) they change SEO score</li>
+                                    </ul>
+                                </li>
+                                <li>A deployment pipeline is:
+                                    <ul>
+                                        <li>A) automated sequence from code to release</li>
+                                        <li>B) a single copy command only</li>
+                                        <li>C) manual theme editing</li>
+                                        <li>D) caching only</li>
+                                    </ul>
+                                </li>
+                                <li>Environment variables store:
+                                    <ul>
+                                        <li>A) runtime configuration</li>
+                                        <li>B) CSS rules</li>
+                                        <li>C) HTML markup</li>
+                                        <li>D) only chapter text</li>
+                                    </ul>
+                                </li>
+                                <li>CI failure usually means:
+                                    <ul>
+                                        <li>A) tests/lint didn’t pass</li>
+                                        <li>B) theme toggled</li>
+                                        <li>C) PWA installed</li>
+                                        <li>D) robots disallowed</li>
+                                    </ul>
+                                </li>
+                                <li>Fast feedback means:
+                                    <ul>
+                                        <li>A) learn issues quickly</li>
+                                        <li>B) wait weeks</li>
+                                        <li>C) ignore logs</li>
+                                        <li>D) remove tests</li>
+                                    </ul>
+                                </li>
+                                <li>Automation is important because:
+                                    <ul>
+                                        <li>A) it reduces human mistakes</li>
+                                        <li>B) it increases manual errors</li>
+                                        <li>C) it disables monitoring</li>
+                                        <li>D) it changes sitemap</li>
+                                    </ul>
+                                </li>
+                                <li>Version tags are used to:
+                                    <ul>
+                                        <li>A) identify specific releases</li>
+                                        <li>B) hide versions</li>
+                                        <li>C) break deployments</li>
+                                        <li>D) only improve UI</li>
+                                    </ul>
+                                </li>
+                                <li>Rollback is part of:
+                                    <ul>
+                                        <li>A) release safety</li>
+                                        <li>B) theme styling</li>
+                                        <li>C) SEO only</li>
+                                        <li>D) offline caching</li>
+                                    </ul>
+                                </li>
+                                <li>Staging environment goal is:
+                                    <ul>
+                                        <li>A) catch problems early</li>
+                                        <li>B) hide bugs</li>
+                                        <li>C) stop tests</li>
+                                        <li>D) skip smoke tests</li>
+                                    </ul>
+                                </li>
+                                <li>Which is best practice?
+                                    <ul>
+                                        <li>A) deploy without tests</li>
+                                        <li>B) test before release</li>
+                                        <li>C) hide errors</li>
+                                        <li>D) store secrets in code</li>
+                                    </ul>
+                                </li>
+                                <li>CI/CD is mainly about:
+                                    <ul>
+                                        <li>A) consistent automated delivery</li>
+                                        <li>B) manual theme edits</li>
+                                        <li>C) removing search</li>
+                                        <li>D) disabling PWA</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Write a <code>health_check()</code> function that validates a list length (concept).
+                                </li>
+                                <li>Read a <code>VERSION.txt</code> file and print it.</li>
+                                <li>Create a function that formats a release tag like <code>v1.0.0-YYYYMMDD</code>.</li>
+                                <li>Build a “deployment summary” text report string.</li>
+                                <li>Write a function that loads environment variables and validates required keys
+                                    (concept).</li>
+                                <li>Create a small function that prints “OK” or “FAILED” based on a boolean.</li>
+                                <li>Write a parser that reads key=value lines from a config file (concept).</li>
+                                <li>Validate config by checking missing values and printing clear errors.</li>
+                                <li>Write a retry wrapper for a callable that can fail (concept).</li>
+                                <li>Dry run: what happens when config file doesn’t exist?</li>
+                                <li>Count errors in a list of log lines.</li>
+                                <li>Filter log lines that contain “ERROR”.</li>
+                                <li>Create a function that computes a checksum of a text file (concept).</li>
+                                <li>Write a function that compares current vs expected version strings.</li>
+                                <li>Make a small “print deploy steps” function using a list of steps.</li>
+                                <li>Implement simple input validation for a version string format (concept).</li>
+                                <li>Write a function to measure runtime of a callable.</li>
+                                <li>Create a loop that runs a list of checks and stores results.</li>
+                                <li>Return a boolean “all checks passed”.</li>
+                                <li>Explain why validation helps with deployments (concept).</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Implement retry for a flaky function (use attempt counter).</li>
+                                <li>Write a function that loads config and converts numbers to int where possible.</li>
+                                <li>Generate a JSON “release manifest” containing version and timestamp.</li>
+                                <li>Write code to save the manifest to a file.</li>
+                                <li>Build a simple CLI that supports <code>deploy --dry-run</code> (concept).</li>
+                                <li>Dry run mode should print steps without executing them.</li>
+                                <li>Implement “smoke tests” as functions and run them in sequence.</li>
+                                <li>Collect results and print a summary table.</li>
+                                <li>Write a function to time each check and store durations.</li>
+                                <li>Explain time/space complexity for loading config.</li>
+                                <li>Write a small scheduler concept: run checks every N seconds (concept).</li>
+                                <li>Debug: handle exceptions and keep other checks running.</li>
+                                <li>Implement an allow-list for environment names (dev/staging/prod).</li>
+                                <li>Write a function to merge default config with overrides (concept).</li>
+                                <li>Update the release tag format to include “rc1” for release candidates.</li>
+                                <li>Compute how many tests passed out of total.</li>
+                                <li>Sort checks by duration and print slowest first.</li>
+                                <li>Explain why failing fast can be good or bad (concept).</li>
+                                <li>Implement basic structured logging format.</li>
+                                <li>Explain what “artifact” means in CI/CD (no code).</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Design a mini deployment pipeline in Python with stages and dependencies (design).
+                                </li>
+                                <li>Implement parallel smoke tests using threads (concept).</li>
+                                <li>Implement a rollback simulator: revert to a previous version in a mock state.</li>
+                                <li>Create a “release manager” class with methods: plan, execute, verify, rollback
+                                    (design).</li>
+                                <li>Implement exponential backoff for retries (design).</li>
+                                <li>Design and explain safe handling of secrets (concept).</li>
+                                <li>Write code to read a manifest and verify schema (design).</li>
+                                <li>Implement caching of expensive checks within one run (concept).</li>
+                                <li>Debug: make sure dry-run never writes files.</li>
+                                <li>Implement cleanup step even if a stage fails (concept).</li>
+                                <li>Write a dependency graph for steps and execute in topological order (design).</li>
+                                <li>Implement topological sorting (advanced concept).</li>
+                                <li>Time each stage and compute total duration.</li>
+                                <li>Explain where bottlenecks can happen in deployment scripts.</li>
+                                <li>Design an approval gate (manual approval) in pipeline (concept).</li>
+                                <li>Implement a “change log” generator from a list of commits (design).</li>
+                                <li>Write tests mentally for pipeline correctness (design).</li>
+                                <li>Implement safe file writes using temp file + rename (concept).</li>
+                                <li>Explain how to validate after deployment (concept).</li>
+                                <li>Design a strategy to reduce blast radius of releases (concept).</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment45_1.py</code>: read <code>VERSION.txt</code>, generate
+                                    release tag, print it.</li>
+                                <li>Create <code>assignment45_2.py</code>: implement a CLI with <code>--dry-run</code>
+                                    that prints a deployment plan.</li>
+                                <li>Create <code>assignment45_3.py</code>: implement smoke tests list; output a
+                                    pass/fail summary.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Release Manager Simulator</h3>
+                                <p>Build a small Python program that simulates a release.</p>
+                                <ul>
+                                    <li>Stages: build → test → verify → deploy</li>
+                                    <li>Each stage returns pass/fail</li>
+                                    <li>If verify fails, run rollback stage (simulation)</li>
+                                    <li>Print a final report with stage durations</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+
+                            <div class="callout warning">
+                                <h3>Case 1: missing environment variables</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">crash without validation</div>
+                                    </div>
+                                    <pre><code>import os
+
+prod_url = os.environ["PROD_URL"]  # KeyError if not set
+print(prod_url)
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> use <code>os.environ.get()</code> and print a friendly message.
+                                </p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: dry-run writes files</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">writes even in dry-run</div>
+                                    </div>
+                                    <pre><code># dry_run should not write artifacts
+open("manifest.json","w").write("{}")
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> guard writes with <code>if not dry_run:</code>.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: deploy uses wrong version</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">version mismatch</div>
+                                    </div>
+                                    <pre><code># supposed to use release tag, but uses local version variable
+print("Deploying:", local_version)
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> always deploy the version from the manifest/artifact.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>KeyError:</strong> missing env var.</li>
+                                <li><strong>RuntimeError:</strong> stage fails but pipeline continues.</li>
+                                <li><strong>PermissionError:</strong> writing artifacts where you don’t have rights.
+                                </li>
+                                <li><strong>Dependency mismatch:</strong> unpinned versions.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Pin dependencies.</li>
+                                <li>Test automatically (CI idea).</li>
+                                <li>Use staging before production.</li>
+                                <li>Keep releases versioned.</li>
+                                <li>Build rollback/restore plan.</li>
+                                <li>Log enough to debug after deployment.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                You learned the basics of deployment and DevOps thinking.
+                                You explored CI/CD concepts, environment reliability, safe releases, and how to verify
+                                systems after changes.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Deployment cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Topic</th>
+                                        <th>Key idea</th>
+                                        <th>Why it matters</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>CI</td>
+                                        <td>Run tests on changes</td>
+                                        <td>Find bugs early</td>
+                                    </tr>
+                                    <tr>
+                                        <td>CD</td>
+                                        <td>Automate releases</td>
+                                        <td>Consistency + speed</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Dependencies</td>
+                                        <td>Pin versions</td>
+                                        <td>Avoid surprise breakage</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Staging</td>
+                                        <td>Test before prod</td>
+                                        <td>Reduce risk</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rollback</td>
+                                        <td>Revert on failure</td>
+                                        <td>Protect users</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Deployment Plan Builder</h3>
+                                <ul>
+                                    <li>Create a list of steps for a deployment.</li>
+                                    <li>Given a <code>mode</code> (<code>dry-run</code> or <code>prod</code>), print
+                                        what would happen.</li>
+                                    <li>In <code>dry-run</code>, show steps but do not write files.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What is deployment?</li>
+                                <li>What is DevOps focused on?</li>
+                                <li>What does CI do?</li>
+                                <li>What does CD do?</li>
+                                <li>Why pin dependencies?</li>
+                                <li>What is a health check?</li>
+                                <li>What is staging used for?</li>
+                                <li>What is rollback?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>Deployment:</strong> shipping your code so users can run it.</li>
+                                    <li><strong>DevOps:</strong> automating delivery + feedback + reliability.</li>
+                                    <li><strong>CI:</strong> tests/quality checks on each change.</li>
+                                    <li><strong>CD:</strong> automate release after CI passes.</li>
+                                    <li><strong>Pinning:</strong> prevents random dependency updates from breaking your
+                                        app.</li>
+                                    <li><strong>Health checks:</strong> quick checks that services are responding.</li>
+                                    <li><strong>Rollback:</strong> revert to a stable version if something goes wrong.
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-46.html">Next Chapter</a></div>
+                            </div>
+
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

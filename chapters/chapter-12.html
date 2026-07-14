@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 12 — Sets</title>
+    <meta name="description"
+        content="Chapter 12: Sets. Learn set creation, uniqueness, membership tests, add/remove operations, and set operations." />
+    <link rel="canonical" href="./chapters/chapter-12.html" />
+
+    <meta property="og:title" content="Chapter 12 — Sets" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description"
+        content="Learn sets: unique collections, add/remove, membership, unions/intersections, practice, and explained answers." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 12 — Sets" />
+    <meta name="twitter:description" content="Python sets chapter." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 12 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+                    <div class="callout remember" style="margin-top:12px;">
+                        <h3>⭐ Remember</h3>
+                        <p>
+                            Sets store <strong>unique</strong> items.
+                            They are perfect for membership checks like “is this value inside?”
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 12</div>
+                        <h1 class="chapter-title">Chapter 12 — Sets</h1>
+                        <p class="subtle">Learn sets: create them, add/remove items, test membership, and use
+                            union/intersection/difference.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-11.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <p>By the end of this chapter, you will be able to:</p>
+                                <ul>
+                                    <li>Create sets using <code>{}</code> and <code>set()</code>.</li>
+                                    <li>Understand uniqueness and that order is not guaranteed.</li>
+                                    <li>Use <code>in</code> to test membership.</li>
+                                    <li>Add and remove elements from a set.</li>
+                                    <li>Use set operations: union, intersection, difference.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                Imagine you collect unique usernames from multiple sources.
+                                You don’t want duplicates.
+                            </p>
+                            <p>
+                                That is what a <strong>set</strong> is for.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 What is a set?</h3>
+                            <p>
+                                A set is an unordered collection of <strong>unique</strong> items.
+                                If you add the same item twice, the set keeps only one.
+                            </p>
+
+                            <h3>2.2 Why is order not important?</h3>
+                            <p>
+                                Sets are optimized for membership tests.
+                                That means their output order can differ from insertion order.
+                            </p>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning: sets cannot contain mutable items</h3>
+                                <p>
+                                    Set elements must be <strong>hashable</strong>.
+                                    For example, you cannot put a list inside a set.
+                                </p>
+                            </div>
+
+                            <h3>2.3 Set operations</h3>
+                            <ul>
+                                <li><strong>Union</strong> (A ∪ B): items in A or B.</li>
+                                <li><strong>Intersection</strong> (A ∩ B): items in both.</li>
+                                <li><strong>Difference</strong> (A − B): items in A not in B.</li>
+                                <li><strong>Symmetric difference</strong>: items in A or B but not both.</li>
+                            </ul>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">create sets</div>
+                                </div>
+                                <pre><code>s1 = {1, 2, 2, 3}
+print(s1)  # duplicates removed
+
+empty = set()
+print(type(empty))
+
+s2 = set(["a", "b"])
+print(s2)
+</code></pre>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">membership</div>
+                                </div>
+                                <pre><code>users = {"ravi", "asha"}
+
+print("ravi" in users)   # True
+print("kiran" in users)  # False
+</code></pre>
+                            </div>
+
+                            <p><strong>Time complexity:</strong> membership tests are fast (conceptually ~O(1) average)
+                                • <strong>Space:</strong> depends on set size.</p>
+                            <p><strong>Alternative:</strong> use lists for ordered duplicates (but slower membership).
+                            </p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — unique letters</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">unique from string</div>
+                                </div>
+                                <pre><code>text = "programming"
+unique_chars = set(text)
+print(unique_chars)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> set of distinct letters (order may vary).</p>
+
+                            <h3>4.2 Medium Example — union and intersection</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">union / intersection</div>
+                                </div>
+                                <pre><code>A = {1, 2, 3}
+B = {3, 4}
+
+print("Union:", A | B)
+print("Intersection:", A & B)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> Union has 1,2,3,4. Intersection has only 3.</p>
+
+                            <h3>4.3 Advanced Example — difference</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">difference</div>
+                                </div>
+                                <pre><code>A = {"apple", "banana", "mango"}
+B = {"banana", "grape"}
+
+print("A-B:", A - B)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> {"apple", "mango"} (order may vary).</p>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: build set → operate → output</h3>
+                                <pre><code>[Start]
+   |
+   v
+[Create sets A and B]
+   |
+   v
+[Choose operation: union/intersection/difference]
+   |
+   v
+[Compute result set]
+   |
+   v
+[Print result]
+   |
+   v
+[End]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <p>
+                                Set stores elements in an internal structure.
+                                For learning, think: each unique value becomes one “slot”.
+                            </p>
+                            <table class="table" aria-label="Set memory">
+                                <thead>
+                                    <tr>
+                                        <th>Input</th>
+                                        <th>Stored in Set</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>{1,2,2,3}</code></td>
+                                        <td><code>{1,2,3}</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>"banana" duplicates</code></td>
+                                        <td><code>unique letters only</code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">dry run union</div>
+                                </div>
+                                <pre><code>A = {1, 2, 3}
+B = {3, 4}
+
+C = A | B
+print(C)
+</code></pre>
+                            </div>
+                            <table class="table" aria-label="Dry run union table">
+                                <thead>
+                                    <tr>
+                                        <th>Step</th>
+                                        <th>Action</th>
+                                        <th>Result</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Start with A</td>
+                                        <td>{1,2,3}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Add elements from B not already in A</td>
+                                        <td>{1,2,3,4}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p><strong>Time:</strong> O(len(A)+len(B)) • <strong>Space:</strong> O(result size).</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>len(set)</code>: number of unique items.</li>
+                            </ul>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">len()</div>
+                                </div>
+                                <pre><code>s = {"a", "a", "b"}
+print(len(s))
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> 2</p>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <div class="callout note">
+                                <h3>Common set methods</h3>
+                                <ul>
+                                    <li><code>add(x)</code>: add element.</li>
+                                    <li><code>remove(x)</code>: remove element (error if missing).</li>
+                                    <li><code>discard(x)</code>: remove if exists (no error if missing).</li>
+                                    <li><code>pop()</code>: remove and return an arbitrary element.</li>
+                                </ul>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">add/remove</div>
+                                </div>
+                                <pre><code>skills = {"python", "sql"}
+skills.add("ml")
+print(skills)
+
+skills.discard("sql")
+print(skills)
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is a set in Python?</li>
+                                <li>Are sets ordered?</li>
+                                <li>How do sets handle duplicates?</li>
+                                <li>What does the keyword <code>in</code> do with sets?</li>
+                                <li>How do you create an empty set?</li>
+                                <li>Why is <code>{}</code> not an empty set?</li>
+                                <li>Can a list be added to a set?</li>
+                                <li>What does “hashable” mean (concept)?</li>
+                                <li>What is set union?</li>
+                                <li>What is set intersection?</li>
+                                <li>What is set difference?</li>
+                                <li>What is symmetric difference (concept)?</li>
+                                <li>What is the time complexity of membership tests (average idea)?</li>
+                                <li>What is <code>add()</code> used for?</li>
+                                <li>What is <code>remove()</code> used for?</li>
+                                <li>What is <code>discard()</code> used for?</li>
+                                <li>What is <code>pop()</code> used for?</li>
+                                <li>How do you get number of items in a set?</li>
+                                <li>What is <code>A | B</code> in set operations?</li>
+                                <li>What is <code>A &amp; B</code>?</li>
+                                <li>What is <code>A - B</code>?</li>
+                                <li>Why might printed set order look random?</li>
+                                <li>How can sets help remove duplicates from a list (concept)?</li>
+                                <li>What is a common bug when expecting order from sets?</li>
+                                <li>How do you update a set with union (concept)?</li>
+                                <li>How do you test if two sets are equal?</li>
+                                <li>What is a subset in set terms?</li>
+                                <li>How do you check subset relationship (concept)?</li>
+                                <li>How do you compute “items in A but not in B”?</li>
+                                <li>What is a real-world use of sets?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>A set is created with:
+                                    <ul>
+                                        <li>A) ( )</li>
+                                        <li>B) [ ]</li>
+                                        <li>C) { }</li>
+                                        <li>D) <>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>To create an empty set, you use:
+                                    <ul>
+                                        <li>A) {} </li>
+                                        <li>B) set() </li>
+                                        <li>C) {empty} </li>
+                                        <li>D) tuple()</li>
+                                    </ul>
+                                </li>
+                                <li>Sets remove duplicates because:
+                                    <ul>
+                                        <li>A) duplicates are illegal</li>
+                                        <li>B) only unique values can be stored</li>
+                                        <li>C) set sorts automatically</li>
+                                        <li>D) it converts to string</li>
+                                    </ul>
+                                </li>
+                                <li>Set elements are stored in:
+                                    <ul>
+                                        <li>A) ordered list</li>
+                                        <li>B) hash-based structure</li>
+                                        <li>C) linked list only</li>
+                                        <li>D) JSON</li>
+                                    </ul>
+                                </li>
+                                <li>Membership test <code>x in s</code> returns:
+                                    <ul>
+                                        <li>A) element itself</li>
+                                        <li>B) True/False</li>
+                                        <li>C) index</li>
+                                        <li>D) error always</li>
+                                    </ul>
+                                </li>
+                                <li>Union of A and B is:
+                                    <ul>
+                                        <li>A) items only in A</li>
+                                        <li>B) items in A or B</li>
+                                        <li>C) only common items</li>
+                                        <li>D) only unique in B</li>
+                                    </ul>
+                                </li>
+                                <li>Intersection of A and B is:
+                                    <ul>
+                                        <li>A) common items</li>
+                                        <li>B) union items</li>
+                                        <li>C) all items of A plus B</li>
+                                        <li>D) none</li>
+                                    </ul>
+                                </li>
+                                <li>Difference A-B gives:
+                                    <ul>
+                                        <li>A) items in both</li>
+                                        <li>B) items in A not in B</li>
+                                        <li>C) items in B not in A</li>
+                                        <li>D) all items</li>
+                                    </ul>
+                                </li>
+                                <li><code>A | B</code> means:
+                                    <ul>
+                                        <li>A) intersection</li>
+                                        <li>B) union</li>
+                                        <li>C) difference</li>
+                                        <li>D) compare</li>
+                                    </ul>
+                                </li>
+                                <li><code>A &amp; B</code> means:
+                                    <ul>
+                                        <li>A) intersection</li>
+                                        <li>B) union</li>
+                                        <li>C) remainder</li>
+                                        <li>D) exponent</li>
+                                    </ul>
+                                </li>
+                                <li><code>A - B</code> means:
+                                    <ul>
+                                        <li>A) union</li>
+                                        <li>B) difference</li>
+                                        <li>C) symmetric difference</li>
+                                        <li>D) size</li>
+                                    </ul>
+                                </li>
+                                <li>Which statement is correct?
+                                    <ul>
+                                        <li>A) Sets are ordered</li>
+                                        <li>B) Sets are unordered</li>
+                                        <li>C) Sets are always sorted</li>
+                                        <li>D) Sets keep duplicates</li>
+                                    </ul>
+                                </li>
+                                <li>Use <code>add(x)</code> to:
+                                    <ul>
+                                        <li>A) remove</li>
+                                        <li>B) add element</li>
+                                        <li>C) print</li>
+                                        <li>D) sort</li>
+                                    </ul>
+                                </li>
+                                <li><code>discard(x)</code> removes if:
+                                    <ul>
+                                        <li>A) x must exist else error</li>
+                                        <li>B) x exists; if missing, no error</li>
+                                        <li>C) always error</li>
+                                        <li>D) never works</li>
+                                    </ul>
+                                </li>
+                                <li><code>remove(x)</code> removes and:
+                                    <ul>
+                                        <li>A) errors if x missing</li>
+                                        <li>B) never errors</li>
+                                        <li>C) sorts set</li>
+                                        <li>D) converts to list</li>
+                                    </ul>
+                                </li>
+                                <li>Set elements must be:
+                                    <ul>
+                                        <li>A) numbers only</li>
+                                        <li>B) hashable (concept)</li>
+                                        <li>C) always lists</li>
+                                        <li>D) never strings</li>
+                                    </ul>
+                                </li>
+                                <li>Time for membership average is about:
+                                    <ul>
+                                        <li>A) O(n)</li>
+                                        <li>B) O(1)</li>
+                                        <li>C) O(n^2)</li>
+                                        <li>D) O(log n) only</li>
+                                    </ul>
+                                </li>
+                                <li>Printing a set might show:
+                                    <ul>
+                                        <li>A) sorted order always</li>
+                                        <li>B) arbitrary order</li>
+                                        <li>C) input order always</li>
+                                        <li>D) no items</li>
+                                    </ul>
+                                </li>
+                                <li>To remove duplicates from a list, you can use:
+                                    <ul>
+                                        <li>A) set(list)</li>
+                                        <li>B) tuple(list)</li>
+                                        <li>C) dict(list)</li>
+                                        <li>D) str(list)</li>
+                                    </ul>
+                                </li>
+                                <li>Best description of set uniqueness is:
+                                    <ul>
+                                        <li>A) allow duplicates</li>
+                                        <li>B) enforce one copy of each value</li>
+                                        <li>C) remove all values</li>
+                                        <li>D) allow duplicates only for strings</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Create a set with numbers and print it.</li>
+                                <li>Create a set from a string and print it.</li>
+                                <li>Check membership: is 3 inside the set?</li>
+                                <li>Check membership: is "python" inside the set?</li>
+                                <li>Add an element using <code>add()</code>.</li>
+                                <li>Remove an element using <code>discard()</code>.</li>
+                                <li>Try <code>discard()</code> for an element not present (no error).</li>
+                                <li>Create empty set using <code>set()</code>.</li>
+                                <li>Compute union of two small sets.</li>
+                                <li>Compute intersection of two small sets.</li>
+                                <li>Compute difference A-B.</li>
+                                <li>Use <code>len()</code> on a set.</li>
+                                <li>Convert a list to a set to remove duplicates (concept).</li>
+                                <li>Dry run: what is result of <code>{1,1,2}</code>?</li>
+                                <li>Dry run membership for <code>x in s</code>.</li>
+                                <li>Check which elements in A are missing from B (difference).</li>
+                                <li>Union then add one new element.</li>
+                                <li>Intersection then remove one element with discard.</li>
+                                <li>Create set of vowels from a string.</li>
+                                <li>Compare two sets for equality (concept).</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Given list of ids with duplicates, convert to set and print unique ids.</li>
+                                <li>Compute common hobbies between two users using intersection.</li>
+                                <li>Compute hobbies not shared by either using difference.</li>
+                                <li>Compute union of three sets by chaining.</li>
+                                <li>Write code that checks if two sets share at least one item (intersection non-empty).
+                                </li>
+                                <li>Find unique words from a sentence using set (split concept).</li>
+                                <li>Create a set of all numbers from 1..N (range to set concept) and check membership
+                                    for a value.</li>
+                                <li>Remove all items in B from A (A minus B).</li>
+                                <li>Build a set of uppercase letters from an input string.</li>
+                                <li>Compute symmetric difference between A and B (concept using (A|B)-(A&B)).</li>
+                                <li>Given a list, detect duplicates by comparing length vs set length.</li>
+                                <li>Compute frequency using set of unique (concept) and loop.</li>
+                                <li>Convert set to list and print in a chosen order (sort concept).</li>
+                                <li>Ensure you don’t rely on printed order from set.</li>
+                                <li>Compute unique numbers in A and B combined but not both (concept).</li>
+                                <li>Use <code>in</code> in a loop: print whether each candidate is in a set.</li>
+                                <li>Build two sets from two comma-separated strings (split concept).</li>
+                                <li>Remove one random element using <code>pop()</code> (expect unpredictability).</li>
+                                <li>Check subset relationship: is A subset of B? (concept).</li>
+                                <li>Compute items that are in both and also in a third set.</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Given two lists, compute intersection without using set operations (attempt).</li>
+                                <li>Given list, implement a duplicate detector using a custom set-like approach
+                                    (concept).</li>
+                                <li>Compute symmetric difference using only basic operations.</li>
+                                <li>Validate if a list contains duplicates and print which values duplicate (attempt).
+                                </li>
+                                <li>Given nested structures, explain why lists can’t be set items.</li>
+                                <li>Create set of tuple pairs and use intersection to find common pairs.</li>
+                                <li>Convert list of lists (invalid) into set by turning inner lists into tuples
+                                    (attempt).</li>
+                                <li>Compute common elements across many lists using progressive intersection.</li>
+                                <li>Compute all unique elements across many lists using progressive union.</li>
+                                <li>Design an algorithm for “audience overlap” using sets.</li>
+                                <li>Output prediction: what is <code>set([1,2,3]) | set([3,4])</code>?</li>
+                                <li>Output prediction: what is <code>A - B</code>?</li>
+                                <li>Build a function that returns union and intersection as a tuple.</li>
+                                <li>Compute unique items across two strings with spaces (split/join concept).</li>
+                                <li>Implement “stop when you found a common item” using membership checks.</li>
+                                <li>Implement an audit that counts unique IDs seen (concept).</li>
+                                <li>Explain and test that set of {True,1} merges because True==1.</li>
+                                <li>Create a set of digits from characters and test membership.</li>
+                                <li>Try removing non-existing item with remove() and explain error (concept).</li>
+                                <li>Write defensive code using discard instead of remove.</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment12_1.py</code>: remove duplicates from a list and print
+                                    unique list.</li>
+                                <li>Create <code>assignment12_2.py</code>: given two sets of numbers, print union and
+                                    intersection.</li>
+                                <li>Create <code>assignment12_3.py</code>: given set A and set B, print items missing
+                                    from A.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Unique Interest Finder</h3>
+                                <p>Given three comma-separated interest strings, build sets and print:</p>
+                                <ul>
+                                    <li>All unique interests (union)</li>
+                                    <li>Common interests across all three (intersection)</li>
+                                </ul>
+                            </div>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">starter</div>
+                                </div>
+                                <pre><code>s1 = "music, sports, travel"
+s2 = "music, coding, travel"
+s3 = "coding, travel, movies"
+
+A = set([x.strip() for x in s1.split(",")])
+B = set([x.strip() for x in s2.split(",")])
+C = set([x.strip() for x in s3.split(",")])
+
+all_unique = A | B | C
+common = A & B & C
+
+print("All unique:", all_unique)
+print("Common:", common)
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+
+                            <div class="callout warning">
+                                <h3>Case 1: using {} for empty set</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>empty = {}
+print(type(empty))
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> use <code>empty = set()</code>.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: expecting order from set</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>s = {"b", "a"}
+print(list(s)[0])  # unpredictable
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> sort the list or don’t rely on order.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: trying to add a list</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>s = set()
+s.add([1,2])
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> use a tuple instead: <code>s.add((1,2))</code>.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>TypeError:</strong> unhashable type (e.g., list added to set).</li>
+                                <li><strong>KeyError</strong> with <code>remove()</code> if element doesn’t exist.</li>
+                                <li><strong>Logic error:</strong> assuming set order is fixed.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Use sets for uniqueness and membership checks.</li>
+                                <li>Use <code>discard()</code> for safe removals.</li>
+                                <li>Don’t rely on printed order of sets.</li>
+                                <li>Convert lists to sets to remove duplicates quickly.</li>
+                                <li>Ensure elements are hashable (use tuples for pairs).</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                Sets are unique collections optimized for membership checks.
+                                You create sets with <code>{}</code> or <code>set()</code>.
+                                You can add/remove elements and use union (<code>|</code>), intersection
+                                (<code>&amp;</code>), and difference (<code>-</code>).
+                                Sets are unordered and cannot contain unhashable (like lists).
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Set cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Need</th>
+                                        <th>Code</th>
+                                        <th>Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Create</td>
+                                        <td><code>{1,2,3}</code></td>
+                                        <td>set of numbers</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Empty</td>
+                                        <td><code>set()</code></td>
+                                        <td>empty set</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Membership</td>
+                                        <td><code>x in s</code></td>
+                                        <td>True/False</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Union</td>
+                                        <td><code>A | B</code></td>
+                                        <td>all unique items</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Intersection</td>
+                                        <td><code>A &amp; B</code></td>
+                                        <td>common items</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Difference</td>
+                                        <td><code>A - B</code></td>
+                                        <td>items in A not in B</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Unique Numbers</h3>
+                                <p>Given <code>nums = [1,2,2,3,4,4,5]</code>, create a set of unique numbers and print
+                                    it.</p>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What is a set?</li>
+                                <li>Does a set keep duplicates?</li>
+                                <li>Why is set order not reliable?</li>
+                                <li>How do you check membership?</li>
+                                <li>Which operator means union?</li>
+                                <li>Which operator means intersection?</li>
+                                <li>Which operator means difference?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>Empty set:</strong> <code>set()</code> because <code>{}</code> is a
+                                        dict.</li>
+                                    <li><strong>Duplicates:</strong> sets remove duplicates automatically.</li>
+                                    <li><strong>Union:</strong> <code>A | B</code> includes items from both.</li>
+                                    <li><strong>Intersection:</strong> <code>A &amp; B</code> includes only shared
+                                        items.</li>
+                                    <li><strong>Difference:</strong> <code>A - B</code> removes items present in B.</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-13.html">Next Chapter</a></div>
+                            </div>
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

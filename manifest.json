@@ -1,0 +1,10 @@
+{
+    "name": "Python Notebook Course",
+    "short_name": "Python Notes",
+    "description": "A premium notebook-style Python learning course (48 chapters) with offline reading.",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#0b1020",
+    "theme_color": "#0b1020",
+    "icons": []
+}

@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 09 — Functions</title>
+    <meta name="description"
+        content="Chapter 9: Functions. Learn to define and call functions, use parameters, and return results." />
+    <link rel="canonical" href="./chapters/chapter-09.html" />
+
+    <meta property="og:title" content="Chapter 09 — Functions" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description"
+        content="Define functions, pass parameters, and return values with examples and practice." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 09 — Functions" />
+    <meta name="twitter:description" content="Python functions chapter." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 09 • Offline • Search • Dark mode</span>
+                </div>
+
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout tip" style="margin-top:12px;">
+                        <h3>💡 Tips Box</h3>
+                        <p>
+                            Functions turn repeated code into one reusable “machine”.
+                            Input goes in, logic runs, and output comes back.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 09</div>
+
+                        <h1 class="chapter-title">Chapter 09 — Functions</h1>
+                        <p class="subtle">Learn how to define functions, use parameters, call them, and return values.
+                        </p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-08.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <p>By the end of this chapter, you will be able to:</p>
+                                <ul>
+                                    <li>Define your own function with <code>def</code>.</li>
+                                    <li>Use parameters to pass values into a function.</li>
+                                    <li>Call functions and use returned values.</li>
+                                    <li>Explain the difference between <code>print</code> and <code>return</code>.</li>
+                                    <li>Predict output for functions with simple inputs.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                In earlier chapters, you wrote code once.
+                                In real projects, you repeat the same logic many times.
+                            </p>
+                            <div class="callout remember">
+                                <h3>⭐ Remember</h3>
+                                <p>
+                                    A <strong>function</strong> is a reusable block of code.
+                                    It has a name, can take inputs, and may return an output.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 Why functions?</h3>
+                            <ul>
+                                <li>Reuse: write logic once and call it many times.</li>
+                                <li>Clarity: hide complexity behind a simple name.</li>
+                                <li>Testing: test function separately.</li>
+                            </ul>
+
+                            <h3>2.2 Parameters and arguments</h3>
+                            <ul>
+                                <li><strong>Parameters</strong>: names in the function definition.</li>
+                                <li><strong>Arguments</strong>: actual values you pass when calling.</li>
+                            </ul>
+
+                            <h3>2.3 Return vs print</h3>
+                            <p>
+                                <code>print()</code> shows output on screen.
+                                <code>return</code> sends a value back to the caller.
+                            </p>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    If a function doesn’t have <code>return</code>, Python returns <code>None</code>
+                                    automatically.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">def + call</div>
+                                </div>
+                                <pre><code># Function definition
+def add(a, b):
+    # a and b are parameters
+    result = a + b
+    return result
+
+# Function call
+x = add(2, 3)
+print(x)
+</code></pre>
+                            </div>
+                            <p><strong>Time complexity:</strong> O(1) for simple operations • <strong>Space:</strong>
+                                O(1) extra.</p>
+                            <p><strong>Alternative:</strong> do math directly, but functions improve reuse.</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — greeting function</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">returns a string</div>
+                                </div>
+                                <pre><code>def greet(name):
+    message = "Hello, " + name
+    return message
+
+print(greet("Ravi"))
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> Hello, Ravi</p>
+
+                            <h3>4.2 Medium Example — converting input</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">multiple calls</div>
+                                </div>
+                                <pre><code>def square(n):
+    return n * n
+
+nums = [1, 2, 3]
+for v in nums:
+    print(square(v))
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> 1 4 9 (each new line)</p>
+                            <p><strong>Time:</strong> O(m) for m numbers processed • <strong>Space:</strong> O(1) extra.
+                            </p>
+
+                            <h3>4.3 Advanced Example — function that doesn’t return</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">returns None</div>
+                                </div>
+                                <pre><code>def show_total(a, b):
+    total = a + b
+    print("Total:", total)
+
+x = show_total(2, 3)
+print("Function returned:", x)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> Total: 5 then Function returned: None</p>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: inputs → logic → return</h3>
+                                <pre><code>[Call function]
+     |
+     v
+[Parameters assigned]
+     |
+     v
+[Run function body]
+     |
+     v
+[return value]
+     |
+     v
+[Caller receives value]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <p>
+                                Each function call creates a new “local memory” for parameters and local variables.
+                                After the function ends, local values are discarded.
+                            </p>
+                            <table class="table" aria-label="Function memory table">
+                                <thead>
+                                    <tr>
+                                        <th>Concept</th>
+                                        <th>Where</th>
+                                        <th>Example</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Parameters</td>
+                                        <td>Inside function scope</td>
+                                        <td><code>a</code>, <code>b</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Local variables</td>
+                                        <td>Inside function scope</td>
+                                        <td><code>result</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Returned value</td>
+                                        <td>Back to caller</td>
+                                        <td><code>5</code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="callout remember">
+                                <h3>🧠 Memory trick</h3>
+                                <p>
+                                    Function scope is like a temporary room.
+                                    When you leave, the room is cleared.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">dry run add()</div>
+                                </div>
+                                <pre><code>def add(a, b):
+    result = a + b
+    return result
+
+x = add(4, 7)
+print(x)
+</code></pre>
+                            </div>
+                            <table class="table" aria-label="Function dry run">
+                                <thead>
+                                    <tr>
+                                        <th>Step</th>
+                                        <th>Action</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Call <code>add(4,7)</code></td>
+                                        <td><code>a=4</code>, <code>b=7</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Compute <code>result=a+b</code></td>
+                                        <td><code>result=11</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Return <code>result</code></td>
+                                        <td><code>x=11</code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p><strong>Output:</strong> 11</p>
+                            <p><strong>Time:</strong> O(1) • <strong>Space:</strong> O(1)</p>
+                            <p><strong>Alternative:</strong> compute directly without defining a function (less
+                                reusable).</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>len()</code>: example built-in function.</li>
+                                <li><code>type()</code>: helps check variables when debugging.</li>
+                            </ul>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">len()</div>
+                                </div>
+                                <pre><code>text = "python"
+print(len(text))
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> 6</p>
+                            <p><strong>Time:</strong> O(n) where n is characters • <strong>Space:</strong> O(1).</p>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <p>
+                                While functions are reusable blocks you define,
+                                methods are functions attached to objects.
+                            </p>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">upper()</div>
+                                </div>
+                                <pre><code>s = "hello"
+print(s.upper())
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> HELLO</p>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is a function?</li>
+                                <li>Why use functions?</li>
+                                <li>What is <code>def</code> used for?</li>
+                                <li>What are parameters?</li>
+                                <li>What are arguments?</li>
+                                <li>How do you call a function?</li>
+                                <li>What is a return value?</li>
+                                <li>What is the difference between <code>print</code> and <code>return</code>?</li>
+                                <li>What happens if a function has no <code>return</code>?</li>
+                                <li>What does it mean to reuse code?</li>
+                                <li>Can a function take multiple parameters?</li>
+                                <li>Can a function return multiple values?</li>
+                                <li>Can functions be called from inside other functions?</li>
+                                <li>What is function scope?</li>
+                                <li>Why are local variables local?</li>
+                                <li>What is recursion (concept)?</li>
+                                <li>Why is recursion risky without base case?</li>
+                                <li>How do you debug function logic?</li>
+                                <li>What is output prediction?</li>
+                                <li>Time complexity meaning for functions?</li>
+                                <li>Space complexity meaning for functions?</li>
+                                <li>What is a built-in function?</li>
+                                <li>What is a method?</li>
+                                <li>Difference between function and method?</li>
+                                <li>Why do we pass values into functions?</li>
+                                <li>What is a side effect in a function?</li>
+                                <li>What does it mean that Python returns <code>None</code> by default?</li>
+                                <li>How do you name functions properly?</li>
+                                <li>What is a pure function (concept)?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li><code>def add(a,b):</code> defines:
+                                    <ul>
+                                        <li>A) a variable</li>
+                                        <li>B) a function</li>
+                                        <li>C) a class</li>
+                                        <li>D) an operator</li>
+                                    </ul>
+                                </li>
+                                <li>Parameters are:
+                                    <ul>
+                                        <li>A) names in definition</li>
+                                        <li>B) values in call only</li>
+                                        <li>C) always None</li>
+                                        <li>D) CSS classes</li>
+                                    </ul>
+                                </li>
+                                <li>Arguments are:
+                                    <ul>
+                                        <li>A) variables</li>
+                                        <li>B) values passed to a function</li>
+                                        <li>C) comments</li>
+                                        <li>D) list lengths</li>
+                                    </ul>
+                                </li>
+                                <li><code>return</code> is used to:
+                                    <ul>
+                                        <li>A) print</li>
+                                        <li>B) send value back</li>
+                                        <li>C) stop terminal</li>
+                                        <li>D) delete variables</li>
+                                    </ul>
+                                </li>
+                                <li>If no <code>return</code>, function returns:
+                                    <ul>
+                                        <li>A) 0</li>
+                                        <li>B) None</li>
+                                        <li>C) True</li>
+                                        <li>D) error</li>
+                                    </ul>
+                                </li>
+                                <li><code>print()</code> is for:
+                                    <ul>
+                                        <li>A) showing output</li>
+                                        <li>B) returning value</li>
+                                        <li>C) installing packages</li>
+                                        <li>D) caching</li>
+                                    </ul>
+                                </li>
+                                <li>A function helps with:
+                                    <ul>
+                                        <li>A) reuse</li>
+                                        <li>B) duplication</li>
+                                        <li>C) random code</li>
+                                        <li>D) ignoring logic</li>
+                                    </ul>
+                                </li>
+                                <li>Function scope means:
+                                    <ul>
+                                        <li>A) variables exist everywhere</li>
+                                        <li>B) variables exist only inside</li>
+                                        <li>C) variables deleted immediately</li>
+                                        <li>D) variables in CSS</li>
+                                    </ul>
+                                </li>
+                                <li>Method is:
+                                    <ul>
+                                        <li>A) attached to object</li>
+                                        <li>B) only global function</li>
+                                        <li>C) variable</li>
+                                        <li>D) keyword</li>
+                                    </ul>
+                                </li>
+                                <li>Built-in function is:
+                                    <ul>
+                                        <li>A) from Python itself</li>
+                                        <li>B) from your code</li>
+                                        <li>C) from JS</li>
+                                        <li>D) from DB</li>
+                                    </ul>
+                                </li>
+                                <li>Calling a function looks like:
+                                    <ul>
+                                        <li>A) <code>name {}</code></li>
+                                        <li>B) <code>name(...)</code></li>
+                                        <li>C) <code>name = ...</code></li>
+                                        <li>D) <code>return name</code></li>
+                                    </ul>
+                                </li>
+                                <li><code>add(2,3)</code> passes:
+                                    <ul>
+                                        <li>A) arguments 2 and 3</li>
+                                        <li>B) parameters</li>
+                                        <li>C) none</li>
+                                        <li>D) operators</li>
+                                    </ul>
+                                </li>
+                                <li>Use <code>return</code> if you need to:
+                                    <ul>
+                                        <li>A) reuse output</li>
+                                        <li>B) only show it</li>
+                                        <li>C) avoid variables</li>
+                                        <li>D) avoid testing</li>
+                                    </ul>
+                                </li>
+                                <li>Function name is:</li>
+                                <ul>
+                                    <li>A) any random</li>
+                                    <li>B) descriptive label</li>
+                                    <li>C) must be length 1</li>
+                                    <li>D) only numbers</li>
+                                </ul>
+                                </li>
+                                <li><code>def f():</code> means:</li>
+                                <ul>
+                                    <li>A) function with no params</li>
+                                    <li>B) variable</li>
+                                    <li>C) loop</li>
+                                    <li>D) class</li>
+                                </ul>
+                                </li>
+                                <li>If function returns a number, caller can store it in:
+                                    <ul>
+                                        <li>A) variable</li>
+                                        <li>B) only print</li>
+                                        <li>C) css</li>
+                                        <li>D) file</li>
+                                    </ul>
+                                </li>
+                                <li>Best reason to use functions:
+                                    <ul>
+                                        <li>A) clarity</li>
+                                        <li>B) clutter</li>
+                                        <li>C) repetition</li>
+                                        <li>D) no debugging</li>
+                                    </ul>
+                                </li>
+                                <li>What is recursion?
+                                    <ul>
+                                        <li>A) function calling itself</li>
+                                        <li>B) file calling network</li>
+                                        <li>C) CSS recursion</li>
+                                        <li>D) loops in JS</li>
+                                    </ul>
+                                </li>
+                                <li>Recursion needs base case to:
+                                    <ul>
+                                        <li>A) stop</li>
+                                        <li>B) crash</li>
+                                        <li>C) loop forever</li>
+                                        <li>D) hide code</li>
+                                    </ul>
+                                </li>
+                                <li>Output prediction helps with:
+                                    <ul>
+                                        <li>A) understanding</li>
+                                        <li>B) skipping practice</li>
+                                        <li>C) ignoring errors</li>
+                                        <li>D) only UI</li>
+                                    </ul>
+                                </li>
+                                <li>Time complexity describes:
+                                    <ul>
+                                        <li>A) steps based on input</li>
+                                        <li>B) only CSS</li>
+                                        <li>C) network traffic</li>
+                                        <li>D) disk usage only</li>
+                                    </ul>
+                                </li>
+                                <li>Space complexity describes:
+                                    <ul>
+                                        <li>A) extra memory used</li>
+                                        <li>B) theme color</li>
+                                        <li>C) file size only</li>
+                                        <li>D) CPU usage only</li>
+                                    </ul>
+                                </li>
+                                <li>Functions can take multiple parameters; they are listed as:
+                                    <ul>
+                                        <li>A) inside parentheses</li>
+                                        <li>B) outside</li>
+                                        <li>C) in comments</li>
+                                        <li>D) in HTML</li>
+                                    </ul>
+                                </li>
+                                <li>A pure function has:
+                                    <ul>
+                                        <li>A) no side effects</li>
+                                        <li>B) always prints</li>
+                                        <li>C) changes globals</li>
+                                        <li>D) random output</li>
+                                    </ul>
+                                </li>
+                                <li>Built-in len() is:
+                                    <ul>
+                                        <li>A) a function</li>
+                                        <li>B) a keyword</li>
+                                        <li>C) HTML tag</li>
+                                        <li>D) method only</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Create a function <code>hello()</code> that returns "Hello".</li>
+                                <li>Create <code>add(a,b)</code> and test with 2 and 3.</li>
+                                <li>Create <code>square(n)</code> and call it for n=5.</li>
+                                <li>Create <code>greet(name)</code> returning a greeting string.</li>
+                                <li>Create a function <code>is_even(n)</code> returning True/False.</li>
+                                <li>Create <code>max_of_two(a,b)</code> and return the larger value.</li>
+                                <li>Create <code>len_of_text(s)</code> returning length using <code>len()</code>.</li>
+                                <li>Create <code>to_upper(s)</code> using <code>s.upper()</code>.</li>
+                                <li>Create <code>sum_1_to_n(n)</code> using loop logic.</li>
+                                <li>Create <code>fahrenheit_to_celsius(f)</code> using formula and return.</li>
+                                <li>Create function <code>triangle_area(base,height)</code> and return area.</li>
+                                <li>Create <code>circle_area(r)</code> and return with pi.</li>
+                                <li>Create a function that prints but also returns None; verify.</li>
+                                <li>Output prediction: define a function and call it; what prints?</li>
+                                <li>Try calling a function with wrong type and observe error (concept).</li>
+                                <li>Create <code>repeat_word(word, times)</code> returning repeated string.</li>
+                                <li>Create <code>add_tax(price)</code> returning price + 10%.</li>
+                                <li>Test with different values for your functions.</li>
+                                <li>Make two function calls and print their returned values.</li>
+                                <li>Create <code>is_palindrome(s)</code> (concept with slicing reverse).</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Create <code>discounted_total(price, percent)</code> returning new price.</li>
+                                <li>Create <code>grade(score)</code> that returns grade letter.</li>
+                                <li>Create <code>count_vowels(s)</code> using loop and return count.</li>
+                                <li>Create <code>remove_spaces(s)</code> using split/join concept.</li>
+                                <li>Create <code>factorial(n)</code> using loop.</li>
+                                <li>Create <code>prime_check(n)</code> returning True if prime (basic).</li>
+                                <li>Create <code>sum_of_squares(n)</code> using loop.</li>
+                                <li>Create <code>list_squares(nums)</code> returning new list of squares.</li>
+                                <li>Create <code>format_name(name)</code> returning name uppercase.</li>
+                                <li>Create function <code>safe_int(text)</code> returning None if conversion fails
+                                    (concept).</li>
+                                <li>Create <code>choose_option(a,b,choice)</code> returning one of them by choice.</li>
+                                <li>Create <code>compare_length(s1,s2)</code> returning longer string.</li>
+                                <li>Create <code>is_valid_email(s)</code> concept: contains '@' and '.'</li>
+                                <li>Create <code>simple_interest(p, r, t)</code> returning amount.</li>
+                                <li>Create <code>power(a,b)</code> using ** or loop (your choice).</li>
+                                <li>Create <code>build_message(name, age)</code> returning formatted message.</li>
+                                <li>Write a function that takes a list and returns total.</li>
+                                <li>Create a function returning min in a list (no <code>min()</code>).</li>
+                                <li>Create a function returning max in a list (no <code>max()</code>).</li>
+                                <li>Write function that takes two numbers and returns quotient (check divide by zero
+                                    concept).</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Implement a function that returns Fibonacci list up to n terms.</li>
+                                <li>Create <code>roman_to_int(s)</code> concept (advanced string parsing).</li>
+                                <li>Create <code>int_to_roman(n)</code> concept.</li>
+                                <li>Create a function to validate parentheses in a string (concept).</li>
+                                <li>Create function <code>custom_sort_three(a,b,c)</code> returning sorted values (no
+                                    built-in sort).</li>
+                                <li>Create <code>count_words(s)</code> using split logic but handle multiple spaces.
+                                </li>
+                                <li>Create <code>encrypt_shift(s, k)</code> Caesar shift concept.</li>
+                                <li>Create <code>decrypt_shift(s,k)</code> using the same logic backwards.</li>
+                                <li>Create a function <code>compute_score(grades)</code> using loop and weights (toy).
+                                </li>
+                                <li>Create <code>validate_triangle(a,b,c)</code> returning True if valid.</li>
+                                <li>Create a function that computes the distance formula.</li>
+                                <li>Create <code>build_progress_bar(percent)</code> returning a text bar string.</li>
+                                <li>Create a function that returns an explanation string for pass/fail.</li>
+                                <li>Output prediction for nested function calls.</li>
+                                <li>Use function return values to avoid printing inside logic.</li>
+                                <li>Create a function that aggregates list and returns multiple outputs (tuple concept).
+                                </li>
+                                <li>Create <code>day_name(day_num)</code> returning weekday string with if/elif.</li>
+                                <li>Write a function that counts occurrences of a substring (concept).</li>
+                                <li>Create <code>string_stats(s)</code> returning vowels count, consonants count (toy).
+                                </li>
+                                <li>Design a function API: choose parameters and returns clearly.</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment09_1.py</code>: define <code>add(a,b)</code> and print
+                                    <code>add(5,7)</code>.</li>
+                                <li>Create <code>assignment09_2.py</code>: define <code>factorial(n)</code> and compute
+                                    factorial of 5.</li>
+                                <li>Create <code>assignment09_3.py</code>: define <code>grade(score)</code> and test
+                                    scores 30, 70, 95.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Calculator Functions</h3>
+                                <p>Create functions for <code>add</code>, <code>sub</code>, <code>mul</code>, and
+                                    <code>div</code>, then run them with sample values.</p>
+                            </div>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">starter</div>
+                                </div>
+                                <pre><code>def add(a, b):
+    return a + b
+
+def sub(a, b):
+    return a - b
+
+def mul(a, b):
+    return a * b
+
+def div(a, b):
+    # toy: assume b != 0
+    return a / b
+
+print("add:", add(10, 3))
+print("sub:", sub(10, 3))
+print("mul:", mul(10, 3))
+print("div:", div(10, 3))
+</code></pre>
+                            </div>
+                            <p><strong>Expected output:</strong> numeric results for each operation.</p>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+
+                            <div class="callout warning">
+                                <h3>Case 1: forgot return</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>def add(a,b):
+    return a+b
+
+def bad_add(a,b):
+    result = a+b
+
+x = bad_add(2,3)
+print(x)
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> add <code>return result</code>. Without return, Python returns
+                                    <code>None</code>.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: wrong parameter names</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>def greet(name):
+    return "Hi " + person
+</code></pre>
+                                </div>
+                                <p><strong>Issue:</strong> <code>person</code> variable doesn’t exist.
+                                    <br /><strong>Fix:</strong> use <code>name</code>.
+                                </p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: calling with wrong number of arguments</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>def add(a,b):
+    return a+b
+
+print(add(5))
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> call with two arguments: <code>add(5,7)</code>.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>NameError:</strong> using a variable not defined.</li>
+                                <li><strong>TypeError:</strong> wrong types or wrong number of arguments.</li>
+                                <li><strong>NoneType error:</strong> trying to use a function that returned
+                                    <code>None</code>.</li>
+                                <li><strong>SyntaxError:</strong> missing colon after <code>def</code>.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Name functions with verbs (e.g., <code>add</code>, <code>calculate_total</code>).
+                                </li>
+                                <li>Prefer <code>return</code> values over printing in business logic.</li>
+                                <li>Keep functions small and single-purpose.</li>
+                                <li>Test functions with multiple inputs.</li>
+                                <li>Document parameters with comments.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                Functions let you reuse code. You define a function with <code>def</code>, pass
+                                arguments as parameters,
+                                and optionally return a value with <code>return</code>.
+                                If you don’t return, Python returns <code>None</code>.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Function cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Task</th>
+                                        <th>Syntax</th>
+                                        <th>Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Define</td>
+                                        <td><code>def f(x):</code></td>
+                                        <td>create function</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Call</td>
+                                        <td><code>f(5)</code></td>
+                                        <td>run function</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Return</td>
+                                        <td><code>return value</code></td>
+                                        <td>send output back</td>
+                                    </tr>
+                                    <tr>
+                                        <td>No return</td>
+                                        <td><code>(none)</code></td>
+                                        <td>returns <code>None</code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Greeting Formatter</h3>
+                                <p>Create <code>format_greeting(name, age)</code> that returns:</p>
+                                <p><code>Hello <name>, age <age></code></p>
+                            </div>
+                            <p><strong>Expected output idea:</strong> format_greeting("Ravi", 20) → Hello Ravi, age 20
+                            </p>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What is a function?</li>
+                                <li>What are parameters?</li>
+                                <li>What are arguments?</li>
+                                <li>What does <code>return</code> do?</li>
+                                <li>What happens if there is no <code>return</code>?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>Functions</strong> reuse code.</li>
+                                    <li><strong>Parameters</strong> are placeholders in <code>def</code>.</li>
+                                    <li><strong>Arguments</strong> are values you pass when calling.</li>
+                                    <li><strong>return</strong> sends a value back; <strong>print</strong> only shows
+                                        it.</li>
+                                    <li>No <code>return</code> → <code>None</code>.</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-10.html">Next Chapter</a></div>
+                            </div>
+
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

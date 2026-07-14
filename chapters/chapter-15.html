@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 15 — File Handling</title>
+    <meta name="description"
+        content="Chapter 15: File Handling. Learn how to read and write files with open(), using with blocks, and basic file patterns." />
+    <link rel="canonical" href="./chapters/chapter-15.html" />
+
+    <meta property="og:title" content="Chapter 15 — File Handling" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="Read and write files in Python with examples and practice." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 15 — File Handling" />
+    <meta name="twitter:description" content="Python file handling chapter." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 15 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+                    <div class="callout remember" style="margin-top:12px;">
+                        <h3>⭐ Remember</h3>
+                        <p>
+                            Use a <code>with open(...)</code> block.
+                            It automatically closes the file even if an error happens.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 15</div>
+                        <h1 class="chapter-title">Chapter 15 — File Handling</h1>
+                        <p class="subtle">Learn how to read and write files safely using <code>open()</code>,
+                            <code>with</code>, and common text-file patterns.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-14.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <ul>
+                                    <li>Explain what it means to open a file.</li>
+                                    <li>Read a text file using <code>read()</code> and <code>readlines()</code>.</li>
+                                    <li>Write to a file using <code>"w"</code> and append using <code>"a"</code>.</li>
+                                    <li>Use <code>with</code> to close files automatically.</li>
+                                    <li>Predict output and understand file-related errors.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                Until now, your programs printed results to the screen.
+                                But many real programs need to save data to a file.
+                            </p>
+                            <div class="callout note">
+                                <h3>Real-life example</h3>
+                                <p>
+                                    A notes app saves your text into a file.
+                                    A log system writes events into a file.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 open() and file modes</h3>
+                            <ul>
+                                <li><code>"r"</code>: read (default)</li>
+                                <li><code>"w"</code>: write (creates or overwrites)</li>
+                                <li><code>"a"</code>: append (creates if missing)</li>
+                            </ul>
+
+                            <h3>2.2 with open()</h3>
+                            <p>
+                                <code>with</code> ensures the file is closed automatically.
+                                This prevents resource leaks and locked files.
+                            </p>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    Writing with <code>"w"</code> overwrites existing contents.
+                                    Use <code>"a"</code> when you want to keep old data.
+                                </p>
+                            </div>
+
+                            <h3>2.3 reading patterns</h3>
+                            <ul>
+                                <li><code>read()</code> reads the full file into a string.</li>
+                                <li><code>readlines()</code> reads lines into a list.</li>
+                                <li>Looping over the file reads it line by line (memory-friendly).</li>
+                            </ul>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">read with with</div>
+                                </div>
+                                <pre><code>with open("notes.txt", "r") as f:
+    content = f.read()
+print(content)
+</code></pre>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">write / append</div>
+                                </div>
+                                <pre><code># overwrite
+with open("log.txt", "w") as f:
+    f.write("Start\n")
+
+# append
+with open("log.txt", "a") as f:
+    f.write("Next event\n")
+</code></pre>
+                            </div>
+
+                            <p><strong>Time complexity:</strong> O(file_size) • <strong>Space:</strong> depends on
+                                reading method.</p>
+                            <p><strong>Alternative:</strong> process line-by-line in a loop for large files.</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — write a file</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">create + write</div>
+                                </div>
+                                <pre><code>name = "Ravi"
+
+with open("greeting.txt", "w") as f:
+    f.write("Hello " + name + "\n")
+
+print("Wrote greeting.txt")
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> Wrote greeting.txt</p>
+
+                            <h3>4.2 Medium Example — read and count lines</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">readlines + len</div>
+                                </div>
+                                <pre><code>with open("greeting.txt", "r") as f:
+    lines = f.readlines()
+
+print("Line count:", len(lines))
+</code></pre>
+                            </div>
+
+                            <h3>4.3 Advanced Example — line-by-line processing</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">loop over file</div>
+                                </div>
+                                <pre><code>total_chars = 0
+
+with open("greeting.txt", "r") as f:
+    for line in f:
+        total_chars += len(line)
+
+print("Total characters:", total_chars)
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: file read/write</h3>
+                                <pre><code>[Start]
+   |
+   v
+[open file with mode]
+   |
+   v
+[read or write data]
+   |
+   v
+[close file automatically via with]
+   |
+   v
+[print result]
+   |
+   v
+[End]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <p>
+                                <code>read()</code> loads the whole file into memory as one string.
+                                <code>for line in f:</code> keeps only one line at a time.
+                            </p>
+                            <table class="table" aria-label="File memory comparison">
+                                <thead>
+                                    <tr>
+                                        <th>Method</th>
+                                        <th>Memory use</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>read()</code></td>
+                                        <td>O(file_size)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>readlines()</code></td>
+                                        <td>O(number_of_lines)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Line-by-line loop</td>
+                                        <td>O(1) extra (plus output)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">readlines example</div>
+                                </div>
+                                <pre><code># greeting.txt contains:
+# Hello Ravi
+# Have a nice day
+
+with open("greeting.txt", "r") as f:
+    lines = f.readlines()
+
+print(lines)
+print("count:", len(lines))
+</code></pre>
+                            </div>
+                            <table class="table" aria-label="Dry run file lines">
+                                <thead>
+                                    <tr>
+                                        <th>Step</th>
+                                        <th>What happens</th>
+                                        <th>Result</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Open file</td>
+                                        <td>f ready</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td><code>readlines()</code></td>
+                                        <td><code>["Hello Ravi\n", "Have a nice day\n"]</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td><code>len(lines)</code></td>
+                                        <td>2</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>open()</code> (built-in function)</li>
+                                <li><code>len()</code> for length of strings/lines</li>
+                            </ul>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <div class="callout note">
+                                <h3>Important file methods</h3>
+                                <ul>
+                                    <li><code>f.read()</code></li>
+                                    <li><code>f.readlines()</code></li>
+                                    <li><code>f.write()</code></li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is file handling?</li>
+                                <li>What does <code>open()</code> do?</li>
+                                <li>What is a file mode?</li>
+                                <li>What does <code>"r"</code> mean?</li>
+                                <li>What does <code>"w"</code> mean?</li>
+                                <li>What does <code>"a"</code> mean?</li>
+                                <li>Why use <code>with open()</code>?</li>
+                                <li>What does <code>with</code> guarantee?</li>
+                                <li>What is <code>f.read()</code>?</li>
+                                <li>What is <code>f.readlines()</code>?</li>
+                                <li>How do you read line by line?</li>
+                                <li>What is the difference between read and readlines?</li>
+                                <li>How do you write to a file?</li>
+                                <li>How do you append to a file?</li>
+                                <li>What happens if the file doesn’t exist in read mode?</li>
+                                <li>What happens if the file doesn’t exist in write/append mode?</li>
+                                <li>How do you avoid overwriting existing files?</li>
+                                <li>What is an encoding issue (concept)?</li>
+                                <li>What is <code>FileNotFoundError</code>?</li>
+                                <li>What is <code>PermissionError</code>?</li>
+                                <li>How do you close a file?</li>
+                                <li>Is it required to call <code>close()</code> when using with?</li>
+                                <li>What is memory usage difference between read() and line-by-line?</li>
+                                <li>What is a common beginner file error?</li>
+                                <li>How do you check whether a file exists (concept)?</li>
+                                <li>What is newline behavior in write?</li>
+                                <li>What does <code>"\n"</code> do?</li>
+                                <li>How would you process a large file?</li>
+                                <li>Why prefer streaming over read() for big files?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li><code>open("a.txt","r")</code> is for:
+                                    <ul>
+                                        <li>A) reading</li>
+                                        <li>B) writing</li>
+                                        <li>C) compiling</li>
+                                        <li>D) deleting</li>
+                                    </ul>
+                                </li>
+                                <li><code>open("a.txt","w")</code> is for:
+                                    <ul>
+                                        <li>A) append</li>
+                                        <li>B) overwrite</li>
+                                        <li>C) read only</li>
+                                        <li>D) delete</li>
+                                    </ul>
+                                </li>
+                                <li><code>open("a.txt","a")</code> is for:
+                                    <ul>
+                                        <li>A) append</li>
+                                        <li>B) overwrite</li>
+                                        <li>C) read</li>
+                                        <li>D) ignore</li>
+                                    </ul>
+                                </li>
+                                <li><code>with open(...)</code> helps because:
+                                    <ul>
+                                        <li>A) prevents syntax errors</li>
+                                        <li>B) auto-closes file</li>
+                                        <li>C) caches offline</li>
+                                        <li>D) speeds CSS</li>
+                                    </ul>
+                                </li>
+                                <li><code>f.read()</code> returns:
+                                    <ul>
+                                        <li>A) list of lines</li>
+                                        <li>B) full file string</li>
+                                        <li>C) True/False</li>
+                                        <li>D) file object only</li>
+                                    </ul>
+                                </li>
+                                <li><code>f.readlines()</code> returns:
+                                    <ul>
+                                        <li>A) one string</li>
+                                        <li>B) list of lines</li>
+                                        <li>C) dict</li>
+                                        <li>D) none</li>
+                                    </ul>
+                                </li>
+                                <li><code>f.write()</code> is used to:
+                                    <ul>
+                                        <li>A) read</li>
+                                        <li>B) write text</li>
+                                        <li>C) list files</li>
+                                        <li>D) compute math</li>
+                                    </ul>
+                                </li>
+                                <li>Using <code>"w"</code> mode will:
+                                    <ul>
+                                        <li>A) keep old content</li>
+                                        <li>B) overwrite old content</li>
+                                        <li>C) merge automatically</li>
+                                        <li>D) do nothing</li>
+                                    </ul>
+                                </li>
+                                <li>Reading a missing file in <code>"r"</code> mode causes:
+                                    <ul>
+                                        <li>A) FileNotFoundError</li>
+                                        <li>B) IndexError</li>
+                                        <li>C) KeyError</li>
+                                        <li>D) SyntaxError</li>
+                                    </ul>
+                                </li>
+                                <li>Writing a missing file in <code>"w"</code> mode causes:
+                                    <ul>
+                                        <li>A) error</li>
+                                        <li>B) file creation</li>
+                                        <li>C) automatic deletion</li>
+                                        <li>D) none</li>
+                                    </ul>
+                                </li>
+                                <li>Line-by-line loop is memory-friendly because:
+                                    <ul>
+                                        <li>A) reads whole file at once</li>
+                                        <li>B) reads one line at a time</li>
+                                        <li>C) no reading</li>
+                                        <li>D) uses no strings</li>
+                                    </ul>
+                                </li>
+                                <li>After <code>with open</code>, the file is:
+                                    <ul>
+                                        <li>A) still open</li>
+                                        <li>B) closed</li>
+                                        <li>C) encrypted</li>
+                                        <li>D) uploaded</li>
+                                    </ul>
+                                </li>
+                                <li>File modes are selected by:
+                                    <ul>
+                                        <li>A) semicolons</li>
+                                        <li>B) second argument to open</li>
+                                        <li>C) CSS class</li>
+                                        <li>D) HTML tag</li>
+                                    </ul>
+                                </li>
+                                <li><code>"\n"</code> in write adds:
+                                    <ul>
+                                        <li>A) tab</li>
+                                        <li>B) newline</li>
+                                        <li>C) space</li>
+                                        <li>D) comma</li>
+                                    </ul>
+                                </li>
+                                <li>Best practice is to:
+                                    <ul>
+                                        <li>A) use with</li>
+                                        <li>B) never close</li>
+                                        <li>C) ignore errors</li>
+                                        <li>D) read huge files</li>
+                                    </ul>
+                                </li>
+                                <li><code>readlines()</code> output can be counted with:
+                                    <ul>
+                                        <li>A) len()</li>
+                                        <li>B) type()</li>
+                                        <li>C) sort()</li>
+                                        <li>D) append()</li>
+                                    </ul>
+                                </li>
+                                <li>Which method reads full content?
+                                    <ul>
+                                        <li>A) f.write()</li>
+                                        <li>B) f.read()</li>
+                                        <li>C) f.pop()</li>
+                                        <li>D) f.sum()</li>
+                                    </ul>
+                                </li>
+                                <li>Which method writes to file?
+                                    <ul>
+                                        <li>A) f.read()</li>
+                                        <li>B) f.write()</li>
+                                        <li>C) f.readlines()</li>
+                                        <li>D) f.index()</li>
+                                    </ul>
+                                </li>
+                                <li>Memory cost of read() is:
+                                    <ul>
+                                        <li>A) small</li>
+                                        <li>B) proportional to file size</li>
+                                        <li>C) zero always</li>
+                                        <li>D) constant</li>
+                                    </ul>
+                                </li>
+                                <li>Error type for missing file is often:
+                                    <ul>
+                                        <li>A) ValueError</li>
+                                        <li>B) FileNotFoundError</li>
+                                        <li>C) TypeError</li>
+                                        <li>D) EOFError</li>
+                                    </ul>
+                                </li>
+                                <li>Appending means:
+                                    <ul>
+                                        <li>A) overwrite</li>
+                                        <li>B) add at end</li>
+                                        <li>C) read only</li>
+                                        <li>D) delete end</li>
+                                    </ul>
+                                </li>
+                                <li>Which is safer for opening file?
+                                    <ul>
+                                        <li>A) without with</li>
+                                        <li>B) with with</li>
+                                        <li>C) in HTML</li>
+                                        <li>D) in CSS</li>
+                                    </ul>
+                                </li>
+                                <li>When using readlines, you get:
+                                    <ul>
+                                        <li>A) iterator</li>
+                                        <li>B) list of strings</li>
+                                        <li>C) dict</li>
+                                        <li>D) bool</li>
+                                    </ul>
+                                </li>
+                                <li>When writing, you must include newline if you want new lines:
+                                    <ul>
+                                        <li>A) yes</li>
+                                        <li>B) no</li>
+                                        <li>C) always auto</li>
+                                        <li>D) never</li>
+                                    </ul>
+                                </li>
+                                <li>Which mode does not overwrite?
+                                    <ul>
+                                        <li>A) a</li>
+                                        <li>B) w</li>
+                                        <li>C) r</li>
+                                        <li>D) x</li>
+                                    </ul>
+                                </li>
+                                <li><code>"r"</code> mode expects existing file, so:
+                                    <ul>
+                                        <li>A) create new</li>
+                                        <li>B) error if missing</li>
+                                        <li>C) ignore</li>
+                                        <li>D) sort file</li>
+                                    </ul>
+                                </li>
+                                <li>Correct way to close manually is:
+                                    <ul>
+                                        <li>A) f.end()</li>
+                                        <li>B) f.close()</li>
+                                        <li>C) f.stop()</li>
+                                        <li>D) f.finish()</li>
+                                    </ul>
+                                </li>
+                                <li>With statement prevents forgetting close:
+                                    <ul>
+                                        <li>A) True</li>
+                                        <li>B) False</li>
+                                        <li>C) Error</li>
+                                        <li>D) None</li>
+                                    </ul>
+                                </li>
+                                <li>Which is best for huge files?
+                                    <ul>
+                                        <li>A) read()</li>
+                                        <li>B) line-by-line loop</li>
+                                        <li>C) print all</li>
+                                        <li>D) CSS background</li>
+                                    </ul>
+                                </li>
+                                <li>File handling is used for:
+                                    <ul>
+                                        <li>A) data persistence</li>
+                                        <li>B) only UI</li>
+                                        <li>C) network speed</li>
+                                        <li>D) theme colors</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Create <code>file15_1.txt</code> with <code>with open(...,"w")</code> and write one
+                                    line.</li>
+                                <li>Read the same file using <code>read()</code> and print.</li>
+                                <li>Read the file using <code>readlines()</code> and print each line.</li>
+                                <li>Append a new line using <code>"a"</code>.</li>
+                                <li>Count how many lines exist using <code>len(lines)</code>.</li>
+                                <li>Compute total characters by summing <code>len(line)</code> (concept).</li>
+                                <li>Write a file containing 3 names, each on new line.</li>
+                                <li>Read file and print only first line.</li>
+                                <li>Replace content: overwrite file using <code>"w"</code>.</li>
+                                <li>Append numbers 1..5 to a file (loop optional).</li>
+                                <li>Read file and print whether it is empty (len == 0).</li>
+                                <li>Create a file and write using variables.</li>
+                                <li>Make a file and include a newline <code>\n</code> properly.</li>
+                                <li>Write a “header” then append data.</li>
+                                <li>Print file content wrapped in separator lines.</li>
+                                <li>Try opening a non-existing file in <code>"r"</code> mode (observe error
+                                    conceptually).</li>
+                                <li>Create file with <code>"w"</code> then reopen with <code>"r"</code>.</li>
+                                <li>Read file line-by-line and count words (concept).</li>
+                                <li>Write a file with 1 word per line.</li>
+                                <li>Dry run: what changes when you switch from <code>w</code> to <code>a</code>?</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Read file and count occurrences of a character (manual counting).</li>
+                                <li>Read file and count occurrences of a specific word.</li>
+                                <li>Write cleaned lines: strip extra spaces and write to new file.</li>
+                                <li>Copy a file by reading and writing line by line.</li>
+                                <li>Build a word frequency map using dict (concept).</li>
+                                <li>Remove empty lines when copying file.</li>
+                                <li>Create a log file and append entries with timestamps (concept).</li>
+                                <li>Write two sections into one file: header and body.</li>
+                                <li>Read file, filter lines containing a keyword, write to output.</li>
+                                <li>Implement a simple “save notes” script (input then write).</li>
+                                <li>Implement a “save” with append until user types stop.</li>
+                                <li>Read file and show first 5 lines only (loop with break).</li>
+                                <li>Read file and reverse lines (concept, store then reverse).</li>
+                                <li>Write a small report file with multiple labeled fields.</li>
+                                <li>Ensure file always closes using with (attempt).</li>
+                                <li>Handle FileNotFoundError by creating a default file.</li>
+                                <li>Handle PermissionError (concept) and show message.</li>
+                                <li>Compute line count and average line length (concept).</li>
+                                <li>Append a summary footer to file.</li>
+                                <li>Dry run: output after writing then reading.</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Create a mini “CSV writer” for 2 columns.</li>
+                                <li>Parse a simple CSV file into lists/dict (attempt).</li>
+                                <li>Implement file-based deduplication: remove duplicate lines.</li>
+                                <li>Implement search: find all lines containing a word.</li>
+                                <li>Implement a log rotation concept: if log too large, create new file.</li>
+                                <li>Write a function that reads a file and returns content safely (try/except).</li>
+                                <li>Implement safe append with retry concept (attempt).</li>
+                                <li>Implement line normalization: lower-case and strip.</li>
+                                <li>Write code that merges two files into one with separators.</li>
+                                <li>Implement a “read config file” parser with key/value lines.</li>
+                                <li>Implement configuration defaults if key missing.</li>
+                                <li>Build an inventory file and update quantities based on commands (attempt).</li>
+                                <li>Write code that validates that file has correct format.</li>
+                                <li>Implement “archive” by reading old content then writing new.</li>
+                                <li>Write tests mentally for file functions (success/failure paths).</li>
+                                <li>Implement encoding parameter (concept) and show correct usage.</li>
+                                <li>Write code that counts vowels per line and writes results.</li>
+                                <li>Implement word count index: word -> line numbers (concept).</li>
+                                <li>Handle empty file case and still produce output.</li>
+                                <li>Output prediction: what happens if you write with <code>w</code> then read?</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment15_1.py</code>: write <code>my_notes.txt</code> with 3 lines.
+                                </li>
+                                <li>Create <code>assignment15_2.py</code>: read the file and print line count.</li>
+                                <li>Create <code>assignment15_3.py</code>: append one more note to the same file.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Simple Journal Saver</h3>
+                                <p>Ask user for a note and save it to <code>journal.txt</code> (append mode).</p>
+                            </div>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">starter</div>
+                                </div>
+                                <pre><code>note = input("Write your note: ").strip()
+
+with open("journal.txt", "a") as f:
+    f.write(note + "\n")
+
+print("Saved to journal.txt")
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+                            <div class="callout warning">
+                                <h3>Case 1: FileNotFoundError</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>with open("missing.txt","r") as f:
+    content = f.read()
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> create file with <code>w</code> or handle error with
+                                    try/except.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: overwriting by mistake</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>with open("log.txt","w") as f:
+    f.write("First\n")
+
+# Later you expected append but used w again
+with open("log.txt","w") as f:
+    f.write("Second\n")
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> use <code>"a"</code> for append.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: forgetting newline</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>with open("notes.txt","a") as f:
+    f.write("Note1")
+    f.write("Note2")
+</code></pre>
+                                </div>
+                                <p><strong>Issue:</strong> Note1 and Note2 are stuck together.
+                                    <br /><strong>Fix:</strong> add <code>"\n"</code> after each note.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>FileNotFoundError:</strong> reading a missing file.</li>
+                                <li><strong>PermissionError:</strong> file cannot be accessed.</li>
+                                <li><strong>Wrong mode:</strong> using <code>w</code> when you wanted <code>a</code>.
+                                </li>
+                                <li><strong>EncodingError (concept):</strong> reading text with wrong encoding.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Use <code>with open()</code> always for files.</li>
+                                <li>Choose correct mode: <code>r</code>, <code>w</code>, <code>a</code>.</li>
+                                <li>For large files, process line by line.</li>
+                                <li>Include newlines when writing lines.</li>
+                                <li>Handle file errors with try/except if user input controls filenames.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                File handling lets your Python program read and write data persistently.
+                                Use <code>with open(...)</code> to open safely.
+                                Read with <code>read()</code> or <code>readlines()</code>, and write with
+                                <code>"w"</code> or append with <code>"a"</code>.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="File handling cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Task</th>
+                                        <th>Code</th>
+                                        <th>Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Read</td>
+                                        <td><code>with open("f.txt","r") as f:</code></td>
+                                        <td>read existing file</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Read all</td>
+                                        <td><code>f.read()</code></td>
+                                        <td>string with full content</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Read lines</td>
+                                        <td><code>f.readlines()</code></td>
+                                        <td>list of lines</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Write</td>
+                                        <td><code>open("f.txt","w")</code></td>
+                                        <td>overwrite/create</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Append</td>
+                                        <td><code>open("f.txt","a")</code></td>
+                                        <td>add to end</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Line Counter</h3>
+                                <p>Write code that reads <code>input_lines.txt</code> and prints the number of lines.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What are file modes?</li>
+                                <li>What does <code>"r"</code> do?</li>
+                                <li>What does <code>"w"</code> do?</li>
+                                <li>What does <code>"a"</code> do?</li>
+                                <li>What is the purpose of <code>with open()</code>?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>try/except</strong> is used earlier; here you use file error types like
+                                        <code>FileNotFoundError</code>.</li>
+                                    <li><strong>with open</strong> ensures automatic close.</li>
+                                    <li><strong>read()</strong> reads entire file; <strong>readlines()</strong> reads a
+                                        list of lines.</li>
+                                    <li><strong>"w"</strong> overwrites; <strong>"a"</strong> appends.</li>
+                                    <li><strong>Newlines</strong> (<code>\n</code>) control line separation in output.
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-16.html">Next Chapter</a></div>
+                            </div>
+
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

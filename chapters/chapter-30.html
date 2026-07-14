@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 30 — Automation</title>
+    <meta name="description"
+        content="Chapter 30: Automation. Learn ideas to automate tasks with Python: file operations, web requests concept, and repeatable scripts." />
+    <link rel="canonical" href="./chapters/chapter-30.html" />
+
+    <meta property="og:title" content="Chapter 30 — Automation" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description"
+        content="Automate tasks with Python: scripts, files, repeatable workflows, and practical exercises." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 30 — Automation" />
+    <meta name="twitter:description" content="Automation fundamentals with practice and explained answers." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 30 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout remember" style="margin-top:12px;">
+                        <h3>⭐ Remember</h3>
+                        <p>
+                            Automation saves time.
+                            Build small scripts, test them, then reuse them.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 30</div>
+                        <h1 class="chapter-title">Chapter 30 — Automation</h1>
+                        <p class="subtle">Learn how Python helps automate repetitive tasks. Focus on repeatable scripts,
+                            file operations, and practical patterns.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-29.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <ul>
+                                    <li>Understand what automation means in programming.</li>
+                                    <li>Use Python to automate file tasks (copy, move, rename concept).</li>
+                                    <li>Learn how to build command-line style scripts with arguments (concept).</li>
+                                    <li>Use loops and functions to make automation repeatable.</li>
+                                    <li>Debug and handle common automation mistakes.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                Humans repeat tasks: renaming files, copying folders, updating lists.
+                                Automation turns these steps into programs.
+                            </p>
+                            <p>
+                                In this chapter, we build automation scripts step-by-step.
+                                We focus on safe file operations and clean structure.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 Automation pattern</h3>
+                            <p>
+                                A typical automation workflow:
+                            </p>
+                            <ul>
+                                <li><strong>Read inputs</strong> (files, user arguments, online data).</li>
+                                <li><strong>Process</strong> (transform, filter, compute).</li>
+                                <li><strong>Write outputs</strong> (new files, reports, logs).</li>
+                                <li><strong>Verify</strong> (print results, checks).</li>
+                            </ul>
+
+                            <h3>2.2 Safety first</h3>
+                            <p>
+                                File automation can delete data by accident.
+                                Always test with a small folder first.
+                            </p>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    Avoid overwriting files without backup.
+                                    Prefer “output to a new folder” approach.
+                                </p>
+                            </div>
+
+                            <h3>2.3 Repeatability</h3>
+                            <p>
+                                Good automation scripts can run again and again and give the same result.
+                                Use functions and clear input/output.
+                            </p>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">basic file read/write</div>
+                                </div>
+                                <pre><code># Read a text file
+with open("input.txt", "r", encoding="utf-8") as f:
+    text = f.read()
+
+# Write results to a new file
+with open("output.txt", "w", encoding="utf-8") as f:
+    f.write(text.upper())
+
+print("Done. Created output.txt")
+</code></pre>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">processing loop (safe)</div>
+                                </div>
+                                <pre><code>names = ["ravi", "asha", "neha"]
+
+cleaned = []
+for n in names:
+    # step 1: strip spaces
+    n2 = n.strip()
+    # step 2: transform
+    cleaned.append(n2.title())
+
+print(cleaned)
+</code></pre>
+                            </div>
+
+                            <p><strong>Time:</strong> depends on file size or list length • <strong>Space:</strong>
+                                depends on output size.</p>
+                            <p><strong>Alternative:</strong> if you automate large files, stream line-by-line to reduce
+                                memory (later concepts).</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — rename-like report (no rename)</h3>
+                            <p>
+                                Instead of renaming files (dangerous), create a report that shows what you would do.
+                            </p>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">generate report</div>
+                                </div>
+                                <pre><code>import os
+
+folder = "my_files"
+for fname in os.listdir(folder):
+    old_path = os.path.join(folder, fname)
+
+    # Example rule: uppercase name without extension
+    base, ext = os.path.splitext(fname)
+    new_fname = base.upper() + ext
+
+    new_path = os.path.join(folder, new_fname)
+
+    print("Would rename:", old_path)
+    print("To:", new_path)
+    print("---")
+</code></pre>
+                            </div>
+
+                            <p><strong>Output:</strong> prints “Would rename …” lines.</p>
+
+                            <h3>4.2 Medium Example — extract emails from a text file (concept)</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">simple extraction idea</div>
+                                </div>
+                                <pre><code>import re
+
+with open("message.txt", "r", encoding="utf-8") as f:
+    text = f.read()
+
+# Very basic email-like pattern
+emails = re.findall(r"[\w\.-]+@[\w\.-]+", text)
+
+# Remove duplicates
+unique = sorted(set(emails))
+
+with open("emails.txt", "w", encoding="utf-8") as f:
+    for e in unique:
+        f.write(e + "\n")
+
+print("Saved", len(unique), "emails")
+</code></pre>
+                            </div>
+
+                            <p><strong>Output:</strong> creates <code>emails.txt</code>.</p>
+
+                            <h3>4.3 Advanced Example — build a reusable automation function</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">function + dry run</div>
+                                </div>
+                                <pre><code>import shutil
+import os
+
+
+def copy_filtered_files(src_folder, dst_folder, ext, dry_run=True):
+    """Copy files ending with ext from src to dst.
+
+    Time complexity: O(n) files in folder.
+    Space complexity: O(1) extra (besides loop variables).
+    """
+    os.makedirs(dst_folder, exist_ok=True)
+
+    for name in os.listdir(src_folder):
+        if not name.endswith(ext):
+            continue
+
+        src_path = os.path.join(src_folder, name)
+        dst_path = os.path.join(dst_folder, name)
+
+        if dry_run:
+            print("[dry-run] Would copy:", src_path, "→", dst_path)
+        else:
+            shutil.copy2(src_path, dst_path)
+            print("Copied:", src_path)
+
+
+# Try with dry_run first
+copy_filtered_files("input_dir", "output_dir", ".txt", dry_run=True)
+</code></pre>
+                            </div>
+
+                            <p><strong>Output:</strong> dry-run prints what would be copied (no changes).</p>
+                            <p><strong>Time:</strong> O(n) • <strong>Space:</strong> O(1) extra.</p>
+
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: automation safety</h3>
+                                <pre><code>[Start]
+   |
+   v
+[Read inputs]
+   |
+   v
+[Dry run?]
+  / \
+ v   v
+[Yes] [No]
+  |    |
+  v    v
+[Print planned actions] [Perform actions]
+  |    |
+  v    v
+[Verify outputs]
+   |
+   v
+[End]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <table class="table" aria-label="Automation memory">
+                                <thead>
+                                    <tr>
+                                        <th>Task</th>
+                                        <th>Memory use</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Small text read</td>
+                                        <td>store whole file in a string</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Line-by-line (concept)</td>
+                                        <td>store one line at a time</td>
+                                    </tr>
+                                    <tr>
+                                        <td>List processing</td>
+                                        <td>store new transformed list</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Dry run output idea</div>
+                                    <div class="meta">what happens</div>
+                                </div>
+                                <pre><code>dry_run=True
+
+For each .txt file:
+- print: [dry-run] Would copy old → new
+- do not call shutil.copy2
+
+Result:
+- output directory unchanged
+- you can verify logic safely
+</code></pre>
+                            </div>
+                            <p><strong>Time:</strong> O(n) • <strong>Space:</strong> O(1).</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>print()</code> for progress messages.</li>
+                                <li><code>len()</code> for counting extracted items (concept).</li>
+                                <li><code>sorted()</code> to clean up output ordering.</li>
+                            </ul>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <div class="callout note">
+                                <h3>Common automation calls</h3>
+                                <ul>
+                                    <li><code>open(...)</code> read/write files.</li>
+                                    <li><code>os.listdir(folder)</code> list files.</li>
+                                    <li><code>os.path.join(a,b)</code> build safe paths.</li>
+                                    <li><code>str.endswith(ext)</code> check file extension.</li>
+                                    <li><code>shutil.copy2(src,dst)</code> copy files (concept).</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is automation in programming?</li>
+                                <li>Why do we automate repetitive tasks?</li>
+                                <li>What is a safe automation strategy?</li>
+                                <li>What does dry-run mean?</li>
+                                <li>How do you read a file in Python?</li>
+                                <li>How do you write a file in Python?</li>
+                                <li>What is <code>with open(...)</code> used for?</li>
+                                <li>What does <code>encoding="utf-8"</code> do?</li>
+                                <li>What is <code>os.listdir()</code> used for?</li>
+                                <li>What is <code>os.path.join()</code> used for?</li>
+                                <li>How do you check file extensions?</li>
+                                <li>What is the risk of renaming files automatically?</li>
+                                <li>How do you avoid overwriting files?</li>
+                                <li>What is the difference between copy and move?</li>
+                                <li>How do you create a folder if missing?</li>
+                                <li>How do you process a list with a loop?</li>
+                                <li>What is a function in automation scripts?</li>
+                                <li>Why is verification important?</li>
+                                <li>How can logging help automation?</li>
+                                <li>What is idempotency (concept)?</li>
+                                <li>Why can rerunning automation be dangerous?</li>
+                                <li>What is input validation for automation?</li>
+                                <li>How do you handle exceptions when reading files?</li>
+                                <li>What is time complexity for scanning files?</li>
+                                <li>What is space complexity for reading whole files?</li>
+                                <li>How do you reduce memory usage (concept)?</li>
+                                <li>Why avoid using wildcards for file paths (concept)?</li>
+                                <li>What is a typical automation workflow?</li>
+                                <li>How do you test automation logic safely?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>Automation means:
+                                    <ul>
+                                        <li>A) manual work</li>
+                                        <li>B) repeat steps with code</li>
+                                        <li>C) only GUI apps</li>
+                                        <li>D) nothing</li>
+                                    </ul>
+                                </li>
+                                <li>Dry-run means:
+                                    <ul>
+                                        <li>A) copy files for real</li>
+                                        <li>B) simulate actions without changes</li>
+                                        <li>C) delete files first</li>
+                                        <li>D) skip reading</li>
+                                    </ul>
+                                </li>
+                                <li><code>with open</code> helps by:
+                                    <ul>
+                                        <li>A) closing file automatically</li>
+                                        <li>B) speeding up CPU</li>
+                                        <li>C) removing encoding</li>
+                                        <li>D) editing CSS</li>
+                                    </ul>
+                                </li>
+                                <li><code>os.listdir</code> returns:
+                                    <ul>
+                                        <li>A) a directory string</li>
+                                        <li>B) list of file/directory names</li>
+                                        <li>C) JSON</li>
+                                        <li>D) network packets</li>
+                                    </ul>
+                                </li>
+                                <li><code>os.path.join</code> is for:
+                                    <ul>
+                                        <li>A) building file paths</li>
+                                        <li>B) training ML</li>
+                                        <li>C) sorting HTML</li>
+                                        <li>D) theme toggle</li>
+                                    </ul>
+                                </li>
+                                <li><code>str.endswith(ext)</code> checks:
+                                    <ul>
+                                        <li>A) prefix</li>
+                                        <li>B) file extension</li>
+                                        <li>C) file size</li>
+                                        <li>D) DB schema</li>
+                                    </ul>
+                                </li>
+                                <li>Reading whole file into a string uses memory:
+                                    <ul>
+                                        <li>A) constant always</li>
+                                        <li>B) O(file_size)</li>
+                                        <li>C) O(1) for any size</li>
+                                        <li>D) no memory</li>
+                                    </ul>
+                                </li>
+                                <li>Line-by-line processing can reduce memory by:
+                                    <ul>
+                                        <li>A) reading one line at a time</li>
+                                        <li>B) deleting lines</li>
+                                        <li>C) caching CSS</li>
+                                        <li>D) printing nothing</li>
+                                    </ul>
+                                </li>
+                                <li>File automation is dangerous because:
+                                    <ul>
+                                        <li>A) it can overwrite/delete data</li>
+                                        <li>B) it changes theme</li>
+                                        <li>C) it trains models</li>
+                                        <li>D) it disables internet</li>
+                                    </ul>
+                                </li>
+                                <li>Best practice: avoid overwriting:
+                                    <ul>
+                                        <li>A) true</li>
+                                        <li>B) false</li>
+                                    </ul>
+                                </li>
+                                <li>A good script should be:
+                                    <ul>
+                                        <li>A) repeatable</li>
+                                        <li>B) one-time only</li>
+                                        <li>C) random</li>
+                                        <li>D) untestable</li>
+                                    </ul>
+                                </li>
+                                <li>Automation workflow is usually:
+                                    <ul>
+                                        <li>A) input → process → output → verify</li>
+                                        <li>B) output → input</li>
+                                        <li>C) CSS only</li>
+                                        <li>D) database only</li>
+                                    </ul>
+                                </li>
+                                <li>Functions help automation by:
+                                    <ul>
+                                        <li>A) removing logic</li>
+                                        <li>B) organizing and reusing code</li>
+                                        <li>C) turning off loops</li>
+                                        <li>D) editing images</li>
+                                    </ul>
+                                </li>
+                                <li>Using <code>print</code> is for:
+                                    <ul>
+                                        <li>A) debugging logs</li>
+                                        <li>B) removing errors</li>
+                                        <li>C) storing DB</li>
+                                        <li>D) styling</li>
+                                    </ul>
+                                </li>
+                                <li>Time complexity for scanning all files is:
+                                    <ul>
+                                        <li>A) O(1)</li>
+                                        <li>B) O(n)</li>
+                                        <li>C) O(n^2) always</li>
+                                        <li>D) O(log n) always</li>
+                                    </ul>
+                                </li>
+                                <li>Space complexity depends on:
+                                    <ul>
+                                        <li>A) output storage</li>
+                                        <li>B) loop only</li>
+                                        <li>C) theme</li>
+                                        <li>D) OS</li>
+                                    </ul>
+                                </li>
+                                <li>Dry-run helps ensure logic works by:
+                                    <ul>
+                                        <li>A) printing planned actions</li>
+                                        <li>B) deleting files</li>
+                                        <li>C) turning off encoding</li>
+                                        <li>D) ignoring input</li>
+                                    </ul>
+                                </li>
+                                <li>Copy2 is used to:
+                                    <ul>
+                                        <li>A) copy files with metadata (concept)</li>
+                                        <li>B) delete files</li>
+                                        <li>C) format HTML</li>
+                                        <li>D) compile code</li>
+                                    </ul>
+                                </li>
+                                <li>Automation scripts often need validation for:
+                                    <ul>
+                                        <li>A) paths and inputs</li>
+                                        <li>B) fonts</li>
+                                        <li>C) CSS only</li>
+                                        <li>D) none</li>
+                                    </ul>
+                                </li>
+                                <li>Verification can be:
+                                    <ul>
+                                        <li>A) printing counts</li>
+                                        <li>B) checking output folder</li>
+                                        <li>C) both</li>
+                                        <li>D) none</li>
+                                    </ul>
+                                </li>
+                                <li>Idempotent automation means:
+                                    <ul>
+                                        <li>A) running twice has same effect</li>
+                                        <li>B) running twice deletes</li>
+                                        <li>C) output random</li>
+                                        <li>D) only once</li>
+                                    </ul>
+                                </li>
+                                <li>Best practice is to test on:
+                                    <ul>
+                                        <li>A) small folder first</li>
+                                        <li>B) production directly</li>
+                                        <li>C) random folders</li>
+                                        <li>D) no tests</li>
+                                    </ul>
+                                </li>
+                                <li>Which file method reads content?</li>
+                                <ul>
+                                    <li>A) f.read()</li>
+                                    <li>B) f.write()</li>
+                                    <li>C) f.find()</li>
+                                    <li>D) f.copy()</li>
+                                </ul>
+                                </li>
+                                <li>Which method writes content?</li>
+                                <ul>
+                                    <li>A) f.write()</li>
+                                    <li>B) f.read()</li>
+                                    <li>C) f.listdir()</li>
+                                    <li>D) f.copy2()</li>
+                                </ul>
+                                </li>
+                                <li><code>sorted(set(...))</code> removes duplicates and sorts:
+                                    <ul>
+                                        <li>A) true</li>
+                                        <li>B) false</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Read <code>input.txt</code> and write <code>output.txt</code> with uppercased text.
+                                </li>
+                                <li>Create <code>report.txt</code> listing all filenames in a folder.</li>
+                                <li>List only files ending with <code>.log</code> from a folder.</li>
+                                <li>For each file, print its size using <code>os.path.getsize</code> concept.</li>
+                                <li>Create a function <code>to_title_case</code> and use it on a list of names.</li>
+                                <li>Generate a “would rename” report (no rename) for <code>.jpg</code> files.</li>
+                                <li>Extract words of length ≥ 6 from a text file (concept).</li>
+                                <li>Count how many lines exist in a file (concept).</li>
+                                <li>Copy <code>.txt</code> files from input to output using a <code>dry_run</code> flag.
+                                </li>
+                                <li>Implement a <code>dry_run</code> mode that prints actions only.</li>
+                                <li>Write a script that creates a new folder if it doesn’t exist.</li>
+                                <li>Rename report output file name to include date (concept).</li>
+                                <li>Filter lines containing the word <code>error</code>.</li>
+                                <li>Remove duplicate emails (concept) using a set.</li>
+                                <li>Dry run: what changes when dry_run=False?</li>
+                                <li>Predict output for an empty folder.</li>
+                                <li>Improve prints: show counts of matched files.</li>
+                                <li>Convert a list of strings to sorted unique strings.</li>
+                                <li>Write a function <code>copy_if_exists</code> with safe checks (concept).</li>
+                                <li>Handle missing input folder with a friendly message (concept).</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Build an automation script that creates a summary of a folder: number of files by
+                                    extension.</li>
+                                <li>Read multiple files and merge them into one output file.</li>
+                                <li>Implement a “move to output” process but start with dry_run.</li>
+                                <li>Write <code>filter_by_keyword</code> for text files.</li>
+                                <li>Implement a function that scans a directory recursively (concept).</li>
+                                <li>Implement a progress counter: files processed/total.</li>
+                                <li>Generate CSV output with filename and size (concept).</li>
+                                <li>Write a JSON report with metadata (concept).</li>
+                                <li>Implement CLI argument parsing idea (concept): src, dst, ext.</li>
+                                <li>Validate that ext begins with a dot.</li>
+                                <li>Dry run: what should happen if dst folder already exists?</li>
+                                <li>Implement safe overwrite policy: never overwrite unless explicitly allowed.</li>
+                                <li>Write a script to compress logs into a single file (concept).</li>
+                                <li>Implement line-by-line streaming read to reduce memory.</li>
+                                <li>Handle encoding errors using <code>errors="replace"</code> concept.</li>
+                                <li>Extract titles from HTML files (concept using regex or parsing later).</li>
+                                <li>Create a reusable library function and a separate main script (design).</li>
+                                <li>Add exception handling and keep going for other files (concept).</li>
+                                <li>Output a final success message with counts.</li>
+                                <li>Explain time complexity for recursive directory scan (concept).</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Design an automation pipeline with steps: scan → filter → transform → write → verify
+                                    (design).</li>
+                                <li>Implement a plugin-like system (concept) where transformations are separate
+                                    functions.</li>
+                                <li>Add retry logic for file I/O errors like permission issues (concept).</li>
+                                <li>Implement transactional behavior: write to temp file then rename (design).</li>
+                                <li>Prevent partial output by writing to temp and only finalizing on success.</li>
+                                <li>Implement hashing to detect duplicates before copying (concept).</li>
+                                <li>Build a “watch folder” concept with polling every few seconds.</li>
+                                <li>Implement concurrency idea for copying many files (concept).</li>
+                                <li>Explain how concurrency might hit disk limits (concept).</li>
+                                <li>Output structured logs with levels (INFO/WARN/ERROR) concept.</li>
+                                <li>Design unit tests for functions (concept).</li>
+                                <li>Implement mock file list in tests (concept).</li>
+                                <li>Design a CLI interface and show usage text (design).</li>
+                                <li>Implement a dry_run preview with counts and sample paths.</li>
+                                <li>Handle huge directories: implement pagination of file listing (concept).</li>
+                                <li>Implement streaming transform for large files.</li>
+                                <li>Explain failure modes: permission denied, file disappears, invalid encoding.</li>
+                                <li>Design an “audit mode” that never changes files, only reports.</li>
+                                <li>Explain how to keep idempotency using output naming and checks.</li>
+                                <li>Write an automation spec for a real user task (design).</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment30_1.py</code>: read <code>input.txt</code> and create
+                                    <code>output.txt</code> in uppercase.</li>
+                                <li>Create <code>assignment30_2.py</code>: generate <code>folder_report.txt</code>
+                                    listing extensions and counts.</li>
+                                <li>Create <code>assignment30_3.py</code>: copy (with dry_run first) all
+                                    <code>.csv</code> files from src to dst.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Auto-Resume Cleaner (Concept)</h3>
+                                <p>Make a script that:</p>
+                                <ul>
+                                    <li>Scans a folder of resumes.</li>
+                                    <li>Creates an output folder with safe copies.</li>
+                                    <li>Renames each copy to: <code>FirstName_LastName.ext</code> (concept parsing).
+                                    </li>
+                                    <li>Writes a summary report (names + actions).</li>
+                                </ul>
+                                <p>Start with dry_run preview before copying.</p>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+                            <div class="callout warning">
+                                <h3>Case 1: file not found</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">wrong path</div>
+                                    </div>
+                                    <pre><code>with open("data/input.txt") as f:
+    text = f.read()
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> check relative/absolute paths and print
+                                    <code>os.getcwd()</code> concept.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: overwriting output</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">writing to same file</div>
+                                    </div>
+                                    <pre><code># output.txt overwrites input.txt by mistake
+with open("input.txt", "w") as f:
+    f.write(...)
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> write to a new filename/folder, and confirm before changes.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: missing extension handling</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">filter wrong</div>
+                                    </div>
+                                    <pre><code>if name == ".txt":
+    ...
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> use <code>endswith(".txt")</code> not exact equality.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>FileNotFoundError:</strong> wrong path or missing file.</li>
+                                <li><strong>PermissionError:</strong> cannot read/write that folder.</li>
+                                <li><strong>UnicodeDecodeError:</strong> wrong encoding used for reading.</li>
+                                <li><strong>IsADirectoryError:</strong> treated a folder as a file.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Start with dry_run and preview planned actions.</li>
+                                <li>Write to a new folder instead of overwriting.</li>
+                                <li>Use helper functions to keep logic clean.</li>
+                                <li>Validate inputs (folder exists, extension format).</li>
+                                <li>Use clear logging and friendly error messages.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                You learned automation patterns and safe habits.
+                                You practiced file reading/writing concepts, created dry-run thinking,
+                                and built examples that transform data and generate reports.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Automation cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Need</th>
+                                        <th>Code</th>
+                                        <th>Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Read file</td>
+                                        <td><code>f.read()</code></td>
+                                        <td>load content</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Write file</td>
+                                        <td><code>f.write(...)</code></td>
+                                        <td>save output</td>
+                                    </tr>
+                                    <tr>
+                                        <td>List files</td>
+                                        <td><code>os.listdir(folder)</code></td>
+                                        <td>scan folder</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Join paths</td>
+                                        <td><code>os.path.join(a,b)</code></td>
+                                        <td>safe paths</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Filter extension</td>
+                                        <td><code>name.endswith(ext)</code></td>
+                                        <td>match ext</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Dry run</td>
+                                        <td><code>if dry_run: print()</code></td>
+                                        <td>preview</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Duplicate File Auditor</h3>
+                                <ul>
+                                    <li>Scan a folder.</li>
+                                    <li>Group files by size.</li>
+                                    <li>Print groups that have 2+ files with the same size (concept).</li>
+                                    <li>Start with dry_run preview.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What is automation?</li>
+                                <li>What does dry_run mean?</li>
+                                <li>How do you read a file in Python?</li>
+                                <li>How do you write a file in Python?</li>
+                                <li>What does <code>os.listdir</code> do?</li>
+                                <li>How do you check file extension?</li>
+                                <li>Why is writing to a new folder safer?</li>
+                                <li>What should you verify after automation?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>Automation:</strong> using code to perform repeat steps for you.</li>
+                                    <li><strong>dry_run:</strong> simulate actions and preview results without changing
+                                        files.</li>
+                                    <li><strong>Read file:</strong> open in read mode and call <code>f.read()</code>.
+                                    </li>
+                                    <li><strong>Write file:</strong> open in write mode and call <code>f.write()</code>.
+                                    </li>
+                                    <li><strong>os.listdir:</strong> lists names inside a folder so you can loop.</li>
+                                    <li><strong>endswith:</strong> checks file extension so you filter correctly.</li>
+                                    <li><strong>New folder:</strong> prevents accidental overwrites and makes rollback
+                                        easy.</li>
+                                    <li><strong>Verify:</strong> check counts, sample outputs, and output folder
+                                        contents.</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-31.html">Next Chapter</a></div>
+                            </div>
+
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 16 — Modules & Packages</title>
+    <meta name="description"
+        content="Chapter 16: Modules & Packages. Learn how to organize code using import, module structure, and packages." />
+    <link rel="canonical" href="./chapters/chapter-16.html" />
+
+    <meta property="og:title" content="Chapter 16 — Modules & Packages" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description"
+        content="Learn modules and packages: import, reuse code, and organize your project." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 16 — Modules & Packages" />
+    <meta name="twitter:description" content="Python modules and packages chapter." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 16 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout note" style="margin-top:12px;">
+                        <h3>🗂 Mind map idea</h3>
+                        <p>
+                            Code reuse is like building with LEGO blocks:
+                            modules are small blocks, packages are a box of blocks.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 16</div>
+
+                        <h1 class="chapter-title">Chapter 16 — Modules & Packages</h1>
+                        <p class="subtle">Learn how to split code into modules, reuse them with <code>import</code>, and
+                            organize large projects using packages.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-15.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <p>By the end of this chapter, you will be able to:</p>
+                                <ul>
+                                    <li>Explain what a module is and why we use it.</li>
+                                    <li>Use <code>import</code> to reuse code in other files.</li>
+                                    <li>Use <code>from ... import ...</code> to import specific names.</li>
+                                    <li>Create and use packages (folders of modules).</li>
+                                    <li>Understand simple name conflicts and how to avoid them.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                When your programs grow, one single file becomes hard to manage.
+                                Modules and packages let you split code into smaller, reusable parts.
+                            </p>
+                            <div class="callout remember">
+                                <h3>⭐ Remember</h3>
+                                <p>
+                                    <strong>Module</strong> = one Python file (<code>.py</code>)
+                                    <br />
+                                    <strong>Package</strong> = a folder containing multiple modules
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 What is a module?</h3>
+                            <p>
+                                A module is a file like <code>math_utils.py</code> that contains functions/variables.
+                                When you import it, Python loads it and gives you access to its names.
+                            </p>
+
+                            <h3>2.2 Import basics</h3>
+                            <p>
+                                When you write <code>import math_utils</code>, you are importing the whole module
+                                namespace.
+                            </p>
+
+                            <h3>2.3 Import specific names</h3>
+                            <p>
+                                With <code>from math_utils import add</code>, you import only the name <code>add</code>.
+                                This can make code shorter.
+                            </p>
+
+                            <h3>2.4 What is a package?</h3>
+                            <p>
+                                A package is a folder (for example <code>my_app/</code>) with Python modules inside.
+                                A common requirement is an <code>__init__.py</code> file to mark it as a package.
+                            </p>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning: circular imports</h3>
+                                <p>
+                                    If module A imports B and module B imports A, Python can get stuck (circular
+                                    import).
+                                    Later you will learn strategies to break cycles.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">import a module</div>
+                                </div>
+                                <pre><code># In file main.py
+import math_utils
+
+result = math_utils.add(2, 3)
+print(result)
+</code></pre>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">import specific name</div>
+                                </div>
+                                <pre><code># In file main.py
+from math_utils import add
+
+print(add(10, 20))
+</code></pre>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">packages</div>
+                                </div>
+                                <pre><code># Folder structure:
+# my_pkg/
+#   __init__.py
+#   calc.py
+
+from my_pkg.calc import multiply
+print(multiply(3, 4))
+</code></pre>
+                            </div>
+
+                            <p><strong>Time complexity:</strong> importing loads code once (startup cost) •
+                                <strong>Space:</strong> depends on loaded objects.
+                            </p>
+                            <p><strong>Alternative approach:</strong> copy/paste code into one file (not recommended for
+                                maintainability).</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — create a module and import it</h3>
+                            <div class="callout note">
+                                <h3>Files you will create</h3>
+                                <p>
+                                    <code>math_utils.py</code> and <code>main.py</code> in the same folder.
+                                </p>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">math_utils.py</div>
+                                </div>
+                                <pre><code># math_utils.py
+
+def add(a, b):
+    # Adds two numbers and returns the result.
+    return a + b
+
+def square(x):
+    # Returns x squared.
+    return x * x
+</code></pre>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">main.py</div>
+                                </div>
+                                <pre><code># main.py
+import math_utils
+
+print(math_utils.add(2, 5))
+print(math_utils.square(4))
+</code></pre>
+                            </div>
+
+                            <p><strong>Output:</strong> 7 then 16</p>
+                            <p><strong>Time:</strong> O(1) per function call • <strong>Space:</strong> O(1) extra.</p>
+                            <p><strong>Alternative:</strong> <code>from math_utils import add, square</code>.</p>
+
+                            <h3>4.2 Medium Example — from import</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">from import</div>
+                                </div>
+                                <pre><code># main.py
+from math_utils import add
+
+print(add(100, 50))
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> 150</p>
+                            <p><strong>Time:</strong> O(1) • <strong>Space:</strong> O(1).</p>
+
+                            <h3>4.3 Advanced Example — packages</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">package calc.py</div>
+                                </div>
+                                <pre><code># my_pkg/calc.py
+
+def multiply(a, b):
+    return a * b
+</code></pre>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">main using package</div>
+                                </div>
+                                <pre><code># main.py
+from my_pkg.calc import multiply
+
+print(multiply(6, 7))
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> 42</p>
+                            <p><strong>Time:</strong> O(1) • <strong>Space:</strong> O(1) extra.</p>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: import and call</h3>
+                                <pre><code>[Start]
+   |
+   v
+[import module]
+   |
+   v
+[Python loads file]
+   |
+   v
+[Names become available]
+   |
+   v
+[call functions]
+   |
+   v
+[print output]
+   |
+   v
+[End]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <p>
+                                When you import a module, Python loads its code and creates a namespace.
+                                That namespace holds function objects like <code>add</code>.
+                            </p>
+                            <table class="table" aria-label="Module memory">
+                                <thead>
+                                    <tr>
+                                        <th>Module</th>
+                                        <th>Namespace contains</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>math_utils</code></td>
+                                        <td><code>add</code>, <code>square</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>main.py</code></td>
+                                        <td>uses names from imported module</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">import + call dry run</div>
+                                </div>
+                                <pre><code># main.py
+import math_utils
+
+x = math_utils.add(2, 3)
+print(x)
+</code></pre>
+                            </div>
+
+                            <table class="table" aria-label="Dry run import">
+                                <thead>
+                                    <tr>
+                                        <th>Step</th>
+                                        <th>Action</th>
+                                        <th>Result</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>import <code>math_utils</code></td>
+                                        <td>Python loads file and creates namespace</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>call <code>math_utils.add(2,3)</code></td>
+                                        <td>function returns 5</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>print <code>x</code></td>
+                                        <td>prints 5</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>dir(module)</code>: lists names inside a module (useful for learning).</li>
+                                <li><code>help(obj)</code>: shows documentation (concept).</li>
+                            </ul>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">dir()</div>
+                                </div>
+                                <pre><code>import math_utils
+
+print(dir(math_utils))
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <p>
+                                Modules are not “objects with methods” in the usual sense, but you will interact with
+                                module attributes.
+                                For example: <code>math_utils.add</code> is a function attribute.
+                            </p>
+
+                            <div class="callout tip">
+                                <h3>💡 Tips</h3>
+                                <p>
+                                    If you forget the function name, you can inspect with <code>dir()</code>.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is a module in Python?</li>
+                                <li>Why do we use modules?</li>
+                                <li>What does <code>import x</code> do?</li>
+                                <li>What does <code>from x import y</code> do?</li>
+                                <li>What is the difference between <code>import x</code> and
+                                    <code>from x import y</code>?</li>
+                                <li>How do you call a function from an imported module?</li>
+                                <li>What is a package?</li>
+                                <li>What is an <code>__init__.py</code> file used for?</li>
+                                <li>How do you import from a package?</li>
+                                <li>What does <code>import math_utils</code> mean in terms of file structure?</li>
+                                <li>What is the module search path?</li>
+                                <li>How do you avoid name conflicts when importing?</li>
+                                <li>What is an alias in import (like <code>import x as y</code>)?</li>
+                                <li>When should you use aliases?</li>
+                                <li>What is a circular import?</li>
+                                <li>How does circular import cause errors?</li>
+                                <li>How can you fix circular imports (concept)?</li>
+                                <li>Can a module have variables besides functions?</li>
+                                <li>Can a module contain classes?</li>
+                                <li>Is it okay for a module to run code at import time?</li>
+                                <li>Why is <code>if __name__ == "__main__"</code> important (concept)?</li>
+                                <li>What does <code>dir()</code> do for a module?</li>
+                                <li>How do you find what names exist in a module?</li>
+                                <li>What is the difference between “module” and “package”?</li>
+                                <li>Can you import a package without <code>__init__.py</code> (concept)?</li>
+                                <li>What is a “namespace” in Python import?</li>
+                                <li>What is attribute access like <code>module.func</code>?</li>
+                                <li>What is the risk of using <code>from x import *</code>?</li>
+                                <li>How do you prevent accidental overriding of imported names?</li>
+                                <li>What is a best practice for organizing a large Python project?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>A module is a:
+                                    <ul>
+                                        <li>A) folder</li>
+                                        <li>B) Python file</li>
+                                        <li>C) keyboard</li>
+                                        <li>D) color theme</li>
+                                    </ul>
+                                </li>
+                                <li>Modules help with:
+                                    <ul>
+                                        <li>A) code reuse</li>
+                                        <li>B) code duplication</li>
+                                        <li>C) hiding logic</li>
+                                        <li>D) removing errors</li>
+                                    </ul>
+                                </li>
+                                <li><code>import x</code> gives access to:
+                                    <ul>
+                                        <li>A) nothing</li>
+                                        <li>B) names inside module via <code>x.*</code></li>
+                                        <li>C) only errors</li>
+                                        <li>D) only comments</li>
+                                    </ul>
+                                </li>
+                                <li><code>from x import y</code> imports:
+                                    <ul>
+                                        <li>A) the whole module</li>
+                                        <li>B) only name <code>y</code></li>
+                                        <li>C) only file system</li>
+                                        <li>D) only CSS</li>
+                                    </ul>
+                                </li>
+                                <li>Calling <code>x.func()</code> means:
+                                    <ul>
+                                        <li>A) func is in module x</li>
+                                        <li>B) func is in HTML</li>
+                                        <li>C) func is in CSS</li>
+                                        <li>D) func is random</li>
+                                    </ul>
+                                </li>
+                                <li>A package is a:
+                                    <ul>
+                                        <li>A) single file</li>
+                                        <li>B) folder that groups modules</li>
+                                        <li>C) variable</li>
+                                        <li>D) loop</li>
+                                    </ul>
+                                </li>
+                                <li><code>__init__.py</code> is used to:
+                                    <ul>
+                                        <li>A) mark folder as a package</li>
+                                        <li>B) style pages</li>
+                                        <li>C) define variables</li>
+                                        <li>D) print output</li>
+                                    </ul>
+                                </li>
+                                <li>Aliasing import uses:
+                                    <ul>
+                                        <li>A) <code>as</code></li>
+                                        <li>B) <code>by</code></li>
+                                        <li>C) <code>at</code></li>
+                                        <li>D) <code>in</code></li>
+                                    </ul>
+                                </li>
+                                <li><code>import x as y</code> means:
+                                    <ul>
+                                        <li>A) rename module reference</li>
+                                        <li>B) delete module</li>
+                                        <li>C) change theme</li>
+                                        <li>D) create HTML</li>
+                                    </ul>
+                                </li>
+                                <li>Circular import happens when:
+                                    <ul>
+                                        <li>A) modules import each other in a cycle</li>
+                                        <li>B) CSS imports JS</li>
+                                        <li>C) file imports image only</li>
+                                        <li>D) variables are unordered</li>
+                                    </ul>
+                                </li>
+                                <li>Risk of <code>from x import *</code> is:
+                                    <ul>
+                                        <li>A) less readable and can shadow names</li>
+                                        <li>B) it breaks PWA</li>
+                                        <li>C) it changes dark mode</li>
+                                        <li>D) it makes code faster always</li>
+                                    </ul>
+                                </li>
+                                <li><code>dir(module)</code> returns:
+                                    <ul>
+                                        <li>A) module output only</li>
+                                        <li>B) list of names in module</li>
+                                        <li>C) HTML tree</li>
+                                        <li>D) empty</li>
+                                    </ul>
+                                </li>
+                                <li>Module namespace means:
+                                    <ul>
+                                        <li>A) where names are stored</li>
+                                        <li>B) where CSS lives</li>
+                                        <li>C) where GPU uses memory</li>
+                                        <li>D) where JSON is parsed</li>
+                                    </ul>
+                                </li>
+                                <li>Why do we use modules in large projects?
+                                    <ul>
+                                        <li>A) keep code organized</li>
+                                        <li>B) avoid learning</li>
+                                        <li>C) remove functions</li>
+                                        <li>D) avoid tests</li>
+                                    </ul>
+                                </li>
+                                <li><code>if __name__ == "__main__"</code> helps avoid:
+                                    <ul>
+                                        <li>A) running code when imported</li>
+                                        <li>B) printing errors</li>
+                                        <li>C) reading files</li>
+                                        <li>D) caching service workers</li>
+                                    </ul>
+                                </li>
+                                <li>Best practice is to avoid:
+                                    <ul>
+                                        <li>A) clear imports</li>
+                                        <li>B) <code>import *</code></li>
+                                        <li>C) using modules</li>
+                                        <li>D) functions</li>
+                                    </ul>
+                                </li>
+                                <li>What does <code>from pkg.mod import f</code> do?
+                                    <ul>
+                                        <li>A) imports f from mod in package pkg</li>
+                                        <li>B) imports CSS</li>
+                                        <li>C) imports images</li>
+                                        <li>D) imports nothing</li>
+                                    </ul>
+                                </li>
+                                <li>To call <code>multiply</code> from <code>calc.py</code>, you use:
+                                    <ul>
+                                        <li>A) <code>multiply()</code></li>
+                                        <li>B) <code>calc.multiply()</code> or <code>from ... import</code></li>
+                                        <li>C) <code>calc/multiply</code></li>
+                                        <li>D) <code>multiply|calc</code></li>
+                                    </ul>
+                                </li>
+                                <li>Modules are stored as:
+                                    <ul>
+                                        <li>A) <code>.py</code> files</li>
+                                        <li>B) .css files</li>
+                                        <li>C) .png files</li>
+                                        <li>D) .html only</li>
+                                    </ul>
+                                </li>
+                                <li>A package groups multiple:
+                                    <ul>
+                                        <li>A) variables</li>
+                                        <li>B) modules</li>
+                                        <li>C) images</li>
+                                        <li>D) fonts</li>
+                                    </ul>
+                                </li>
+                                <li>When you import a module, Python:
+                                    <ul>
+                                        <li>A) ignores it</li>
+                                        <li>B) loads it and runs top-level code</li>
+                                        <li>C) never runs code</li>
+                                        <li>D) only changes theme</li>
+                                    </ul>
+                                </li>
+                                <li>Name conflict means:
+                                    <ul>
+                                        <li>A) same name used for two things</li>
+                                        <li>B) no variables exist</li>
+                                        <li>C) CSS error</li>
+                                        <li>D) HTML missing</li>
+                                    </ul>
+                                </li>
+                                <li>How to avoid conflicts (concept)?
+                                    <ul>
+                                        <li>A) use aliases and explicit imports</li>
+                                        <li>B) remove import</li>
+                                        <li>C) random guessing</li>
+                                        <li>D) disable code</li>
+                                    </ul>
+                                </li>
+                                <li>What is a “module” typically used for?
+                                    <ul>
+                                        <li>A) reuse functions</li>
+                                        <li>B) store UI themes only</li>
+                                        <li>C) skip practice</li>
+                                        <li>D) hide logic</li>
+                                    </ul>
+                                </li>
+                                <li>What is a “package” typically used for?
+                                    <ul>
+                                        <li>A) organize modules</li>
+                                        <li>B) organize colors only</li>
+                                        <li>C) avoid code files</li>
+                                        <li>D) remove functions</li>
+                                    </ul>
+                                </li>
+                                <li>Import path controls:
+                                    <ul>
+                                        <li>A) where Python searches modules</li>
+                                        <li>B) where CSS colors load</li>
+                                        <li>C) where images display</li>
+                                        <li>D) where audio plays</li>
+                                    </ul>
+                                </li>
+                                <li><code>import math_utils</code> makes name:
+                                    <ul>
+                                        <li>A) math_utils</li>
+                                        <li>B) math_utils.txt</li>
+                                        <li>C) math_utils.html</li>
+                                        <li>D) nothing</li>
+                                    </ul>
+                                </li>
+                                <li>Which import style is clearer?
+                                    <ul>
+                                        <li>A) explicit imports</li>
+                                        <li>B) star imports always</li>
+                                        <li>C) no imports</li>
+                                        <li>D) random aliases</li>
+                                    </ul>
+                                </li>
+                                <li>What can modules contain besides functions?
+                                    <ul>
+                                        <li>A) variables and classes</li>
+                                        <li>B) only CSS</li>
+                                        <li>C) only HTML</li>
+                                        <li>D) only comments</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Create <code>greetings.py</code> with <code>hello(name)</code> returning a message.
+                                </li>
+                                <li>Import <code>greetings</code> in <code>main.py</code> and print
+                                    <code>greetings.hello("Asha")</code>.</li>
+                                <li>Create <code>math_tools.py</code> with <code>add(a,b)</code>.</li>
+                                <li>Use <code>from math_tools import add</code> and print <code>add(1,2)</code>.</li>
+                                <li>Use <code>dir()</code> to list names inside <code>math_tools</code>.</li>
+                                <li>Create a module with a constant like <code>PI = 3.14</code>.</li>
+                                <li>Import the constant and print it.</li>
+                                <li>Create a second module and import both in one main file.</li>
+                                <li>Use module alias <code>import math_tools as mt</code>.</li>
+                                <li>Call <code>mt.add(10,20)</code>.</li>
+                                <li>Write a function inside module that uses local helper function.</li>
+                                <li>Import the module and test the top-level function.</li>
+                                <li>Try importing a module with a wrong filename (expect error conceptually).</li>
+                                <li>Fix the module name and rerun (concept).</li>
+                                <li>Verify that your main code runs after import.</li>
+                                <li>Add <code>if __name__ == "__main__"</code> to prevent helper tests on import.</li>
+                                <li>Create <code>string_tools.py</code> with <code>to_upper(s)</code>.</li>
+                                <li>Import <code>to_upper</code> and call it.</li>
+                                <li>Practice writing clear module names.</li>
+                                <li>Dry run: explain what happens when Python imports your module.</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Create a package folder <code>my_pkg</code> with <code>__init__.py</code>.</li>
+                                <li>Add <code>calc.py</code> with <code>multiply(a,b)</code>.</li>
+                                <li>Import <code>multiply</code> using <code>from my_pkg.calc import multiply</code>.
+                                </li>
+                                <li>Create another module <code>math2.py</code> inside same package.</li>
+                                <li>Import both modules in main file.</li>
+                                <li>Use package module aliasing.</li>
+                                <li>Move <code>main.py</code> into a new folder and explain path issue (concept).</li>
+                                <li>Fix import by adjusting relative structure.</li>
+                                <li>Write code that uses module-level variables safely (concept).</li>
+                                <li>Create <code>app/utils.py</code> and import from <code>app</code> package (concept).
+                                </li>
+                                <li>Create a module with a class and import the class.</li>
+                                <li>Instantiate the class from main.</li>
+                                <li>Write a module that reads a file (reuse from chapter 15) and exposes a function.
+                                </li>
+                                <li>Call that function from main via import.</li>
+                                <li>Build a module that returns a list of numbers.</li>
+                                <li>Import and loop over returned list.</li>
+                                <li>Dry run: explain what is executed at import time.</li>
+                                <li>Make sure tests in modules do not run when imported (concept).</li>
+                                <li>Explain and demonstrate why <code>if __name__ == "__main__"</code> is useful.</li>
+                                <li>Use explicit imports rather than star imports.</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Implement a small module <code>validators.py</code> with multiple validation
+                                    functions.</li>
+                                <li>Import them and build a composite validation in main.</li>
+                                <li>Design a package structure: <code>course/</code> with submodules.</li>
+                                <li>Import from subpackages using correct paths (concept).</li>
+                                <li>Create two modules that accidentally cause circular import and observe error
+                                    (concept).</li>
+                                <li>Fix circular import by moving shared functions into a third module.</li>
+                                <li>Create a module with many names and demonstrate <code>from ... import</code>
+                                    selection.</li>
+                                <li>Write defensive import code (concept) with try/except.</li>
+                                <li>Build a dynamic “plugin” loader using <code>importlib</code> concept (advanced).
+                                </li>
+                                <li>Write <code>__all__</code> concept to limit exported names (advanced).</li>
+                                <li>Implement a wrapper function module that hides internal helper.</li>
+                                <li>Explain how namespace changes when using alias.</li>
+                                <li>Write tests mentally for module function behavior.</li>
+                                <li>Refactor a single large file into 3 modules and update imports.</li>
+                                <li>Dry run: show the sequence of module imports during execution.</li>
+                                <li>Implement caching inside a module-level function (concept).</li>
+                                <li>Write code that prints <code>__name__</code> when imported vs run.</li>
+                                <li>Create “public API” functions in a package’s <code>__init__.py</code> (concept).
+                                </li>
+                                <li>Demonstrate how to import from package root.</li>
+                                <li>Prevent accidental name overwrites by using clear naming (concept).</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment16_1.py</code> as a module with function
+                                    <code>area_circle(r)</code>.</li>
+                                <li>Create <code>assignment16_2.py</code> as a package with <code>math_pkg/pi.py</code>
+                                    and import PI in main.</li>
+                                <li>Create <code>assignment16_3.py</code> that imports 2 modules and prints a combined
+                                    report.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Notes Helpers Package</h3>
+                                <p>Create a package <code>notes_helpers</code>:</p>
+                                <ul>
+                                    <li><code>formatters.py</code> with <code>title_case(text)</code></li>
+                                    <li><code>counters.py</code> with <code>word_count(text)</code></li>
+                                </ul>
+                                <p>Then in <code>main.py</code>, import the two functions and show:</p>
+                                <ul>
+                                    <li>Formatted title</li>
+                                    <li>Word count</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+
+                            <div class="callout warning">
+                                <h3>Case 1: Module not found</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code># main.py
+import maths_utils
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> make sure the filename matches exactly
+                                    (<code>math_utils.py</code>), and run from the correct folder.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: Import name not found</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code># main.py
+from math_utils import addition
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> check function name. If your function is <code>add</code>,
+                                    import <code>add</code> not <code>addition</code>.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: circular import</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code># a.py
+import b
+
+# b.py
+import a
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> move shared logic into a new module (for example
+                                    <code>shared.py</code>) and import that.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>ModuleNotFoundError:</strong> wrong filename, wrong folder, or wrong import
+                                    path.</li>
+                                <li><strong>ImportError:</strong> module exists but requested name doesn’t exist.</li>
+                                <li><strong>NameError:</strong> using a name without importing it.</li>
+                                <li><strong>AttributeError:</strong> imported module but function name wrong.</li>
+                                <li><strong>Import loop (circular):</strong> modules depend on each other in a cycle.
+                                </li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Keep modules small and focused (single responsibility).</li>
+                                <li>Use explicit imports instead of <code>import *</code>.</li>
+                                <li>Avoid circular dependencies; extract shared utilities into their own module.</li>
+                                <li>Protect “test code” using <code>if __name__ == "__main__"</code>.</li>
+                                <li>Use clear names for modules: <code>string_tools.py</code>,
+                                    <code>file_helpers.py</code>.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                Modules let you split code into separate files and reuse functions.
+                                You reuse them with <code>import</code> or <code>from ... import ...</code>.
+                                Packages organize modules into folders and make large projects manageable.
+                                You also learned about common import mistakes and the idea of circular imports.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Module cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Need</th>
+                                        <th>Code</th>
+                                        <th>Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Import whole module</td>
+                                        <td><code>import math_utils</code></td>
+                                        <td>access via <code>math_utils.add</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Import one name</td>
+                                        <td><code>from math_utils import add</code></td>
+                                        <td>call <code>add()</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Package import</td>
+                                        <td><code>from pkg.mod import f</code></td>
+                                        <td>access from submodule</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alias</td>
+                                        <td><code>import math_utils as mu</code></td>
+                                        <td>shorter name</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Inspect names</td>
+                                        <td><code>dir(math_utils)</code></td>
+                                        <td>list available names</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Mini Math API</h3>
+                                <p>Create a module <code>mini_math.py</code> with:</p>
+                                <ul>
+                                    <li><code>add(a,b)</code></li>
+                                    <li><code>sub(a,b)</code></li>
+                                    <li><code>mul(a,b)</code></li>
+                                </ul>
+                                <p>Then in <code>main.py</code>, import the functions and compute:</p>
+                                <p><code>(a + b) * (a - b)</code> for a=10, b=3.</p>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What is a module?</li>
+                                <li>How do you import a module?</li>
+                                <li>How do you import a single function?</li>
+                                <li>What is a package?</li>
+                                <li>Why is <code>__init__.py</code> commonly used?</li>
+                                <li>What is a circular import?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations (short)</h3>
+                                <ul>
+                                    <li><strong>Module:</strong> a single <code>.py</code> file containing code.</li>
+                                    <li><strong>import:</strong> loads the module and provides a namespace.</li>
+                                    <li><strong>from ... import:</strong> imports specific names into your file’s
+                                        namespace.</li>
+                                    <li><strong>Package:</strong> a folder grouping modules; typically contains
+                                        <code>__init__.py</code>.</li>
+                                    <li><strong>Circular import:</strong> cycle that can leave names undefined while
+                                        modules load.</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-17.html">Next Chapter</a></div>
+                            </div>
+
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

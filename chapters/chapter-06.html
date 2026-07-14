@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 06 — Strings</title>
+    <meta name="description"
+        content="Chapter 6: Strings. Learn string syntax, indexing, slicing, common methods, and practical text tasks." />
+    <link rel="canonical" href="./chapters/chapter-06.html" />
+
+    <meta property="og:title" content="Chapter 06 — Strings" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="Learn Python strings: indexing, slicing, and string methods." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 06 — Strings" />
+    <meta name="twitter:description" content="Python strings chapter." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 06 • Offline • Search • Dark mode</span>
+                </div>
+
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout note" style="margin-top:12px;">
+                        <h3>⭐ Remember Box</h3>
+                        <p>
+                            Strings are <strong>text</strong>. You can index them like lists,
+                            but they are not lists (they are immutable).
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 06</div>
+
+                        <h1 class="chapter-title">Chapter 06 — Strings</h1>
+                        <p class="subtle">Learn how to create strings, access characters, slice text, and use powerful
+                            string methods.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-05.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <p>By the end of this chapter, you will be able to:</p>
+                                <ul>
+                                    <li>Create strings using quotes.</li>
+                                    <li>Understand indexing and slicing.</li>
+                                    <li>Use common string methods like <code>upper()</code>, <code>lower()</code>,
+                                        <code>strip()</code>.</li>
+                                    <li>Predict output for indexing and slicing examples.</li>
+                                    <li>Transform text for real tasks (cleaning, formatting).</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                You already used strings in earlier chapters.
+                                Now we will treat strings as a real data type with tools.
+                            </p>
+                            <div class="callout remember">
+                                <h3>🧠 Memory trick</h3>
+                                <p>
+                                    Think of a string like a line of letters.
+                                    Each letter has a position (index).
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 Creating strings</h3>
+                            <p>
+                                Strings can be written using single quotes (<code>' '</code>)
+                                or double quotes (<code>" "</code>).
+                            </p>
+
+                            <h3>2.2 Indexing</h3>
+                            <p>
+                                Index starts at <code>0</code> for the first character.
+                                Negative indexes count from the end.
+                            </p>
+
+                            <h3>2.3 Slicing</h3>
+                            <p>
+                                Slicing lets you take a part of a string: <code>s[start:end]</code>.
+                                The end index is excluded.
+                            </p>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning: immutability</h3>
+                                <p>
+                                    Strings cannot be changed in-place like lists.
+                                    When you use methods like <code>upper()</code>, Python creates a new string.
+                                </p>
+                            </div>
+
+                            <h3>2.4 Useful string tasks</h3>
+                            <ul>
+                                <li>Cleaning spaces: <code>strip()</code></li>
+                                <li>Changing case: <code>upper()</code>, <code>lower()</code></li>
+                                <li>Finding content: <code>find()</code> (concept preview)</li>
+                                <li>Splitting words: <code>split()</code> (later used heavily)</li>
+                            </ul>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">quotes, indexing, slicing</div>
+                                </div>
+                                <pre><code>s = "Python"
+
+print(s[0])   # first letter
+print(s[3])   # 4th letter
+print(s[-1])  # last letter
+
+print(s[0:3]) # "Pyt"
+print(s[2:5]) # "tho"
+print(s[:2])  # from start to index 2 (excluded)
+print(s[3:])  # from 3 to end
+</code></pre>
+                            </div>
+
+                            <p><strong>Time complexity:</strong> O(k) where k is slice length • <strong>Space:</strong>
+                                O(k) for new strings.</p>
+                            <p><strong>Alternative approach:</strong> iterate character by character (use loops later;
+                                concept now).</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — cleaning input</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">strip()</div>
+                                </div>
+                                <pre><code>text = "   hello world   "
+clean = text.strip()
+print(clean)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> <code>hello world</code></p>
+                            <p><strong>Time:</strong> O(n) • <strong>Space:</strong> O(n) (new string).</p>
+
+                            <h3>4.2 Medium Example — case conversion and comparison</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">upper/lower</div>
+                                </div>
+                                <pre><code>word = "Python"
+if word.lower() == "python":
+    print("Matched")
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> Matched</p>
+
+                            <h3>4.3 Advanced Example — slicing to extract info</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">substring extraction</div>
+                                </div>
+                                <pre><code>email = "user@example.com"
+name = email.split("@")[0]
+# Note: split() is introduced lightly; later we expand.
+print(name)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> <code>user</code></p>
+                            <p><strong>Time:</strong> O(n) for scanning • <strong>Space:</strong> O(n) for parts.</p>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: text → slice → transform → output</h3>
+                                <pre><code>[Start]
+  |
+  v
+[Take a string]
+  |
+  v
+[Choose part (slice/index)]
+  |
+  v
+[Transform case/clean]
+  |
+  v
+[Print result]
+  |
+  v
+[End]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <p>
+                                A string is stored as a sequence of characters.
+                                Index tells you where each character sits.
+                            </p>
+                            <table class="table" aria-label="String memory">
+                                <thead>
+                                    <tr>
+                                        <th>Index</th>
+                                        <th>Character</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>0</code></td>
+                                        <td><code>P</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>1</code></td>
+                                        <td><code>y</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>2</code></td>
+                                        <td><code>t</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>3</code></td>
+                                        <td><code>h</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>4</code></td>
+                                        <td><code>o</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>5</code></td>
+                                        <td><code>n</code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="callout remember">
+                                <h3>Memory trick</h3>
+                                <p><strong>Index 0 = first letter</strong>. So if you want the first 3 letters, slice
+                                    ends at 3.</p>
+                            </div>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">indexing + slicing dry run</div>
+                                </div>
+                                <pre><code>s = "Python"
+print(s[1])
+print(s[1:4])
+</code></pre>
+                            </div>
+                            <table class="table" aria-label="Dry run slice">
+                                <thead>
+                                    <tr>
+                                        <th>Step</th>
+                                        <th>Expression</th>
+                                        <th>Meaning</th>
+                                        <th>Result</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td><code>s[1]</code></td>
+                                        <td>Second character</td>
+                                        <td><code>y</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td><code>s[1:4]</code></td>
+                                        <td>From index 1 to 3</td>
+                                        <td><code>yth</code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p><strong>Time:</strong> O(k) • <strong>Space:</strong> O(k).</p>
+                            <p><strong>Alternative approach:</strong> use loops to build strings character-by-character
+                                (later).</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>len(s)</code> returns number of characters.</li>
+                                <li><code>str(x)</code> converts values into strings.</li>
+                            </ul>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">len()</div>
+                                </div>
+                                <pre><code>word = "notebook"
+print(len(word))
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> 9</p>
+                            <p><strong>Time:</strong> O(1) or O(n) depending on implementation details; conceptually
+                                O(1). <strong>Space:</strong> O(1).</p>
+                            <p><strong>Alternative approach:</strong> manual counting (not recommended).</p>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <div class="callout note">
+                                <h3>Common string methods</h3>
+                                <ul>
+                                    <li><code>upper()</code>, <code>lower()</code></li>
+                                    <li><code>strip()</code></li>
+                                    <li><code>replace(old, new)</code> (concept)</li>
+                                    <li><code>split(sep)</code> (concept)</li>
+                                </ul>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">replace() + split()</div>
+                                </div>
+                                <pre><code>text = "one,two,three"
+
+clean = text.replace(",", "-")
+print(clean)
+
+parts = text.split(",")
+print(parts)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> <code>one-two-three</code> and then a list-like output from
+                                <code>split</code>.</p>
+                            <p><strong>Time:</strong> O(n) • <strong>Space:</strong> O(n).</p>
+                            <p><strong>Alternative approach:</strong> use loops to split manually (not needed unless
+                                learning).</p>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is a string?</li>
+                                <li>How do you create strings in Python?</li>
+                                <li>What does <code>s[0]</code> mean?</li>
+                                <li>What does <code>s[-1]</code> mean?</li>
+                                <li>What does <code>s[1:4]</code> mean?</li>
+                                <li>Does slicing include the end index?</li>
+                                <li>What is string immutability?</li>
+                                <li>Why does <code>s.upper()</code> create a new string?</li>
+                                <li>What does <code>len(s)</code> return?</li>
+                                <li>What is <code>strip()</code> used for?</li>
+                                <li>What is <code>replace()</code> used for?</li>
+                                <li>What is <code>split()</code> used for?</li>
+                                <li>What is the difference between <code>strip()</code> and <code>split()</code>?</li>
+                                <li>How can you check if a string starts with a word? (concept)</li>
+                                <li>How can you check if a string ends with a word? (concept)</li>
+                                <li>What are escape sequences (concept)?</li>
+                                <li>What is the difference between single quotes and double quotes?</li>
+                                <li>How do you find the first occurrence of a substring? (concept)</li>
+                                <li>Why is indexing important?</li>
+                                <li>Explain negative indexing.</li>
+                                <li>What is slicing used for?</li>
+                                <li>Give an example where slicing is useful.</li>
+                                <li>How do you print a character from a string?</li>
+                                <li>What type does <code>split()</code> return?</li>
+                                <li>Can strings be modified in-place?</li>
+                                <li>How would you remove spaces at ends of input?</li>
+                                <li>What is output prediction for string indexing?</li>
+                                <li>Why does <code>"Python"[0:2]</code> return two letters?</li>
+                                <li>What is the safest way to manipulate string text?</li>
+                                <li>Describe a real-life text task you could do with strings.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>What is a string?
+                                    <ul>
+                                        <li>A) integers</li>
+                                        <li>B) text</li>
+                                        <li>C) booleans</li>
+                                        <li>D) comments</li>
+                                    </ul>
+                                </li>
+                                <li><code>s = "Hi"</code> creates:
+                                    <ul>
+                                        <li>A) int</li>
+                                        <li>B) str</li>
+                                        <li>C) bool</li>
+                                        <li>D) float</li>
+                                    </ul>
+                                </li>
+                                <li><code>s[0]</code> returns:
+                                    <ul>
+                                        <li>A) first char</li>
+                                        <li>B) last char</li>
+                                        <li>C) length</li>
+                                        <li>D) list</li>
+                                    </ul>
+                                </li>
+                                <li><code>s[-1]</code> returns:
+                                    <ul>
+                                        <li>A) second char</li>
+                                        <li>B) last char</li>
+                                        <li>C) first char</li>
+                                        <li>D) error</li>
+                                    </ul>
+                                </li>
+                                <li><code>s[1:4]</code> includes:
+                                    <ul>
+                                        <li>A) index 4</li>
+                                        <li>B) up to index 3</li>
+                                        <li>C) only index 1</li>
+                                        <li>D) none</li>
+                                    </ul>
+                                </li>
+                                <li>What is immutability?
+                                    <ul>
+                                        <li>A) can change in-place</li>
+                                        <li>B) cannot change in-place</li>
+                                        <li>C) can’t read</li>
+                                        <li>D) only for lists</li>
+                                    </ul>
+                                </li>
+                                <li><code>len("abc")</code> returns:
+                                    <ul>
+                                        <li>A) 1</li>
+                                        <li>B) 2</li>
+                                        <li>C) 3</li>
+                                        <li>D) "abc"</li>
+                                    </ul>
+                                </li>
+                                <li><code>strip()</code> removes:
+                                    <ul>
+                                        <li>A) middle spaces</li>
+                                        <li>B) leading/trailing spaces</li>
+                                        <li>C) all spaces always</li>
+                                        <li>D) digits</li>
+                                    </ul>
+                                </li>
+                                <li><code>upper()</code> does:
+                                    <ul>
+                                        <li>A) to lowercase</li>
+                                        <li>B) to uppercase</li>
+                                        <li>C) splits words</li>
+                                        <li>D) removes punctuation</li>
+                                    </ul>
+                                </li>
+                                <li><code>replace("a","b")</code> changes:
+                                    <ul>
+                                        <li>A) a into b</li>
+                                        <li>B) b into a</li>
+                                        <li>C) nothing</li>
+                                        <li>D) deletes all strings</li>
+                                    </ul>
+                                </li>
+                                <li><code>split(",")</code> returns:
+                                    <ul>
+                                        <li>A) a string</li>
+                                        <li>B) list of parts</li>
+                                        <li>C) bool</li>
+                                        <li>D) int</li>
+                                    </ul>
+                                </li>
+                                <li><code>"a" * 3</code> returns:
+                                    <ul>
+                                        <li>A) "a"</li>
+                                        <li>B) "aaa"</li>
+                                        <li>C) error</li>
+                                        <li>D) 0</li>
+                                    </ul>
+                                </li>
+                                <li>Which is best for extracting substring?
+                                    <ul>
+                                        <li>A) slicing</li>
+                                        <li>B) division</li>
+                                        <li>C) boolean ops</li>
+                                        <li>D) sum()</li>
+                                    </ul>
+                                </li>
+                                <li>Slicing syntax is:
+                                    <ul>
+                                        <li>A) s{start:end}</li>
+                                        <li>B) s[start:end]</li>
+                                        <li>C) s < start> end</li>
+                                        <li>D) s(start,end)</li>
+                                    </ul>
+                                </li>
+                                <li>End index in slicing is:
+                                    <ul>
+                                        <li>A) included</li>
+                                        <li>B) excluded</li>
+                                        <li>C) random</li>
+                                        <li>D) always 0</li>
+                                    </ul>
+                                </li>
+                                <li>Negative index -1 means:
+                                    <ul>
+                                        <li>A) first char</li>
+                                        <li>B) last char</li>
+                                        <li>C) middle</li>
+                                        <li>D) error</li>
+                                    </ul>
+                                </li>
+                                <li>String methods are called like:
+                                    <ul>
+                                        <li>A) function.method()</li>
+                                        <li>B) object.method()</li>
+                                        <li>C) method(function)</li>
+                                        <li>D) module.method()</li>
+                                    </ul>
+                                </li>
+                                <li><code>word.upper()</code> returns type:
+                                    <ul>
+                                        <li>A) int</li>
+                                        <li>B) str</li>
+                                        <li>C) bool</li>
+                                        <li>D) list</li>
+                                    </ul>
+                                </li>
+                                <li>After <code>upper()</code>, original string changes?
+                                    <ul>
+                                        <li>A) yes</li>
+                                        <li>B) no, new string created</li>
+                                        <li>C) sometimes</li>
+                                        <li>D) never</li>
+                                    </ul>
+                                </li>
+                                <li><code>strip()</code> affects:
+                                    <ul>
+                                        <li>A) only ends</li>
+                                        <li>B) only middle</li>
+                                        <li>C) all characters</li>
+                                        <li>D) indexes</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Create a string and print it.</li>
+                                <li>Print the first character using indexing.</li>
+                                <li>Print the last character using negative index.</li>
+                                <li>Slice first 3 letters and print.</li>
+                                <li>Slice middle part and print.</li>
+                                <li>Use <code>len()</code> to print string length.</li>
+                                <li>Use <code>upper()</code> and print result.</li>
+                                <li>Use <code>lower()</code> and print result.</li>
+                                <li>Use <code>strip()</code> to clean a string with spaces.</li>
+                                <li>Replace one letter with another using <code>replace()</code>.</li>
+                                <li>Predict output for <code>"abc"[0]</code> and verify.</li>
+                                <li>Predict output for <code>"abc"[1:3]</code> and verify.</li>
+                                <li>Predict output for <code>"abc"[:2]</code> and verify.</li>
+                                <li>Print a substring using <code>s[2:]</code>.</li>
+                                <li>Use string repetition with <code>*</code>.</li>
+                                <li>Create a sentence and print word count using <code>split()</code> (concept).</li>
+                                <li>Clean input and print cleaned version.</li>
+                                <li>Check equality ignoring case using <code>lower()</code>.</li>
+                                <li>Extract username from email using concept <code>split("@")</code>.</li>
+                                <li>Extract domain part from email using slice (concept).</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Read a word and print it reversed using slicing.</li>
+                                <li>Read a sentence and print trimmed sentence using <code>strip()</code>.</li>
+                                <li>Replace multiple occurrences using <code>replace()</code>.</li>
+                                <li>Extract first and last letter using indexing.</li>
+                                <li>Create initials from full name (split + index).</li>
+                                <li>Compute number of vowels in a string (use counting logic).</li>
+                                <li>Convert a name to title case (concept <code>title()</code>).</li>
+                                <li>Check if string starts with "A" using <code>startswith()</code> (concept).</li>
+                                <li>Check if string ends with "z" using <code>endswith()</code> (concept).</li>
+                                <li>Remove commas from a text (replace).</li>
+                                <li>Extract file extension from filename using split or slicing.</li>
+                                <li>Normalize spaces inside a string (concept: split + join).</li>
+                                <li>Build a masked email: show first 2 letters then "***".</li>
+                                <li>Predict output for slicing with negative indexes.</li>
+                                <li>Implement safe substring extraction when string length is unknown.</li>
+                                <li>Create a “shorten text” output using slice.</li>
+                                <li>Count occurrences of a character using manual scan.</li>
+                                <li>Find index of a substring using <code>find()</code> (concept).</li>
+                                <li>Make a string uppercase then check equality.</li>
+                                <li>Extract date parts from "YYYY-MM-DD" using slicing.</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Create a function that removes extra spaces using split/join (concept).</li>
+                                <li>Implement palindrome check for a string using slicing (reverse).</li>
+                                <li>Implement an anagram signature by sorting characters (concept).</li>
+                                <li>Mask a credit card: keep last 4 digits only.</li>
+                                <li>Parse a sentence and count words and average word length (concept).</li>
+                                <li>Extract section from HTML-like text between tags (basic parsing).</li>
+                                <li>Build a simple tokenizer that splits on spaces and punctuation.</li>
+                                <li>Create a safe “slugify” transformation (lower + replace spaces with -).</li>
+                                <li>Normalize repeated characters (e.g., "sooo" → "so").</li>
+                                <li>Implement run-length encoding for strings (concept).</li>
+                                <li>Create a greeting function that formats name and time (string logic).</li>
+                                <li>Build a small text-based sanitizer for inputs (remove banned words list).</li>
+                                <li>Check if input contains only alphabetic characters (concept <code>isalpha()</code>).
+                                </li>
+                                <li>Check if input contains only digits (concept <code>isdigit()</code>).</li>
+                                <li>Create a password strength indicator (length + character types).</li>
+                                <li>Extract parameters from query-like string "a=1&b=2" (basic split).</li>
+                                <li>Write code to find all positions of a substring (manual scanning).</li>
+                                <li>Implement a basic text wrap to limit line length (concept).</li>
+                                <li>Output prediction for tricky slices like <code>s[::2]</code>.</li>
+                                <li>Convert a messy list string into clean values (basic parsing).</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment06.py</code>: read a sentence, print its cleaned version
+                                    (strip) and length.</li>
+                                <li>Create <code>assignment06_2.py</code>: read a word and print first 2 letters and
+                                    last 2 letters.</li>
+                                <li>Create <code>assignment06_3.py</code>: given email string, print username and
+                                    domain.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Username Formatter</h3>
+                                <p>Input a name like <code>"  John Smith  "</code> and produce:</p>
+                                <ul>
+                                    <li>Trim spaces</li>
+                                    <li>Take first letter of first name + last name</li>
+                                    <li>Output in lowercase</li>
+                                </ul>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">starter</div>
+                                </div>
+                                <pre><code>full = input("Enter your full name: ")
+full = full.strip()
+parts = full.split(" ")
+
+first = parts[0]
+last = parts[-1]
+
+username = (first[0] + last).lower()
+print("Your username is: " + username)
+</code></pre>
+                            </div>
+                            <p><strong>Expected output:</strong> a username like <code>jonesmith</code> style (based on
+                                input).</p>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+
+                            <div class="callout warning">
+                                <h3>Case 1: indexing off-by-one</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>s = "Python"
+print(s[1:4])  # expected "yth"
+print(s[1:3])  # buggy slice
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> end index is excluded. To include index 3, you need
+                                    <code>:4</code>.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: trying to change a string</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>s = "cat"
+s[0] = "b"
+print(s)
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> strings are immutable. Build a new string using slicing.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: forgetting strip()</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>name = input("Enter name: ")
+if name == "Alice":
+    print("Hello Alice")
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> compare cleaned text: <code>name = name.strip()</code>.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>TypeError:</strong> mixing strings with numbers without conversion.</li>
+                                <li><strong>IndexError:</strong> using index out of range (like <code>s[100]</code>).
+                                </li>
+                                <li><strong>SyntaxError:</strong> missing quotes around string.</li>
+                                <li><strong>AttributeError:</strong> calling a method on a non-string value.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Use <code>strip()</code> on user input before comparisons.</li>
+                                <li>Use slicing for substring tasks.</li>
+                                <li>Prefer readable transformations: clean → transform → print.</li>
+                                <li>When predicting output, remember: slicing end is excluded.</li>
+                                <li>Don’t try to modify strings directly—create new strings.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                You learned that strings are text values. You can access characters using indexing
+                                and parts using slicing. You used methods like <code>upper()</code>,
+                                <code>lower()</code>, and <code>strip()</code>
+                                to clean and transform text.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="String cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Task</th>
+                                        <th>Example</th>
+                                        <th>Result</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Index</td>
+                                        <td><code>s[0]</code></td>
+                                        <td>First char</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Negative index</td>
+                                        <td><code>s[-1]</code></td>
+                                        <td>Last char</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Slicing</td>
+                                        <td><code>s[1:4]</code></td>
+                                        <td>Indices 1..3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Strip</td>
+                                        <td><code>s.strip()</code></td>
+                                        <td>Trim spaces</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Upper</td>
+                                        <td><code>s.upper()</code></td>
+                                        <td>Uppercase</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Extract Email Username</h3>
+                                <p>Given an email string like <code>"user@example.com"</code>, print:</p>
+                                <ul>
+                                    <li>username = part before <code>@</code></li>
+                                    <li>domain = part after <code>@</code></li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What is indexing in strings?</li>
+                                <li>What is negative indexing?</li>
+                                <li>What does slicing <code>s[1:4]</code> mean?</li>
+                                <li>Is the end index included in slicing?</li>
+                                <li>Why is <code>s.upper()</code> not changing the original string?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>Indexing:</strong> <code>s[0]</code> is first character.</li>
+                                    <li><strong>Negative index:</strong> <code>s[-1]</code> is last character.</li>
+                                    <li><strong>Slicing:</strong> <code>s[start:end]</code> includes start but excludes
+                                        end.</li>
+                                    <li><strong>Immutability:</strong> string methods produce a new string.</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-07.html">Next Chapter</a></div>
+                            </div>
+
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

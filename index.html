@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Python Notebook Course (48 Chapters) — Beginner to Advanced Notes</title>
+    <meta name="description"
+        content="Premium notebook-style Python course website: 48 chapters, offline reading (PWA), dark mode, search, SEO, print-friendly." />
+    <link rel="canonical" href="./" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Python Notebook Course (48 Chapters)" />
+    <meta property="og:description"
+        content="Premium notebook-style Python learning: offline PWA, dark mode, and chapter search." />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Python Notebook Course" />
+    <meta name="twitter:description" content="48 chapter Python course with PWA + dark mode + search." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="icon" href="data:," />
+
+    <link rel="manifest" href="manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>48 chapters • Offline • Search • Dark mode</span>
+                </div>
+
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn primary" href="chapters/chapter-01.html" aria-label="Start Course">Start</a>
+                </div>
+            </div>
+        </header>
+
+        <main class="container" style="padding-top:14px; padding-bottom:40px;">
+            <section class="main" style="margin:0;">
+                <div class="main-inner">
+                    <div class="breadcrumbs">Home • Course Overview</div>
+                    <h1 class="chapter-title" style="margin-top:0;">Learn Python like premium classroom notes</h1>
+                    <p class="subtle" style="margin-top:6px; line-height:1.7;">
+                        This website teaches Python from beginner to advanced using notebook-style pages.
+                        Every chapter includes explanations, examples, practice, assignments, and fully explained
+                        answers.
+                    </p>
+
+                    <div class="nav-buttons">
+                        <div class="callout tip">
+                            <h3>💡 How to use this course</h3>
+                            <p>Read the Theory → study Syntax → run Examples → try Dry Run & Debugging → solve
+                                Practice/MCQs → finish with a Project.</p>
+                        </div>
+                        <div class="callout remember">
+                            <h3>⭐ Learning path</h3>
+                            <p>Start at Chapter 01 and go forward. Each chapter builds the skills needed for the next
+                                one.</p>
+                        </div>
+                    </div>
+
+                    <div class="callout warning no-print">
+                        <h3>⚠ Offline tip</h3>
+                        <p>Install the app (PWA) from your browser to read chapters offline after the first load.</p>
+                    </div>
+
+                    <div class="sticky-toc" style="margin-top:14px;">
+                        <h2 style="margin:0 0 10px; font-size:14px;">Chapters</h2>
+                        <nav class="nav-list" aria-label="Chapter list">
+                            <!-- Filled by JS navigation.js to avoid writing huge HTML manually -->
+                            <div class="subtle" style="padding:6px 0;">Loading chapter list…</div>
+                        </nav>
+                    </div>
+
+                    <div class="callout note" style="margin-top:16px;">
+                        <h3>🔎 Search</h3>
+                        <p>Use the Search box in chapters to instantly find topics across all 48 chapters.</p>
+                    </div>
+
+                    <div class="footer-actions" style="margin-top:16px;">
+                        <a class="btn primary" href="chapters/chapter-01.html">Go to Chapter 01</a>
+                        <a class="btn" href="chapters/chapter-48.html">Jump to Capstone</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="main" style="margin-top:18px;">
+                <div class="main-inner">
+                    <h2 style="margin:0 0 6px; font-size:18px;">What you will learn</h2>
+                    <table class="table" aria-label="Course topics table">
+                        <thead>
+                            <tr>
+                                <th>Level</th>
+                                <th>Topics</th>
+                                <th>Outcome</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Beginner</td>
+                                <td>Syntax, data types, control flow</td>
+                                <td>Write correct programs with confidence</td>
+                            </tr>
+                            <tr>
+                                <td>Intermediate</td>
+                                <td>Functions, collections, exceptions, files, modules</td>
+                                <td>Build real scripts and small apps</td>
+                            </tr>
+                            <tr>
+                                <td>Advanced</td>
+                                <td>OOP, regex, concurrency, DB, networking, ML/AI basics</td>
+                                <td>Design and optimize systems</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <div style="height:24px"></div>
+        </main>
+    </div>
+
+    <script src="assets/js/darkmode.js"></script>
+    <script src="assets/js/script.js"></script>
+    <script src="assets/js/navigation.js"></script>
+    <script>
+        // Render chapter list on index
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            const ul = document.createDocumentFragment();
+            for (let i = 1; i <= 48; i++) {
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `chapters/chapter-${String(i).padStart(2, '0')}.html`;
+                a.setAttribute('data-chapter-link', `chapter-${String(i).padStart(2, '0')}.html`);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                ul.appendChild(wrap);
+            }
+            nav.appendChild(ul);
+        });
+    </script>
+</body>
+
+</html>

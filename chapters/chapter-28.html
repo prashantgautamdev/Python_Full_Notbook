@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 28 — GUI Development</title>
+    <meta name="description"
+        content="Chapter 28: GUI Development. Learn event-driven programming, tkinter basics, layouts, buttons, labels, entries, and a small GUI project." />
+    <link rel="canonical" href="./chapters/chapter-28.html" />
+
+    <meta property="og:title" content="Chapter 28 — GUI Development" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description"
+        content="Learn GUI development in Python with tkinter: events, widgets, layouts, and practice." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 28 — GUI Development" />
+    <meta name="twitter:description" content="GUI development fundamentals with practice and explained answers." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 28 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout tip" style="margin-top:12px;">
+                        <h3>🧠 Remember</h3>
+                        <p>
+                            GUI programs are <strong>event-driven</strong>.
+                            Your code runs when the user clicks, types, or closes a window.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 28</div>
+                        <h1 class="chapter-title">Chapter 28 — GUI Development</h1>
+                        <p class="subtle">
+                            Learn how to build desktop GUIs in Python using <code>tkinter</code>.
+                            You’ll create windows, add widgets, connect button clicks to functions, and build a mini GUI
+                            app.
+                        </p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-27.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <ul>
+                                    <li>Understand what a GUI is and why GUIs are event-driven.</li>
+                                    <li>Create a simple tkinter window and add widgets.</li>
+                                    <li>Handle button clicks using callback functions.</li>
+                                    <li>Use common widgets: labels, entries, buttons, frames.</li>
+                                    <li>Build a mini GUI app with a clean layout.</li>
+                                    <li>Debug common GUI problems like missing callbacks and layout issues.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                A web page is usually controlled by a browser.
+                                A desktop GUI is controlled by a Python program.
+                            </p>
+                            <p>
+                                In this chapter, we use <code>tkinter</code> (built into many Python installs) to build
+                                a small desktop application.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 Event-driven programming</h3>
+                            <p>
+                                In event-driven programming, you do not run a “big loop” yourself.
+                                Instead, you register <strong>handlers</strong> (functions) for events.
+                            </p>
+
+                            <h3>2.2 Widgets, layout, and the main loop</h3>
+                            <ul>
+                                <li><strong>Widgets</strong>: UI elements like Label, Button, Entry.</li>
+                                <li><strong>Layout</strong>: where widgets appear (grid/pack/place).</li>
+                                <li><strong>Main loop</strong>: keeps the window running and dispatches events.</li>
+                            </ul>
+
+                            <h3>2.3 Callbacks (functions on click)</h3>
+                            <p>
+                                When the user clicks a button, tkinter calls the callback you provided.
+                            </p>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    Do not block the GUI thread with long tasks.
+                                    Long work should be moved to a worker thread (advanced topic).
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">minimal tkinter window</div>
+                                </div>
+                                <pre><code>import tkinter as tk
+
+# 1) Create the main application window
+root = tk.Tk()
+
+# 2) Set window title (optional)
+root.title("My First GUI")
+
+# 3) Add widgets
+label = tk.Label(root, text="Hello from tkinter!", font=("Arial", 14))
+label.pack(padx=16, pady=16)
+
+# 4) Start the GUI event loop
+root.mainloop()
+</code></pre>
+                            </div>
+
+                            <p><strong>Time:</strong> GUI loop runs continuously until the window closes •
+                                <strong>Space:</strong> UI objects kept in memory.
+                            </p>
+                            <p><strong>Alternative:</strong> use other GUI frameworks (PyQt, Kivy) for advanced
+                                features.</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — Label + Button</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">callback updates label</div>
+                                </div>
+                                <pre><code>import tkinter as tk
+
+root = tk.Tk()
+root.title("Counter")
+
+# State variable (count)
+count = 0
+
+label = tk.Label(root, text="Count: 0", font=("Arial", 16))
+label.pack(padx=16, pady=10)
+
+
+def increment():
+    # Use nonlocal to modify count inside callback
+    nonlocal count
+    count += 1
+    label.config(text=f"Count: {count}")
+
+# Button calls increment when clicked
+btn = tk.Button(root, text="Add 1", command=increment)
+btn.pack(padx=16, pady=10)
+
+root.mainloop()
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> each click updates the label text.</p>
+
+                            <h3>4.2 Medium Example — Entry + Submit</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">read user input</div>
+                                </div>
+                                <pre><code>import tkinter as tk
+
+root = tk.Tk()
+root.title("Greeter")
+
+info = tk.Label(root, text="Type your name and press Submit")
+info.pack(padx=16, pady=8)
+
+name_entry = tk.Entry(root, width=30)
+name_entry.pack(padx=16, pady=8)
+
+result = tk.Label(root, text="")
+result.pack(padx=16, pady=8)
+
+
+def submit():
+    name = name_entry.get().strip()
+    if not name:
+        result.config(text="Please enter a name.")
+    else:
+        result.config(text=f"Hello, {name}!")
+
+submit_btn = tk.Button(root, text="Submit", command=submit)
+submit_btn.pack(padx=16, pady=12)
+
+root.mainloop()
+</code></pre>
+                            </div>
+
+                            <p><strong>Output:</strong> shows greeting or an error message.</p>
+
+                            <h3>4.3 Advanced Example — Using grid layout with Frames</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">frames + grid</div>
+                                </div>
+                                <pre><code>import tkinter as tk
+
+root = tk.Tk()
+root.title("Two-Panel")
+
+# Frame A
+left = tk.Frame(root, borderwidth=1, relief="solid")
+left.grid(row=0, column=0, padx=10, pady=10)
+
+# Frame B
+right = tk.Frame(root, borderwidth=1, relief="solid")
+right.grid(row=0, column=1, padx=10, pady=10)
+
+left_title = tk.Label(left, text="Left Panel", font=("Arial", 14))
+left_title.grid(row=0, column=0, padx=12, pady=8)
+
+right_title = tk.Label(right, text="Right Panel", font=("Arial", 14))
+right_title.grid(row=0, column=0, padx=12, pady=8)
+
+root.mainloop()
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> two bordered panels side by side.</p>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: event-driven GUI</h3>
+                                <pre><code>[Create window]
+     |
+     v
+[Add widgets]
+     |
+     v
+[mainloop starts]
+     |
+     v
+[User event happens]
+(click / key / close)
+     |
+     v
+[Callback function runs]
+     |
+     v
+[Update widgets]
+     |
+     v
+[Wait for next event]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <table class="table" aria-label="GUI memory">
+                                <thead>
+                                    <tr>
+                                        <th>Object</th>
+                                        <th>What it stores</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>root</code></td>
+                                        <td>the window and event loop state</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Widgets (Label, Button)</td>
+                                        <td>UI properties and callbacks</td>
+                                    </tr>
+                                    <tr>
+                                        <td>String variables</td>
+                                        <td>text that updates the UI</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Dry run</div>
+                                    <div class="meta">button click</div>
+                                </div>
+                                <pre><code>Initial state: count = 0
+Label shows: Count: 0
+
+User clicks “Add 1”:
+1) tkinter calls increment()
+2) count becomes 1
+3) label.config updates text
+
+Now label shows: Count: 1
+</code></pre>
+                            </div>
+                            <p><strong>Time:</strong> callback work • <strong>Space:</strong> minimal extra.</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>print()</code> for debugging callback calls.</li>
+                                <li><code>len()</code> (concept) for validating entry text length.</li>
+                            </ul>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <div class="callout note">
+                                <h3>Common tkinter methods</h3>
+                                <ul>
+                                    <li><code>tk.Tk()</code> create window</li>
+                                    <li><code>widget.pack()</code> simple layout</li>
+                                    <li><code>widget.grid()</code> table layout</li>
+                                    <li><code>widget.config(...)</code> update widget properties</li>
+                                    <li><code>entry.get()</code> read typed text</li>
+                                    <li><code>root.mainloop()</code> run event loop</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is a GUI?</li>
+                                <li>What is <code>tkinter</code>?</li>
+                                <li>What does <code>root.mainloop()</code> do?</li>
+                                <li>What does “event-driven” mean?</li>
+                                <li>What is a callback function?</li>
+                                <li>How do you connect a button click to a function?</li>
+                                <li>How do you update a label after an event?</li>
+                                <li>How do you read text from an entry?</li>
+                                <li>What are widgets?</li>
+                                <li>What is the difference between <code>pack()</code> and <code>grid()</code>?</li>
+                                <li>What is a Frame in tkinter?</li>
+                                <li>Why use Frames?</li>
+                                <li>How do you set the window title?</li>
+                                <li>What is widget configuration?</li>
+                                <li>What happens if you forget <code>mainloop()</code>?</li>
+                                <li>How do you debug a callback?</li>
+                                <li>What is <code>nonlocal</code> used for (concept)?</li>
+                                <li>What is state in GUI programs?</li>
+                                <li>How do you validate user input from an Entry?</li>
+                                <li>How do you display error messages to the user?</li>
+                                <li>Why should GUIs not block the main thread?</li>
+                                <li>How would you run long tasks without freezing the GUI? (concept)</li>
+                                <li>What is the simplest widget for displaying text?</li>
+                                <li>What is the widget for taking user input?</li>
+                                <li>What does <code>command=...</code> mean in a Button?</li>
+                                <li>How do you close a tkinter window?</li>
+                                <li>What is layout management?</li>
+                                <li>Why might your layout look “broken”?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>tkinter is used for:
+                                    <ul>
+                                        <li>A) database</li>
+                                        <li>B) desktop GUI</li>
+                                        <li>C) web hosting</li>
+                                        <li>D) regex</li>
+                                    </ul>
+                                </li>
+                                <li><code>root.mainloop()</code> means:
+                                    <ul>
+                                        <li>A) compile code</li>
+                                        <li>B) run event loop</li>
+                                        <li>C) install packages</li>
+                                        <li>D) build CSS</li>
+                                    </ul>
+                                </li>
+                                <li>A callback is:
+                                    <ul>
+                                        <li>A) code called on events</li>
+                                        <li>B) theme CSS</li>
+                                        <li>C) SQL query</li>
+                                        <li>D) cache file</li>
+                                    </ul>
+                                </li>
+                                <li>Button click is connected using:
+                                    <ul>
+                                        <li>A) <code>command</code></li>
+                                        <li>B) <code>WHERE</code></li>
+                                        <li>C) <code>SELECT</code></li>
+                                        <li>D) <code>match</code></li>
+                                    </ul>
+                                </li>
+                                <li>Label widget is for:
+                                    <ul>
+                                        <li>A) displaying text</li>
+                                        <li>B) editing text</li>
+                                        <li>C) network sockets</li>
+                                        <li>D) file downloads</li>
+                                    </ul>
+                                </li>
+                                <li>Entry widget is for:
+                                    <ul>
+                                        <li>A) user input text</li>
+                                        <li>B) showing tables only</li>
+                                        <li>C) decoding bytes</li>
+                                        <li>D) SQL updates</li>
+                                    </ul>
+                                </li>
+                                <li><code>entry.get()</code> returns:
+                                    <ul>
+                                        <li>A) the user typed string</li>
+                                        <li>B) JSON file</li>
+                                        <li>C) CSS theme</li>
+                                        <li>D) sockets</li>
+                                    </ul>
+                                </li>
+                                <li>To update a label, use:
+                                    <ul>
+                                        <li>A) <code>label.config(text="...")</code></li>
+                                        <li>B) <code>label.save()</code></li>
+                                        <li>C) <code>label.commit()</code></li>
+                                        <li>D) <code>label.close()</code></li>
+                                    </ul>
+                                </li>
+                                <li>pack layout arranges widgets by:
+                                    <ul>
+                                        <li>A) “top/bottom/left/right” order</li>
+                                        <li>B) “rows/columns table”</li>
+                                        <li>C) HTTP routes</li>
+                                        <li>D) cron jobs</li>
+                                    </ul>
+                                </li>
+                                <li>grid layout arranges widgets by:
+                                    <ul>
+                                        <li>A) rows and columns</li>
+                                        <li>B) browser URL</li>
+                                        <li>C) caching</li>
+                                        <li>D) SQL join</li>
+                                    </ul>
+                                </li>
+                                <li>A Frame is used to:
+                                    <ul>
+                                        <li>A) group widgets</li>
+                                        <li>B) store secrets</li>
+                                        <li>C) speed up regex</li>
+                                        <li>D) cache HTML</li>
+                                    </ul>
+                                </li>
+                                <li>GUI freezing usually happens because:
+                                    <ul>
+                                        <li>A) long blocking work on main thread</li>
+                                        <li>B) calling print</li>
+                                        <li>C) using Label</li>
+                                        <li>D) importing tkinter</li>
+                                    </ul>
+                                </li>
+                                <li>Event-driven means:
+                                    <ul>
+                                        <li>A) waiting for user events</li>
+                                        <li>B) infinite loops you manage</li>
+                                        <li>C) file delete loop</li>
+                                        <li>D) no callbacks</li>
+                                    </ul>
+                                </li>
+                                <li><code>nonlocal</code> is used for:
+                                    <ul>
+                                        <li>A) modifying outer-scope variables</li>
+                                        <li>B) DB access</li>
+                                        <li>C) decoding</li>
+                                        <li>D) CSS color</li>
+                                    </ul>
+                                </li>
+                                <li>Use <code>try/except</code> in callbacks to handle:
+                                    <ul>
+                                        <li>A) user errors</li>
+                                        <li>B) theme switching</li>
+                                        <li>C) SEO tags</li>
+                                        <li>D) cache names</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Create a tkinter window with a title and background (concept).</li>
+                                <li>Add a Label with custom font size.</li>
+                                <li>Add a Button and connect it to a callback that prints a message.</li>
+                                <li>Create a counter: Label shows count, Button increments.</li>
+                                <li>Add an Entry box and a Submit Button.</li>
+                                <li>Validate that Entry is not empty; show error in another Label.</li>
+                                <li>Clear the Entry after Submit.</li>
+                                <li>Disable the Submit button until text is entered (design).</li>
+                                <li>Use pack layout to place widgets nicely with padding.</li>
+                                <li>Use grid layout with row=0/column=0 for two widgets.</li>
+                                <li>Create a Frame and place one widget inside it.</li>
+                                <li>Update multiple labels from one callback.</li>
+                                <li>Show a message box on submit (concept, advanced widget).</li>
+                                <li>Print user input length in the console.</li>
+                                <li>Make a “Reset” button that sets label back to initial state.</li>
+                                <li>Dry run: predict label updates for 2 clicks.</li>
+                                <li>Debug: callback not firing—check you used <code>command=...</code>.</li>
+                                <li>Debug: label not updating—check <code>config()</code> text.</li>
+                                <li>Debug: window closes immediately—ensure <code>mainloop()</code> exists.</li>
+                                <li>Add a second Entry for two inputs and compute sum (concept).</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Create a simple calculator GUI (add/multiply only).</li>
+                                <li>Use Entries for numbers and handle invalid input with error label.</li>
+                                <li>Implement “history” list in the GUI (design with Listbox concept).</li>
+                                <li>Build a form: Name + Age + Submit → display formatted output.</li>
+                                <li>Use grid layout for the form.</li>
+                                <li>Use Frames to separate input area and output area.</li>
+                                <li>Implement an “instant validation” label that changes while typing (concept).</li>
+                                <li>Implement a “swap” button: move input A to output and clear A.</li>
+                                <li>Dry run: test invalid age input.</li>
+                                <li>Refactor: move callback logic into a function (design).</li>
+                                <li>Use <code>try/except</code> to prevent GUI crash on exceptions.</li>
+                                <li>Implement dark mode toggle for GUI widgets (concept).</li>
+                                <li>Implement dynamic enabling/disabling of buttons (design).</li>
+                                <li>Explain time complexity for converting input and computing (concept).</li>
+                                <li>Debug: button callback shadowing variable names.</li>
+                                <li>Debug: layout overlapping because you mixed pack and grid (explain concept).</li>
+                                <li>Build a unit-test plan for non-GUI logic (design).</li>
+                                <li>Separate “logic” from “UI updates”.</li>
+                                <li>Design a function that parses numbers safely.</li>
+                                <li>Implement “help text” label that appears below the form.</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Design a multi-step wizard GUI (concept + layout idea).</li>
+                                <li>Add a progress indicator during a long operation (design; avoid blocking).</li>
+                                <li>Use threading concept to keep GUI responsive (advanced concept).</li>
+                                <li>Handle thread → UI communication safely (concept).</li>
+                                <li>Implement a simple MVC-like structure (design).</li>
+                                <li>Build a GUI that edits a list of tasks (concept).</li>
+                                <li>Implement add/delete buttons with validation.</li>
+                                <li>Persist tasks to JSON file (design; IO + UI separation).</li>
+                                <li>Dry run: simulate adding 2 tasks then deleting 1.</li>
+                                <li>Explain why IO should not run inside callbacks directly (concept).</li>
+                                <li>Create a resizable layout that adapts window size (design).</li>
+                                <li>Implement keyboard shortcuts for buttons (concept).</li>
+                                <li>Build a GUI theme system (design mapping colors).</li>
+                                <li>Debug: exceptions inside callbacks disappear—use prints/logging.</li>
+                                <li>Implement a simple error modal (concept).</li>
+                                <li>Design a clean callback naming convention.</li>
+                                <li>Write complexity reasoning for your “logic” functions.</li>
+                                <li>Implement a “search” box filtering a list (concept).</li>
+                                <li>Design architecture for GUI + background worker.</li>
+                                <li>Write a final GUI refactor checklist (design).</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment28_1.py</code>: Build a “Hello GUI” with a label and a button
+                                    that changes the label.</li>
+                                <li>Create <code>assignment28_2.py</code>: Build a “Name Validator” that checks empty
+                                    input and shows messages.</li>
+                                <li>Create <code>assignment28_3.py</code>: Build a “Sum Calculator” GUI with two entries
+                                    and error handling.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Personal Study Planner</h3>
+                                <ul>
+                                    <li>User can add study items (title + minutes).</li>
+                                    <li>GUI lists pending items.</li>
+                                    <li>User marks an item as done.</li>
+                                    <li>GUI shows totals: total minutes and done minutes.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+
+                            <div class="callout warning">
+                                <h3>Case 1: Button does nothing</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Bug</div>
+                                        <div class="meta">callback not connected</div>
+                                    </div>
+                                    <pre><code>btn = tk.Button(root, text="Click")
+# missing command=...
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> use <code>tk.Button(..., command=my_callback)</code>.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: Window closes immediately</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Bug</div>
+                                        <div class="meta">no mainloop</div>
+                                    </div>
+                                    <pre><code>root = tk.Tk()
+# forgot root.mainloop()
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> call <code>root.mainloop()</code> at the end.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: Layout overlaps</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Bug</div>
+                                        <div class="meta">mix pack + grid</div>
+                                    </div>
+                                    <pre><code>label.pack()
+button.grid(row=0, column=0)
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> pick one layout method per container (pack or grid).</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 4: Callback crashes with ValueError</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Bug</div>
+                                        <div class="meta">invalid number parsing</div>
+                                    </div>
+                                    <pre><code>n = int(entry.get())
+# user typed "abc"
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> wrap parsing in <code>try/except</code> and show error in GUI.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>AttributeError:</strong> widget variable not created.</li>
+                                <li><strong>TypeError:</strong> wrong callback signature (concept).</li>
+                                <li><strong>ValueError:</strong> parsing invalid Entry text to int/float.</li>
+                                <li><strong>Layout issues:</strong> mixing pack/grid in same container.</li>
+                                <li><strong>GUI freeze:</strong> long blocking work inside callbacks.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Keep GUI code small; move logic into helper functions.</li>
+                                <li>Validate inputs from entries before computing.</li>
+                                <li>Update widgets using <code>config()</code> rather than recreating them.</li>
+                                <li>Avoid blocking operations inside callbacks.</li>
+                                <li>Use consistent widget variable names (e.g., <code>name_entry</code>,
+                                    <code>submit_btn</code>).
+                                </li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                You learned tkinter GUI basics: windows, widgets, layouts, and event-driven callbacks.
+                                You practiced creating buttons and reading entry input safely.
+                                You also learned how to debug common GUI issues.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="tkinter cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Need</th>
+                                        <th>Use</th>
+                                        <th>Why</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Create window</td>
+                                        <td><code>tk.Tk()</code></td>
+                                        <td>main GUI root</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Add text</td>
+                                        <td><code>tk.Label</code></td>
+                                        <td>display output</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Get user input</td>
+                                        <td><code>tk.Entry(...)</code> + <code>get()</code></td>
+                                        <td>type and read text</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Handle click</td>
+                                        <td><code>tk.Button(..., command=fn)</code></td>
+                                        <td>event callback</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Layout</td>
+                                        <td><code>pack()</code> or <code>grid()</code></td>
+                                        <td>position widgets</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Run UI</td>
+                                        <td><code>root.mainloop()</code></td>
+                                        <td>event loop</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Live Character Counter</h3>
+                                <ul>
+                                    <li>Provide an Entry for user typing.</li>
+                                    <li>Show live character count in a Label.</li>
+                                    <li>Show an error if input length exceeds a max (example: 20).</li>
+                                    <li>Explain how you would implement “live update” (concept).</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What is event-driven programming?</li>
+                                <li>What does <code>mainloop()</code> do?</li>
+                                <li>How do you connect a button to a callback?</li>
+                                <li>How do you read text from an Entry?</li>
+                                <li>Difference between pack and grid?</li>
+                                <li>Why keep logic separate from UI code?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>Event-driven:</strong> code runs when an event occurs (click/type).</li>
+                                    <li><strong>mainloop:</strong> runs the event dispatcher and keeps window alive.
+                                    </li>
+                                    <li><strong>Button command:</strong> tells tkinter which function to call.</li>
+                                    <li><strong>Entry.get():</strong> reads current text the user typed.</li>
+                                    <li><strong>pack vs grid:</strong> pack is simple stacking; grid positions by
+                                        row/column.</li>
+                                    <li><strong>Separate logic:</strong> easier testing and fewer UI bugs.</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-29.html">Next Chapter</a></div>
+                            </div>
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 03 — Variables & Data Types</title>
+    <meta name="description"
+        content="Chapter 3: Variables & Data Types. Learn how Python stores values, what types mean, and how to use them safely." />
+    <link rel="canonical" href="./chapters/chapter-03.html" />
+
+    <meta property="og:title" content="Chapter 03 — Variables & Data Types" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description"
+        content="Learn variables and data types in Python with examples, practice, and explained answers." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 03 — Variables & Data Types" />
+    <meta name="twitter:description" content="Python data types chapter." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 03 • Offline • Search • Dark mode</span>
+                </div>
+
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout note" style="margin-top:12px;">
+                        <h3>⭐ Remember Box</h3>
+                        <p>
+                            A <strong>variable</strong> is a name.
+                            A <strong>type</strong> tells Python what kind of value it is.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 03</div>
+
+                        <h1 class="chapter-title">Chapter 03 — Variables &amp; Data Types</h1>
+                        <p class="subtle">Learn how to store values in variables, understand common data types, and
+                            convert between types.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-02.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <p>By the end of this chapter, you will be able to:</p>
+                                <ul>
+                                    <li>Define variables and assign values.</li>
+                                    <li>Identify common Python data types (int, float, str, bool).</li>
+                                    <li>Use <code>type()</code> to check types.</li>
+                                    <li>Convert values using <code>int()</code>, <code>float()</code>,
+                                        <code>str()</code>.</li>
+                                    <li>Explain what happens when you mix types.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                In Chapter 01, you learned that programs store values in variables.
+                                Now we go one step deeper: what are the common <em>types</em> of values in Python?
+                            </p>
+                            <div class="callout remember">
+                                <h3>⭐ Remember</h3>
+                                <p>
+                                    Variables hold values. Types tell Python how to treat those values.
+                                    This prevents mistakes like adding text like a number.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <div class="callout note">
+                                <h3>📚 Big Idea: Types are rules</h3>
+                                <p>
+                                    Type is not just a label. It also controls what operations are allowed.
+                                    For example, numbers can be added. Strings can be joined.
+                                </p>
+                            </div>
+
+                            <h3>2.1 Common data types (beginner set)</h3>
+                            <ul>
+                                <li><strong>int</strong>: whole numbers like <code>3</code>, <code>-10</code></li>
+                                <li><strong>float</strong>: decimals like <code>3.14</code>, <code>-0.5</code></li>
+                                <li><strong>str</strong>: text like <code>"hello"</code></li>
+                                <li><strong>bool</strong>: <code>True</code> or <code>False</code></li>
+                            </ul>
+
+                            <h3>2.2 Python is dynamically typed</h3>
+                            <p>
+                                “Dynamically typed” means you do not declare types. Python figures them out at runtime.
+                                Example: <code>x = 5</code> makes <code>x</code> an <code>int</code>. If later you do
+                                <code>x = "5"</code>, it becomes a <code>str</code>.
+                            </p>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning: Mixing types</h3>
+                                <p>
+                                    Some combinations work, others fail.
+                                    For example: <code>"5" + 2</code> fails because Python cannot add text and number.
+                                </p>
+                            </div>
+
+                            <h3>2.3 Type conversion (casting)</h3>
+                            <p>
+                                Conversion is turning a value into a different type.
+                                Common conversions:
+                            </p>
+                            <ul>
+                                <li><code>int("10")</code> → 10</li>
+                                <li><code>float("3.5")</code> → 3.5</li>
+                                <li><code>str(10)</code> → "10"</li>
+                            </ul>
+                            <p>
+                                Conversion can also fail. Example: <code>int("abc")</code> raises an error.
+                            </p>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">Assign variables</div>
+                                </div>
+                                <pre><code># variable_name = value
+age = 21
+height = 5.9
+name = "Maya"
+is_student = True
+</code></pre>
+                            </div>
+
+                            <p><strong>Important:</strong> Use clear names like <code>user_name</code>,
+                                <code>total_price</code>.</p>
+
+                            <div class="callout tip">
+                                <h3>💡 Output prediction</h3>
+                                <p>
+                                    Consider this snippet:
+                                </p>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">prediction</div>
+                                    </div>
+                                    <pre><code>a = "10"
+b = 2
+print(a + str(b))
+</code></pre>
+                                </div>
+                                <p>
+                                    Output should be <code>102</code> because <code>2</code> is converted to text.
+                                </p>
+                            </div>
+
+                            <p><strong>Time complexity:</strong> O(1) (basic assignments) • <strong>Space:</strong> O(1)
+                                per value.</p>
+                            <p><strong>Alternative approach:</strong> use conversions only at the boundary (e.g., when
+                                reading input).</p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — int, float, str</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">types</div>
+                                </div>
+                                <pre><code>count = 7          # int
+price = 19.99      # float
+label = "Item"     # str
+
+print(count, type(count))
+print(price, type(price))
+print(label, type(label))
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> Values with corresponding types like <code><class 'int'></code>.
+                            </p>
+                            <p><strong>Time:</strong> O(1) • <strong>Space:</strong> O(1)</p>
+                            <p><strong>Alternative approach:</strong> infer type using
+                                <code>isinstance(value, int)</code> (later, but mentioned).</p>
+
+                            <h3>4.2 Medium Example — converting types safely</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">casting</div>
+                                </div>
+                                <pre><code>text_number = "42"
+number = int(text_number)
+
+pi_text = "3.14"
+pi = float(pi_text)
+
+print(number + 8)
+print(pi * 2)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> <code>50</code> and <code>6.28</code></p>
+                            <p><strong>Time:</strong> O(n) for parsing strings of length n • <strong>Space:</strong>
+                                O(1) extra.</p>
+                            <p><strong>Alternative approach:</strong> validate input before converting.</p>
+
+                            <h3>4.3 Advanced Example — bool behaves like int (careful!)</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">bool math</div>
+                                </div>
+                                <pre><code>is_ok = True
+is_fail = False
+
+print(is_ok + 10)   # True behaves like 1
+print(is_fail + 10) # False behaves like 0
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> <code>11</code> then <code>10</code></p>
+                            <p><strong>Time:</strong> O(1) • <strong>Space:</strong> O(1)</p>
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    This is true in Python, but you should not rely on it for readability.
+                                    Prefer explicit logic comparisons.
+                                </p>
+                            </div>
+                            <p><strong>Alternative approach:</strong> use boolean logic: <code>if is_ok:</code>.</p>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: values → types → operations</h3>
+                                <pre><code> [Start]
+    |
+    v
+ [Store a value]
+    |
+    v
+ [Python identifies type]
+    |
+    v
+ [Choose operation]
+ (works only if types fit)
+    |
+    v
+ [Convert types if needed]
+    |
+    v
+ [Output / result]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <p>
+                                Imagine memory as labeled boxes.
+                                Each variable name points to a value box.
+                                Python also keeps track of the type of each value.
+                            </p>
+                            <table class="table" aria-label="Memory types table">
+                                <thead>
+                                    <tr>
+                                        <th>Variable</th>
+                                        <th>Value</th>
+                                        <th>Type</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>age</code></td>
+                                        <td><code>21</code></td>
+                                        <td><code>int</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>price</code></td>
+                                        <td><code>19.99</code></td>
+                                        <td><code>float</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>label</code></td>
+                                        <td><code>"Item"</code></td>
+                                        <td><code>str</code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="callout remember">
+                                <h3>🧠 Memory trick</h3>
+                                <p><strong>int</strong> sounds like <strong>integer</strong> (whole number).</p>
+                                <p><strong>float</strong> sounds like <strong>floating decimals</strong>.</p>
+                                <p><strong>str</strong> = <strong>string</strong> = text.</p>
+                            </div>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">dry run example</div>
+                                </div>
+                                <pre><code>text = "8"
+num = int(text)
+result = num + 1
+print(result)
+</code></pre>
+                            </div>
+
+                            <table class="table" aria-label="Dry run types table">
+                                <thead>
+                                    <tr>
+                                        <th>Step</th>
+                                        <th>Line</th>
+                                        <th>Change</th>
+                                        <th>Memory after</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td><code>text = "8"</code></td>
+                                        <td>Store text</td>
+                                        <td><code>text → "8" (str)</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td><code>num = int(text)</code></td>
+                                        <td>Convert str→int</td>
+                                        <td><code>num → 8 (int)</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td><code>result = ...</code></td>
+                                        <td>Add numbers</td>
+                                        <td><code>result → 9 (int)</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td><code>print(result)</code></td>
+                                        <td>Output</td>
+                                        <td>Shows <code>9</code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <p><strong>Time complexity:</strong> O(n) due to parsing string • <strong>Space:</strong>
+                                O(1) extra.</p>
+                            <p><strong>Alternative approach:</strong> if you already know input is numeric, convert
+                                immediately at the boundary.</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+
+                            <div class="callout note">
+                                <h3>Most useful in this chapter</h3>
+                                <ul>
+                                    <li><code>type(x)</code>: what type is <code>x</code>?</li>
+                                    <li><code>int(x)</code>: convert to integer</li>
+                                    <li><code>float(x)</code>: convert to float</li>
+                                    <li><code>str(x)</code>: convert to string</li>
+                                    <li><code>len(s)</code>: number of characters (for strings)</li>
+                                </ul>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">casting and length</div>
+                                </div>
+                                <pre><code>x = 10
+print(type(x))
+
+s = str(x)
+print(type(s))
+print("length:", len(s))
+</code></pre>
+                            </div>
+
+                            <p><strong>Output:</strong> <code><class 'int'></code>, then <code><class 'str'></code>,
+                                then length <code>2</code>.</p>
+                            <p><strong>Time:</strong> O(n) for <code>len</code> on string length n •
+                                <strong>Space:</strong> O(n) for storing string.</p>
+                            <p><strong>Alternative approach:</strong> avoid converting if you only need printing (use
+                                <code>print</code> directly).</p>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <p>
+                                Methods belong to objects. A string is an object, so it has string methods.
+                            </p>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">string methods</div>
+                                </div>
+                                <pre><code>word = "python"
+print(word.upper())
+print(word.capitalize())
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> <code>PYTHON</code> then <code>Python</code></p>
+                            <p><strong>Time:</strong> O(n) • <strong>Space:</strong> O(n) for new strings.</p>
+                            <p><strong>Alternative approach:</strong> use slicing and manual operations (later
+                                advanced).</p>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is a variable in Python?</li>
+                                <li>Why do types matter?</li>
+                                <li>What is the meaning of “dynamically typed”?</li>
+                                <li>What are common Python data types?</li>
+                                <li>How do you check the type of a value?</li>
+                                <li>What is the type of <code>3</code>?</li>
+                                <li>What is the type of <code>3.14</code>?</li>
+                                <li>What is the type of <code>"abc"</code>?</li>
+                                <li>What is the type of <code>True</code>?</li>
+                                <li>How do you convert a string to an integer?</li>
+                                <li>How do you convert an integer to a string?</li>
+                                <li>What happens if you try <code>int("abc")</code>?</li>
+                                <li>Why does <code>"5" + 2</code> fail?</li>
+                                <li>When is it safe to do <code>"5" + str(2)</code>?</li>
+                                <li>Explain the difference between value and variable name.</li>
+                                <li>Can a variable change its type?</li>
+                                <li>How does indentation affect code blocks (review)?</li>
+                                <li>What is type conversion (casting)?</li>
+                                <li>What built-in functions do you use for casting?</li>
+                                <li>What is <code>len()</code> used for?</li>
+                                <li>What are string methods?</li>
+                                <li>Give one example of a string method.</li>
+                                <li>What is the output type of <code>"hello".upper()</code>?</li>
+                                <li>Why is relying on <code>bool</code> as <code>int</code> risky?</li>
+                                <li>How would you debug a TypeError?</li>
+                                <li>What does <code>type()</code> return?</li>
+                                <li>What is a common beginner mistake with quotes?</li>
+                                <li>How do you write readable variable names?</li>
+                                <li>Explain a safe rule for converting types.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>What does a variable store?
+                                    <ul>
+                                        <li>A) Only instructions</li>
+                                        <li>B) Values</li>
+                                        <li>C) Only file paths</li>
+                                        <li>D) Only comments</li>
+                                    </ul>
+                                </li>
+                                <li><code>x = 3</code> makes <code>x</code> an:
+                                    <ul>
+                                        <li>A) float</li>
+                                        <li>B) int</li>
+                                        <li>C) str</li>
+                                        <li>D) bool</li>
+                                    </ul>
+                                </li>
+                                <li><code>x = 3.5</code> makes <code>x</code> an:
+                                    <ul>
+                                        <li>A) int</li>
+                                        <li>B) str</li>
+                                        <li>C) float</li>
+                                        <li>D) bool</li>
+                                    </ul>
+                                </li>
+                                <li><code>x = "3"</code> makes <code>x</code> an:
+                                    <ul>
+                                        <li>A) int</li>
+                                        <li>B) str</li>
+                                        <li>C) float</li>
+                                        <li>D) list</li>
+                                    </ul>
+                                </li>
+                                <li><code>type(x)</code> returns:
+                                    <ul>
+                                        <li>A) the value</li>
+                                        <li>B) the data type</li>
+                                        <li>C) the variable name</li>
+                                        <li>D) the memory address only</li>
+                                    </ul>
+                                </li>
+                                <li>Python is dynamically typed because:
+                                    <ul>
+                                        <li>A) you must declare types</li>
+                                        <li>B) Python decides types at runtime</li>
+                                        <li>C) types never change</li>
+                                        <li>D) types are stored as comments</li>
+                                    </ul>
+                                </li>
+                                <li>Which conversion turns a string into an int?
+                                    <ul>
+                                        <li>A) <code>float("10")</code></li>
+                                        <li>B) <code>int("10")</code></li>
+                                        <li>C) <code>str("10")</code></li>
+                                        <li>D) <code>type("10")</code></li>
+                                    </ul>
+                                </li>
+                                <li>Which conversion turns an int into a string?
+                                    <ul>
+                                        <li>A) <code>int(10)</code></li>
+                                        <li>B) <code>str(10)</code></li>
+                                        <li>C) <code>float(10)</code></li>
+                                        <li>D) <code>type(10)</code></li>
+                                    </ul>
+                                </li>
+                                <li>What is the result of <code>"a" + "b"</code>?
+                                    <ul>
+                                        <li>A) error</li>
+                                        <li>B) "ab"</li>
+                                        <li>C) 0</li>
+                                        <li>D) True</li>
+                                    </ul>
+                                </li>
+                                <li>What happens in <code>"5" + 2</code>?
+                                    <ul>
+                                        <li>A) returns 7</li>
+                                        <li>B) returns "52"</li>
+                                        <li>C) raises TypeError</li>
+                                        <li>D) returns None</li>
+                                    </ul>
+                                </li>
+                                <li><code>bool</code> values are:
+                                    <ul>
+                                        <li>A) 0 and 1 only</li>
+                                        <li>B) True and False</li>
+                                        <li>C) strings "yes" "no"</li>
+                                        <li>D) floating decimals</li>
+                                    </ul>
+                                </li>
+                                <li><code>len("hello")</code> returns:
+                                    <ul>
+                                        <li>A) 5</li>
+                                        <li>B) "hello"</li>
+                                        <li>C) 0</li>
+                                        <li>D) TypeError</li>
+                                    </ul>
+                                </li>
+                                <li>What is a string method?
+                                    <ul>
+                                        <li>A) a built-in keyword</li>
+                                        <li>B) a function that belongs to a string object</li>
+                                        <li>C) only a loop tool</li>
+                                        <li>D) a module import</li>
+                                    </ul>
+                                </li>
+                                <li><code>"python".upper()</code> returns:
+                                    <ul>
+                                        <li>A) python</li>
+                                        <li>B) PYTHON</li>
+                                        <li>C) 0</li>
+                                        <li>D) None</li>
+                                    </ul>
+                                </li>
+                                <li>What is casting?
+                                    <ul>
+                                        <li>A) changing type of a value</li>
+                                        <li>B) renaming a variable</li>
+                                        <li>C) deleting code</li>
+                                        <li>D) writing comments</li>
+                                    </ul>
+                                </li>
+                                <li>Why can <code>int("abc")</code> fail?
+                                    <ul>
+                                        <li>A) string is empty</li>
+                                        <li>B) string is not a valid number</li>
+                                        <li>C) int cannot exist</li>
+                                        <li>D) Python blocks conversion</li>
+                                    </ul>
+                                </li>
+                                <li>Which is best for readable code?
+                                    <ul>
+                                        <li>A) x1</li>
+                                        <li>B) age_in_years</li>
+                                        <li>C) a</li>
+                                        <li>D) tmp</li>
+                                    </ul>
+                                </li>
+                                <li>A variable name like <code>total_price</code> uses:
+                                    <ul>
+                                        <li>A) camelCase</li>
+                                        <li>B) snake_case</li>
+                                        <li>C) kebab-case</li>
+                                        <li>D) spaces</li>
+                                    </ul>
+                                </li>
+                                <li>Can a variable change its type in Python?
+                                    <ul>
+                                        <li>A) No, never</li>
+                                        <li>B) Yes, if you assign a new value</li>
+                                        <li>C) Only in functions</li>
+                                        <li>D) Only in loops</li>
+                                    </ul>
+                                </li>
+                                <li>Which is an int? <code>-5</code>
+                                    <ul>
+                                        <li>A) str</li>
+                                        <li>B) int</li>
+                                        <li>C) float</li>
+                                        <li>D) bool</li>
+                                    </ul>
+                                </li>
+                                <li>Which is a float? <code>0.0</code>
+                                    <ul>
+                                        <li>A) int</li>
+                                        <li>B) float</li>
+                                        <li>C) str</li>
+                                        <li>D) bool</li>
+                                    </ul>
+                                </li>
+                                <li>What does TypeError usually mean?
+                                    <ul>
+                                        <li>A) wrong type used in operation</li>
+                                        <li>B) indentation issue</li>
+                                        <li>C) file not found</li>
+                                        <li>D) network error</li>
+                                    </ul>
+                                </li>
+                                <li>What does <code>str(10)</code> produce?
+                                    <ul>
+                                        <li>A) number 10</li>
+                                        <li>B) text "10"</li>
+                                        <li>C) boolean True</li>
+                                        <li>D) error</li>
+                                    </ul>
+                                </li>
+                                <li>Good practice when mixing types is:
+                                    <ul>
+                                        <li>A) just add and hope</li>
+                                        <li>B) convert explicitly</li>
+                                        <li>C) remove types</li>
+                                        <li>D) use no quotes</li>
+                                    </ul>
+                                </li>
+                                <li>Which is True?
+                                    <ul>
+                                        <li>A) <code>True</code></li>
+                                        <li>B) <code>true</code></li>
+                                        <li>C) <code>TRUE</code></li>
+                                        <li>D) <code>Yes</code></li>
+                                    </ul>
+                                </li>
+                                <li><code>"7" * 3</code> returns:
+                                    <ul>
+                                        <li>A) 21</li>
+                                        <li>B) "777"</li>
+                                        <li>C) TypeError</li>
+                                        <li>D) 0</li>
+                                    </ul>
+                                </li>
+                                <li>Which statement is correct?
+                                    <ul>
+                                        <li>A) <code>print(type(5))</code> shows type</li>
+                                        <li>B) <code>print(type(5))</code> shows value only</li>
+                                        <li>C) <code>print(type(5))</code> prints nothing</li>
+                                        <li>D) It changes type</li>
+                                    </ul>
+                                </li>
+                                <li>String conversion uses:
+                                    <ul>
+                                        <li>A) <code>str()</code></li>
+                                        <li>B) <code>int()</code></li>
+                                        <li>C) <code>float()</code></li>
+                                        <li>D) <code>types()</code></li>
+                                    </ul>
+                                </li>
+                            </ol>
+
+                            <div class="callout tip" style="margin-top:12px;">
+                                <h3>Note</h3>
+                                <p>
+                                    This chapter includes more than 30 MCQs. Each MCQ is designed to build intuition.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Create <code>age = 25</code> and print <code>age</code>.</li>
+                                <li>Create <code>height = 5.7</code> and print <code>height</code>.</li>
+                                <li>Create <code>name = "Sam"</code> and print <code>name</code>.</li>
+                                <li>Create <code>is_ready = True</code> and print it.</li>
+                                <li>Print <code>type(3)</code>, <code>type(3.0)</code>, <code>type("x")</code>.</li>
+                                <li>Convert <code>"12"</code> to int and add 8.</li>
+                                <li>Convert <code>"3.5"</code> to float and multiply by 2.</li>
+                                <li>Convert <code>99</code> to string and print its length.</li>
+                                <li>Try <code>"5" + "6"</code> and print result.</li>
+                                <li>Try <code>"5" + str(6)</code> and print result.</li>
+                                <li>Print <code>bool(0)</code> and <code>bool(1)</code>.</li>
+                                <li>Print <code>str(10)</code> and check <code>type</code>.</li>
+                                <li>Set <code>a = 1</code>, <code>b = 2</code> and print <code>a + b</code>.</li>
+                                <li>Set <code>s = "hi"</code> and print <code>s.upper()</code>.</li>
+                                <li>Write code to print <code>"Hello " + name</code>.</li>
+                                <li>Compute <code>2.5 + 1.5</code> and print.</li>
+                                <li>Compute <code>10 - 3</code> and print.</li>
+                                <li>Create <code>total = 0</code> and print it.</li>
+                                <li>Create <code>active = False</code> and print.</li>
+                                <li>Predict output: <code>"a" * 3</code>. Then run.</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Convert input string variable <code>t = "42"</code> to int and print +10.</li>
+                                <li>Convert <code>f = "2.75"</code> to float and print <code>f * f</code>.</li>
+                                <li>Build a sentence using string conversion: <code>age = 18</code>, print
+                                    <code>"I am 18 years"</code>.</li>
+                                <li>Check types using <code>type()</code> for all variables you created.</li>
+                                <li>Combine number and text properly: print <code>"ID: " + str(1001)</code>.</li>
+                                <li>Convert <code>"001"</code> to int and print it.</li>
+                                <li>Create <code>flag = True</code> and print <code>type(flag)</code>.</li>
+                                <li>Try <code>bool("")</code> and <code>bool("x")</code>. Predict first.</li>
+                                <li>Convert a numeric string to float and then to int (show with print).</li>
+                                <li>Calculate average: convert numbers from strings to floats, average them.</li>
+                                <li>Create two variables <code>a</code> and <code>b</code> as strings, then convert to
+                                    int and add.</li>
+                                <li>Make a “score” report: <code>score = 88</code>, <code>grade = str(score)</code>,
+                                    print nicely.</li>
+                                <li>Compute <code>"5" + str(5)</code> and explain why it’s not numeric addition.</li>
+                                <li>Check length of a number after converting to string.</li>
+                                <li>Use <code>capitalize()</code> on a name variable.</li>
+                                <li>Use <code>upper()</code> then print it.</li>
+                                <li>Write a small calculator: add two numeric strings safely.</li>
+                                <li>Store <code>x = 10</code>. Create <code>y = x / 2</code>. Print types of x and y.
+                                </li>
+                                <li>Predict: is <code>type(10/2)</code> int or float? Then verify.</li>
+                                <li>Make boolean comparisons: <code>a = 5</code>, <code>b = 3</code>, print
+                                    <code>a > b</code>.</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Write a function that takes a string number and returns int, with error handling
+                                    (conceptual).</li>
+                                <li>Create a converter that tries <code>int</code>, if fails tries <code>float</code>,
+                                    if fails returns original text.</li>
+                                <li>Given text representing money like <code>"19.99"</code>, convert to float and print
+                                    with 2 decimals.</li>
+                                <li>Parse a sentence like <code>"age:21"</code> to get number (use slicing basics).</li>
+                                <li>Build a safe “add values” script that converts both sides to int if possible.</li>
+                                <li>Check types before doing operations. Print helpful messages.</li>
+                                <li>Write code that ensures a user age is an int and is not negative.</li>
+                                <li>Normalize boolean input text <code>"true"/"false"</code> to real bool.</li>
+                                <li>Write a script that stores mixed values and prints their <code>type</code>.</li>
+                                <li>Predict and verify: <code>"0" == 0</code> and explain.</li>
+                                <li>Predict and verify: <code>bool("0")</code> is True or False? Explain.</li>
+                                <li>Implement a “format report” function using <code>str()</code> and concatenation.
+                                </li>
+                                <li>Create a tiny menu using strings and numeric choices; convert choice to int.</li>
+                                <li>Write code that converts temperature from string to float and applies formula.</li>
+                                <li>Build a script that reads numeric strings (simulate with variables) and prints typed
+                                    results.</li>
+                                <li>Create a list of values and print each value + its type (loop later but attempt).
+                                </li>
+                                <li>Write code to show <code>int</code> vs <code>float</code> division for a few
+                                    numbers.</li>
+                                <li>Prevent TypeError: implement checks using <code>isinstance</code>.</li>
+                                <li>Write a safe conversion wrapper that returns <code>None</code> on failure.</li>
+                                <li>Explain in comments why <code>"10" + "5"</code> is not 15.</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment03.py</code>. Store name (str), age (int), height (float).
+                                    Print each value and its type.</li>
+                                <li>Write code that converts <code>"100"</code> to int and prints it + 25.</li>
+                                <li>Write code that converts <code>"19.5"</code> to float and prints it * 3.</li>
+                                <li>Build a sentence: <code>"User: {name}, Age: {age}"</code> using string conversion.
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Type Detective</h3>
+                                <p>Create a script that stores 6 values of different types and prints:</p>
+                                <ul>
+                                    <li>the value</li>
+                                    <li>the type name</li>
+                                </ul>
+                            </div>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">starter</div>
+                                </div>
+                                <pre><code>values = [
+    10,
+    3.14,
+    "hello",
+    True,
+    False,
+    "99"
+]
+
+for v in values:
+    print(v, "→", type(v))
+</code></pre>
+                            </div>
+
+                            <p><strong>Expected output:</strong> Each line shows value and its type. Note that
+                                <code>"99"</code> is a <code>str</code>, not an int.</p>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+
+                            <div class="callout warning">
+                                <h3>Case 1</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>a = 5
+b = "10"
+print(a + b)
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> convert <code>b</code> to int: <code>print(a + int(b))</code>.
+                                </p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>text = "abc"
+num = int(text)
+print(num)
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> only convert numeric strings. For non-numeric text, handle
+                                    errors or validate input.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">Python</div>
+                                        <div class="meta">bug</div>
+                                    </div>
+                                    <pre><code>age = 20
+print("Age is: " + age)
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> convert age to string:
+                                    <code>print("Age is: " + str(age))</code>.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>TypeError:</strong> wrong types used with an operator (e.g.,
+                                    <code>"5" + 2</code>).</li>
+                                <li><strong>ValueError:</strong> conversion fails (e.g., <code>int("abc")</code>).</li>
+                                <li><strong>NameError:</strong> variable used before assignment (review from Chapter
+                                    01).</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Convert explicitly when mixing types.</li>
+                                <li>Keep conversions near where data enters the program (input boundary).</li>
+                                <li>Use comments to document why you converted types.</li>
+                                <li>Use descriptive variable names.</li>
+                                <li>Use <code>type()</code> when confused.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                You learned that variables store values and types describe how Python treats those
+                                values.
+                                Python decides types dynamically. You also learned conversion rules and why mixing types
+                                can raise errors.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Type conversion cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Goal</th>
+                                        <th>Write</th>
+                                        <th>Result</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Check type</td>
+                                        <td><code>type(x)</code></td>
+                                        <td>Returns type object</td>
+                                    </tr>
+                                    <tr>
+                                        <td>To int</td>
+                                        <td><code>int("10")</code></td>
+                                        <td>10</td>
+                                    </tr>
+                                    <tr>
+                                        <td>To float</td>
+                                        <td><code>float("3.14")</code></td>
+                                        <td>3.14</td>
+                                    </tr>
+                                    <tr>
+                                        <td>To string</td>
+                                        <td><code>str(10)</code></td>
+                                        <td>"10"</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Receipt Total</h3>
+                                <p>Store these values as strings:</p>
+                                <ul>
+                                    <li><code>item_price = "19.99"</code></li>
+                                    <li><code>quantity = "3"</code></li>
+                                </ul>
+                                <p>Convert to numbers, compute total, and print:</p>
+                                <p><code>Total = 59.97</code></p>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What does <code>type()</code> do?</li>
+                                <li>What is an <code>int</code>?</li>
+                                <li>What is a <code>float</code>?</li>
+                                <li>Why does <code>"5" + 2</code> fail?</li>
+                                <li>How do you convert <code>"42"</code> to an integer?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Example MCQ explanations</h3>
+                                <ol>
+                                    <li><strong>B</strong> because variables store values you can use later.</li>
+                                    <li><strong>B</strong> because <code>3</code> is a whole number → <code>int</code>.
+                                    </li>
+                                    <li><strong>C</strong> because decimals like <code>3.5</code> are
+                                        <code>float</code>.</li>
+                                    <li><strong>B</strong> because quotes mean text → <code>str</code>.</li>
+                                    <li><strong>B</strong> because <code>type(x)</code> tells you the data type.</li>
+                                    <li><strong>B</strong> because Python figures out types at runtime.</li>
+                                    <li><strong>B</strong> because <code>int("10")</code> parses the string into an
+                                        integer.</li>
+                                    <li><strong>B</strong> because <code>str(10)</code> converts numbers into text.</li>
+                                    <li><strong>B</strong> because adding strings concatenates (joins) them.</li>
+                                    <li><strong>C</strong> because text and integer addition is not allowed.</li>
+                                </ol>
+                            </div>
+
+                            <div class="callout remember">
+                                <h3>Debugging recap</h3>
+                                <ul>
+                                    <li><strong>TypeError with string + number:</strong> convert one side using
+                                        <code>int()</code> or <code>str()</code>.</li>
+                                    <li><strong>ValueError with int conversion:</strong> ensure the string contains
+                                        numeric characters.</li>
+                                    <li><strong>Indentation issues:</strong> not part of this chapter, but always
+                                        required for blocks.</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div>
+                                    <a class="btn" style="visibility:hidden;" data-prev>Previous</a>
+                                </div>
+                                <div>
+                                    <a class="btn primary" data-next href="chapter-04.html">Next Chapter</a>
+                                </div>
+                            </div>
+
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

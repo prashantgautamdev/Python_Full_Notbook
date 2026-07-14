@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 32 — Logging</title>
+    <meta name="description"
+        content="Chapter 32: Logging. Learn Python logging levels, formatters, handlers, and good logging practices." />
+    <link rel="canonical" href="./chapters/chapter-32.html" />
+
+    <meta property="og:title" content="Chapter 32 — Logging" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="Learn Python logging fundamentals with practice and explained answers." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 32 — Logging" />
+    <meta name="twitter:description" content="Logging levels, handlers, and best practices." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 32 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout remember" style="margin-top:12px;">
+                        <h3>⭐ Remember</h3>
+                        <p>
+                            Logging is like a diary for your program.
+                            It helps you understand what happened after a crash.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 32</div>
+                        <h1 class="chapter-title">Chapter 32 — Logging</h1>
+                        <p class="subtle">Learn Python logging: levels, how to configure output, and how to use logs for
+                            debugging.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-31.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <ul>
+                                    <li>Understand what logging is and why it’s better than only <code>print()</code>.
+                                    </li>
+                                    <li>Use logging levels: DEBUG, INFO, WARNING, ERROR, CRITICAL.</li>
+                                    <li>Configure log output formatting and handlers (concept + example).</li>
+                                    <li>Write logs to help debug problems later.</li>
+                                    <li>Apply logging patterns in practice and mini project.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                When your program fails, <code>print()</code> helps only if you added it earlier.
+                                Logging gives structured information and can be turned up/down by level.
+                            </p>
+                            <p>
+                                In this chapter, you learn Python’s built-in <code>logging</code> module.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 Levels</h3>
+                            <p>
+                                Logging levels tell how serious a message is:
+                            </p>
+                            <ul>
+                                <li><strong>DEBUG</strong>: detailed developer info</li>
+                                <li><strong>INFO</strong>: normal progress</li>
+                                <li><strong>WARNING</strong>: something might go wrong</li>
+                                <li><strong>ERROR</strong>: operation failed</li>
+                                <li><strong>CRITICAL</strong>: system is unusable</li>
+                            </ul>
+
+                            <h3>2.2 Handlers (concept)</h3>
+                            <p>
+                                A handler decides where logs go:
+                                console, file, or other systems.
+                            </p>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    Don’t log secrets like passwords or API keys.
+                                    Mask sensitive values.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">basic logging</div>
+                                </div>
+                                <pre><code>import logging
+
+logging.basicConfig(
+    level=logging.INFO,  # show INFO and above
+    format="%(levelname)s: %(message)s"
+)
+
+logging.debug("This debug is hidden")
+logging.info("Program started")
+logging.warning("Low memory warning")
+logging.error("Something failed")
+</code></pre>
+                            </div>
+
+                            <p><strong>Output:</strong> typically shows <code>INFO</code>, <code>WARNING</code>,
+                                <code>ERROR</code> lines only.
+                            </p>
+                            <p><strong>Time:</strong> O(1) per log call • <strong>Space:</strong> small (message
+                                string).</p>
+                            <p><strong>Alternative:</strong> use <code>print()</code for quick demos, but use logging for real apps.</p>
+            </section>
+
+            <section id="examples">
+              <h2>4) Examples</h2>
+
+              <h3>4.1 Easy Example — logging around a risky operation</h3>
+              <div class="code-card">
+                <div class="code-header"><div class="lang">Python</div><div class="meta">try/except + logs</div></div>
+                <pre><code>import logging
+
+logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+
+def parse_int(s):
+    # Convert string to int
+    try:
+        value = int(s)
+        logging.info("Parsed %r into %d", s, value)
+        return value
+    except ValueError:
+        logging.error("Could not parse %r as int", s)
+        return None
+
+print(parse_int("12"))
+print(parse_int("abc"))
+</code></pre>
+                    </div>
+                    <p><strong>Output:</strong> logs + prints <code>12</code> then <code>None</code>.</p>
+
+                    <h3>4.2 Medium Example — log to a file (concept)</h3>
+                    <div class="code-card">
+                        <div class="code-header">
+                            <div class="lang">Python</div>
+                            <div class="meta">file handler idea</div>
+                        </div>
+                        <pre><code># Concept: file logs
+import logging
+
+logger = logging.getLogger("app")
+logger.setLevel(logging.DEBUG)
+
+# In real code you'd add a FileHandler to send messages to a file.
+# For this chapter, focus on the idea: handlers decide destinations.
+</code></pre>
+                    </div>
+
+                    <h3>4.3 Advanced Example — conditional debug (concept)</h3>
+                    <div class="code-card">
+                        <div class="code-header">
+                            <div class="lang">Python</div>
+                            <div class="meta">avoid expensive debug strings</div>
+                        </div>
+                        <pre><code>import logging
+
+logging.basicConfig(level=logging.WARNING)
+
+for i in range(3):
+    # Only build message if DEBUG is enabled (concept pattern)
+    logging.debug("Index=%s", i)
+
+logging.warning("Finished loop")
+</code></pre>
+                    </div>
+                    <p><strong>Output:</strong> only <code>WARNING</code> appears if level is WARNING.</p>
+                    </section>
+
+                    <section id="flow">
+                        <h2>5) Flow Diagram</h2>
+                        <div class="callout note">
+                            <h3>Flowchart: logging flow</h3>
+                            <pre><code>[Call logging.info/warning...]
+           |
+           v
+ [Create log record (level+message)]
+           |
+           v
+   [Check current level]
+       /      \
+   shown      hidden
+     |           |
+     v           v
+[Send to handlers] [Do nothing]
+     |
+     v
+[Handler writes to console/file]
+</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="memory">
+                        <h2>6) Memory Visualization</h2>
+                        <table class="table" aria-label="Logging memory">
+                            <thead>
+                                <tr>
+                                    <th>Object</th>
+                                    <th>Stored info</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Log record</td>
+                                    <td>level + message</td>
+                                </tr>
+                                <tr>
+                                    <td>Formatter</td>
+                                    <td>pattern like %(levelname)s</td>
+                                </tr>
+                                <tr>
+                                    <td>Handler</td>
+                                    <td>destination (console/file)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section id="dryrun">
+                        <h2>7) Dry Run</h2>
+                        <div class="code-card">
+                            <div class="code-header">
+                                <div class="lang">Dry run</div>
+                                <div class="meta">level filter</div>
+                            </div>
+                            <pre><code>Set logging level to INFO.
+
+Call sequence:
+logging.debug(...)  → DEBUG is below INFO → hidden
+logging.info(...)   → shown
+logging.error(...)  → shown
+</code></pre>
+                        </div>
+                        <p><strong>Time:</strong> O(1) per log call.</p>
+                    </section>
+
+                    <section id="builtins">
+                        <h2>8) Built-in Functions</h2>
+                        <ul>
+                            <li><code>print()</code> used only to display final results.</li>
+                        </ul>
+                    </section>
+
+                    <section id="methods">
+                        <h2>9) Methods</h2>
+                        <div class="callout note">
+                            <h3>Common logging calls</h3>
+                            <ul>
+                                <li><code>logging.basicConfig(...)</code></li>
+                                <li><code>logging.debug/info/warning/error/critical</code></li>
+                                <li><code>logging.getLogger(name)</code> (concept)</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section id="interview">
+                        <h2>10) Interview Questions (Minimum 30)</h2>
+                        <ol>
+                            <li>What is logging?</li>
+                            <li>Why is logging better than print in real apps?</li>
+                            <li>What are logging levels?</li>
+                            <li>What does DEBUG mean?</li>
+                            <li>What does INFO mean?</li>
+                            <li>What does WARNING mean?</li>
+                            <li>What does ERROR mean?</li>
+                            <li>What does CRITICAL mean?</li>
+                            <li>What does <code>basicConfig</code> do?</li>
+                            <li>What is a formatter?</li>
+                            <li>What is a handler?</li>
+                            <li>Where do logs go by default?</li>
+                            <li>How do you change how verbose logs are?</li>
+                            <li>What is the logging “level filter” idea?</li>
+                            <li>What is a logger?</li>
+                            <li>Can you create multiple loggers (concept)?</li>
+                            <li>Why should you mask secrets in logs?</li>
+                            <li>How do you log exceptions (concept)?</li>
+                            <li>When do you use debug logs?</li>
+                            <li>When do you use warning logs?</li>
+                            <li>Should you log every single step in production?</li>
+                            <li>What is the difference between message and log record?</li>
+                            <li>Why use parameterized messages like <code>%s</code>?</li>
+                            <li>What is lazy evaluation (concept)?</li>
+                            <li>How does log formatting work with <code>%(name)s</code>?</li>
+                            <li>What is a log file rotation (concept)?</li>
+                            <li>What is the purpose of timestamps in logs (concept)?</li>
+                            <li>How can logs help debugging?</li>
+                            <li>How do logs help in monitoring?</li>
+                        </ol>
+                    </section>
+
+                    <section id="mcq">
+                        <h2>11) MCQs (Minimum 30)</h2>
+                        <ol>
+                            <li>Logging is primarily for:
+                                <ul>
+                                    <li>A) styling</li>
+                                    <li>B) recording program events</li>
+                                    <li>C) training models</li>
+                                    <li>D) CSS caching</li>
+                                </ul>
+                            </li>
+                            <li><code>logging.info</code> is:
+                                <ul>
+                                    <li>A) too detailed</li>
+                                    <li>B) normal progress</li>
+                                    <li>C) only errors</li>
+                                    <li>D) always hidden</li>
+                                </ul>
+                            </li>
+                            <li><code>logging.debug</code> is typically used for:
+                                <ul>
+                                    <li>A) deep developer details</li>
+                                    <li>B) only final output</li>
+                                    <li>C) only HTML</li>
+                                    <li>D) nothing</li>
+                                </ul>
+                            </li>
+                            <li>WARNING is usually:
+                                <ul>
+                                    <li>A) serious failure</li>
+                                    <li>B) potential issue</li>
+                                    <li>C) success</li>
+                                    <li>D) debug only</li>
+                                </ul>
+                            </li>
+                            <li>ERROR means:
+                                <ul>
+                                    <li>A) operation failed</li>
+                                    <li>B) everything ok</li>
+                                    <li>C) theme changed</li>
+                                    <li>D) JSON parsed</li>
+                                </ul>
+                            </li>
+                            <li>CRITICAL means:
+                                <ul>
+                                    <li>A) unusable system</li>
+                                    <li>B) always safe</li>
+                                    <li>C) no logs</li>
+                                    <li>D) UI update</li>
+                                </ul>
+                            </li>
+                            <li><code>basicConfig</code> configures:
+                                <ul>
+                                    <li>A) log level, formatter defaults, handlers</li>
+                                    <li>B) only CSS</li>
+                                    <li>C) database schema</li>
+                                    <li>D) file list</li>
+                                </ul>
+                            </li>
+                            <li>Formatter is for:
+                                <ul>
+                                    <li>A) message structure</li>
+                                    <li>B) file extension</li>
+                                    <li>C) HTML layout</li>
+                                    <li>D) sorting</li>
+                                </ul>
+                            </li>
+                            <li>Handler is for:
+                                <ul>
+                                    <li>A) destination of logs</li>
+                                    <li>B) parsing CSV</li>
+                                    <li>C) UI theme</li>
+                                    <li>D) regex replace</li>
+                                </ul>
+                            </li>
+                            <li>Set logging level to WARNING shows:
+                                <ul>
+                                    <li>A) only warnings and errors</li>
+                                    <li>B) only debug</li>
+                                    <li>C) everything including debug</li>
+                                    <li>D) nothing</li>
+                                </ul>
+                            </li>
+                            <li>Masked secrets means:
+                                <ul>
+                                    <li>A) never log passwords</li>
+                                    <li>B) print passwords</li>
+                                    <li>C) hide UI</li>
+                                    <li>D) delete db</li>
+                                </ul>
+                            </li>
+                            <li>Logs help debugging because:
+                                <ul>
+                                    <li>A) show what happened</li>
+                                    <li>B) change code automatically</li>
+                                    <li>C) replace tests</li>
+                                    <li>D) update CSS</li>
+                                </ul>
+                            </li>
+                            <li>Parameter formats like <code>%s</code> help by:
+                                <ul>
+                                    <li>A) creating strings always</li>
+                                    <li>B) deferring formatting (concept)</li>
+                                    <li>C) changing theme</li>
+                                    <li>D) adding HTML</li>
+                                </ul>
+                            </li>
+                            <li>logging levels are ordered:
+                                <ul>
+                                    <li>A) from least to most severe</li>
+                                    <li>B) random</li>
+                                    <li>C) from most to least always</li>
+                                    <li>D) none</li>
+                                </ul>
+                            </li>
+                            <li>When debug is hidden, you still call:</li>
+                            <ul>
+                                <li>A) debug</li>
+                                <li>B) info always</li>
+                                <li>C) error only</li>
+                                <li>D) nothing</li>
+                            </ul>
+                            </li>
+                            <li>A handler can be console:
+                                <ul>
+                                    <li>A) true</li>
+                                    <li>B) false</li>
+                                </ul>
+                            </li>
+                            <li>A handler can be file:
+                                <ul>
+                                    <li>A) true</li>
+                                    <li>B) false</li>
+                                </ul>
+                            </li>
+                            <li>Logging should be used for:
+                                <ul>
+                                    <li>A) monitoring app health (concept)</li>
+                                    <li>B) only styling</li>
+                                    <li>C) only DB schema</li>
+                                    <li>D) only fonts</li>
+                                </ul>
+                            </li>
+                            <li>What is INFO typically for?
+                                <ul>
+                                    <li>A) normal events</li>
+                                    <li>B) crash only</li>
+                                    <li>C) HTML parsing</li>
+                                    <li>D) network ports</li>
+                                </ul>
+                            </li>
+                            <li>What is WARNING typically for?
+                                <ul>
+                                    <li>A) potential trouble</li>
+                                    <li>B) always crash</li>
+                                    <li>C) always success</li>
+                                    <li>D) delete table</li>
+                                </ul>
+                            </li>
+                            <li>ERROR typically implies:
+                                <ul>
+                                    <li>A) request failed</li>
+                                    <li>B) theme toggled</li>
+                                    <li>C) search highlight</li>
+                                    <li>D) test passed</li>
+                                </ul>
+                            </li>
+                            <li>CRITICAL implies:
+                                <ul>
+                                    <li>A) system not functioning</li>
+                                    <li>B) minor style issue</li>
+                                    <li>C) CSS only</li>
+                                    <li>D) no data</li>
+                                </ul>
+                            </li>
+                            <li><code>logging.error</code> is not used for:
+                                <ul>
+                                    <li>A) server crash logs</li>
+                                    <li>B) failure in an operation</li>
+                                    <li>C) potential issues</li>
+                                    <li>D) wrong input handling</li>
+                                </ul>
+                            </li>
+                            <li>Good logging practice includes:
+                                <ul>
+                                    <li>A) helpful messages and levels</li>
+                                    <li>B) logging secrets</li>
+                                    <li>C) random logs</li>
+                                    <li>D) no context</li>
+                                </ul>
+                            </li>
+                            <li>Log levels let you:
+                                <ul>
+                                    <li>A) control verbosity</li>
+                                    <li>B) control CSS</li>
+                                    <li>C) control thread count</li>
+                                    <li>D) control database tables</li>
+                                </ul>
+                            </li>
+                            <li>Formatter uses patterns like:
+                                <ul>
+                                    <li>A) %(levelname)s</li>
+                                    <li>B) %(color)s</li>
+                                    <li>C) %(font)s</li>
+                                    <li>D) %(db)s</li>
+                                </ul>
+                            </li>
+                            <li>BasicConfig is usually called once:
+                                <ul>
+                                    <li>A) true</li>
+                                    <li>B) false</li>
+                                </ul>
+                            </li>
+                            <li>Logging can replace many <code>print()</code> statements:
+                                <ul>
+                                    <li>A) true</li>
+                                    <li>B) false</li>
+                                </ul>
+                            </li>
+                            <li>Lazy formatting concept means:
+                                <ul>
+                                    <li>A) don’t build message if level hidden</li>
+                                    <li>B) build always</li>
+                                    <li>C) ignore level</li>
+                                    <li>D) delete logs</li>
+                                </ul>
+                            </li>
+                            <li>Logs should be used to:
+                                <ul>
+                                    <li>A) understand program history</li>
+                                    <li>B) hide errors</li>
+                                    <li>C) change UI</li>
+                                    <li>D) avoid tests</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </section>
+
+                    <section id="practice">
+                        <h2>12) Coding Practice</h2>
+                        <h3>Easy (20)</h3>
+                        <ol>
+                            <li>Configure logging with level=INFO and a custom formatter.</li>
+                            <li>Log DEBUG, INFO, WARNING, ERROR and observe which appear.</li>
+                            <li>Write function <code>parse_int(s)</code> and log success/failure.</li>
+                            <li>Write function <code>safe_divide(a,b)</code> and log division by zero.</li>
+                            <li>Use logging parameter formatting <code>logger.info("x=%s", x)</code>.</li>
+                            <li>Print final results but rely on logs for internal events.</li>
+                            <li>Add a log at function start and end for a small computation.</li>
+                            <li>Change level to WARNING and confirm fewer logs show.</li>
+                            <li>Add logging messages for loop progress in a small loop.</li>
+                            <li>Create a constant logger name and reuse it.</li>
+                            <li>Mask a fake “password” variable in logs (concept).</li>
+                            <li>Write a helper <code>log_event(level, msg)</code> (concept).</li>
+                            <li>Predict which message prints given log level.</li>
+                            <li>Add a try/except and log exception type.</li>
+                            <li>Write a validator function that logs warnings for suspicious input.</li>
+                            <li>Dry run: explain what happens when int parsing fails.</li>
+                            <li>Log counts and show how logs help understanding data flow.</li>
+                            <li>Test: intentionally cause ValueError and check logs.</li>
+                            <li>Make one log message more informative and explain why.</li>
+                            <li>Remove noisy debug logs and keep important info.</li>
+                        </ol>
+
+                        <h3>Medium (20)</h3>
+                        <ol>
+                            <li>Create <code>logger = logging.getLogger("myapp")</code> and configure it (concept).</li>
+                            <li>Implement log function that includes module name (concept).</li>
+                            <li>Write <code>process_file(path)</code> that logs file start/end.</li>
+                            <li>Log warnings for empty files (concept).</li>
+                            <li>Log error when file not found.</li>
+                            <li>Write a mini pipeline: read → transform → save, logging each step.</li>
+                            <li>Ensure logs include file name and count of items (concept).</li>
+                            <li>Practice debugging using logs: trace wrong output.</li>
+                            <li>Implement log levels based on input size (concept).</li>
+                            <li>Write tests that verify logging doesn’t crash (concept).</li>
+                            <li>Implement a context manager that logs enter/exit (design).</li>
+                            <li>Dry run: predict log output for success vs failure.</li>
+                            <li>Implement a “quiet mode” toggle that changes logging level.</li>
+                            <li>Add a warning when a parameter is deprecated (concept).</li>
+                            <li>Ensure logs avoid secrets: replace “SECRET” with “***” (concept).</li>
+                            <li>Add time measurement logs: start time/end time (concept).</li>
+                            <li>Explain why logging too much slows programs (concept).</li>
+                            <li>Write an example of “structured” message with JSON-like string (concept).</li>
+                            <li>Design log messages so they can be searched by keyword (design).</li>
+                            <li>Explain how you would store logs in production (concept).</li>
+                        </ol>
+
+                        <h3>Hard (20)</h3>
+                        <ol>
+                            <li>Implement a custom formatter that includes timestamp (design).</li>
+                            <li>Create multiple handlers: console + file (design concept).</li>
+                            <li>Implement log level configuration based on environment variable (concept).</li>
+                            <li>Add correlation id to logs (design concept).</li>
+                            <li>Write a function that logs exceptions with <code>exc_info=True</code> (concept).</li>
+                            <li>Build a small “audit logger” that writes important events only.</li>
+                            <li>Implement log sampling to reduce noise (concept).</li>
+                            <li>Design a logging strategy for a multi-step program.</li>
+                            <li>Write code that ensures logs don’t break if format fails (concept).</li>
+                            <li>Explain how to test logging output using capture tools (concept).</li>
+                            <li>Implement “timed” decorator that logs duration (design).</li>
+                            <li>Use timed logs to find slow parts (concept).</li>
+                            <li>Implement safe logging of large objects (limit length) (concept).</li>
+                            <li>Design a policy: log ERROR always, DEBUG only locally.</li>
+                            <li>Explain memory impact of huge log messages (concept).</li>
+                            <li>Prevent duplicate handlers (common logging mistake) (concept).</li>
+                            <li>Debugging practice: logs show wrong order; fix program flow (concept).</li>
+                            <li>Implement retry logic with logs for each attempt (concept).</li>
+                            <li>Explain what CRITICAL should represent in your system.</li>
+                            <li>Write a final “logging checklist” for production readiness.</li>
+                        </ol>
+                    </section>
+
+                    <section id="assignments">
+                        <h2>13) Assignments</h2>
+                        <ol>
+                            <li>Create <code>assignment32_1.py</code>: parse integers from a list, log each result, and
+                                count failures.</li>
+                            <li>Create <code>assignment32_2.py</code>: safe divide with logs for division by zero.</li>
+                            <li>Create <code>assignment32_3.py</code>: read a text file and log number of lines and
+                                first 3 words (concept).</li>
+                        </ol>
+                    </section>
+
+                    <section id="mini-project">
+                        <h2>14) Mini Project</h2>
+                        <div class="callout note">
+                            <h3>🧪 Mini Project: Smart Logger for a Text Cleaner</h3>
+                            <ul>
+                                <li>Create <code>cleaner.py</code> with steps: read → clean → save.</li>
+                                <li>Use INFO for step progress, WARNING for suspicious input, ERROR for failures.</li>
+                                <li>Add DEBUG logs when running in “developer mode”.</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section id="debugging">
+                        <h2>15) Debugging Practice</h2>
+
+                        <div class="callout warning">
+                            <h3>Case 1: no logs appear</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">bug</div>
+                                    <div class="meta">wrong log level</div>
+                                </div>
+                                <pre><code>logging.basicConfig(level=logging.ERROR)
+logging.info("hello")
+</code></pre>
+                            </div>
+                            <p><strong>Fix:</strong> set level to INFO or lower.</p>
+                        </div>
+
+                        <div class="callout warning">
+                            <h3>Case 2: logs show duplicates</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">bug</div>
+                                    <div class="meta">handlers added twice (concept)</div>
+                                </div>
+                                <pre><code># Adding handlers multiple times can duplicate messages
+</code></pre>
+                            </div>
+                            <p><strong>Fix:</strong> configure logging once and avoid adding handlers repeatedly.</p>
+                        </div>
+
+                        <div class="callout warning">
+                            <h3>Case 3: you log secrets</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">bug</div>
+                                    <div class="meta">security risk</div>
+                                </div>
+                                <pre><code>logging.info("password=%s", password)
+</code></pre>
+                            </div>
+                            <p><strong>Fix:</strong> never log secrets. Mask or remove sensitive fields.</p>
+                        </div>
+                    </section>
+
+                    <section id="errors">
+                        <h2>16) Common Errors</h2>
+                        <ul>
+                            <li><strong>No output:</strong> logging level too high.</li>
+                            <li><strong>Duplicate output:</strong> handlers configured more than once.</li>
+                            <li><strong>Formatting issues:</strong> wrong format placeholders (concept).</li>
+                            <li><strong>Crash:</strong> log code used invalid message objects (rare, but handle
+                                carefully).</li>
+                        </ul>
+                    </section>
+
+                    <section id="best">
+                        <h2>17) Best Practices</h2>
+                        <ul>
+                            <li>Use the correct level for each message.</li>
+                            <li>Include useful context: IDs, file names, counts.</li>
+                            <li>Keep messages short but meaningful.</li>
+                            <li>Never log secrets.</li>
+                            <li>Prefer <code>logger.info("x=%s", x)</code> style parameter formatting.</li>
+                        </ul>
+                    </section>
+
+                    <section id="summary">
+                        <h2>18) Summary</h2>
+                        <p>
+                            You learned how to configure Python logging, understand log levels, and use logs to debug.
+                            You also practiced with examples and common mistakes.
+                        </p>
+                    </section>
+
+                    <section id="cheatsheet">
+                        <h2>19) Cheat Sheet</h2>
+                        <table class="table" aria-label="Logging cheat sheet">
+                            <thead>
+                                <tr>
+                                    <th>Need</th>
+                                    <th>Code</th>
+                                    <th>Meaning</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Configure</td>
+                                    <td><code>logging.basicConfig(level=..., format=...)</code></td>
+                                    <td>set verbosity + format</td>
+                                </tr>
+                                <tr>
+                                    <td>Debug</td>
+                                    <td><code>logging.debug("...")</code></td>
+                                    <td>developer details</td>
+                                </tr>
+                                <tr>
+                                    <td>Info</td>
+                                    <td><code>logging.info("...")</code></td>
+                                    <td>normal progress</td>
+                                </tr>
+                                <tr>
+                                    <td>Warning</td>
+                                    <td><code>logging.warning("...")</code></td>
+                                    <td>possible problem</td>
+                                </tr>
+                                <tr>
+                                    <td>Error</td>
+                                    <td><code>logging.error("...")</code></td>
+                                    <td>failed operation</td>
+                                </tr>
+                                <tr>
+                                    <td>Critical</td>
+                                    <td><code>logging.critical("...")</code></td>
+                                    <td>system unusable</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section id="challenge">
+                        <h2>20) Coding Challenge</h2>
+                        <div class="callout note">
+                            <h3>🎯 Challenge: Login Attempt Auditor</h3>
+                            <ul>
+                                <li>Simulate user login attempts from a list.</li>
+                                <li>Log INFO for successful logins.</li>
+                                <li>Log WARNING for suspicious usernames (too short).</li>
+                                <li>Log ERROR when password is wrong.</li>
+                                <li>At the end, print a summary count.</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section id="revision">
+                        <h2>21) Revision Questions</h2>
+                        <ol>
+                            <li>What is logging?</li>
+                            <li>Why prefer logging over print?</li>
+                            <li>Name the logging levels from least to most severe.</li>
+                            <li>How do you set logging level?</li>
+                            <li>What is a formatter?</li>
+                            <li>What is a handler?</li>
+                            <li>Why should you never log secrets?</li>
+                        </ol>
+                    </section>
+
+                    <section id="answers">
+                        <h2>22) Answer Key (Explain every answer)</h2>
+                        <div class="callout tip">
+                            <h3>Key explanations</h3>
+                            <ul>
+                                <li><strong>Logging:</strong> records events and helps track behavior over time.</li>
+                                <li><strong>Better than print:</strong> configurable levels and destinations.</li>
+                                <li><strong>Levels:</strong> DEBUG (detailed) → INFO → WARNING → ERROR → CRITICAL.</li>
+                                <li><strong>Set level:</strong> via <code>logging.basicConfig(level=...)</code>.</li>
+                                <li><strong>Formatter:</strong> pattern that turns log record into readable text.</li>
+                                <li><strong>Handler:</strong> destination (console/file).</li>
+                                <li><strong>Secrets:</strong> logging them creates security risk.</li>
+                            </ul>
+                        </div>
+
+                        <div class="nav-buttons no-print" style="margin-top:18px;">
+                            <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                            <div><a class="btn primary" data-next href="chapter-33.html">Next Chapter</a></div>
+                        </div>
+                    </section>
+
+            </div>
+            </main>
+        </div>
+    </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>

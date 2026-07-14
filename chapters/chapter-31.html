@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 31 — Testing & Debugging</title>
+    <meta name="description"
+        content="Chapter 31: Testing & Debugging. Learn how to write tests, find bugs, and improve code quality." />
+    <link rel="canonical" href="./chapters/chapter-31.html" />
+
+    <meta property="og:title" content="Chapter 31 — Testing & Debugging" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description"
+        content="Learn Python testing basics and debugging strategies with practice and explained answers." />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chapter 31 — Testing & Debugging" />
+    <meta name="twitter:description" content="Testing and debugging fundamentals with practice." />
+
+    <meta name="theme-color" content="#f7f2e8" />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="data:," />
+    <link rel="manifest" href="../manifest.json" />
+</head>
+
+<body>
+    <div class="progress" aria-hidden="true">
+        <div></div>
+    </div>
+
+    <div class="notebook">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <strong>Python Notebook</strong>
+                    <span>Chapter 31 • Offline • Search • Dark mode</span>
+                </div>
+                <div class="top-actions">
+                    <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+                    <a class="btn" href="../index.html" aria-label="Back to home">Home</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="layout">
+                <aside class="sidebar" aria-label="Sidebar navigation">
+                    <h2>Chapters</h2>
+                    <nav class="nav-list" aria-label="Chapter list">
+                        <div class="subtle" style="padding:6px 0;">Loading…</div>
+                    </nav>
+
+                    <div class="callout remember" style="margin-top:12px;">
+                        <h3>⭐ Remember</h3>
+                        <p>
+                            Testing reduces surprises.
+                            Debugging is the skill of finding the real cause.
+                        </p>
+                    </div>
+                </aside>
+
+                <main class="main" aria-label="Chapter content">
+                    <div class="main-inner">
+                        <div class="breadcrumbs">Home • Chapter 31</div>
+                        <h1 class="chapter-title">Chapter 31 — Testing & Debugging</h1>
+                        <p class="subtle">Learn practical debugging steps, write simple tests with asserts, and
+                            understand common test concepts.</p>
+
+                        <div class="nav-buttons no-print" aria-label="Chapter actions">
+                            <div class="footer-actions">
+                                <a class="btn" href="../chapters/chapter-30.html">Previous Chapter</a>
+                                <a class="btn" href="../index.html">Back To Home</a>
+                                <button class="btn primary" id="printChapter" type="button">Print Chapter</button>
+                                <button class="btn" id="downloadNotes" type="button">Download Notes</button>
+                            </div>
+                        </div>
+
+                        <div class="sticky-toc" aria-label="Table of contents">
+                            <h2 style="margin:0 0 8px; font-size:14px;">This chapter covers</h2>
+                            <div style="display:grid;grid-template-columns: 1fr 1fr; gap:6px;">
+                                <a href="#objectives">Learning Objectives</a>
+                                <a href="#intro">Introduction</a>
+                                <a href="#theory">Theory</a>
+                                <a href="#syntax">Syntax</a>
+                                <a href="#examples">Examples</a>
+                                <a href="#flow">Flow Diagram</a>
+                                <a href="#memory">Memory Visualization</a>
+                                <a href="#dryrun">Dry Run</a>
+                                <a href="#builtins">Built-in Functions</a>
+                                <a href="#methods">Methods</a>
+                                <a href="#interview">Interview Questions</a>
+                                <a href="#mcq">MCQs</a>
+                                <a href="#practice">Coding Practice</a>
+                                <a href="#assignments">Assignments</a>
+                                <a href="#mini-project">Mini Project</a>
+                                <a href="#debugging">Debugging Practice</a>
+                                <a href="#errors">Common Errors</a>
+                                <a href="#best">Best Practices</a>
+                                <a href="#summary">Summary</a>
+                                <a href="#cheatsheet">Cheat Sheet</a>
+                                <a href="#challenge">Coding Challenge</a>
+                                <a href="#revision">Revision Questions</a>
+                                <a href="#answers">Answer Key</a>
+                            </div>
+                        </div>
+
+                        <section id="objectives">
+                            <div class="callout tip">
+                                <h3>🎯 Learning Objectives</h3>
+                                <ul>
+                                    <li>Understand what testing is and why we write it.</li>
+                                    <li>Use Python <code>assert</code> to write quick checks.</li>
+                                    <li>Learn basic debugging workflow: reproduce, isolate, fix.</li>
+                                    <li>Write mental output prediction to catch errors early.</li>
+                                    <li>Apply debugging practice for typical Python bugs.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="intro">
+                            <h2>1) Introduction</h2>
+                            <p>
+                                Bugs are normal.
+                                The difference between beginners and professionals is how fast they find and fix bugs.
+                            </p>
+                            <p>
+                                In this chapter, you learn a simple testing habit and a structured debugging process.
+                            </p>
+                        </section>
+
+                        <section id="theory">
+                            <h2>2) Theory</h2>
+
+                            <h3>2.1 Debugging vs testing</h3>
+                            <ul>
+                                <li><strong>Debugging</strong>: find the cause of a current bug.</li>
+                                <li><strong>Testing</strong>: prevent future bugs by checking behavior.</li>
+                            </ul>
+
+                            <h3>2.2 The test idea (concept)</h3>
+                            <p>
+                                A test checks: for a given input, we expect a specific output.
+                                If output differs, the test fails.
+                            </p>
+
+                            <h3>2.3 Asserts (quick tests)</h3>
+                            <p>
+                                <code>assert condition</code> means “this must be true”.
+                                If not, Python raises <code>AssertionError</code>.
+                            </p>
+
+                            <div class="callout warning">
+                                <h3>⚠ Warning</h3>
+                                <p>
+                                    Don’t only test happy paths.
+                                    Always test edge cases (empty input, wrong types, missing keys).
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="syntax">
+                            <h2>3) Syntax</h2>
+
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">assert test</div>
+                                </div>
+                                <pre><code>def add(a, b):
+    # Adds two numbers
+    return a + b
+
+# Test 1
+assert add(2, 3) == 5, "2+3 should be 5"
+
+# Test 2
+assert add(-1, 1) == 0, "-1+1 should be 0"
+
+print("All tests passed")
+</code></pre>
+                            </div>
+
+                            <p><strong>Time:</strong> depends on function • <strong>Space:</strong> depends on
+                                inputs/outputs.</p>
+                            <p><strong>Alternative:</strong> later you will learn <code>unittest</code> or
+                                <code>pytest</code> frameworks.
+                            </p>
+                        </section>
+
+                        <section id="examples">
+                            <h2>4) Examples</h2>
+
+                            <h3>4.1 Easy Example — output prediction</h3>
+                            <div class="callout remember">
+                                <h3>⭐ Remember</h3>
+                                <p>
+                                    Prediction is a test for your brain.
+                                    It catches mistakes before running code.
+                                </p>
+                            </div>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">predict output</div>
+                                </div>
+                                <pre><code>x = 10
+if x > 5:
+    msg = "big"
+else:
+    msg = "small"
+
+print(msg)
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> <code>big</code> (because 10 > 5).</p>
+
+                            <h3>4.2 Medium Example — test edge cases (concept)</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">edge tests</div>
+                                </div>
+                                <pre><code>def safe_divide(a, b):
+    # Divide a by b, but handle b=0
+    if b == 0:
+        return None
+    return a / b
+
+assert safe_divide(10, 2) == 5
+assert safe_divide(10, 0) is None
+
+print("Division tests ok")
+</code></pre>
+                            </div>
+
+                            <h3>4.3 Advanced Example — testing exceptions (concept)</h3>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Python</div>
+                                    <div class="meta">check error behavior</div>
+                                </div>
+                                <pre><code>def must_be_int(x):
+    # Converts x to int or raises ValueError
+    return int(x)
+
+try:
+    must_be_int("abc")
+    assert False, "Expected ValueError"
+except ValueError:
+    # Correct behavior
+    print("Got expected ValueError")
+</code></pre>
+                            </div>
+                            <p><strong>Output:</strong> <code>Got expected ValueError</code>.</p>
+                        </section>
+
+                        <section id="flow">
+                            <h2>5) Flow Diagram</h2>
+                            <div class="callout note">
+                                <h3>Flowchart: debugging loop</h3>
+                                <pre><code>[See bug]
+   |
+   v
+[Reproduce]
+   |
+   v
+[Isolate section]
+   |
+   v
+[Inspect values]
+   |
+   v
+[Hypothesis]
+   |
+   v
+[Change + retest]
+   |
+   v
+[Bug fixed?]
+  / \
+Yes  No
+ |    |
+ v    v
+[Finish] [Repeat]
+</code></pre>
+                            </div>
+                        </section>
+
+                        <section id="memory">
+                            <h2>6) Memory Visualization</h2>
+                            <p>
+                                When you run tests, Python stores:
+                                function objects and variables.
+                                When <code>assert</code> fails, Python creates an error object and shows the message.
+                            </p>
+                            <table class="table" aria-label="Test memory">
+                                <thead>
+                                    <tr>
+                                        <th>Event</th>
+                                        <th>What happens</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>assert is true</td>
+                                        <td>program continues</td>
+                                    </tr>
+                                    <tr>
+                                        <td>assert is false</td>
+                                        <td>AssertionError is raised</td>
+                                    </tr>
+                                    <tr>
+                                        <td>exception test passes</td>
+                                        <td>catch block runs</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="dryrun">
+                            <h2>7) Dry Run</h2>
+                            <div class="code-card">
+                                <div class="code-header">
+                                    <div class="lang">Dry run</div>
+                                    <div class="meta">assert failing</div>
+                                </div>
+                                <pre><code>assert add(2, 3) == 6, "Expected 6"
+
+Step:
+1) add(2,3) returns 5
+2) compare 5 == 6 → false
+3) raise AssertionError with message
+
+Program stops at first failing assert.
+</code></pre>
+                            </div>
+                            <p><strong>Time:</strong> O(number_of_tests) • <strong>Space:</strong> small extra.</p>
+                        </section>
+
+                        <section id="builtins">
+                            <h2>8) Built-in Functions</h2>
+                            <ul>
+                                <li><code>print()</code> for debugging output.</li>
+                            </ul>
+                        </section>
+
+                        <section id="methods">
+                            <h2>9) Methods</h2>
+                            <div class="callout note">
+                                <h3>Test-related patterns</h3>
+                                <ul>
+                                    <li><code>assert</code> for quick checks.</li>
+                                    <li><code>try/except</code> to test exceptions (concept).</li>
+                                    <li>Small helper functions to make tests easier.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="interview">
+                            <h2>10) Interview Questions (Minimum 30)</h2>
+                            <ol>
+                                <li>What is testing?</li>
+                                <li>What is debugging?</li>
+                                <li>Why do we write tests?</li>
+                                <li>What does an <code>assert</code> do?</li>
+                                <li>What exception is raised when an <code>assert</code> fails?</li>
+                                <li>Why are edge cases important?</li>
+                                <li>What is a test case?</li>
+                                <li>What is the difference between unit and integration tests (concept)?</li>
+                                <li>What is a happy path?</li>
+                                <li>What is a failing test?</li>
+                                <li>How do you test for exceptions?</li>
+                                <li>Why is reproducibility important in debugging?</li>
+                                <li>How do you isolate the bug?</li>
+                                <li>What does “inspect values” mean?</li>
+                                <li>What is output prediction?</li>
+                                <li>What is a regression bug?</li>
+                                <li>How can tests prevent regressions?</li>
+                                <li>What is the Arrange-Act-Assert idea (concept)?</li>
+                                <li>What is mocking (concept, later)?</li>
+                                <li>What is coverage (concept)?</li>
+                                <li>Should tests depend on network (concept)?</li>
+                                <li>What is flakiness in tests?</li>
+                                <li>How do you handle flaky tests?</li>
+                                <li>What is a good test name?</li>
+                                <li>Why are small tests better?</li>
+                                <li>How do you write a test for a function?</li>
+                                <li>When should you refactor code?</li>
+                                <li>What is the first step when debugging a bug?</li>
+                                <li>What is the last step after debugging?</li>
+                                <li>What is a “minimal reproduction” (concept)?</li>
+                            </ol>
+                        </section>
+
+                        <section id="mcq">
+                            <h2>11) MCQs (Minimum 30)</h2>
+                            <ol>
+                                <li>Testing helps to:
+                                    <ul>
+                                        <li>A) find current bugs only</li>
+                                        <li>B) prevent future bugs</li>
+                                        <li>C) replace debugging</li>
+                                        <li>D) change CSS</li>
+                                    </ul>
+                                </li>
+                                <li><code>assert</code> is used for:
+                                    <ul>
+                                        <li>A) output</li>
+                                        <li>B) checking conditions</li>
+                                        <li>C) compiling</li>
+                                        <li>D) threading</li>
+                                    </ul>
+                                </li>
+                                <li>If assert condition is false, Python raises:
+                                    <ul>
+                                        <li>A) KeyError</li>
+                                        <li>B) AssertionError</li>
+                                        <li>C) ZeroDivisionError</li>
+                                        <li>D) NameError</li>
+                                    </ul>
+                                </li>
+                                <li>A happy path is:
+                                    <ul>
+                                        <li>A) invalid input</li>
+                                        <li>B) expected correct behavior</li>
+                                        <li>C) no test</li>
+                                        <li>D) debug logs</li>
+                                    </ul>
+                                </li>
+                                <li>Edge cases are:
+                                    <ul>
+                                        <li>A) extreme inputs</li>
+                                        <li>B) normal inputs</li>
+                                        <li>C) random guesses</li>
+                                        <li>D) styling changes</li>
+                                    </ul>
+                                </li>
+                                <li>Debugging means:
+                                    <ul>
+                                        <li>A) finding the cause</li>
+                                        <li>B) writing CSS</li>
+                                        <li>C) training models</li>
+                                        <li>D) deploying</li>
+                                    </ul>
+                                </li>
+                                <li>Output prediction means:
+                                    <ul>
+                                        <li>A) guessing code output before running</li>
+                                        <li>B) deleting code</li>
+                                        <li>C) waiting</li>
+                                        <li>D) formatting tables</li>
+                                    </ul>
+                                </li>
+                                <li>A regression bug is:
+                                    <ul>
+                                        <li>A) old bug reappears</li>
+                                        <li>B) new UI theme</li>
+                                        <li>C) always 404</li>
+                                        <li>D) syntax only</li>
+                                    </ul>
+                                </li>
+                                <li>Tests should cover:
+                                    <ul>
+                                        <li>A) only happy paths</li>
+                                        <li>B) edge cases too</li>
+                                        <li>C) no inputs</li>
+                                        <li>D) only random</li>
+                                    </ul>
+                                </li>
+                                <li>To test exception behavior, you often use:
+                                    <ul>
+                                        <li>A) try/except</li>
+                                        <li>B) loops</li>
+                                        <li>C) CSS</li>
+                                        <li>D) recursion only</li>
+                                    </ul>
+                                </li>
+                                <li>Reproduce bug is important because:
+                                    <ul>
+                                        <li>A) you need to confirm it happens consistently</li>
+                                        <li>B) it changes fonts</li>
+                                        <li>C) it speeds up UI</li>
+                                        <li>D) it removes errors</li>
+                                    </ul>
+                                </li>
+                                <li>Isolating the bug means:
+                                    <ul>
+                                        <li>A) narrowing down the code section</li>
+                                        <li>B) widening scope</li>
+                                        <li>C) changing theme</li>
+                                        <li>D) editing CSS</li>
+                                    </ul>
+                                </li>
+                                <li>Inspecting values means:
+                                    <ul>
+                                        <li>A) checking variables at runtime</li>
+                                        <li>B) ignoring variables</li>
+                                        <li>C) changing inputs</li>
+                                        <li>D) deleting prints</li>
+                                    </ul>
+                                </li>
+                                <li>Debugging loop ends when:
+                                    <ul>
+                                        <li>A) bug fixed and retested</li>
+                                        <li>B) you give up</li>
+                                        <li>C) always fails</li>
+                                        <li>D) never</li>
+                                    </ul>
+                                </li>
+                                <li>Assertion is typically used to:
+                                    <ul>
+                                        <li>A) enforce correct assumptions</li>
+                                        <li>B) create HTML</li>
+                                        <li>C) send network data</li>
+                                        <li>D) sleep</li>
+                                    </ul>
+                                </li>
+                                <li>When assert fails, program stops:
+                                    <ul>
+                                        <li>A) immediately</li>
+                                        <li>B) continues silently</li>
+                                        <li>C) deletes variable</li>
+                                        <li>D) compiles next file</li>
+                                    </ul>
+                                </li>
+                                <li>Testing helps with:
+                                    <ul>
+                                        <li>A) preventing regressions</li>
+                                        <li>B) theme only</li>
+                                        <li>C) changing DB schema</li>
+                                        <li>D) resizing fonts</li>
+                                    </ul>
+                                </li>
+                                <li>Coverage means:
+                                    <ul>
+                                        <li>A) how many lines/branches tests run</li>
+                                        <li>B) CSS coverage</li>
+                                        <li>C) image size</li>
+                                        <li>D) nothing</li>
+                                    </ul>
+                                </li>
+                                <li>Flaky tests mean:
+                                    <ul>
+                                        <li>A) tests randomly pass/fail</li>
+                                        <li>B) always green</li>
+                                        <li>C) never run</li>
+                                        <li>D) only CSS</li>
+                                    </ul>
+                                </li>
+                                <li>Unit tests usually check:
+                                    <ul>
+                                        <li>A) small parts (functions/classes)</li>
+                                        <li>B) whole system only</li>
+                                        <li>C) UI styling only</li>
+                                        <li>D) network calls only</li>
+                                    </ul>
+                                </li>
+                                <li>Integration tests check:
+                                    <ul>
+                                        <li>A) interactions between components</li>
+                                        <li>B) only one function</li>
+                                        <li>C) only HTML</li>
+                                        <li>D) nothing</li>
+                                    </ul>
+                                </li>
+                                <li>A good test should be:
+                                    <ul>
+                                        <li>A) deterministic</li>
+                                        <li>B) depends on internet</li>
+                                        <li>C) random</li>
+                                        <li>D) unstable</li>
+                                    </ul>
+                                </li>
+                                <li>ARRANGE ACT ASSERT is:
+                                    <ul>
+                                        <li>A) a test structure idea</li>
+                                        <li>B) a CSS rule</li>
+                                        <li>C) a server port</li>
+                                        <li>D) a browser action</li>
+                                    </ul>
+                                </li>
+                                <li>When debugging, first step is:
+                                    <ul>
+                                        <li>A) reproduce</li>
+                                        <li>B) rename variables</li>
+                                        <li>C) change UI</li>
+                                        <li>D) skip</li>
+                                    </ul>
+                                </li>
+                                <li>Try/except can be used to:
+                                    <ul>
+                                        <li>A) handle errors</li>
+                                        <li>B) compile CSS</li>
+                                        <li>C) build chapter list</li>
+                                        <li>D) train models</li>
+                                    </ul>
+                                </li>
+                                <li>Assert tests are quick but:
+                                    <ul>
+                                        <li>A) can be replaced later by frameworks</li>
+                                        <li>B) always enough for production</li>
+                                        <li>C) no value</li>
+                                        <li>D) only for UI</li>
+                                    </ul>
+                                </li>
+                                <li>Testing should include:
+                                    <ul>
+                                        <li>A) edge inputs</li>
+                                        <li>B) only correct inputs</li>
+                                        <li>C) no input</li>
+                                        <li>D) only random types</li>
+                                    </ul>
+                                </li>
+                                <li>Output prediction helps because:
+                                    <ul>
+                                        <li>A) you catch logic errors early</li>
+                                        <li>B) you change CSS</li>
+                                        <li>C) you install packages</li>
+                                        <li>D) you skip running code</li>
+                                    </ul>
+                                </li>
+                                <li>Debugging best ends with:
+                                    <ul>
+                                        <li>A) adding a test to prevent recurrence</li>
+                                        <li>B) removing all tests</li>
+                                        <li>C) changing theme</li>
+                                        <li>D) never retesting</li>
+                                    </ul>
+                                </li>
+                                <li>A minimal reproduction is:
+                                    <ul>
+                                        <li>A) smallest code that still shows bug</li>
+                                        <li>B) biggest code</li>
+                                        <li>C) css only</li>
+                                        <li>D) no code</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section id="practice">
+                            <h2>12) Coding Practice</h2>
+                            <h3>Easy (20)</h3>
+                            <ol>
+                                <li>Write a function <code>is_even(n)</code> that returns True if n is even.</li>
+                                <li>Write 5 <code>assert</code> tests for <code>is_even</code> including negative
+                                    numbers.</li>
+                                <li>Write a function <code>length_of_words(text)</code> returning number of words (split
+                                    by spaces).</li>
+                                <li>Write tests for empty string and normal sentence.</li>
+                                <li>Create a function <code>clamp(x, lo, hi)</code> that bounds x.</li>
+                                <li>Test clamp for x < lo, within range, and> hi.</li>
+                                <li>Predict output for <code>print(clamp(-5,0,10))</code>.</li>
+                                <li>Write a function <code>safe_int(s)</code> returning int or None.</li>
+                                <li>Test <code>safe_int("123")</code> and <code>safe_int("abc")</code>.</li>
+                                <li>Write a function <code>reverse_string(s)</code>.</li>
+                                <li>Write tests including empty string.</li>
+                                <li>Write a test that expects exception using try/except concept.</li>
+                                <li>Write a function <code>sum_list(nums)</code>.</li>
+                                <li>Test sum_list for empty list and [1,2,3].</li>
+                                <li>Write a function <code>starts_with_vowel(s)</code> using lowercase.</li>
+                                <li>Test vowel and consonant inputs.</li>
+                                <li>Add helpful message to assert: <code>assert ... , "message"</code>.</li>
+                                <li>Practice debugging: break the clamp function and fix it using tests.</li>
+                                <li>Practice output prediction: predict result of a small if/else.</li>
+                                <li>Finally, refactor functions so tests remain unchanged.</li>
+                            </ol>
+
+                            <h3>Medium (20)</h3>
+                            <ol>
+                                <li>Write <code>find_max(nums)</code> and test it.</li>
+                                <li>Handle empty list by returning None (and test).</li>
+                                <li>Write <code>filter_by_min_age(people, min_age)</code> where people is list of dicts.
+                                </li>
+                                <li>Write tests for missing age key (concept).</li>
+                                <li>Write <code>dedupe_words(text)</code> returning unique words in lowercase.</li>
+                                <li>Test dedupe_words with repeated words and punctuation (concept).</li>
+                                <li>Create <code>get_user_age(user)</code> that reads <code>user["age"]</code> or
+                                    returns 0.</li>
+                                <li>Test both success and fallback cases.</li>
+                                <li>Write a function that sorts list of dicts by age (concept).</li>
+                                <li>Write tests to confirm sort order.</li>
+                                <li>Practice debugging: imagine a bug where age is compared as strings.</li>
+                                <li>Fix it and add a regression test.</li>
+                                <li>Write <code>is_valid_email(email)</code> (simple check using <code>'@'</code> and
+                                    <code>'.'</code> concept).
+                                </li>
+                                <li>Write tests for valid/invalid patterns.</li>
+                                <li>Write tests that verify stable behavior for whitespace inputs.</li>
+                                <li>Write a small test runner concept: run tests list of functions.</li>
+                                <li>Make sure test names are clear in failure messages.</li>
+                                <li>Write a test for boundary values (0,1,-1).</li>
+                                <li>Write 3 tests that would catch common off-by-one mistakes (concept).</li>
+                                <li>Dry run: predict which test fails first when multiple asserts exist.</li>
+                            </ol>
+
+                            <h3>Hard (20)</h3>
+                            <ol>
+                                <li>Build a mini framework: register test functions in a list and run them.</li>
+                                <li>Implement “stop on first failure” vs “continue after failure” (concept).</li>
+                                <li>Write a function that calculates average and handle division-by-zero safely.</li>
+                                <li>Write tests for None/empty inputs.</li>
+                                <li>Practice debugging with a deliberately wrong sorting algorithm.</li>
+                                <li>Use tests to drive the fix (test-driven idea concept).</li>
+                                <li>Implement <code>deep_equal(a,b)</code> for lists (concept).</li>
+                                <li>Test deep_equal for nested lists.</li>
+                                <li>Write tests that detect float rounding issues with tolerance concept.</li>
+                                <li>Implement tolerance-based assert (concept).</li>
+                                <li>Create 10 tests for a real mini function like <code>roman_to_int</code> concept.
+                                </li>
+                                <li>Debug roman_to_int using failing tests.</li>
+                                <li>Design a fixture pattern: shared sample inputs (design).</li>
+                                <li>Implement repeatable tests without randomness.</li>
+                                <li>Write a test that ensures function does not mutate input (concept).</li>
+                                <li>Practice: imagine you forget <code>return</code> in a function; how tests catch it?
+                                </li>
+                                <li>Write tests that check type correctness (int vs float) (concept).</li>
+                                <li>Build a test report that prints which tests passed/failed.</li>
+                                <li>Explain why tests should be deterministic (interview style).</li>
+                                <li>Write a debugging checklist you will follow every time.</li>
+                            </ol>
+                        </section>
+
+                        <section id="assignments">
+                            <h2>13) Assignments</h2>
+                            <ol>
+                                <li>Create <code>assignment31_1.py</code>: implement <code>is_palindrome(s)</code> and
+                                    write 10 asserts.</li>
+                                <li>Create <code>assignment31_2.py</code>: implement <code>count_vowels(text)</code> and
+                                    test edge cases.</li>
+                                <li>Create <code>assignment31_3.py</code>: implement a simple calculator and write tests
+                                    for +, -, *, /.</li>
+                            </ol>
+                        </section>
+
+                        <section id="mini-project">
+                            <h2>14) Mini Project</h2>
+                            <div class="callout note">
+                                <h3>🧪 Mini Project: Bug Fixer with Tests</h3>
+                                <p>Choose one small function (like clamp, sum_list, or email check).</p>
+                                <ul>
+                                    <li>Intentionally insert a bug.</li>
+                                    <li>Write tests that fail.</li>
+                                    <li>Fix the bug until tests pass.</li>
+                                    <li>Explain the root cause and which test prevented regression.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="debugging">
+                            <h2>15) Debugging Practice</h2>
+
+                            <div class="callout warning">
+                                <h3>Case 1: wrong comparison</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">> vs >=</div>
+                                    </div>
+                                    <pre><code>def is_adult(age):
+    # should be adult if age >= 18
+    return age > 18
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> use <code>age >= 18</code>. Add a test with age=18.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 2: missing return</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">returns None</div>
+                                    </div>
+                                    <pre><code>def add(a,b):
+    result = a+b
+    # forgot return
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> return <code>result</code>. Tests should catch it.</p>
+                            </div>
+
+                            <div class="callout warning">
+                                <h3>Case 3: type mismatch</h3>
+                                <div class="code-card">
+                                    <div class="code-header">
+                                        <div class="lang">bug</div>
+                                        <div class="meta">string numbers</div>
+                                    </div>
+                                    <pre><code>nums = ["2","3","4"]
+print(sum(nums))  # crash
+</code></pre>
+                                </div>
+                                <p><strong>Fix:</strong> convert strings to integers before sum:
+                                    <code>sum(int(x) for x in nums)</code>.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="errors">
+                            <h2>16) Common Errors</h2>
+                            <ul>
+                                <li><strong>AssertionError:</strong> a behavior didn’t match expected output.</li>
+                                <li><strong>NameError:</strong> variable/function not defined.</li>
+                                <li><strong>TypeError:</strong> wrong type passed to operation.</li>
+                                <li><strong>ZeroDivisionError:</strong> dividing by zero.</li>
+                                <li><strong>ValueError:</strong> invalid conversion/parsing.</li>
+                            </ul>
+                        </section>
+
+                        <section id="best">
+                            <h2>17) Best Practices</h2>
+                            <ul>
+                                <li>Write tests for tricky parts and edge cases.</li>
+                                <li>After fixing a bug, add a test that would have caught it.</li>
+                                <li>Use clear assert messages.</li>
+                                <li>Debug with a checklist: reproduce → isolate → inspect → hypothesize → retest.</li>
+                                <li>Keep functions small so testing is easy.</li>
+                            </ul>
+                        </section>
+
+                        <section id="summary">
+                            <h2>18) Summary</h2>
+                            <p>
+                                You learned the core idea of testing with <code>assert</code>.
+                                You learned structured debugging steps and practiced output prediction.
+                                This chapter builds professional habits: test to prevent regressions.
+                            </p>
+                        </section>
+
+                        <section id="cheatsheet">
+                            <h2>19) Cheat Sheet</h2>
+                            <table class="table" aria-label="Testing and debugging cheat sheet">
+                                <thead>
+                                    <tr>
+                                        <th>Need</th>
+                                        <th>Use</th>
+                                        <th>Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Quick check</td>
+                                        <td><code>assert condition</code></td>
+                                        <td>must be true</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Debug step</td>
+                                        <td>print values</td>
+                                        <td>see runtime state</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Test exceptions</td>
+                                        <td><code>try/except</code></td>
+                                        <td>confirm errors</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Regression prevention</td>
+                                        <td>add a failing test first</td>
+                                        <td>stop future re-bugs</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Time complexity note</td>
+                                        <td>depends on function</td>
+                                        <td>don’t ignore performance</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="challenge">
+                            <h2>20) Coding Challenge</h2>
+                            <div class="callout note">
+                                <h3>🎯 Challenge: Test-Driven String Cleaner</h3>
+                                <ul>
+                                    <li>Write <code>clean_text(s)</code>: trim spaces, collapse repeated spaces, and
+                                        lowercase.</li>
+                                    <li>Write tests first for these cases: " Hello ", "A B", "".</li>
+                                    <li>Make tests fail initially, then fix function.</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="revision">
+                            <h2>21) Revision Questions</h2>
+                            <ol>
+                                <li>What is testing?</li>
+                                <li>What is debugging?</li>
+                                <li>How do you write a quick test in Python?</li>
+                                <li>What happens when an assert fails?</li>
+                                <li>Why should you test edge cases?</li>
+                                <li>How do you test that a function raises an error?</li>
+                                <li>What is a regression bug?</li>
+                            </ol>
+                        </section>
+
+                        <section id="answers">
+                            <h2>22) Answer Key (Explain every answer)</h2>
+                            <div class="callout tip">
+                                <h3>Key explanations</h3>
+                                <ul>
+                                    <li><strong>Testing:</strong> checks that code returns expected results for inputs.
+                                    </li>
+                                    <li><strong>Debugging:</strong> finds the actual cause of a bug by reproducing and
+                                        inspecting.</li>
+                                    <li><strong>assert:</strong> verifies assumptions; fails fast with
+                                        <code>AssertionError</code>.
+                                    </li>
+                                    <li><strong>Edge cases:</strong> reveal hidden bugs (empty input, wrong types,
+                                        boundaries).</li>
+                                    <li><strong>Exceptions testing:</strong> use <code>try/except</code> to confirm
+                                        expected errors occur.</li>
+                                    <li><strong>Regression:</strong> an old bug comes back; tests prevent this.</li>
+                                </ul>
+                            </div>
+
+                            <div class="nav-buttons no-print" style="margin-top:18px;">
+                                <div><a class="btn" style="visibility:hidden;" data-prev>Previous</a></div>
+                                <div><a class="btn primary" data-next href="chapter-32.html">Next Chapter</a></div>
+                            </div>
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.nav-list');
+            if (!nav) return;
+            nav.innerHTML = '';
+            for (let i = 1; i <= 48; i++) {
+                const file = `chapter-${String(i).padStart(2, '0')}.html`;
+                const a = document.createElement('a');
+                a.className = 'nav-link';
+                a.href = `${file}`;
+                a.setAttribute('data-chapter-link', file);
+                a.textContent = `Chapter ${String(i).padStart(2, '0')}`;
+                const wrap = document.createElement('div');
+                wrap.className = 'nav-item';
+                const dot = document.createElement('span');
+                dot.className = 'nav-dot';
+                wrap.appendChild(dot);
+                wrap.appendChild(a);
+                nav.appendChild(wrap);
+            }
+        });
+    </script>
+</body>
+
+</html>
